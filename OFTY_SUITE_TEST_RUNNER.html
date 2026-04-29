@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<!-- ============================================================
+  OFTY MODULAR CLINICAL SUITE — INTERNAL TEST RUNNER
+  ============================================================
+  Module:            OFTY-Gx-M5 · Glaucoma Suite Orchestrator
+  Runner_Type:       Scenario-based regression / validation
+  Runner_Version:    v2.1
+  Engine_Version:    v1.0.0
+  Author:            Andrea Ragosta, MD, FEBO
+  Status:            Internal validation — not for clinical use
+
+  Purpose:
+    Validates computeM5() against a representative set of
+    predefined clinical scenarios covering all major pattern
+    branches, IOP status paths, risk rules, and guard paths.
+
+  Usage:
+    Primary: open in any modern browser.
+    Results appear both in the page and in the browser console.
+    Headless use is possible only if JS sections are extracted
+    and run in a compatible Node.js environment; the full HTML
+    file cannot be passed directly to Node.js.
+
+  Note:
+    The OFTY-Gx-M5 engine (Section 1) is embedded below.
+    If re-integrating a newer engine version, replace the
+    engine block between the ENGINE START / ENGINE END markers.
+  ============================================================ -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OFTY — M5 Test Runner v2.1</title>
+<style>
+/* ── Minimal functional styling — no decorative UI ── */
+body { font-family: monospace; font-size: 13px; background: #f8f8f8; color: #111; padding: 20px; margin: 0; }
+h1 { font-size: 15px; font-weight: bold; margin: 0 0 4px 0; }
+.meta { color: #555; margin: 0 0 20px 0; font-size: 12px; }
+.section-header { font-weight: bold; margin: 18px 0 6px 0; border-bottom: 1px solid #ccc; padding-bottom: 2px; font-size: 12px; color: #333; }
+.row { padding: 3px 0 3px 0; border-bottom: 1px solid #eee; }
+.pass { color: #1a7a1a; }
+.fail { color: #c0000a; font-weight: bold; }
+.skip { color: #888; }
+.label { display: inline-block; width: 480px; }
+.detail { margin-left: 20px; color: #c0000a; font-size: 12px; padding: 2px 0; }
+.summary { margin-top: 20px; padding: 8px 12px; background: #fff; border: 1px solid #ccc; font-weight: bold; }
+.summary.all-pass { border-color: #1a7a1a; color: #1a7a1a; }
+.summary.has-fail  { border-color: #c0000a; color: #c0000a; }
+.scenario-header { margin: 14px 0 2px 0; font-weight: bold; color: #333; font-size: 12px; }
+pre { margin: 0; white-space: pre-wrap; }
+.stress-header { font-weight: bold; margin: 28px 0 6px 0; border-bottom: 2px solid #444; padding-bottom: 3px; font-size: 12px; color: #111; text-transform: uppercase; letter-spacing: 0.05em; }
+.stress-matrix { font-size: 11px; color: #555; margin: 2px 0 8px 0; }
+.stress-summary { margin: 6px 0 4px 0; padding: 6px 12px; background: #fff; border: 1px solid #ccc; font-size: 12px; font-weight: bold; }
+.stress-summary.all-pass { border-color: #1a7a1a; color: #1a7a1a; }
+.stress-summary.has-fail  { border-color: #c0000a; color: #c0000a; }
+.stress-fail-block { margin: 6px 0 6px 16px; border-left: 3px solid #c0000a; padding-left: 8px; font-size: 11px; }
+.stress-fail-id { color: #555; font-style: italic; }
+.stress-fail-err { color: #c0000a; }
+.redteam-header { font-weight: bold; margin: 28px 0 6px 0; border-bottom: 2px solid #444; padding-bottom: 3px; font-size: 12px; color: #111; text-transform: uppercase; letter-spacing: 0.05em; }
+.redteam-note { font-size: 11px; color: #555; margin: 0 0 8px 0; }
+.redteam-entry { margin: 10px 0; padding: 6px 10px; background: #fff; border-left: 3px solid #888; font-size: 12px; }
+.redteam-meta { color: #555; margin-bottom: 3px; }
+.redteam-ic { color: #333; font-weight: bold; margin-bottom: 3px; }
+.redteam-interp { color: #111; }
+</style>
+</head>
+<body>
+
+<h1>OFTY-Gx-M5 · Internal Test Runner · v2.1</h1>
+<p class="meta">Engine v1.0.0 &nbsp;|&nbsp; 23 manual scenarios + combinatorial stress test &nbsp;|&nbsp; Internal validation only &nbsp;|&nbsp; Not for clinical use</p>
+
+<div id="output"></div>
+
+<!-- ============================================================
+  SECTION 1 — OFTY-Gx-M5 ENGINE
+  ============================================================
+  !! ENGINE START — replace block below when upgrading engine !!
+  ============================================================ -->
+<script>
+"use strict";
+
+/* ============================================================
+   M5 — CONSTANTS
+   ============================================================ */
+
+var M5_VERSION = '1.0.0';
+
+/* Confidence numeric map — M3/M4 vocabulary: high | medium | low */
+var M5_CONF_NUM = { 'high': 3, 'medium': 2, 'low': 1 };
+var M5_CONF_STR = { 3: 'high', 2: 'medium', 1: 'low' };
+
+/* Risk numeric map */
+var M5_RISK_NUM = { 'low': 1, 'relevant': 2, 'high': 3 };
+var M5_RISK_STR = { 1: 'low', 2: 'relevant', 3: 'high' };
+
+/* M3 classification → functional domain status */
+var M5_M3_CLASS_MAP = {
+  'no_or_slow_progression': 'stable',
+  'moderate_progression':   'progressing_moderate',
+  'fast_progression':       'progressing_fast',
+  'very_fast_progression':  'progressing_fast',
+  'unclassifiable':         'unclassifiable'
+};
+
+/* M4 classification → structural domain status */
+var M5_M4_CLASS_MAP = {
+  'stable_trend':                     'stable',
+  'suspicious_trend':                 'suspicious',
+  'fast_progression':                 'progressing',
+  'floor_effect':                     'floor_effect',
+  'myopia_limited_structural_signal': 'signal_limited',
+  'erm_limited_structural_signal':    'signal_limited',
+  'unclassifiable':                   'unclassifiable'
+};
+
+/* M3 advisory clinical_risk fallback when clinical_risk is null */
+var M5_M3_RISK_FALLBACK = {
+  'progressing_fast':     'high',
+  'progressing_moderate': 'relevant',
+  'stable':               'low',
+  'unclassifiable':       null
+};
+
+/* Slot A — deterministic interpretation templates per integrated_classification */
+var M5_SLOT_A = {
+  'stable_controlled':
+    'Concordant stable assessment.',
+  'stable_domains_iop_not_assessed':
+    'Structural and functional domains are both stable; ' +
+    'IOP status relative to the individualized target could not be assessed.',
+  'stable_iop_not_controlled':
+    'Both structural and functional domains are currently stable; IOP is above target range.',
+  'functional_signal_unconfirmed_structurally':
+    'Functional progression signal detected without structural confirmation.',
+  'functional_progression_with_structural_support':
+    'Functional progression detected with supportive but unconfirmed structural trend.',
+  'structural_signal_unconfirmed_functionally':
+    'Structural progression signal detected without functional confirmation.',
+  'concordant_progression':
+    'Concordant structural and functional progression signals detected.',
+  'progression_despite_controlled_iop':
+    'Progression signal detected despite IOP within or below the target range.',
+  'progression_with_iop_above_target':
+    'Progression signal detected with IOP above target range.',
+  'floor_effect_context':
+    'RNFL has reached the structural measurement floor; structural OCT is no longer the primary progression signal.',
+  'signal_limited_structural':
+    'Structural assessment is limited; functional domain is the primary monitoring channel.',
+  'insufficient_data':
+    'Integrated assessment is limited by insufficient data quality in one or more domains.',
+  'partial_assessment':
+    'Integrated assessment is incomplete; one or more analytical modules were not available.',
+  'indeterminate':
+    'Integrated assessment is indeterminate.'
+};
+
+/* Slot B — IOP status clause per iop_status */
+var M5_SLOT_B = {
+  'above_target':  'IOP is above the individualized target range.',
+  'at_target':     'IOP is within the individualized target range.',
+  'below_target':  'IOP is below the individualized target range.',
+  'unknown':        null
+};
+
+/* Classifications where Slot A already encodes IOP context — Slot B suppressed */
+var M5_IOP_EMBEDDED = {
+  'stable_iop_not_controlled':          true,
+  'progression_with_iop_above_target':  true,
+  'progression_despite_controlled_iop': true
+};
+
+/* M1 confidence note — fixed, shared across all logic_trace instances */
+var M5_M1_CONF_NOTE =
+  "M1 confidence_level excluded from minimum (always 'moderate' — model property, " +
+  "not data quality). M1 contributes via impact_class penalty only.";
+
+/* Adapter: M2 stage_label → normalized_stage_key */
+var M5_STAGE_KEY_MAP = {
+  'Ocular Hypertension (OHT)':     'OHT',
+  'Mild POAG (Early)':             'Mild',
+  'Moderate POAG':                 'Moderate',
+  'Severe / Advanced POAG':        'Severe',
+  'Normal-Tension Glaucoma (NTG)': 'NTG'
+};
+
+/* Adapter: M3 classification → advisory clinical_risk */
+var M5_M3_RISK_MAP = {
+  'no_or_slow_progression': 'low',
+  'moderate_progression':   'relevant',
+  'fast_progression':       'high',
+  'very_fast_progression':  'high',
+  'unclassifiable':          null
+};
+
+
+/* ============================================================
+   M5 — ADAPTER LAYER
+   ============================================================ */
+
+function _m5_isNum(v) {
+  return v !== null && v !== undefined && isFinite(v);
+}
+
+function adaptM1ForM5(result) {
+  if (!result || !result.outputs) return null;
+  var o = result.outputs;
+  return {
+    module_id:         result.module_id         || 'OFTY-Gx-M1',
+    algorithm_version: result.algorithm_version || '',
+    adjusted_iop_mmhg: _m5_isNum(o.adjusted_iop_mmhg) ? o.adjusted_iop_mmhg : null,
+    adjustment_mmhg:   _m5_isNum(o.adjustment_mmhg)   ? o.adjustment_mmhg   : null,
+    cct_label:         o.cct_label         || null,
+    impact_class:      o.impact_class      || null,
+    confidence_level:  o.confidence_level  || null,
+    caution_flags:     Array.isArray(o.caution_flags) ? o.caution_flags : []
+  };
+}
+
+function adaptM2ForM5(result) {
+  if (!result || !result.outputs || !result.inputs) return null;
+  var o   = result.outputs;
+  var inp = result.inputs;
+  var stageLabel         = o.stage_label || null;
+  var normalizedStageKey = M5_STAGE_KEY_MAP[stageLabel] || null;
+  return {
+    module_id:                  result.module_id         || 'OFTY-Gx-M2',
+    algorithm_version:          result.algorithm_version || '',
+    stage_label:                stageLabel,
+    normalized_stage_key:       normalizedStageKey,
+    target_iop_primary_mmhg:    _m5_isNum(o.target_iop_primary_mmhg)    ? o.target_iop_primary_mmhg    : null,
+    target_iop_range_low_mmhg:  _m5_isNum(o.target_iop_range_low_mmhg)  ? o.target_iop_range_low_mmhg  : null,
+    target_iop_range_high_mmhg: _m5_isNum(o.target_iop_range_high_mmhg) ? o.target_iop_range_high_mmhg : null,
+    current_iop_mmhg:           _m5_isNum(inp.current_iop_mmhg) ? inp.current_iop_mmhg : null,
+    progression_input:          inp.progression  || null,
+    confidence_level:           o.confidence_level || null,
+    caution_flags:              Array.isArray(o.caution_flags) ? o.caution_flags : []
+  };
+}
+
+function adaptM3ForM5(result) {
+  if (!result) return null;
+  var pr = result.progression_rate || {};
+  var clinicalRisk = M5_M3_RISK_MAP.hasOwnProperty(result.classification)
+    ? M5_M3_RISK_MAP[result.classification]
+    : null;
+  return {
+    module_id:                result.module_id         || 'OFTY-Gx-M3',
+    algorithm_version:        result.algorithm_version || '',
+    classification:           result.classification           || 'unclassifiable',
+    slope_md_per_year:        _m5_isNum(pr.slope_md_per_year) ? pr.slope_md_per_year : null,
+    statistical_significance: result.statistical_significance || null,
+    data_quality:             result.data_quality             || 'insufficient',
+    confidence_level:         result.confidence_level         || 'low',
+    caution_flags:            Array.isArray(result.caution_flags) ? result.caution_flags : [],
+    clinical_risk:            clinicalRisk
+  };
+}
+
+function adaptM4ForM5(result) {
+  if (!result) return null;
+  var sr = result.structural_rate || {};
+  return {
+    module_id:                result.module_id         || 'OFTY-Gx-M4',
+    algorithm_version:        result.algorithm_version || '',
+    classification:           result.classification           || 'unclassifiable',
+    slope_rnfl_per_year:      _m5_isNum(sr.slope_rnfl_per_year) ? sr.slope_rnfl_per_year : null,
+    statistical_significance: result.statistical_significance  || null,
+    data_quality:             result.data_quality              || 'insufficient',
+    confidence_level:         result.confidence_level          || 'low',
+    clinical_risk:            result.clinical_risk             || null,
+    caution_flags:            Array.isArray(result.caution_flags) ? result.caution_flags : []
+  };
+}
+
+function buildM5InputEnvelope(m1Result, m2Result, m3Result, m4Result) {
+  var adapterWarnings = [];
+  var m1 = m1Result ? adaptM1ForM5(m1Result) : null;
+  var m2 = m2Result ? adaptM2ForM5(m2Result) : null;
+  var m3 = m3Result ? adaptM3ForM5(m3Result) : null;
+  var m4 = m4Result ? adaptM4ForM5(m4Result) : null;
+  if (!m2) {
+    adapterWarnings.push('m2_absent — M5 has no clinical anchor');
+  } else if (m2.normalized_stage_key === null && m2.stage_label) {
+    adapterWarnings.push('m2.normalized_stage_key — unrecognized stage_label: ' + m2.stage_label);
+  }
+  return {
+    schema_id:        'OFTY-Gx-M5-InputContract',
+    schema_version:   '1.1',
+    adapter_warnings: adapterWarnings,
+    modules_present:  { m1: m1 !== null, m2: m2 !== null, m3: m3 !== null, m4: m4 !== null },
+    m1: m1, m2: m2, m3: m3, m4: m4
+  };
+}
+
+
+/* ============================================================
+   M5 — ENGINE HELPERS
+   ============================================================ */
+
+function _m5_mergeFlags() {
+  var seen = Object.create(null), result = [];
+  for (var a = 0; a < arguments.length; a++) {
+    var arr = arguments[a];
+    if (!Array.isArray(arr)) continue;
+    for (var i = 0; i < arr.length; i++) {
+      var f = arr[i];
+      if (f && !seen[f]) { seen[f] = true; result.push(f); }
+    }
+  }
+  return result;
+}
+
+function _m5_resolveM3Risk(m3, fStatus) {
+  if (!m3) return { risk: null, source: 'not_available' };
+  var cr = m3.clinical_risk;
+  if (cr === 'low' || cr === 'relevant' || cr === 'high')
+    return { risk: cr, source: 'adapter_enriched' };
+  var fallback = M5_M3_RISK_FALLBACK.hasOwnProperty(fStatus) ? M5_M3_RISK_FALLBACK[fStatus] : null;
+  return { risk: fallback, source: 'fallback_from_classification' };
+}
+
+function _m5_maxRisk(a, b) {
+  var na = M5_RISK_NUM[a] || 0, nb = M5_RISK_NUM[b] || 0, n = Math.max(na, nb);
+  return n > 0 ? (M5_RISK_STR[n] || 'indeterminate') : 'indeterminate';
+}
+
+function _m5_deriveIopStatus(m1, m2) {
+  if (!m2 || !_m5_isNum(m2.target_iop_range_low_mmhg) || !_m5_isNum(m2.target_iop_range_high_mmhg))
+    return { iop_status: 'unknown', comparison_iop: null, iop_source: 'none' };
+  var compIop = null, src = 'none';
+  if (m1 && _m5_isNum(m1.adjusted_iop_mmhg)) {
+    compIop = m1.adjusted_iop_mmhg; src = 'm1_adjusted';
+  } else if (_m5_isNum(m2.current_iop_mmhg)) {
+    compIop = m2.current_iop_mmhg; src = 'm2_current';
+  }
+  if (src === 'none') return { iop_status: 'unknown', comparison_iop: null, iop_source: 'none' };
+  var iopStatus;
+  if      (compIop > m2.target_iop_range_high_mmhg) iopStatus = 'above_target';
+  else if (compIop < m2.target_iop_range_low_mmhg)  iopStatus = 'below_target';
+  else                                               iopStatus = 'at_target';
+  return { iop_status: iopStatus, comparison_iop: compIop, iop_source: src };
+}
+
+function _m5_deriveFunctionalStatus(m3) {
+  if (!m3) return { status: 'not_assessed', basis: 'M3: not_assessed' };
+  var basis = 'M3: ' + m3.classification + ' / ' + m3.data_quality + ' / ' + m3.confidence_level;
+  if (m3.data_quality === 'insufficient') return { status: 'unclassifiable', basis: basis };
+  return { status: M5_M3_CLASS_MAP[m3.classification] || 'unclassifiable', basis: basis };
+}
+
+function _m5_deriveStructuralStatus(m4) {
+  if (!m4) return { status: 'not_assessed', basis: 'M4: not_assessed' };
+  var status = M5_M4_CLASS_MAP[m4.classification] || 'unclassifiable';
+  var basis  = 'M4: ' + m4.classification + ' / ' + m4.data_quality +
+               ' / ' + m4.confidence_level + ' / ' + m4.clinical_risk;
+  return { status: status, basis: basis };
+}
+
+function _m5_applyIopOverlay(pt, iopStatus, flags) {
+  if (iopStatus === 'above_target') {
+    flags.push('iop_above_target_with_progression');
+    return 'progression_with_iop_above_target';
+  }
+  if (iopStatus === 'at_target' || iopStatus === 'below_target') {
+    flags.push('progression_despite_iop_control');
+    if (pt === 'functional_progression_structural_support') return 'functional_progression_with_structural_support';
+    if (pt === 'concordant_progression')  return 'progression_despite_controlled_iop';
+    if (pt === 'functional_lead')         return 'functional_signal_unconfirmed_structurally';
+    if (pt === 'structural_lead')         return 'structural_signal_unconfirmed_functionally';
+  }
+  if (pt === 'functional_progression_structural_support') return 'functional_progression_with_structural_support';
+  if (pt === 'concordant_progression')  return 'concordant_progression';
+  if (pt === 'functional_lead')         return 'functional_signal_unconfirmed_structurally';
+  if (pt === 'structural_lead')         return 'structural_signal_unconfirmed_functionally';
+  return 'indeterminate';
+}
+
+function _m5_determinePattern(fStatus, sStatus, iopStatus) {
+  var flags = [], pt, ic;
+
+  if (sStatus === 'floor_effect') {
+    flags.push('floor_effect_structural_tracking_limited');
+    return { pattern_type: 'floor_effect_context', integrated_classification: 'floor_effect_context',
+             flags: flags, pattern_rule: 'P1: structural=floor_effect' };
+  }
+  if (sStatus === 'signal_limited') {
+    flags.push('structural_signal_limited');
+    return { pattern_type: 'signal_limited', integrated_classification: 'signal_limited_structural',
+             flags: flags, pattern_rule: 'P2: structural=signal_limited' };
+  }
+  if (fStatus === 'not_assessed' || sStatus === 'not_assessed') {
+    if (fStatus === 'not_assessed') flags.push('m3_not_assessed');
+    if (sStatus === 'not_assessed') flags.push('m4_not_assessed');
+    return { pattern_type: 'partial_assessment', integrated_classification: 'partial_assessment',
+             flags: flags, pattern_rule: 'P3: partial_assessment (defensive branch)' };
+  }
+  if (fStatus === 'unclassifiable' || sStatus === 'unclassifiable') {
+    return { pattern_type: 'insufficient_data', integrated_classification: 'insufficient_data',
+             flags: [], pattern_rule: 'P4: one or both domains unclassifiable' };
+  }
+  if ((fStatus === 'progressing_moderate' || fStatus === 'progressing_fast') && sStatus === 'suspicious') {
+    flags.push('structural_trend_supportive_not_confirmed');
+    ic = _m5_applyIopOverlay('functional_progression_structural_support', iopStatus, flags);
+    return { pattern_type: 'functional_progression_structural_support', integrated_classification: ic,
+             flags: flags, pattern_rule: 'P5: functional=progressing + structural=suspicious' };
+  }
+  if ((fStatus === 'progressing_moderate' || fStatus === 'progressing_fast') && sStatus === 'progressing') {
+    ic = _m5_applyIopOverlay('concordant_progression', iopStatus, flags);
+    return { pattern_type: 'concordant_progression', integrated_classification: ic,
+             flags: flags, pattern_rule: 'P6: concordant_progression (M3 progressing + M4 fast_progression)' };
+  }
+  if ((fStatus === 'progressing_moderate' || fStatus === 'progressing_fast') && sStatus === 'stable') {
+    flags.push('m3_m4_discordant_signals');
+    flags.push('functional_progression_without_structural_confirmation');
+    ic = _m5_applyIopOverlay('functional_lead', iopStatus, flags);
+    return { pattern_type: 'functional_lead', integrated_classification: ic,
+             flags: flags, pattern_rule: 'P7a: functional_lead (M3 progressing, M4 stable)' };
+  }
+  if ((sStatus === 'progressing' || sStatus === 'suspicious') && fStatus === 'stable') {
+    flags.push('m3_m4_discordant_signals');
+    flags.push('structural_progression_without_functional_confirmation');
+    ic = _m5_applyIopOverlay('structural_lead', iopStatus, flags);
+    return { pattern_type: 'structural_lead', integrated_classification: ic,
+             flags: flags, pattern_rule: 'P7b: structural_lead (M4 progressing/suspicious, M3 stable)' };
+  }
+  if (fStatus === 'stable' && sStatus === 'stable') {
+    if (iopStatus === 'above_target')
+      return { pattern_type: 'iop_above_target_stable_domains', integrated_classification: 'stable_iop_not_controlled',
+               flags: [], pattern_rule: 'P8a: concordant_stable + iop=above_target' };
+    if (iopStatus === 'at_target' || iopStatus === 'below_target')
+      return { pattern_type: 'concordant_stable', integrated_classification: 'stable_controlled',
+               flags: [], pattern_rule: 'P8b: concordant_stable + iop=at/below target' };
+    return { pattern_type: 'concordant_stable', integrated_classification: 'stable_domains_iop_not_assessed',
+             flags: [], pattern_rule: 'P8c: concordant_stable + iop=unknown' };
+  }
+  return { pattern_type: 'indeterminate', integrated_classification: 'indeterminate',
+           flags: [], pattern_rule: 'no rule matched' };
+}
+
+function _m5_computeConfidence(m1, m2, m3, m4, pattern_type) {
+  var scores = [], flags = [], rparts = [];
+  if (m3) scores.push(M5_CONF_NUM[m3.confidence_level] || 1);
+  if (m4) scores.push(M5_CONF_NUM[m4.confidence_level] || 1);
+  if (scores.length === 0)
+    return { confidence: 'indeterminate', flags: [], rule: 'no M3/M4 present \u2014 indeterminate' };
+  var base = Math.min.apply(null, scores);
+  rparts.push('base=' + (M5_CONF_STR[base] || 'low') + ' (M3/M4 minimum)');
+  var penalties = 0;
+  if (pattern_type === 'functional_lead' || pattern_type === 'structural_lead') {
+    penalties++; flags.push('integrated_confidence_downgraded_discordance'); rparts.push('C1: discordance -1');
+  }
+  if (m1 && m1.impact_class === 'high') {
+    penalties++; flags.push('integrated_confidence_downgraded_cct_impact'); rparts.push('C2: M1 impact_class=high -1');
+  }
+  if ((m3 && m3.data_quality === 'insufficient') || (m4 && m4.data_quality === 'insufficient')) {
+    penalties++; flags.push('integrated_confidence_downgraded_data_quality'); rparts.push('C3: data_quality=insufficient -1');
+  }
+  if (m2 && m2.confidence_level === 'low') {
+    flags.push('m2_confidence_limited'); rparts.push('M2 confidence=low [flag only, no score effect]');
+  }
+  var finalScore = Math.max(1, base - penalties);
+  var confidence = M5_CONF_STR[finalScore] || 'low';
+  rparts.push('\u2192 ' + confidence);
+  return { confidence: confidence, flags: flags, rule: rparts.join('; ') };
+}
+
+function _m5_computeRisk(fStatus, sStatus, iopStatus, pattern_type, m3, m4) {
+  var m3r          = _m5_resolveM3Risk(m3, fStatus);
+  var m4NativeRisk = m4 ? m4.clinical_risk : null;
+
+  if (pattern_type === 'floor_effect_context') {
+    if (fStatus === 'progressing_fast')  return { risk: 'high',         rule: 'R1: floor + functional=fast' };
+    if (fStatus === 'progressing_moderate') {
+      if (iopStatus === 'above_target')  return { risk: 'high',         rule: 'R1: floor + functional=moderate + iop=above_target' };
+      return                                    { risk: 'relevant',     rule: 'R1: floor + functional=moderate' };
+    }
+    if (fStatus === 'stable')            return { risk: 'relevant',     rule: 'R1: floor + functional=stable (structural vigilance)' };
+    return                                      { risk: 'indeterminate',rule: 'R1: floor + functional=not_assessable' };
+  }
+  if (pattern_type === 'functional_progression_structural_support') {
+    if (iopStatus === 'above_target')    return { risk: 'high',         rule: 'R_new: fp_structural_support + iop=above_target' };
+    if (fStatus === 'progressing_fast')  return { risk: 'high',         rule: 'R_new: fp_structural_support + functional=fast' };
+    return                                      { risk: 'relevant',     rule: 'R_new: fp_structural_support + functional=moderate' };
+  }
+  if (pattern_type === 'concordant_progression') {
+    if (fStatus === 'progressing_fast' && sStatus === 'progressing')
+      return { risk: 'high', rule: 'R2: concordant_progression + both fast \u2014 unconditional high' };
+    if (iopStatus === 'above_target')    return { risk: 'high',         rule: 'R2: concordant_progression + iop=above_target' };
+    var merged = _m5_maxRisk(_m5_maxRisk(m3r.risk, m4NativeRisk), 'relevant');
+    return { risk: merged, rule: 'R2: concordant_progression' };
+  }
+  if (iopStatus === 'above_target' &&
+      (pattern_type === 'functional_lead' || pattern_type === 'structural_lead'))
+    return { risk: 'high', rule: 'R3: iop=above_target + progression pattern' };
+  if (iopStatus === 'above_target' &&
+      (pattern_type === 'concordant_stable' || pattern_type === 'iop_above_target_stable_domains'))
+    return { risk: 'relevant', rule: 'R4: iop=above_target + stable domains' };
+  if (pattern_type === 'structural_lead')
+    return { risk: _m5_maxRisk(m4NativeRisk, 'relevant'), rule: 'R5: structural_lead (M4 native anchor)' };
+  if (pattern_type === 'functional_lead')
+    return { risk: _m5_maxRisk(m3r.risk, 'relevant'), rule: 'R6: functional_lead (M3 advisory)' };
+  if (pattern_type === 'signal_limited') {
+    if (m3 && fStatus !== 'unclassifiable' && fStatus !== 'not_assessed')
+      return { risk: m3r.risk || 'indeterminate', rule: 'R7: signal_limited + M3 functional anchor' };
+    return { risk: 'indeterminate', rule: 'R7: signal_limited + no assessable M3' };
+  }
+  if (pattern_type === 'concordant_stable' && (iopStatus === 'at_target' || iopStatus === 'below_target'))
+    return { risk: 'low', rule: 'R8: concordant_stable + iop=at/below target' };
+  if (pattern_type === 'insufficient_data' || pattern_type === 'partial_assessment')
+    return { risk: 'indeterminate', rule: 'R9: ' + pattern_type };
+  return { risk: 'indeterminate', rule: 'R10: catch-all' };
+}
+
+function _m5_buildInterpretation(ic, iopStatus, flags) {
+  var parts = [];
+  parts.push(M5_SLOT_A[ic] || 'Integrated assessment produced no interpretable output.');
+  var slotB = M5_SLOT_B[iopStatus] || null;
+  if (slotB && !M5_IOP_EMBEDDED[ic]) parts.push(slotB);
+  var flagMap = Object.create(null);
+  for (var i = 0; i < flags.length; i++) flagMap[flags[i]] = true;
+  if (flagMap['m3_m4_discordant_signals'])
+    parts.push('Structural\u2013functional discordance is noted; independent review of both domain signals is recommended.');
+  else if (flagMap['floor_effect_structural_tracking_limited'])
+    parts.push('Functional data constitutes the primary monitoring channel in this context.');
+  else if (flagMap['structural_trend_supportive_not_confirmed'])
+    parts.push('The structural trend is directionally consistent with functional findings but has not crossed the threshold for confirmed structural progression.');
+  else if (flagMap['integrated_confidence_downgraded_discordance'] ||
+           flagMap['integrated_confidence_downgraded_data_quality'] ||
+           flagMap['integrated_confidence_downgraded_cct_impact'])
+    parts.push('Interpretation confidence is limited; additional data may refine this assessment.');
+  parts.push('Clinical decision remains with the treating physician.');
+  return parts.join(' ');
+}
+
+function computeM5(input) {
+  "use strict";
+  if (!input || input.schema_id !== 'OFTY-Gx-M5-InputContract') {
+    return {
+      module_id: 'OFTY-Gx-M5', algorithm_version: M5_VERSION,
+      integrated_classification: 'indeterminate', integrated_confidence: 'indeterminate',
+      integrated_risk: 'indeterminate', pattern_type: 'indeterminate',
+      iop_status: 'unknown', iop_comparison_iop_mmhg: null,
+      functional_domain_status: 'not_assessed', structural_domain_status: 'not_assessed',
+      summary_flags: ['invalid_input_envelope'],
+      final_interpretation: 'Input envelope is missing or invalid. No integrated assessment was produced. Clinical decision remains with the treating physician.',
+      logic_trace: {
+        iop_comparison_source: 'none', functional_domain_basis: 'M3: not_assessed',
+        structural_domain_basis: 'M4: not_assessed',
+        pattern_rule_applied: 'guard: invalid or missing input envelope \u2014 no computation performed',
+        confidence_rule_applied: 'guard: no computation performed',
+        risk_rule_applied: 'guard: no computation performed',
+        m3_clinical_risk_source: 'not_available', adapter_warnings: [], m1_confidence_note: M5_M1_CONF_NOTE
+      }
+    };
+  }
+  var mp = input.modules_present || {};
+  var m1 = mp.m1 ? input.m1 : null, m2 = mp.m2 ? input.m2 : null;
+  var m3 = mp.m3 ? input.m3 : null, m4 = mp.m4 ? input.m4 : null;
+  var initFlags = [];
+  if (!mp.m2) initFlags.push('m2_absent_no_iop_anchor');
+  var iopR = _m5_deriveIopStatus(m1, m2);
+  var iopStatus = iopR.iop_status, compIop = iopR.comparison_iop, iopSrc = iopR.iop_source;
+  var iopFlags = [];
+  if (iopStatus === 'unknown')      iopFlags.push('iop_gap_not_assessable');
+  if (iopStatus === 'above_target') iopFlags.push('iop_above_target');
+  var fR = _m5_deriveFunctionalStatus(m3);
+  var fStatus = fR.status, fBasis = fR.basis, fFlags = [];
+  if (fStatus === 'stable' && m3 && m3.data_quality === 'limited' && m3.confidence_level === 'low')
+    fFlags.push('functional_stability_low_confidence');
+  var sR = _m5_deriveStructuralStatus(m4);
+  var sStatus = sR.status, sBasis = sR.basis, sFlags = [];
+  if (sStatus === 'stable' && m4 && m4.data_quality === 'limited' && m4.confidence_level === 'low')
+    sFlags.push('structural_stability_low_confidence');
+  var pR = _m5_determinePattern(fStatus, sStatus, iopStatus);
+  var pt = pR.pattern_type, ic = pR.integrated_classification, pRule = pR.pattern_rule;
+  var cR = _m5_computeConfidence(m1, m2, m3, m4, pt);
+  var conf = cR.confidence, cRule = cR.rule;
+  var rR = _m5_computeRisk(fStatus, sStatus, iopStatus, pt, m3, m4);
+  var risk = rR.risk, rRule = rR.rule;
+  var m3RR = _m5_resolveM3Risk(m3, fStatus);
+  var summaryFlags = _m5_mergeFlags(initFlags, iopFlags, fFlags, sFlags, pR.flags, cR.flags);
+  var interp = _m5_buildInterpretation(ic, iopStatus, summaryFlags);
+  return {
+    module_id: 'OFTY-Gx-M5', algorithm_version: M5_VERSION,
+    integrated_classification: ic, integrated_confidence: conf, integrated_risk: risk,
+    pattern_type: pt, iop_status: iopStatus, iop_comparison_iop_mmhg: compIop,
+    functional_domain_status: fStatus, structural_domain_status: sStatus,
+    summary_flags: summaryFlags, final_interpretation: interp,
+    logic_trace: {
+      iop_comparison_source: iopSrc, functional_domain_basis: fBasis, structural_domain_basis: sBasis,
+      pattern_rule_applied: pRule, confidence_rule_applied: cRule, risk_rule_applied: rRule,
+      m3_clinical_risk_source: m3RR.source, adapter_warnings: input.adapter_warnings || [],
+      m1_confidence_note: M5_M1_CONF_NOTE
+    }
+  };
+}
+/* ── END OFTY-Gx-M5 ──────────────────────────────────────────────────────── */
+/* !! ENGINE END — engine block above may be replaced when upgrading !! */
+</script>
+
+
+<!-- ============================================================
+  SECTION 2 — TEST RUNNER
+  ============================================================
+  All test scaffolding, scenario definitions, assertions,
+  and output rendering. No clinical rules here.
+  ============================================================ -->
+<script>
+"use strict";
+
+/* ============================================================
+   TR — MOCK FACTORIES
+   Helper functions to produce plausible native module output
+   objects for each module. All parameters are explicit.
+   ============================================================ */
+
+function _trM1(adjustedIop, impactClass) {
+  impactClass = impactClass || 'low';
+  return {
+    module_id: 'OFTY-Gx-M1', algorithm_version: '1.0',
+    inputs:  { pio_mmhg: adjustedIop + 1.0, cct_um: 540 },
+    outputs: {
+      adjusted_iop_mmhg: adjustedIop,
+      adjustment_mmhg:   -1.0,
+      cct_label:         impactClass === 'high' ? 'thin' : 'average',
+      impact_class:      impactClass,
+      confidence_level:  'moderate',
+      caution_flags:     impactClass === 'high' ? ['large_adjustment'] : []
+    }
+  };
+}
+
+function _trM2(currentIop, rangeLo, rangeHi, stage, progression) {
+  stage       = stage       || 'Moderate POAG';
+  progression = progression || 'none';
+  return {
+    module_id: 'OFTY-Gx-M2', algorithm_version: '1.0.0',
+    inputs: {
+      stage:            'Moderate',
+      baseline_mmhg:    22,
+      cct:              'average',
+      progression:      progression,
+      current_iop_mmhg: currentIop   /* null → IOP unknown */
+    },
+    outputs: {
+      target_iop_primary_mmhg:    Math.round((rangeLo + rangeHi) / 2),
+      target_iop_range_low_mmhg:  rangeLo,
+      target_iop_range_high_mmhg: rangeHi,
+      stage_label:                stage,
+      risk_modifier_summary:      [],
+      confidence_level:           'moderate',
+      caution_flags:              []
+    }
+  };
+}
+
+function _trM3(cls, dataQuality, confidenceLevel) {
+  dataQuality     = dataQuality     || 'adequate';
+  confidenceLevel = confidenceLevel || 'high';
+  var slopes = {
+    'no_or_slow_progression': -0.20,
+    'moderate_progression':   -0.72,
+    'fast_progression':       -1.50,
+    'very_fast_progression':  -2.40,
+    'unclassifiable':          null
+  };
+  return {
+    module_id: 'OFTY-Gx-M3', algorithm_version: '1.0.0', mode: 'core',
+    classification:           cls,
+    progression_rate:         { slope_md_per_year: slopes[cls] || null, p_value: 0.04,
+                                ci95_lower: -1.2, ci95_upper: -0.1 },
+    statistical_significance: dataQuality === 'insufficient' ? 'uncertain' : 'significant',
+    data_quality:             dataQuality,
+    confidence_level:         confidenceLevel,
+    caution_flags:            []
+  };
+}
+
+function _trM4(cls, clinicalRisk, confidenceLevel) {
+  clinicalRisk    = clinicalRisk    || 'low';
+  confidenceLevel = confidenceLevel || 'high';
+  var slopes = {
+    'stable_trend':                     -0.40,
+    'suspicious_trend':                 -1.30,
+    'fast_progression':                 -2.50,
+    'floor_effect':                     -0.10,
+    'myopia_limited_structural_signal': -1.20,
+    'erm_limited_structural_signal':    -1.10,
+    'unclassifiable':                    null
+  };
+  return {
+    module_id: 'OFTY-Gx-M4', algorithm_version: '1.2.3', mode: 'core',
+    classification:           cls,
+    structural_rate:          { slope_rnfl_per_year: slopes[cls] || null, p_value: 0.03,
+                                ci95_lower: -1.8, ci95_upper: -0.2 },
+    statistical_significance: 'significant',
+    data_quality:             'adequate',
+    confidence_level:         confidenceLevel,
+    clinical_risk:            clinicalRisk,
+    caution_flags:            cls === 'floor_effect' ? ['rnfl_floor_effect'] : []
+  };
+}
+
+/* Shorthand: run the full pipeline via adapter + envelope + engine */
+function _trRun(m1Native, m2Native, m3Native, m4Native) {
+  return computeM5(buildM5InputEnvelope(m1Native, m2Native, m3Native, m4Native));
+}
+
+
+/* ============================================================
+   TR — SCENARIO DEFINITIONS
+   Each scenario specifies:
+     id       — unique identifier
+     label    — short clinical description
+     build    — function() returning native module results
+     expected — key output assertions
+       classification — integrated_classification
+       pattern        — pattern_type
+       risk           — integrated_risk
+       iop_status     — iop_status (optional)
+       flags_include  — array of flags that must be present
+       flags_exclude  — array of flags that must NOT be present
+       interp_contains— substring that must appear in final_interpretation
+   ============================================================ */
+
+var TR_SCENARIOS = [
+
+  /* ── S01 ─────────────────────────────────────────────────── */
+  {
+    id: 'S01',
+    label: 'Stable concordant — IOP at target',
+    build: function() {
+      return _trRun(
+        _trM1(14.0),
+        _trM2(14.0, 13, 15),
+        _trM3('no_or_slow_progression'),
+        _trM4('stable_trend', 'low')
+      );
+    },
+    expected: {
+      classification:  'stable_controlled',
+      pattern:         'concordant_stable',
+      risk:            'low',
+      iop_status:      'at_target',
+      flags_include:   [],
+      flags_exclude:   ['m3_m4_discordant_signals', 'iop_above_target']
+    }
+  },
+
+  /* ── S02 ─────────────────────────────────────────────────── */
+  {
+    id: 'S02',
+    label: 'Stable concordant — IOP above target',
+    build: function() {
+      return _trRun(
+        _trM1(17.0),
+        _trM2(17.0, 13, 15),
+        _trM3('no_or_slow_progression'),
+        _trM4('stable_trend', 'low')
+      );
+    },
+    expected: {
+      classification:  'stable_iop_not_controlled',
+      pattern:         'iop_above_target_stable_domains',
+      risk:            'relevant',
+      iop_status:      'above_target',
+      flags_include:   ['iop_above_target'],
+      flags_exclude:   ['m3_m4_discordant_signals']
+    }
+  },
+
+  /* ── S03 ─────────────────────────────────────────────────── */
+  {
+    id: 'S03',
+    label: 'Stable concordant — IOP unknown (no current IOP, no M1)',
+    build: function() {
+      return _trRun(
+        null,                         /* M1 absent */
+        _trM2(null, 13, 15),          /* current_iop_mmhg = null */
+        _trM3('no_or_slow_progression'),
+        _trM4('stable_trend', 'low')
+      );
+    },
+    expected: {
+      classification:  'stable_domains_iop_not_assessed',
+      pattern:         'concordant_stable',
+      risk:            'indeterminate',
+      iop_status:      'unknown',
+      flags_include:   ['iop_gap_not_assessable'],
+      flags_exclude:   ['iop_above_target'],
+      interp_contains: 'could not be assessed'
+    }
+  },
+
+  /* ── S04 ─────────────────────────────────────────────────── */
+  {
+    id: 'S04',
+    label: 'Functional lead — M3 progressing, M4 stable, IOP at target',
+    build: function() {
+      return _trRun(
+        _trM1(14.0),
+        _trM2(14.0, 13, 15),
+        _trM3('moderate_progression', 'adequate', 'high'),
+        _trM4('stable_trend', 'low')
+      );
+    },
+    expected: {
+      classification:  'functional_signal_unconfirmed_structurally',
+      pattern:         'functional_lead',
+      risk:            'relevant',
+      iop_status:      'at_target',
+      flags_include:   ['m3_m4_discordant_signals', 'functional_progression_without_structural_confirmation'],
+      flags_exclude:   ['structural_trend_supportive_not_confirmed']
+    }
+  },
+
+  /* ── S05 ─────────────────────────────────────────────────── */
+  {
+    id: 'S05',
+    label: 'Structural lead — M4 suspicious, M3 stable, IOP at target',
+    build: function() {
+      return _trRun(
+        _trM1(14.0),
+        _trM2(14.0, 13, 15),
+        _trM3('no_or_slow_progression'),
+        _trM4('suspicious_trend', 'relevant')
+      );
+    },
+    expected: {
+      classification:  'structural_signal_unconfirmed_functionally',
+      pattern:         'structural_lead',
+      risk:            'relevant',
+      iop_status:      'at_target',
+      flags_include:   ['m3_m4_discordant_signals', 'structural_progression_without_functional_confirmation'],
+      flags_exclude:   ['functional_progression_without_structural_confirmation']
+    }
+  },
+
+  /* ── S06 ─────────────────────────────────────────────────── */
+  {
+    id: 'S06',
+    label: 'Functional progression with structural support — IOP at target',
+    build: function() {
+      return _trRun(
+        _trM1(14.0),
+        _trM2(14.0, 13, 15),
+        _trM3('moderate_progression', 'adequate', 'high'),
+        _trM4('suspicious_trend', 'relevant')
+      );
+    },
+    expected: {
+      classification:  'functional_progression_with_structural_support',
+      pattern:         'functional_progression_structural_support',
+      risk:            'relevant',
+      iop_status:      'at_target',
+      flags_include:   ['structural_trend_supportive_not_confirmed'],
+      flags_exclude:   ['m3_m4_discordant_signals']
+    }
+  },
+
+  /* ── S07 ─────────────────────────────────────────────────── */
+  {
+    id: 'S07',
+    label: 'Functional progression with structural support — IOP above target (risk=high)',
+    build: function() {
+      return _trRun(
+        _trM1(17.0),
+        _trM2(17.0, 13, 15),
+        _trM3('moderate_progression', 'adequate', 'high'),
+        _trM4('suspicious_trend', 'relevant')
+      );
+    },
+    expected: {
+      classification:  'progression_with_iop_above_target',
+      pattern:         'functional_progression_structural_support',
+      risk:            'high',
+      iop_status:      'above_target',
+      flags_include:   ['iop_above_target_with_progression', 'structural_trend_supportive_not_confirmed'],
+      flags_exclude:   ['m3_m4_discordant_signals']
+    }
+  },
+
+  /* ── S08 ─────────────────────────────────────────────────── */
+  {
+    id: 'S08',
+    label: 'Concordant progression — M3 moderate + M4 fast, IOP at target',
+    build: function() {
+      return _trRun(
+        _trM1(14.0),
+        _trM2(14.0, 13, 15),
+        _trM3('moderate_progression', 'adequate', 'high'),
+        _trM4('fast_progression', 'high')
+      );
+    },
+    expected: {
+      classification:  'progression_despite_controlled_iop',
+      pattern:         'concordant_progression',
+      risk:            'high',    /* M4 clinical_risk='high' → R2 max(relevant,high)=high */
+      iop_status:      'at_target',
+      flags_include:   ['progression_despite_iop_control'],
+      flags_exclude:   ['m3_m4_discordant_signals']
+    }
+  },
+
+  /* ── S09 ─────────────────────────────────────────────────── */
+  {
+    id: 'S09',
+    label: 'Concordant progression — M3 fast + M4 fast, IOP above target (unconditional high)',
+    build: function() {
+      return _trRun(
+        _trM1(18.0),
+        _trM2(18.0, 13, 15),
+        _trM3('fast_progression', 'adequate', 'high'),
+        _trM4('fast_progression', 'high')
+      );
+    },
+    expected: {
+      classification:  'progression_with_iop_above_target',
+      pattern:         'concordant_progression',
+      risk:            'high',
+      iop_status:      'above_target',
+      flags_include:   ['iop_above_target_with_progression'],
+      flags_exclude:   []
+    }
+  },
+
+  /* ── S10 ─────────────────────────────────────────────────── */
+  {
+    id: 'S10',
+    label: 'Floor effect — M3 stable, IOP at target (risk=relevant, not high)',
+    build: function() {
+      return _trRun(
+        _trM1(14.0),
+        _trM2(14.0, 13, 15),
+        _trM3('no_or_slow_progression'),
+        _trM4('floor_effect', 'indeterminate', 'low')
+      );
+    },
+    expected: {
+      classification:  'floor_effect_context',
+      pattern:         'floor_effect_context',
+      risk:            'relevant',
+      iop_status:      'at_target',
+      flags_include:   ['floor_effect_structural_tracking_limited'],
+      flags_exclude:   []
+    }
+  },
+
+  /* ── S11 ─────────────────────────────────────────────────── */
+  {
+    id: 'S11',
+    label: 'Floor effect — M3 fast progression (risk=high, functional-driven)',
+    build: function() {
+      return _trRun(
+        _trM1(14.0),
+        _trM2(14.0, 13, 15),
+        _trM3('fast_progression', 'adequate', 'high'),
+        _trM4('floor_effect', 'indeterminate', 'low')
+      );
+    },
+    expected: {
+      classification:  'floor_effect_context',
+      pattern:         'floor_effect_context',
+      risk:            'high',
+      iop_status:      'at_target',
+      flags_include:   ['floor_effect_structural_tracking_limited'],
+      interp_contains: 'primary monitoring channel'
+    }
+  },
+
+  /* ── S12 ─────────────────────────────────────────────────── */
+  {
+    id: 'S12',
+    label: 'Signal-limited structural — M3 stable, IOP at target (risk=low)',
+    build: function() {
+      return _trRun(
+        _trM1(14.0),
+        _trM2(14.0, 13, 15),
+        _trM3('no_or_slow_progression'),
+        _trM4('myopia_limited_structural_signal', 'myopia_limited', 'low')
+      );
+    },
+    expected: {
+      classification:  'signal_limited_structural',
+      pattern:         'signal_limited',
+      risk:            'low',
+      iop_status:      'at_target',
+      flags_include:   ['structural_signal_limited'],
+      flags_exclude:   ['floor_effect_structural_tracking_limited']
+    }
+  },
+
+  /* ── S13 ─────────────────────────────────────────────────── */
+  {
+    id: 'S13',
+    label: 'Signal-limited structural — M3 fast progression (risk=high)',
+    build: function() {
+      return _trRun(
+        _trM1(14.0),
+        _trM2(14.0, 13, 15),
+        _trM3('fast_progression', 'adequate', 'high'),
+        _trM4('erm_limited_structural_signal', 'myopia_limited', 'low')
+      );
+    },
+    expected: {
+      classification:  'signal_limited_structural',
+      pattern:         'signal_limited',
+      risk:            'high',
+      iop_status:      'at_target',
+      flags_include:   ['structural_signal_limited'],
+      flags_exclude:   []
+    }
+  },
+
+  /* ── S14 ─────────────────────────────────────────────────── */
+  {
+    id: 'S14',
+    label: 'Insufficient data — both domains unclassifiable',
+    build: function() {
+      return _trRun(
+        _trM1(14.0),
+        _trM2(14.0, 13, 15),
+        _trM3('unclassifiable', 'insufficient', 'low'),
+        _trM4('unclassifiable', 'indeterminate', 'low')
+      );
+    },
+    expected: {
+      classification:  'insufficient_data',
+      pattern:         'insufficient_data',
+      risk:            'indeterminate',
+      flags_include:   [],
+      flags_exclude:   ['m3_m4_discordant_signals']
+    }
+  },
+
+  /* ── S15 ─────────────────────────────────────────────────── */
+  {
+    id: 'S15',
+    label: 'Invalid input envelope — null input (guard branch)',
+    build: function() {
+      return computeM5(null);
+    },
+    expected: {
+      classification:  'indeterminate',
+      pattern:         'indeterminate',
+      risk:            'indeterminate',
+      iop_status:      'unknown',
+      flags_include:   ['invalid_input_envelope'],
+      interp_contains: 'missing or invalid'
+    }
+  },
+
+  /* ── S16 ─────────────────────────────────────────────────── */
+  {
+    id: 'S16',
+    label: 'Adapter: M2 absent — iop_status unknown, m2_absent flag',
+    build: function() {
+      return _trRun(
+        _trM1(14.0),
+        null,                          /* M2 absent */
+        _trM3('no_or_slow_progression'),
+        _trM4('stable_trend', 'low')
+      );
+    },
+    expected: {
+      classification:  'stable_domains_iop_not_assessed',
+      pattern:         'concordant_stable',
+      risk:            'indeterminate',
+      iop_status:      'unknown',
+      flags_include:   ['m2_absent_no_iop_anchor', 'iop_gap_not_assessable']
+    }
+  },
+
+  /* ── S17 ─────────────────────────────────────────────────── */
+  {
+    id: 'S17',
+    label: 'IOP below target — stable concordant (interp uses "below")',
+    build: function() {
+      return _trRun(
+        _trM1(11.0),
+        _trM2(11.0, 13, 15),
+        _trM3('no_or_slow_progression'),
+        _trM4('stable_trend', 'low')
+      );
+    },
+    expected: {
+      classification:  'stable_controlled',
+      pattern:         'concordant_stable',
+      risk:            'low',
+      iop_status:      'below_target',
+      flags_include:   [],
+      interp_contains: 'below the individualized target range'
+    }
+  },
+
+  /* ── S18 ─────────────────────────────────────────────────── */
+  {
+    id: 'S18',
+    label: 'Confidence ceiling — M3+M4 both high, no penalties → integrated_confidence=high',
+    build: function() {
+      return _trRun(
+        _trM1(14.0),
+        _trM2(14.0, 13, 15),
+        _trM3('no_or_slow_progression', 'adequate', 'high'),
+        _trM4('stable_trend', 'low', 'high')
+      );
+    },
+    expected: {
+      classification:  'stable_controlled',
+      pattern:         'concordant_stable',
+      risk:            'low',
+      flags_include:   [],
+      flags_exclude:   ['integrated_confidence_downgraded_discordance']
+    },
+    extra_checks: function(result, runner) {
+      runner.assert(result.integrated_confidence === 'high',
+        'integrated_confidence should be "high" when M3+M4 both high, no penalties',
+        'got: ' + result.integrated_confidence);
+    }
+  },
+
+  /* ── S19 ─────────────────────────────────────────────────── */
+  {
+    id: 'S19',
+    label: 'Confidence penalty — discordance downgrades confidence',
+    build: function() {
+      return _trRun(
+        _trM1(14.0),
+        _trM2(14.0, 13, 15),
+        _trM3('moderate_progression', 'adequate', 'high'),
+        _trM4('stable_trend', 'low', 'high')
+      );
+    },
+    expected: {
+      classification:  'functional_signal_unconfirmed_structurally',
+      pattern:         'functional_lead',
+      risk:            'relevant',
+      flags_include:   ['integrated_confidence_downgraded_discordance']
+    },
+    extra_checks: function(result, runner) {
+      runner.assert(result.integrated_confidence !== 'high',
+        'integrated_confidence must be below "high" when discordance penalty applied',
+        'got: ' + result.integrated_confidence);
+    }
+  },
+
+  /* ── S20 ─────────────────────────────────────────────────── */
+  {
+    id: 'S20',
+    label: 'Adapter transparency — adapter_warnings surfaced in logic_trace',
+    build: function() {
+      return _trRun(
+        null,
+        null,                          /* M2 absent → adapter warning */
+        _trM3('no_or_slow_progression'),
+        _trM4('stable_trend', 'low')
+      );
+    },
+    expected: {
+      classification:  'stable_domains_iop_not_assessed',
+      pattern:         'concordant_stable',
+      risk:            'indeterminate',
+      iop_status:      'unknown'
+    },
+    extra_checks: function(result, runner) {
+      var aw = result.logic_trace && result.logic_trace.adapter_warnings;
+      runner.assert(Array.isArray(aw),
+        'logic_trace.adapter_warnings must be an array', 'got: ' + typeof aw);
+      runner.assert(aw && aw.length > 0,
+        'logic_trace.adapter_warnings must be non-empty when M2 absent',
+        'got: ' + JSON.stringify(aw));
+    }
+  },
+
+  /* ── S21 ─────────────────────────────────────────────────── */
+  /* "Disastrous but unreliable"
+     Clinical context: very fast functional deterioration on record,
+     but series is short and low-quality; RNFL at structural floor;
+     IOP not available. Tests that risk stays clinically serious
+     despite low data confidence, and that confidence does not
+     inflate to "high" due to poor data quality. */
+  {
+    id: 'S21',
+    label: 'Disastrous but unreliable — M3 very fast / low confidence, M4 floor effect, IOP unknown',
+    build: function() {
+      return _trRun(
+        null,                                              /* M1 absent          */
+        _trM2(null, 13, 15),                               /* current_iop = null */
+        _trM3('very_fast_progression', 'limited', 'low'),  /* fast but low-qual  */
+        _trM4('floor_effect', 'indeterminate', 'low')      /* RNFL at floor      */
+      );
+    },
+    expected: {
+      classification:  'floor_effect_context',
+      pattern:         'floor_effect_context',
+      risk:            'high',             /* R1: floor + fast functional → high */
+      iop_status:      'unknown',
+      flags_include:   ['floor_effect_structural_tracking_limited', 'iop_gap_not_assessable'],
+      flags_exclude:   ['m3_m4_discordant_signals'],
+      interp_contains: 'primary monitoring channel'
+    },
+    extra_checks: function(result, runner) {
+      runner.assert(result.integrated_confidence !== 'high',
+        'S21: integrated_confidence must not be high (low-quality data)',
+        'got: ' + result.integrated_confidence);
+      runner.assert(typeof result.final_interpretation === 'string' &&
+                    result.final_interpretation.trim().length > 0,
+        'S21: final_interpretation must be a non-empty, non-prescriptive string',
+        'got: ' + result.final_interpretation);
+    }
+  },
+
+  /* ── S22 ─────────────────────────────────────────────────── */
+  /* "Extreme discordance"
+     Clinical context: functional domain stable with high confidence;
+     structural domain showing fast progression with high confidence;
+     IOP clearly below individualized target. Tests that discordance
+     is correctly named, risk is anchored to M4 (high), and the
+     output does not collapse into stable_controlled. */
+  {
+    id: 'S22',
+    label: 'Extreme discordance — M3 stable (high), M4 fast (high), IOP below target',
+    build: function() {
+      return _trRun(
+        _trM1(11.0),
+        _trM2(11.0, 13, 15),
+        _trM3('no_or_slow_progression', 'adequate', 'high'),
+        _trM4('fast_progression', 'high', 'high')
+      );
+    },
+    expected: {
+      classification:  'structural_signal_unconfirmed_functionally',
+      pattern:         'structural_lead',
+      risk:            'high',            /* R5: max(M4 native='high', 'relevant') = high */
+      iop_status:      'below_target',
+      flags_include:   ['m3_m4_discordant_signals',
+                        'structural_progression_without_functional_confirmation',
+                        'progression_despite_iop_control'],
+      flags_exclude:   ['functional_progression_without_structural_confirmation',
+                        'iop_above_target']
+    },
+    extra_checks: function(result, runner) {
+      runner.assert(result.integrated_classification !== 'stable_controlled',
+        'S22: must not collapse into stable_controlled — structural signal active',
+        'got: ' + result.integrated_classification);
+    }
+  },
+
+  /* ── S23 ─────────────────────────────────────────────────── */
+  /* "Only M1 present"
+     Clinical context: IOP/CCT measurement available, but no target
+     IOP (M2 absent), no functional data (M3 absent), no structural
+     data (M4 absent). Tests that the engine is crash-safe with
+     maximally incomplete input and produces a non-clinical
+     partial_assessment output. */
+  {
+    id: 'S23',
+    label: 'Only M1 present — M2/M3/M4 all absent (maximally incomplete input)',
+    build: function() {
+      return _trRun(
+        _trM1(14.0),
+        null,    /* M2 absent */
+        null,    /* M3 absent */
+        null     /* M4 absent */
+      );
+    },
+    expected: {
+      classification:  'partial_assessment',
+      pattern:         'partial_assessment',
+      risk:            'indeterminate',
+      iop_status:      'unknown',
+      flags_include:   ['m2_absent_no_iop_anchor',
+                        'm3_not_assessed',
+                        'm4_not_assessed',
+                        'iop_gap_not_assessable']
+    },
+    extra_checks: function(result, runner) {
+      runner.assert(result.integrated_confidence === 'indeterminate',
+        'S23: integrated_confidence must be indeterminate with no M3/M4',
+        'got: ' + result.integrated_confidence);
+      runner.assert(typeof result.final_interpretation === 'string' &&
+                    result.final_interpretation.trim().length > 0,
+        'S23: final_interpretation must be a non-empty string even with all modules absent',
+        'got: ' + result.final_interpretation);
+    }
+  }
+
+]; /* end TR_SCENARIOS */
+
+
+/* ============================================================
+   TR — ASSERTION ENGINE
+   ============================================================ */
+
+function TRRunner() {
+  this.pass    = 0;
+  this.fail    = 0;
+  this.lines   = [];   /* page output */
+  this.redteam = [];   /* interpretation log for human review */
+}
+
+TRRunner.prototype.assert = function(cond, label, detail) {
+  if (cond) {
+    this.pass++;
+    this.lines.push({ type: 'pass', text: label });
+    console.log('    PASS  ' + label);
+  } else {
+    this.fail++;
+    this.lines.push({ type: 'fail', text: label, detail: detail || '' });
+    console.log('    FAIL  ' + label + (detail ? '\n          \u2514\u2574 ' + detail : ''));
+  }
+};
+
+TRRunner.prototype.runScenario = function(sc) {
+  var result, error = null;
+  try {
+    result = sc.build();
+  } catch (e) {
+    error = e;
+  }
+
+  var header = '[' + sc.id + '] ' + sc.label;
+  this.lines.push({ type: 'scenario', text: header });
+  console.log('\n  ' + header);
+
+  if (error) {
+    this.fail++;
+    this.lines.push({ type: 'fail', text: 'Engine threw exception', detail: String(error) });
+    console.log('    FAIL  Engine threw exception: ' + error);
+    return;
+  }
+
+  /* Collect interpretation for red teaming (human wording review) */
+  this.redteam.push({
+    id:     sc.id,
+    label:  sc.label,
+    ic:     result.integrated_classification  || '—',
+    interp: result.final_interpretation       || '—'
+  });
+
+  var ex = sc.expected;
+
+  /* Core output assertions */
+  if (ex.classification !== undefined)
+    this.assert(result.integrated_classification === ex.classification,
+      'integrated_classification = ' + ex.classification,
+      'got: ' + result.integrated_classification);
+
+  if (ex.pattern !== undefined)
+    this.assert(result.pattern_type === ex.pattern,
+      'pattern_type = ' + ex.pattern,
+      'got: ' + result.pattern_type);
+
+  if (ex.risk !== undefined)
+    this.assert(result.integrated_risk === ex.risk,
+      'integrated_risk = ' + ex.risk,
+      'got: ' + result.integrated_risk);
+
+  if (ex.iop_status !== undefined)
+    this.assert(result.iop_status === ex.iop_status,
+      'iop_status = ' + ex.iop_status,
+      'got: ' + result.iop_status);
+
+  /* Flag presence */
+  var flags = result.summary_flags || [];
+  if (ex.flags_include) {
+    for (var fi = 0; fi < ex.flags_include.length; fi++) {
+      var f = ex.flags_include[fi];
+      this.assert(flags.indexOf(f) >= 0,
+        'summary_flags includes "' + f + '"',
+        'actual flags: [' + flags.join(', ') + ']');
+    }
+  }
+
+  /* Flag absence */
+  if (ex.flags_exclude) {
+    for (var fe = 0; fe < ex.flags_exclude.length; fe++) {
+      var fe2 = ex.flags_exclude[fe];
+      this.assert(flags.indexOf(fe2) === -1,
+        'summary_flags excludes "' + fe2 + '"',
+        'actual flags: [' + flags.join(', ') + ']');
+    }
+  }
+
+  /* Interpretation substring */
+  if (ex.interp_contains !== undefined) {
+    var interp = result.final_interpretation || '';
+    this.assert(interp.indexOf(ex.interp_contains) >= 0,
+      'final_interpretation contains "' + ex.interp_contains + '"',
+      'got: ' + interp);
+  }
+
+  /* Extra checks (scenario-specific) */
+  if (typeof sc.extra_checks === 'function') {
+    sc.extra_checks(result, this);
+  }
+};
+
+
+/* ============================================================
+   TR — RENDER OUTPUT
+   ============================================================ */
+
+function _trRender(runner, stressResult) {
+  if (typeof document === 'undefined') return;
+  var el = document.getElementById('output');
+  if (!el) return;
+  var html = '';
+  var inScenario = false;
+
+  /* ── Manual scenario section ── */
+  for (var i = 0; i < runner.lines.length; i++) {
+    var line = runner.lines[i];
+    if (line.type === 'scenario') {
+      if (inScenario) html += '</div>';
+      html += '<div class="scenario-header">' + _esc(line.text) + '</div><div class="checks">';
+      inScenario = true;
+    } else if (line.type === 'pass') {
+      html += '<div class="row"><span class="pass">\u2713 PASS</span> &nbsp;<span class="label">' + _esc(line.text) + '</span></div>';
+    } else if (line.type === 'fail') {
+      html += '<div class="row"><span class="fail">\u2717 FAIL</span> &nbsp;<span class="label">' + _esc(line.text) + '</span>';
+      if (line.detail) html += '<div class="detail">\u2514\u2574 ' + _esc(line.detail) + '</div>';
+      html += '</div>';
+    }
+  }
+  if (inScenario) html += '</div>';
+
+  /* ── Manual summary ── */
+  var allPass = runner.fail === 0;
+  html += '<div class="summary ' + (allPass ? 'all-pass' : 'has-fail') + '">';
+  html += '\u25b6 Manual scenarios: ' + runner.pass + ' passed &nbsp;|&nbsp; ' + runner.fail + ' failed';
+  html += ' &nbsp;|&nbsp; ' + (runner.pass + runner.fail) + ' assertions &nbsp;|&nbsp; ' + TR_SCENARIOS.length + ' scenarios';
+  html += '</div>';
+
+  /* ── Combinatorial stress test section ── */
+  if (stressResult) {
+    html += '<div class="stress-header">Combinatorial Stress Test</div>';
+    html += '<div class="stress-matrix">';
+    html += '6 M3 states \u00d7 8 M4 states \u00d7 4 IOP states = ' + stressResult.total + ' combinations';
+    html += ' &nbsp;&mdash;&nbsp; 5 strict assertions per combination';
+    html += '</div>';
+
+    var stressAllPass = stressResult.fail === 0;
+    html += '<div class="stress-summary ' + (stressAllPass ? 'all-pass' : 'has-fail') + '">';
+    if (stressAllPass) {
+      html += '\u2713 ' + stressResult.total + '/' + stressResult.total + ' combinations passed &mdash; all strict assertions satisfied';
+    } else {
+      html += '\u2717 ' + stressResult.pass + '/' + stressResult.total + ' passed &nbsp;|&nbsp; ' + stressResult.fail + ' combinations failed';
+    }
+    html += '</div>';
+
+    /* Show failed combinations */
+    if (stressResult.failures.length > 0) {
+      for (var fi = 0; fi < stressResult.failures.length; fi++) {
+        var f = stressResult.failures[fi];
+        html += '<div class="stress-fail-block">';
+        html += '<div class="stress-fail-id">' + _esc(f.id) + '</div>';
+        for (var ei = 0; ei < f.errors.length; ei++) {
+          html += '<div class="stress-fail-err">\u2514\u2574 ' + _esc(f.errors[ei]) + '</div>';
+        }
+        html += '</div>';
+      }
+    }
+  }
+
+  /* ── Grand total ── */
+  if (stressResult) {
+    var grandAllPass = runner.fail === 0 && stressResult.fail === 0;
+    var totalAssertions = (runner.pass + runner.fail) + (stressResult.pass + stressResult.fail) * 5;
+    html += '<div class="summary ' + (grandAllPass ? 'all-pass' : 'has-fail') + '" style="margin-top:12px">';
+    html += 'Grand total: ' + (runner.pass + (stressResult.fail === 0 ? stressResult.total : stressResult.pass)) + ' passed';
+    html += ' &nbsp;|&nbsp; ' + (runner.fail + stressResult.fail) + ' failed';
+    html += ' &nbsp;|&nbsp; ' + TR_SCENARIOS.length + ' manual + ' + stressResult.total + ' combinatorial';
+    html += '</div>';
+  }
+
+  el.innerHTML = html;
+}
+
+/* ── Red team output: render interpretation strings for human review ── */
+function _trRenderRedTeam(redteam) {
+  if (typeof document === 'undefined') return;
+  var el = document.getElementById('output');
+  if (!el) return;
+
+  var html = '<div class="redteam-header">Clinical Red Teaming — Interpretation Review</div>';
+  html += '<div class="redteam-note">';
+  html += 'Human review only. Check for overclaiming, awkward phrasing, or legally risky language.';
+  html += ' No automated evaluation applied.';
+  html += '</div>';
+
+  for (var i = 0; i < redteam.length; i++) {
+    var e = redteam[i];
+    html += '<div class="redteam-entry">';
+    html += '<div class="redteam-meta">[' + _esc(e.id) + '] ' + _esc(e.label) + '</div>';
+    html += '<div class="redteam-ic">Classification: ' + _esc(e.ic) + '</div>';
+    html += '<div class="redteam-interp">' + _esc(e.interp) + '</div>';
+    html += '</div>';
+  }
+
+  el.innerHTML += html;
+}
+
+function _esc(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+
+/* ============================================================
+   TR — COMBINATORIAL STRESS TEST
+   ============================================================
+   Generates all M3 × M4 × IOP state combinations and validates
+   structural correctness of computeM5() output.
+
+   Dimensions:
+     M3 (functional):  6 states  (5 classifications + absent)
+     M4 (structural):  8 states  (7 classifications + absent)
+     IOP:              4 states  (above / at / below / unknown)
+     Total:            6 × 8 × 4 = 192 combinations
+
+   Strict assertions per combination (A1–A5):
+     A1  Engine must not throw an exception.
+     A2  integrated_classification must exist, must be a known
+         value, and must not be 'indeterminate' unless both M3
+         and M4 are absent or unclassifiable.
+     A3  integrated_risk must be one of:
+         'low' | 'relevant' | 'high' | 'indeterminate' | 'myopia_limited'
+     A4  integrated_confidence must be one of:
+         'high' | 'medium' | 'low' | 'indeterminate'
+     A5  final_interpretation must be a non-empty string.
+   ============================================================ */
+
+var CS_VALID_RISKS = {
+  'low': true, 'relevant': true, 'high': true,
+  'indeterminate': true, 'myopia_limited': true
+};
+var CS_VALID_CONFIDENCES = {
+  'high': true, 'medium': true, 'low': true, 'indeterminate': true
+};
+var CS_VALID_CLASSIFICATIONS = {
+  'stable_controlled':                              true,
+  'stable_domains_iop_not_assessed':                true,
+  'stable_iop_not_controlled':                      true,
+  'functional_signal_unconfirmed_structurally':     true,
+  'functional_progression_with_structural_support': true,
+  'structural_signal_unconfirmed_functionally':     true,
+  'concordant_progression':                         true,
+  'progression_despite_controlled_iop':             true,
+  'progression_with_iop_above_target':              true,
+  'floor_effect_context':                           true,
+  'signal_limited_structural':                      true,
+  'insufficient_data':                              true,
+  'partial_assessment':                             true,
+  'indeterminate':                                  true  /* catch-all — should never appear */
+};
+
+/* M3 dimension: 5 native classifications + absent */
+var CS_M3_STATES = [
+  { id: 'stable',         cls: 'no_or_slow_progression', dq: 'adequate',     cl: 'high' },
+  { id: 'mod_prog',       cls: 'moderate_progression',   dq: 'adequate',     cl: 'high' },
+  { id: 'fast_prog',      cls: 'fast_progression',       dq: 'adequate',     cl: 'high' },
+  { id: 'very_fast',      cls: 'very_fast_progression',  dq: 'adequate',     cl: 'high' },
+  { id: 'unclassifiable', cls: 'unclassifiable',         dq: 'insufficient', cl: 'low'  },
+  { id: 'absent',         cls: null,                     dq: null,           cl: null   }
+];
+
+/* M4 dimension: 7 native classifications + absent */
+var CS_M4_STATES = [
+  { id: 'stable',         cls: 'stable_trend',                     cr: 'low',           cl: 'high' },
+  { id: 'suspicious',     cls: 'suspicious_trend',                 cr: 'relevant',      cl: 'high' },
+  { id: 'fast_prog',      cls: 'fast_progression',                 cr: 'high',          cl: 'high' },
+  { id: 'floor',          cls: 'floor_effect',                     cr: 'indeterminate', cl: 'low'  },
+  { id: 'myopia',         cls: 'myopia_limited_structural_signal', cr: 'myopia_limited',cl: 'low'  },
+  { id: 'erm',            cls: 'erm_limited_structural_signal',    cr: 'myopia_limited',cl: 'low'  },
+  { id: 'unclassifiable', cls: 'unclassifiable',                   cr: 'indeterminate', cl: 'low'  },
+  { id: 'absent',         cls: null,                               cr: null,            cl: null   }
+];
+
+/* IOP dimension: 4 status paths */
+var CS_IOP_STATES = [
+  { id: 'above',   m1iop: 17.0, m2iop: 17.0 },  /* 17 > range_high 15  → above_target  */
+  { id: 'at',      m1iop: 14.0, m2iop: 14.0 },  /* 14 ∈ [13, 15]       → at_target     */
+  { id: 'below',   m1iop: 11.0, m2iop: 11.0 },  /* 11 < range_low 13   → below_target  */
+  { id: 'unknown', m1iop: null,  m2iop: null  }  /* no IOP provided     → unknown       */
+];
+
+function runCombinatorialStressTest() {
+  var total    = 0;
+  var combPass = 0;
+  var combFail = 0;
+  var failures = [];
+
+  for (var m3i = 0; m3i < CS_M3_STATES.length; m3i++) {
+    var m3s = CS_M3_STATES[m3i];
+
+    for (var m4i = 0; m4i < CS_M4_STATES.length; m4i++) {
+      var m4s = CS_M4_STATES[m4i];
+
+      for (var iopi = 0; iopi < CS_IOP_STATES.length; iopi++) {
+        var iops = CS_IOP_STATES[iopi];
+        total++;
+
+        var comboId = '[' + m3s.id + ' \u00d7 ' + m4s.id + ' \u00d7 IOP:' + iops.id + ']';
+
+        /* When both M3 and M4 are absent or unclassifiable,
+           'indeterminate' classification is permissible (catch-all),
+           though in practice the engine returns 'partial_assessment'
+           or 'insufficient_data' — this flag relaxes A2 for those cells. */
+        var bothAmbiguous =
+          (m3s.cls === null || m3s.id === 'unclassifiable') &&
+          (m4s.cls === null || m4s.id === 'unclassifiable');
+
+        /* Build mock native module outputs */
+        var m1Native = (iops.m1iop !== null) ? _trM1(iops.m1iop) : null;
+        var m2Native = _trM2(iops.m2iop, 13, 15);
+        var m3Native = (m3s.cls !== null) ? _trM3(m3s.cls, m3s.dq, m3s.cl) : null;
+        var m4Native = (m4s.cls !== null) ? _trM4(m4s.cls, m4s.cr, m4s.cl) : null;
+
+        /* Invoke engine */
+        var result = null;
+        var error  = null;
+        try {
+          result = _trRun(m1Native, m2Native, m3Native, m4Native);
+        } catch (e) {
+          error = e;
+        }
+
+        /* Strict assertions */
+        var errs = [];
+
+        /* A1: no exception */
+        if (error) {
+          errs.push('A1 CRASH: ' + String(error));
+        } else {
+          /* A2: integrated_classification validity */
+          var ic = result.integrated_classification;
+          if (!ic) {
+            errs.push('A2 FAIL: integrated_classification is null/undefined');
+          } else if (!CS_VALID_CLASSIFICATIONS[ic]) {
+            errs.push('A2 FAIL: integrated_classification is unrecognized value: "' + ic + '"');
+          } else if (ic === 'indeterminate' && !bothAmbiguous) {
+            errs.push('A2 FAIL: integrated_classification = "indeterminate" (catch-all fired — P1-P8 gap)');
+          }
+
+          /* A3: integrated_risk validity */
+          if (!CS_VALID_RISKS[result.integrated_risk]) {
+            errs.push('A3 FAIL: integrated_risk = "' + result.integrated_risk + '" is not an allowed value');
+          }
+
+          /* A4: integrated_confidence validity */
+          if (!CS_VALID_CONFIDENCES[result.integrated_confidence]) {
+            errs.push('A4 FAIL: integrated_confidence = "' + result.integrated_confidence + '" is not an allowed value');
+          }
+
+          /* A5: final_interpretation non-empty string */
+          if (typeof result.final_interpretation !== 'string' || !result.final_interpretation.trim()) {
+            errs.push('A5 FAIL: final_interpretation is empty or not a string');
+          }
+        }
+
+        if (errs.length === 0) {
+          combPass++;
+        } else {
+          combFail++;
+          failures.push({ id: comboId, errors: errs });
+        }
+      }
+    }
+  }
+
+  return { total: total, pass: combPass, fail: combFail, failures: failures };
+}
+
+
+/* ============================================================
+   TR — MAIN ENTRY POINT
+   ============================================================ */
+
+function runM5Tests() {
+  var runner = new TRRunner();
+
+  console.log('');
+  console.log('============================================================');
+  console.log('  OFTY-Gx-M5 \u00b7 Internal Test Runner \u00b7 v2.1');
+  console.log('  Engine v' + M5_VERSION + ' \u00b7 ' + TR_SCENARIOS.length + ' manual scenarios');
+  console.log('============================================================');
+
+  /* Phase 1 — manual scenarios */
+  for (var i = 0; i < TR_SCENARIOS.length; i++) {
+    runner.runScenario(TR_SCENARIOS[i]);
+  }
+
+  console.log('');
+  console.log('  Manual: ' + runner.pass + ' passed | ' + runner.fail + ' failed');
+
+  /* Phase 2 — combinatorial stress test */
+  console.log('');
+  console.log('============================================================');
+  console.log('  Combinatorial Stress Test');
+  console.log('  6 M3 \u00d7 8 M4 \u00d7 4 IOP = 192 combinations \u00b7 A1\u2013A5 per combo');
+  console.log('============================================================');
+
+  var stressResult = runCombinatorialStressTest();
+
+  if (stressResult.fail === 0) {
+    console.log('  PASS  ' + stressResult.total + '/' + stressResult.total + ' combinations — all assertions satisfied');
+  } else {
+    console.log('  FAIL  ' + stressResult.pass + '/' + stressResult.total + ' passed | ' + stressResult.fail + ' failed');
+    for (var fi = 0; fi < stressResult.failures.length; fi++) {
+      var f = stressResult.failures[fi];
+      console.log('    COMBO ' + f.id);
+      for (var ei = 0; ei < f.errors.length; ei++) {
+        console.log('      \u2514\u2574 ' + f.errors[ei]);
+      }
+    }
+  }
+
+  console.log('');
+  console.log('============================================================');
+  var grandFail = runner.fail + stressResult.fail;
+  console.log('  GRAND TOTAL: ' + (grandFail === 0 ? 'ALL PASS' : grandFail + ' FAILED'));
+  console.log('  Manual: ' + TR_SCENARIOS.length + ' scenarios | ' + (runner.pass + runner.fail) + ' assertions');
+  console.log('  Stress: ' + stressResult.total + ' combinations | 5 assertions each');
+  console.log('============================================================');
+  console.log('');
+
+  _trRender(runner, stressResult);
+
+  /* Phase 3 — clinical red teaming (human wording review) */
+  console.log('');
+  console.log('============================================================');
+  console.log('  Clinical Red Teaming — Interpretation Review');
+  console.log('  Human review only. Check for overclaiming, awkward');
+  console.log('  phrasing, or legally risky language. No auto-eval.');
+  console.log('============================================================');
+  for (var rt = 0; rt < runner.redteam.length; rt++) {
+    var rte = runner.redteam[rt];
+    console.log('');
+    console.log('  [' + rte.id + '] ' + rte.label);
+    console.log('  Classification: ' + rte.ic);
+    console.log('  Interpretation: ' + rte.interp);
+  }
+  console.log('');
+
+  _trRenderRedTeam(runner.redteam);
+
+  return { manual: { pass: runner.pass, fail: runner.fail }, stress: stressResult };
+}
+
+/* Auto-run on page load */
+if (typeof window !== 'undefined') {
+  window.addEventListener('load', runM5Tests);
+} else {
+  /* Node.js / headless compatibility */
+  runM5Tests();
+}
+</script>
+
+</body>
+</html>

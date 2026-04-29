@@ -1,0 +1,116 @@
+{
+  "module_id": "OFTY-Gx-M4",
+  "module_name": "Structural Progression Analysis",
+  "algorithm_version": "1.0.0",
+  "rule_count": 8,
+  "source_categories": {
+    "guideline_derived": 4,
+    "design_derived": 4
+  },
+  "primary_sources": [
+    "Pazos M, Traverso CE, Viswanathan A; European Glaucoma Society. Terminology and guidelines for glaucoma, 6th edition. Br J Ophthalmol 2025;109(Suppl 1):1-212",
+    "Gedde SJ, Vinod K, Wright MM, et al. Primary open-angle glaucoma preferred practice pattern. Ophthalmology 2021;128(1S):P71-P150",
+    "Mwanza JC, Budenz DL. Optical coherence tomography platforms and parameters for glaucoma diagnosis and progression. Curr Opin Ophthalmol 2018;29(2):101-110",
+    "Leung CK, Cheung CY, Weinreb RN, et al. Retinal nerve fiber layer imaging with spectral-domain OCT: a variability and diagnostic performance study. Ophthalmology 2009;116(7):1257-1263"
+  ],
+  "rules": [
+    {
+      "rule_id": "M4-R01",
+      "name": "Data sufficiency check (cascade gate 1)",
+      "category": "guideline_derived",
+      "source": "EGS 2025 (OCT trend analysis requirements)",
+      "specification": "First gate of the hierarchical classification cascade: verifies measurement count and RNFL plausibility before slope analysis is attempted",
+      "thresholds": {
+        "minimum_measurements": "4 reliable scans",
+        "rnfl_plausibility_range": "30-130 microns"
+      },
+      "implementation_note": "If insufficient or implausible: returns 'unclassifiable' with explicit cause. This gate prevents downstream analysis on data that cannot meaningfully support a trend."
+    },
+    {
+      "rule_id": "M4-R02",
+      "name": "Floor effect detection (cascade gate 2A)",
+      "category": "design_derived",
+      "specification": "Detects when global RNFL has reached the measurement floor where further thinning cannot be reliably distinguished from noise",
+      "thresholds": {
+        "floor_threshold": "global RNFL <= 50 microns"
+      },
+      "implementation_note": "When global RNFL is at or near the floor, slope analysis becomes unreliable. The result returns 'floor_effect' as classification with explicit caveat. This is the canonical 'structural ceiling' problem in advanced glaucoma."
+    },
+    {
+      "rule_id": "M4-R03",
+      "name": "Artifact and reliability concern (cascade gate 2B)",
+      "category": "design_derived",
+      "specification": "Detects scan artifacts and reliability concerns that could falsely simulate progression or stability",
+      "thresholds": {
+        "artifact_drop_threshold": ">=4 microns drop with poor reliability indices",
+        "segmentation_concern": "Manual review flag from clinician input"
+      },
+      "implementation_note": "Returns 'suspicious_trend' classification with caveat. Distinct from genuine progression, which is identified at gate 5."
+    },
+    {
+      "rule_id": "M4-R04",
+      "name": "RNFL slope OLS estimation (cascade gate 3)",
+      "category": "evidence_derived",
+      "source": "Standard practice for OCT trend analysis (Mwanza & Budenz 2018, Leung et al. 2009)",
+      "specification": "Estimates the slope of global RNFL thickness over time using ordinary least squares linear regression",
+      "formula": "slope_rnfl_per_year = OLS_regression(time_years, RNFL_um)",
+      "implementation_note": "Uses global RNFL only. Sector-level and GCC analysis are not included in v1.0."
+    },
+    {
+      "rule_id": "M4-R05",
+      "name": "Stable slope check (cascade gate 4)",
+      "category": "guideline_derived",
+      "source": "EGS 2025 + age-related thinning literature",
+      "specification": "Identifies stable trends where slope falls within the age-related thinning range",
+      "thresholds": {
+        "stable_threshold": "slope > -1.0 microns/year (within age-related thinning range)"
+      },
+      "implementation_note": "Above this threshold, the trend is considered stable. Below, the cascade proceeds to gate 5 for further classification."
+    },
+    {
+      "rule_id": "M4-R06",
+      "name": "Slope classification (cascade gate 5)",
+      "category": "guideline_derived",
+      "source": "EGS 2025 (RNFL progression rate thresholds)",
+      "specification": "Classifies slopes that exceed the stable range into specific progression categories",
+      "thresholds": {
+        "stable_trend": "slope > -1.0 microns/year",
+        "suspicious_trend": "-1.5 < slope <= -1.0 microns/year",
+        "fast_progression": "slope <= -1.5 microns/year"
+      },
+      "implementation_note": "Three-tier classification at this gate. Combined with the floor effect, artifact, and signal-limited variants, M4 produces seven possible classification states total."
+    },
+    {
+      "rule_id": "M4-R07",
+      "name": "Myopia-limited signal modifier",
+      "category": "design_derived",
+      "specification": "Modifies the M4 classification when high myopia is documented, reflecting the reduced reliability of RNFL trend analysis in high myopic eyes",
+      "thresholds": {
+        "high_myopia": "Spherical equivalent < -6 diopters or axial length > 26.5 mm"
+      },
+      "logic": [
+        "If high_myopia and slope_rnfl_per_year < -1.0: classification = 'myopia_limited_structural_signal'"
+      ],
+      "implementation_note": "Reflects the clinical principle that progression detection by RNFL is unreliable in high myopia. The result is flagged as signal-limited rather than classified as progression."
+    },
+    {
+      "rule_id": "M4-R08",
+      "name": "ERM-limited signal modifier",
+      "category": "design_derived",
+      "specification": "Modifies the M4 classification when epiretinal membrane (ERM) is documented, reflecting structural distortion that confounds RNFL measurement",
+      "logic": [
+        "If erm_present and slope_rnfl_per_year < -1.0: classification = 'erm_limited_structural_signal'"
+      ],
+      "implementation_note": "Reflects the clinical principle that ERM-induced traction can confound RNFL trend analysis. The result is flagged as signal-limited."
+    }
+  ],
+  "classification_states_summary": [
+    "stable_trend",
+    "suspicious_trend",
+    "fast_progression",
+    "floor_effect",
+    "myopia_limited_structural_signal",
+    "erm_limited_structural_signal",
+    "unclassifiable"
+  ]
+}
