@@ -1,0 +1,103 @@
+{
+  "module_id": "OFTY-Gx-M5",
+  "module_name": "Orchestrator (Cross-Module Integration)",
+  "algorithm_version": "1.0.1",
+  "rule_count": 4,
+  "source_categories": {
+    "guideline_derived": 1,
+    "design_derived": 3
+  },
+  "primary_sources": [
+    "Pazos M, Traverso CE, Viswanathan A; European Glaucoma Society. Terminology and guidelines for glaucoma, 6th edition. Br J Ophthalmol 2025;109(Suppl 1):1-212",
+    "OFTY Module Architecture Standard (MAS) — Section 3.4 (Three-layer integration)"
+  ],
+  "consumed_inputs": {
+    "from_M1": ["adjusted_iop_mmhg", "cct_label", "impact_class", "confidence_level", "caution_flags"],
+    "from_M2": ["stage_label", "current_iop_mmhg", "target_iop_range_low_mmhg", "target_iop_range_high_mmhg", "confidence_level", "caution_flags"],
+    "from_M3": ["classification", "slope_md_per_year", "confidence_level", "caution_flags"],
+    "from_M4": ["classification", "slope_rnfl_per_year", "clinical_risk", "confidence_level", "caution_flags"]
+  },
+  "rules": [
+    {
+      "rule_id": "M5-R01",
+      "name": "Layer 1 — Structural-functional pattern recognition",
+      "category": "design_derived",
+      "specification": "Classifies the relationship between M3 and M4 outputs into one of six pattern types",
+      "patterns": {
+        "concordant_stable": "Both M3 and M4 stable (no progression in either domain)",
+        "concordant_progression": "Both M3 and M4 show progression (any rate combination)",
+        "functional_lead_discordance": "M3 progressing, M4 stable",
+        "structural_lead_discordance": "M4 progressing, M3 stable",
+        "partial_assessment": "One domain unclassifiable, other domain classified",
+        "insufficient_data": "Both domains unclassifiable, or critical inputs missing"
+      },
+      "implementation_note": "Layer 1 operates on the discrete classification states produced by M3 (5 states) and M4 (7 states). Discordance is flagged but not algorithmically resolved — clinical judgement is preserved as primary."
+    },
+    {
+      "rule_id": "M5-R02",
+      "name": "Layer 2 — IOP status overlay",
+      "category": "guideline_derived",
+      "source": "EGS 2025 (target IOP achievement assessment)",
+      "specification": "Contextualizes the Layer 1 pattern by IOP status relative to target, computed from M1 and M2 outputs",
+      "iop_states": {
+        "at_target": "current_iop_mmhg within [target_iop_range_low, target_iop_range_high]",
+        "above_target": "current_iop_mmhg > target_iop_range_high",
+        "below_target": "current_iop_mmhg < target_iop_range_low",
+        "unknown": "Either current_iop_mmhg or target range is missing"
+      },
+      "integration_logic": [
+        "Pattern + IOP state combine into integrated_classification (e.g., 'stable_controlled', 'progression_with_iop_above_target', 'floor_effect_context')",
+        "21 distinct outcome family branches mapped from the Cartesian product of pattern and IOP state",
+        "Risk tier assigned based on combined pattern and IOP context (low/moderate/high/indeterminate)"
+      ],
+      "implementation_note": "Layer 2 enforces clinical invariants: e.g., concordant_progression with above_target must produce high-risk tier; floor_effect with progression must retain functional-driven framing."
+    },
+    {
+      "rule_id": "M5-R03",
+      "name": "Layer 3 — Confidence adjustment",
+      "category": "design_derived",
+      "specification": "Derives integrated confidence from minimum of upstream module confidences plus penalty rules for specific contexts",
+      "logic": [
+        "Base confidence = min(M1.confidence, M2.confidence, M3.confidence, M4.confidence)",
+        "Penalty -1 tier if structural-functional discordance detected",
+        "Penalty -1 tier if floor effect or signal-limited modifiers active",
+        "Penalty -1 tier if any caution flag from upstream modules suggests reduced reliability",
+        "Cap at 'low' (cannot go below)"
+      ],
+      "implementation_note": "Confidence reflects the completeness and quality of the data stream. Stage override or current IOP edit by clinician do not trigger penalty (clinician input is treated as ground truth for engine execution)."
+    },
+    {
+      "rule_id": "M5-R04",
+      "name": "Provenance and audit trail",
+      "category": "design_derived",
+      "specification": "Records the source of every input used by the orchestrator in the logic_trace, enabling full auditability",
+      "provenance_object_per_module": {
+        "source": "imported | manual | imported_with_override | imported_with_iop_edit | excluded",
+        "source_module_id": "OFTY-Gx-Mn (when imported)",
+        "source_algorithm_version": "x.y.z (when imported)",
+        "import_timestamp": "ISO 8601 (when imported)",
+        "manual_entry_timestamp": "ISO 8601 (when manual)",
+        "m5_stage_override": {
+          "active": "true|false",
+          "from": "original_stage_from_M2",
+          "to": "override_stage",
+          "reason": "free text up to 200 chars"
+        },
+        "m5_current_iop_edited": {
+          "active": "true|false",
+          "original_iop_mmhg": "value from M2.inputs",
+          "edited_iop_mmhg": "clinician-edited value used in Layer 2"
+        }
+      },
+      "implementation_note": "Provenance is added in v1.0.1 as additive output schema enrichment (per MAS S1.3 patch-level rules). Existing v1.0.0 fields are preserved unchanged. JSON consumers that ignore unknown keys continue to function without modification."
+    }
+  ],
+  "verification_summary": {
+    "manual_archetypal_scenarios": 23,
+    "manual_assertions": 146,
+    "combinatorial_configurations": 192,
+    "combinatorial_axes": "M3 (6 states) × M4 (8 states) × IOP-vs-target (4 states)",
+    "total_configurations": 215,
+    "verification_result_v1_0_1": "215/215 configurations passed"
+  }
+}

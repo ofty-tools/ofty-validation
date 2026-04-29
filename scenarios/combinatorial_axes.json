@@ -1,0 +1,145 @@
+{
+  "schema_version": "1.0",
+  "module_target": "OFTY-Gx-M5",
+  "configuration_count": 192,
+  "verification_result_v1_0_1": "192/192 configurations passed",
+  "description": "Cartesian product axis definitions for combinatorial verification of the M5 Orchestrator integration logic. The configuration space is the product of three orthogonal axes representing upstream module classification states. Each configuration is evaluated against a structural assertion set encoding the logical invariants the orchestrator must respect.",
+  "computation": "6 (M3 states) × 8 (M4 states) × 4 (IOP states) = 192 configurations",
+  "axes": {
+    "M3_functional_progression_states": {
+      "axis_id": "axis_M3",
+      "state_count": 6,
+      "states": [
+        {
+          "id": "M3_stable",
+          "label": "no_or_slow_progression",
+          "description": "MD slope > -0.5 dB/year"
+        },
+        {
+          "id": "M3_slow",
+          "label": "moderate_progression",
+          "description": "-1.0 < MD slope <= -0.5 dB/year"
+        },
+        {
+          "id": "M3_fast",
+          "label": "fast_progression",
+          "description": "-2.0 < MD slope <= -1.0 dB/year"
+        },
+        {
+          "id": "M3_very_fast",
+          "label": "very_fast_progression",
+          "description": "MD slope <= -2.0 dB/year"
+        },
+        {
+          "id": "M3_NA_a",
+          "label": "unclassifiable_insufficient_data",
+          "description": "Insufficient visits or short series"
+        },
+        {
+          "id": "M3_NA_bcd",
+          "label": "unclassifiable_combined",
+          "description": "Combined low-reliability or systematic-concern variants"
+        }
+      ]
+    },
+    "M4_structural_progression_states": {
+      "axis_id": "axis_M4",
+      "state_count": 8,
+      "states": [
+        {
+          "id": "M4_stable",
+          "label": "stable_trend",
+          "description": "RNFL slope > -1.0 microns/year"
+        },
+        {
+          "id": "M4_suspicious",
+          "label": "suspicious_trend",
+          "description": "Trend present but borderline or with reliability concerns"
+        },
+        {
+          "id": "M4_fast",
+          "label": "fast_progression",
+          "description": "RNFL slope <= -1.5 microns/year"
+        },
+        {
+          "id": "M4_floor",
+          "label": "floor_effect",
+          "description": "Global RNFL <= 50 microns; slope analysis unreliable"
+        },
+        {
+          "id": "M4_myopia",
+          "label": "myopia_limited_structural_signal",
+          "description": "High myopia with RNFL trend below -1.0 microns/year"
+        },
+        {
+          "id": "M4_erm",
+          "label": "erm_limited_structural_signal",
+          "description": "ERM confounding RNFL trend"
+        },
+        {
+          "id": "M4_NA_calculability",
+          "label": "unclassifiable_calculability",
+          "description": "Slope not calculable (insufficient series)"
+        },
+        {
+          "id": "M4_NA_artifact",
+          "label": "unclassifiable_artifact_or_data",
+          "description": "Implausible RNFL values or scan artifact concern"
+        }
+      ]
+    },
+    "IOP_status_states": {
+      "axis_id": "axis_IOP",
+      "state_count": 4,
+      "states": [
+        {
+          "id": "IOP_at_target",
+          "label": "at_target",
+          "description": "current_iop_mmhg within [target_iop_range_low, target_iop_range_high]"
+        },
+        {
+          "id": "IOP_above",
+          "label": "above_target",
+          "description": "current_iop_mmhg > target_iop_range_high"
+        },
+        {
+          "id": "IOP_below",
+          "label": "below_target",
+          "description": "current_iop_mmhg < target_iop_range_low"
+        },
+        {
+          "id": "IOP_unknown",
+          "label": "unknown",
+          "description": "Either current_iop_mmhg or target range is missing"
+        }
+      ]
+    }
+  },
+  "structural_invariants_per_cell": {
+    "description": "Each of the 192 cells is evaluated against 5 structural assertions (A1-A5)",
+    "assertions": {
+      "A1": "integrated_classification is non-empty and is one of the 21 declared outcome family branches",
+      "A2": "integrated_risk is one of {low, moderate, high, indeterminate}",
+      "A3": "integrated_confidence is one of {high, moderate, low}",
+      "A4": "Logical coherence: concordant_progression with above_target produces high risk; floor_effect must not silently downgrade functional progression; insufficient_data must not be forced to a classification",
+      "A5": "Confidence respects min(upstream_confidences) plus documented penalty rules"
+    },
+    "total_assertions_combinatorial": "192 cells × 5 assertions = 960 assertion checks"
+  },
+  "outcome_family_distribution": {
+    "concordant_stable_branches": 8,
+    "concordant_progression_branches": 4,
+    "functional_lead_discordance_branches": 2,
+    "structural_lead_discordance_branches": 2,
+    "floor_effect_context_branches": 2,
+    "signal_limited_branches": 1,
+    "partial_assessment_branches": 1,
+    "insufficient_data_branches": 1,
+    "total_outcome_families": 21,
+    "note": "Distribution reflects clinically meaningful integration patterns; concordant patterns cluster, discordance patterns are explicitly differentiated, and signal-limited contexts retain their structural caveats."
+  },
+  "pass_criterion": {
+    "rule": "A configuration passes only when ALL 5 structural assertions are satisfied. Partial satisfaction does not count as a pass.",
+    "rationale": "Strict pass criterion ensures the orchestrator behavior conforms to specification across the full state space of upstream classification combinations."
+  }
+}

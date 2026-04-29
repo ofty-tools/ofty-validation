@@ -1,0 +1,107 @@
+{
+  "module_id": "OFTY-Gx-M3",
+  "module_name": "Functional Progression Analysis",
+  "algorithm_version": "2.0.7",
+  "rule_count": 7,
+  "source_categories": {
+    "guideline_derived": 5,
+    "design_derived": 2
+  },
+  "primary_sources": [
+    "Pazos M, Traverso CE, Viswanathan A; European Glaucoma Society. Terminology and guidelines for glaucoma, 6th edition. Br J Ophthalmol 2025;109(Suppl 1):1-212",
+    "Gedde SJ, Vinod K, Wright MM, et al. Primary open-angle glaucoma preferred practice pattern. Ophthalmology 2021;128(1S):P71-P150",
+    "Chauhan BC, Garway-Heath DF, Goñi FJ, et al. Practical recommendations for measuring rates of visual field change in glaucoma. Br J Ophthalmol 2008;92(4):569-573",
+    "Heijl A, Leske MC, Bengtsson B, et al. Reduction of intraocular pressure and glaucoma progression: results from the Early Manifest Glaucoma Trial. Arch Ophthalmol 2002;120(10):1268-1279"
+  ],
+  "rules": [
+    {
+      "rule_id": "M3-R01",
+      "name": "MD slope OLS estimation",
+      "category": "evidence_derived",
+      "source": "Chauhan et al. 2008 — practical recommendations for VF rate of change",
+      "specification": "Estimates the slope of mean deviation (MD) over time using ordinary least squares linear regression",
+      "formula": "slope_md_per_year = OLS_regression(time_years, MD_dB)",
+      "implementation_note": "Uses global MD only. Focal progression and pointwise analysis are not captured."
+    },
+    {
+      "rule_id": "M3-R02",
+      "name": "Progression rate classification",
+      "category": "guideline_derived",
+      "source": "EGS 2025 + Chauhan 2008 progression rate thresholds",
+      "specification": "Classifies the MD slope into four progression categories",
+      "thresholds": {
+        "no_or_slow_progression": "slope > -0.5 dB/year",
+        "moderate_progression": "-1.0 < slope <= -0.5 dB/year",
+        "fast_progression": "-2.0 < slope <= -1.0 dB/year",
+        "very_fast_progression": "slope <= -2.0 dB/year",
+        "unclassifiable": "Insufficient data, low reliability series, or insufficient time span"
+      },
+      "implementation_note": "Threshold classification follows EGS 2025 recommendations. Five-state output preserved for M5 consumption."
+    },
+    {
+      "rule_id": "M3-R03",
+      "name": "Reliability-adjusted analysis",
+      "category": "guideline_derived",
+      "source": "EGS 2025 (VF reliability requirements)",
+      "specification": "Adjusts confidence in slope estimation based on overall reliability of the series",
+      "thresholds": {
+        "good": "All visits with high reliability indices (FN <15%, FP <15%, FL <15%)",
+        "borderline": "Mixed reliability across visits",
+        "low": "Multiple low-reliability visits or systematic learning effect concern"
+      },
+      "implementation_note": "Low reliability does not block classification but reduces confidence and may push borderline cases to 'unclassifiable'."
+    },
+    {
+      "rule_id": "M3-R04",
+      "name": "Series length minimum",
+      "category": "guideline_derived",
+      "source": "EGS 2025 + Chauhan 2008 (minimum series for reliable rate)",
+      "specification": "Sets data sufficiency requirements before slope classification",
+      "thresholds": {
+        "minimum_visits": "5 reliable visits",
+        "minimum_time_span": "2 years"
+      },
+      "implementation_note": "Below these thresholds, slope is not classified and the result is 'unclassifiable' with explicit cause flag."
+    },
+    {
+      "rule_id": "M3-R05",
+      "name": "Statistical significance assessment",
+      "category": "evidence_derived",
+      "source": "Chauhan 2008 (95% confidence interval for slope)",
+      "specification": "Computes 95% CI of the slope and flags whether the slope is statistically distinguishable from zero",
+      "logic": [
+        "If 95% CI excludes zero AND slope worse than -0.5 dB/year: 'significant'",
+        "If 95% CI includes zero: 'not_significant'",
+        "If insufficient observations for CI computation: 'not_assessable'"
+      ],
+      "implementation_note": "Statistical significance modulates confidence but does not override the rate-based classification."
+    },
+    {
+      "rule_id": "M3-R06",
+      "name": "Caution flags for context",
+      "category": "design_derived",
+      "specification": "Sets caution flags for clinically relevant contexts that affect interpretation",
+      "flags": [
+        "limited_visits — fewer than 7 visits available",
+        "short_series — time span under 3 years",
+        "borderline_reliability — multiple borderline-reliability visits",
+        "central_threat_active — clinical modifier from M2",
+        "monocular_status — clinical modifier from M2",
+        "oscillation_detected — non-monotonic pattern within series"
+      ],
+      "implementation_note": "Caution flags are non-blocking but propagate to M5 for confidence adjustment."
+    },
+    {
+      "rule_id": "M3-R07",
+      "name": "Confidence level derivation",
+      "category": "design_derived",
+      "specification": "Assigns M3 confidence based on data sufficiency, reliability, and statistical significance",
+      "logic": [
+        "If reliability='good' AND sufficient_data AND significant: confidence = 'high'",
+        "If reliability='borderline' OR caution_flags present: confidence = 'moderate'",
+        "If reliability='low' OR insufficient_data OR not_assessable: confidence = 'low'"
+      ],
+      "implementation_note": "M3 confidence is propagated to M5 as one of the inputs determining the integrated confidence level."
+    }
+  ]
+}

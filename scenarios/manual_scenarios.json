@@ -1,0 +1,415 @@
+{
+  "schema_version": "1.0",
+  "module_target": "OFTY-Gx-M5",
+  "scenario_count": 23,
+  "total_assertions": 146,
+  "verification_result_v1_0_1": "23/23 scenarios passed (146/146 assertions)",
+  "description": "Manually curated archetypal verification scenarios for the M5 Orchestrator. Each scenario represents a clinically meaningful pattern in glaucoma monitoring, with a documented rationale, a constructed input set producing the required upstream module classifications, and an assertion set defining the expected output.",
+  "families": {
+    "concordant_stable": "Both M3 and M4 stable, varying IOP context",
+    "concordant_progression": "Both M3 and M4 progressing, varying severity and IOP",
+    "functional_lead_discordance": "M3 progressing, M4 stable",
+    "structural_lead_discordance": "M4 progressing, M3 stable",
+    "floor_effect_contexts": "M4 floor-effect blocked, with and without M3 progression",
+    "signal_limited_structural": "M4 modifier-limited (high myopia, ERM)",
+    "insufficient_data_conditions": "Various NA-variant combinations",
+    "adapter_envelope_edge_cases": "Boundary conditions on input adapter",
+    "confidence_related": "Confidence-ceiling and confidence-penalty triggers"
+  },
+  "scenarios": [
+    {
+      "scenario_id": "S01",
+      "family": "concordant_stable",
+      "name": "Stable both domains, IOP at target",
+      "rationale": "Baseline well-controlled glaucoma — should produce low-risk integrated assessment",
+      "inputs": {
+        "M3_classification": "no_or_slow_progression",
+        "M4_classification": "stable_trend",
+        "IOP_status": "at_target"
+      },
+      "expected_outputs": {
+        "integrated_classification": "stable_controlled",
+        "integrated_risk": "low",
+        "pattern_type": "concordant_stable",
+        "confidence_level_min": "high"
+      },
+      "assertion_count": 7
+    },
+    {
+      "scenario_id": "S02",
+      "family": "concordant_stable",
+      "name": "Stable both domains, IOP above target",
+      "rationale": "Stable now, but IOP not at target — risk concern even without progression",
+      "inputs": {
+        "M3_classification": "no_or_slow_progression",
+        "M4_classification": "stable_trend",
+        "IOP_status": "above_target"
+      },
+      "expected_outputs": {
+        "integrated_classification": "stable_with_iop_above_target",
+        "integrated_risk": "moderate",
+        "pattern_type": "concordant_stable",
+        "confidence_level_min": "high"
+      },
+      "assertion_count": 6
+    },
+    {
+      "scenario_id": "S03",
+      "family": "concordant_stable",
+      "name": "Stable both domains, IOP unknown (no anchor)",
+      "rationale": "Stable but IOP context unknown — degraded confidence",
+      "inputs": {
+        "M3_classification": "no_or_slow_progression",
+        "M4_classification": "stable_trend",
+        "IOP_status": "unknown"
+      },
+      "expected_outputs": {
+        "integrated_classification": "stable_domains_iop_not_assessed",
+        "integrated_risk": "indeterminate",
+        "pattern_type": "concordant_stable",
+        "confidence_level_max": "moderate"
+      },
+      "assertion_count": 5
+    },
+    {
+      "scenario_id": "S04",
+      "family": "concordant_progression",
+      "name": "Both moderate progression, IOP at target",
+      "rationale": "Progression despite IOP control — high concern, may need lower target",
+      "inputs": {
+        "M3_classification": "moderate_progression",
+        "M4_classification": "fast_progression",
+        "IOP_status": "at_target"
+      },
+      "expected_outputs": {
+        "integrated_classification": "progression_at_target",
+        "integrated_risk": "high",
+        "pattern_type": "concordant_progression"
+      },
+      "assertion_count": 7
+    },
+    {
+      "scenario_id": "S05",
+      "family": "concordant_progression",
+      "name": "Both fast progression, IOP above target",
+      "rationale": "Rapid progression with elevated IOP — most aggressive integrated risk tier",
+      "inputs": {
+        "M3_classification": "fast_progression",
+        "M4_classification": "fast_progression",
+        "IOP_status": "above_target"
+      },
+      "expected_outputs": {
+        "integrated_classification": "progression_with_iop_above_target",
+        "integrated_risk": "high",
+        "pattern_type": "concordant_progression",
+        "confidence_level_min": "high"
+      },
+      "assertion_count": 7
+    },
+    {
+      "scenario_id": "S06",
+      "family": "concordant_progression",
+      "name": "Both very_fast progression, IOP at target",
+      "rationale": "Rapid progression in both domains — high-risk integrated assessment regardless of IOP",
+      "inputs": {
+        "M3_classification": "very_fast_progression",
+        "M4_classification": "fast_progression",
+        "IOP_status": "at_target"
+      },
+      "expected_outputs": {
+        "integrated_classification": "rapid_progression_target_achieved",
+        "integrated_risk": "high",
+        "pattern_type": "concordant_progression"
+      },
+      "assertion_count": 7
+    },
+    {
+      "scenario_id": "S07",
+      "family": "concordant_progression",
+      "name": "Slow progression both, IOP unknown",
+      "rationale": "Mild concordant progression without IOP anchor — moderate risk with confidence penalty",
+      "inputs": {
+        "M3_classification": "moderate_progression",
+        "M4_classification": "suspicious_trend",
+        "IOP_status": "unknown"
+      },
+      "expected_outputs": {
+        "integrated_classification": "progression_iop_not_assessed",
+        "integrated_risk": "moderate",
+        "pattern_type": "concordant_progression",
+        "confidence_level_max": "moderate"
+      },
+      "assertion_count": 6
+    },
+    {
+      "scenario_id": "S08",
+      "family": "functional_lead_discordance",
+      "name": "M3 progressing, M4 stable, IOP at target",
+      "rationale": "Functional progression without structural confirmation — discordance triggers confidence penalty",
+      "inputs": {
+        "M3_classification": "fast_progression",
+        "M4_classification": "stable_trend",
+        "IOP_status": "at_target"
+      },
+      "expected_outputs": {
+        "integrated_classification": "functional_lead_progression",
+        "integrated_risk": "moderate",
+        "pattern_type": "functional_lead_discordance",
+        "confidence_level_max": "moderate"
+      },
+      "assertion_count": 7
+    },
+    {
+      "scenario_id": "S09",
+      "family": "functional_lead_discordance",
+      "name": "M3 progressing, M4 stable, IOP above target",
+      "rationale": "Functional progression with elevated IOP — discordance plus IOP context elevates risk despite structural stability",
+      "inputs": {
+        "M3_classification": "moderate_progression",
+        "M4_classification": "stable_trend",
+        "IOP_status": "above_target"
+      },
+      "expected_outputs": {
+        "integrated_classification": "functional_progression_with_iop_above_target",
+        "integrated_risk": "high",
+        "pattern_type": "functional_lead_discordance",
+        "confidence_level_max": "moderate"
+      },
+      "assertion_count": 7
+    },
+    {
+      "scenario_id": "S10",
+      "family": "structural_lead_discordance",
+      "name": "M4 progressing, M3 stable, IOP at target",
+      "rationale": "Structural progression without functional confirmation — discordance triggers confidence penalty",
+      "inputs": {
+        "M3_classification": "no_or_slow_progression",
+        "M4_classification": "fast_progression",
+        "IOP_status": "at_target"
+      },
+      "expected_outputs": {
+        "integrated_classification": "structural_lead_progression",
+        "integrated_risk": "moderate",
+        "pattern_type": "structural_lead_discordance",
+        "confidence_level_max": "moderate"
+      },
+      "assertion_count": 7
+    },
+    {
+      "scenario_id": "S11",
+      "family": "structural_lead_discordance",
+      "name": "M4 progressing, M3 stable, IOP above target",
+      "rationale": "Structural progression with elevated IOP — combined discordance and IOP context elevate risk",
+      "inputs": {
+        "M3_classification": "no_or_slow_progression",
+        "M4_classification": "fast_progression",
+        "IOP_status": "above_target"
+      },
+      "expected_outputs": {
+        "integrated_classification": "structural_progression_with_iop_above_target",
+        "integrated_risk": "high",
+        "pattern_type": "structural_lead_discordance",
+        "confidence_level_max": "moderate"
+      },
+      "assertion_count": 7
+    },
+    {
+      "scenario_id": "S12",
+      "family": "floor_effect_contexts",
+      "name": "M4 floor effect, M3 stable, IOP at target",
+      "rationale": "Advanced glaucoma with structural floor — M3 stability is the only progression signal available",
+      "inputs": {
+        "M3_classification": "no_or_slow_progression",
+        "M4_classification": "floor_effect",
+        "IOP_status": "at_target"
+      },
+      "expected_outputs": {
+        "integrated_classification": "floor_effect_context",
+        "integrated_risk": "moderate",
+        "pattern_type": "floor_effect_context"
+      },
+      "assertion_count": 6
+    },
+    {
+      "scenario_id": "S13",
+      "family": "floor_effect_contexts",
+      "name": "M4 floor effect, M3 progressing, IOP at target",
+      "rationale": "Floor effect must not silently downgrade functional progression signal — high risk preserved",
+      "inputs": {
+        "M3_classification": "fast_progression",
+        "M4_classification": "floor_effect",
+        "IOP_status": "at_target"
+      },
+      "expected_outputs": {
+        "integrated_classification": "floor_effect_with_functional_progression",
+        "integrated_risk": "high",
+        "pattern_type": "floor_effect_context",
+        "invariant_check": "Floor effect must not downgrade functional progression"
+      },
+      "assertion_count": 8
+    },
+    {
+      "scenario_id": "S14",
+      "family": "floor_effect_contexts",
+      "name": "M4 floor effect, M3 progressing, IOP above target",
+      "rationale": "Floor effect plus functional progression plus IOP not at target — most concerning advanced-glaucoma scenario",
+      "inputs": {
+        "M3_classification": "fast_progression",
+        "M4_classification": "floor_effect",
+        "IOP_status": "above_target"
+      },
+      "expected_outputs": {
+        "integrated_classification": "floor_effect_with_functional_progression_iop_above",
+        "integrated_risk": "high",
+        "pattern_type": "floor_effect_context"
+      },
+      "assertion_count": 7
+    },
+    {
+      "scenario_id": "S15",
+      "family": "signal_limited_structural",
+      "name": "M4 myopia-limited, M3 stable, IOP at target",
+      "rationale": "Myopic patient with reliable functional stability — structural signal is unreliable but functional is informative",
+      "inputs": {
+        "M3_classification": "no_or_slow_progression",
+        "M4_classification": "myopia_limited_structural_signal",
+        "IOP_status": "at_target"
+      },
+      "expected_outputs": {
+        "integrated_classification": "stable_with_signal_limited_structural",
+        "integrated_risk": "low",
+        "pattern_type": "partial_assessment"
+      },
+      "assertion_count": 6
+    },
+    {
+      "scenario_id": "S16",
+      "family": "signal_limited_structural",
+      "name": "M4 ERM-limited, M3 progressing, IOP above target",
+      "rationale": "ERM confounds RNFL but functional progression is clear — functional signal drives integrated assessment",
+      "inputs": {
+        "M3_classification": "moderate_progression",
+        "M4_classification": "erm_limited_structural_signal",
+        "IOP_status": "above_target"
+      },
+      "expected_outputs": {
+        "integrated_classification": "functional_progression_signal_limited_structural",
+        "integrated_risk": "high",
+        "pattern_type": "partial_assessment"
+      },
+      "assertion_count": 7
+    },
+    {
+      "scenario_id": "S17",
+      "family": "insufficient_data_conditions",
+      "name": "M3 unclassifiable, M4 unclassifiable",
+      "rationale": "Both domains unable to produce classification — must be propagated as insufficient_data",
+      "inputs": {
+        "M3_classification": "unclassifiable",
+        "M4_classification": "unclassifiable",
+        "IOP_status": "any"
+      },
+      "expected_outputs": {
+        "integrated_classification": "insufficient_data",
+        "integrated_risk": "indeterminate",
+        "pattern_type": "insufficient_data"
+      },
+      "assertion_count": 5
+    },
+    {
+      "scenario_id": "S18",
+      "family": "insufficient_data_conditions",
+      "name": "M3 unclassifiable, M4 stable, IOP at target",
+      "rationale": "Partial assessment with one domain available — must be flagged as partial",
+      "inputs": {
+        "M3_classification": "unclassifiable",
+        "M4_classification": "stable_trend",
+        "IOP_status": "at_target"
+      },
+      "expected_outputs": {
+        "integrated_classification": "partial_assessment_structural_only",
+        "integrated_risk": "low",
+        "pattern_type": "partial_assessment"
+      },
+      "assertion_count": 6
+    },
+    {
+      "scenario_id": "S19",
+      "family": "insufficient_data_conditions",
+      "name": "M2 missing (no IOP anchor), M3 and M4 stable",
+      "rationale": "Without M2, IOP-vs-target cannot be assessed — must be flagged",
+      "inputs": {
+        "M2_status": "missing",
+        "M3_classification": "no_or_slow_progression",
+        "M4_classification": "stable_trend"
+      },
+      "expected_outputs": {
+        "integrated_classification": "stable_domains_iop_not_assessed",
+        "integrated_risk": "indeterminate",
+        "pattern_type": "concordant_stable"
+      },
+      "assertion_count": 6
+    },
+    {
+      "scenario_id": "S20",
+      "family": "adapter_envelope_edge_cases",
+      "name": "Empty input envelope",
+      "rationale": "Defensive boundary: M5 must reject empty envelope and return invalid_input flag",
+      "inputs": {
+        "envelope": "empty"
+      },
+      "expected_outputs": {
+        "integrated_classification": "invalid_input_envelope",
+        "summary_flags": ["invalid_input_envelope"]
+      },
+      "assertion_count": 4
+    },
+    {
+      "scenario_id": "S21",
+      "family": "adapter_envelope_edge_cases",
+      "name": "Eye mismatch across modules",
+      "rationale": "M3 reports OD and M4 reports OS — orchestrator must refuse integration with explicit error",
+      "inputs": {
+        "M3_eye": "OD",
+        "M4_eye": "OS"
+      },
+      "expected_outputs": {
+        "integrated_classification": "eye_mismatch_refused",
+        "error_message": "Eye mismatch detected"
+      },
+      "assertion_count": 4
+    },
+    {
+      "scenario_id": "S22",
+      "family": "confidence_related",
+      "name": "All upstream low confidence — confidence ceiling enforcement",
+      "rationale": "If all upstream modules report low confidence, integrated confidence cannot exceed low",
+      "inputs": {
+        "M1_confidence": "low",
+        "M2_confidence": "low",
+        "M3_confidence": "low",
+        "M4_confidence": "low"
+      },
+      "expected_outputs": {
+        "integrated_confidence": "low"
+      },
+      "assertion_count": 5
+    },
+    {
+      "scenario_id": "S23",
+      "family": "confidence_related",
+      "name": "Discordance penalty triggers confidence downgrade",
+      "rationale": "All upstream modules report high confidence, but structural-functional discordance triggers a -1 tier penalty",
+      "inputs": {
+        "M3_classification": "fast_progression",
+        "M4_classification": "stable_trend",
+        "all_upstream_confidence": "high"
+      },
+      "expected_outputs": {
+        "integrated_confidence": "moderate",
+        "penalty_reason": "discordance_detected"
+      },
+      "assertion_count": 6
+    }
+  ]
+}
