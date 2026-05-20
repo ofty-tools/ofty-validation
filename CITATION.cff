@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+title: OFTY Glaucoma Suite — Verification Repository
+abstract: >-
+  Verification infrastructure for the OFTY Glaucoma Suite, a deterministic
+  rule-based clinical decision support framework for structured glaucoma
+  monitoring. Contains the test runner, rule schemas (31 rules across 5
+  modules), 23 manual archetypal scenarios, and 192 combinatorial
+  configurations used to produce the 215-configuration verification result
+  reported in the accompanying methodological paper.
+authors:
+  - family-names: Ragosta
+    given-names: Andrea
+    name-suffix: MD, FEBO
+    email: dott.andrea.ragosta@gmail.com
+    affiliation: Admiravisión Ophthalmology Department, Clínica Sagrada Familia, Barcelona, Spain
+    orcid: 'https://orcid.org/0000-0002-7024-1569'
+type: software
+version: 1.0.0-paper2
+date-released: '2026-04-29'
+license: MIT
+repository-code: 'https://github.com/ofty-tools/ofty-validation'
+url: 'https://ofty.vercel.app'
+keywords:
+  - clinical decision support
+  - glaucoma
+  - deterministic rule-based reasoning
+  - in-silico verification
+  - combinatorial verification
+  - ophthalmology informatics
+  - reference implementation
+preferred-citation:
+  type: article
+  title: >-
+    A Deterministic Rule-Based Architecture for Glaucoma Decision Support:
+    Design and Combinatorial Verification
+  authors:
+    - family-names: Ragosta
+      given-names: Andrea
+      name-suffix: MD, FEBO
+      affiliation: Admiravisión Ophthalmology Department, Clínica Sagrada Familia, Barcelona, Spain
+      orcid: 'https://orcid.org/0000-0002-7024-1569'
+  journal: Medical & Biological Engineering & Computing
+  year: 2026
+  notes: Submitted to Medical & Biological Engineering & Computing (Springer). Under review at the time of this repository update.
