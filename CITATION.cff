@@ -1,12 +1,18 @@
 cff-version: 1.2.0
-title: OFTY Glaucoma Suite — Verification Repository
+message: >-
+  If you use these materials, please cite the article listed under
+  preferred-citation and this repository release.
+title: OFTY Glaucoma Suite — Paper 2 repository (historical test materials and revision candidate)
 abstract: >-
-  Verification infrastructure for the OFTY Glaucoma Suite, a deterministic
-  rule-based clinical decision support framework for structured glaucoma
-  monitoring. Contains the test runner, rule schemas (31 rules across 5
-  modules), 23 manual archetypal scenarios, and 192 combinatorial
-  configurations used to produce the 215-configuration verification result
-  reported in the accompanying methodological paper.
+  Materials for a manuscript on a deterministic rule-based glaucoma
+  decision-support suite (OFTY). The repository keeps the historical test
+  runner H1 (embedded M5 engine 1.0.0; 23 developer-defined scenarios with
+  146 expected assertion instances and 192 combinations checked with five
+  predicates) and the descriptive files published at submission, and adds a
+  post-submission revision candidate (G2-E) of the M1-M5 source with its
+  synthetic test evidence and a reproduction kit. Research prototype; not
+  intended or cleared for clinical use; clinical validity and regulatory
+  status not established by these tests.
 authors:
   - family-names: Ragosta
     given-names: Andrea
@@ -15,19 +21,16 @@ authors:
     affiliation: Admiravisión Ophthalmology Department, Clínica Sagrada Familia, Barcelona, Spain
     orcid: 'https://orcid.org/0000-0002-7024-1569'
 type: software
-version: 1.0.0-paper2
-date-released: '2026-04-29'
+version: 1.1.0-paper2-r1
 license: MIT
 repository-code: 'https://github.com/ofty-tools/ofty-validation'
-url: 'https://ofty.vercel.app'
 keywords:
   - clinical decision support
   - glaucoma
   - deterministic rule-based reasoning
-  - in-silico verification
-  - combinatorial verification
+  - software testing
+  - reproducibility
   - ophthalmology informatics
-  - reference implementation
 preferred-citation:
   type: article
   title: >-
@@ -39,6 +42,6 @@ preferred-citation:
       name-suffix: MD, FEBO
       affiliation: Admiravisión Ophthalmology Department, Clínica Sagrada Familia, Barcelona, Spain
       orcid: 'https://orcid.org/0000-0002-7024-1569'
-  journal: JMIR Medical Informatics
+  journal: JMIR Formative Research
   year: 2026
-  notes: Under review at JMIR Medical Informatics at the time of this repository update.
+  notes: Manuscript 105677, under major revision at the time of this repository release. Title as submitted; it may change in the revised manuscript.
