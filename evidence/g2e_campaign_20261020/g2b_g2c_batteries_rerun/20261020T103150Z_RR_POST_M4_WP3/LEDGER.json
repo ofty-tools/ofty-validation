@@ -1,0 +1,127 @@
+{
+  "block": "CAPTURE M4 WP3",
+  "objects": [
+    "POST"
+  ],
+  "started_utc": "2026-10-20T10:31:51.495Z",
+  "node": "v22.22.0",
+  "browser_version": "141.0.7390.37",
+  "reference_sha256": "7c0b3e14171f38c42b1910452a4bb0795100dc57ef19c363c2aef2722d10e520",
+  "records": [
+    {
+      "id": "WP3-p0470",
+      "object": "POST",
+      "file": "POST_WP3-p0470.json",
+      "harness_error": null,
+      "label": "Stable"
+    },
+    {
+      "id": "WP3-p0530",
+      "object": "POST",
+      "file": "POST_WP3-p0530.json",
+      "harness_error": null,
+      "label": "Stable"
+    },
+    {
+      "id": "WP3-p0500",
+      "object": "POST",
+      "file": "POST_WP3-p0500.json",
+      "harness_error": null,
+      "label": "Stable"
+    },
+    {
+      "id": "WP3-p04996",
+      "object": "POST",
+      "file": "POST_WP3-p04996.json",
+      "harness_error": null,
+      "label": "Stable"
+    },
+    {
+      "id": "WP3-p0970",
+      "object": "POST",
+      "file": "POST_WP3-p0970.json",
+      "harness_error": null,
+      "label": "Stable"
+    },
+    {
+      "id": "WP3-p1030",
+      "object": "POST",
+      "file": "POST_WP3-p1030.json",
+      "harness_error": null,
+      "label": "Stable"
+    },
+    {
+      "id": "WP3-p09996",
+      "object": "POST",
+      "file": "POST_WP3-p09996.json",
+      "harness_error": null,
+      "label": "Stable"
+    },
+    {
+      "id": "WP3-tiny",
+      "object": "POST",
+      "file": "POST_WP3-tiny.json",
+      "harness_error": null,
+      "label": "Progressing"
+    },
+    {
+      "id": "WP3-const",
+      "object": "POST",
+      "file": "POST_WP3-const.json",
+      "harness_error": null,
+      "label": "Stable"
+    },
+    {
+      "id": "WP3-n2",
+      "object": "POST",
+      "file": "POST_WP3-n2.json",
+      "harness_error": null,
+      "label": "Suspicious trend"
+    },
+    {
+      "id": "WP3-n3",
+      "object": "POST",
+      "file": "POST_WP3-n3.json",
+      "harness_error": null,
+      "label": "Suspicious trend"
+    },
+    {
+      "id": "WP3-n4-pguard",
+      "object": "POST",
+      "file": "POST_WP3-n4-pguard.json",
+      "harness_error": null,
+      "label": "Suspicious trend"
+    },
+    {
+      "id": "WP3-n12",
+      "object": "POST",
+      "file": "POST_WP3-n12.json",
+      "harness_error": null,
+      "label": "Progressing"
+    },
+    {
+      "id": "WP3-n8-moderate",
+      "object": "POST",
+      "file": "POST_WP3-n8-moderate.json",
+      "harness_error": null,
+      "label": "Stable"
+    }
+  ],
+  "tree_POST": {
+    "gate2/index.html": "e258018b8d7999aea23a35ddbaab896a8678518f084883a6efa066746cd79a83",
+    "gate2/semantic.cjs": "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf",
+    "gate2/session.js": "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12",
+    "index.html": "64b3def5554c4188c484246b06899ed18952415747db5ca155951c4a2f8a3526",
+    "iop-cct/index.html": "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a",
+    "m1-advanced/build.manifest.json": "419766a2cbf0da44f5547729d2a8149dae762425f5765172a6af4cdeaaa760d2",
+    "m1-advanced/index.html": "a6cb53b728b707469ae715becfaf295e1b71fdf002221b5a93472d7f694e87fe",
+    "m1-advanced/m1_advanced_bundle.js": "9f9a0fe47c8285804268532634593c27539083a811e31e32bf71b33ad5f78ffd",
+    "m1-advanced/m1_advanced_schema.json": "fbd983b1a443a1700402cf65ed9537c4279394747250547504260690b4a89d06",
+    "orchestrator/index.html": "95bb607c7f4df63ea22e3f3e24e455780c08a7b0e23b41a823c622fad6b7eb77",
+    "rnfl-progression/index.html": "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847",
+    "target-iop/index.html": "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0",
+    "vf-progression/index.html": "55f258c00fff5f573c2e05b3bf0e18ecfe62df950616d76f2c4764465c7d2cfa"
+  },
+  "served_POST": 28,
+  "finished_utc": "2026-10-20T10:32:18.294Z"
+}

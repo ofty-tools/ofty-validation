@@ -1,0 +1,13 @@
+T-A 2026-10-20T11:51:15Z
+A1 root 284 OK
+A2 candidate 13/13 = G2-E manifest OK
+A3 OFTY_SUITE_TEST_RUNNER.html = tag = main
+A3 LICENSE = tag = main
+A3 rules/M1_rules.json = tag = main
+A3 rules/M2_rules.json = tag = main
+A3 rules/M3_rules.json = tag = main
+A3 rules/M4_rules.json = tag = main
+A3 rules/M5_rules.json = tag = main
+A3 scenarios/manual_scenarios.json = tag = main
+A3 scenarios/combinatorial_axes.json = tag = main
+A4 kit 184 OK

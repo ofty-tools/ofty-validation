@@ -1,0 +1,55 @@
+{
+  "block": "T2c fixed-string rules (G2-B oracle) on POST",
+  "evaluated_utc": "2026-10-20T10:34:45.755Z",
+  "fixed_string": [
+    {
+      "text": "M3",
+      "must_contain": {
+        "may miss": true,
+        "does not exclude localized worsening": true
+      },
+      "forbidden_found": []
+    },
+    {
+      "text": "M4",
+      "must_contain": {
+        "may miss": true,
+        "does not exclude localized worsening": true
+      },
+      "forbidden_found": []
+    },
+    {
+      "text": "M5_W1_unchanged",
+      "must_contain": {
+        "may miss": true,
+        "does not exclude localized worsening": true
+      },
+      "forbidden_found": []
+    }
+  ],
+  "checks": {
+    "approved_texts_rules": true,
+    "new_strings_no_forbidden_phrase": true,
+    "M3_source_contains_approved_sentence": true,
+    "M4_source_contains_approved_sentence": true,
+    "M5_W1_in_host_unchanged": false,
+    "M5_cases_PASS": true,
+    "T2b_not_assessable_PASS": false
+  },
+  "new_g2c_strings_forbidden_found": [],
+  "M5_cases_from_T2": {
+    "A1": "PASS",
+    "A2": "PASS",
+    "A3": "PASS",
+    "A4": "PASS",
+    "A4b": "PASS",
+    "D1": "PASS",
+    "D2": "PASS",
+    "D4": "PASS"
+  },
+  "M3_M4_not_assessable_from_T2b": {
+    "M3-NOTASSESSABLE": "FAIL_OR_STOP",
+    "M4-NOTASSESSABLE": "PASS"
+  },
+  "status": "FAIL_OR_STOP"
+}

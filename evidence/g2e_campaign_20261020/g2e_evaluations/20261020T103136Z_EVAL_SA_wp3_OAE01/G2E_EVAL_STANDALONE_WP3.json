@@ -1,0 +1,224 @@
+{
+  "block": "G2E EVAL standalone wp3",
+  "evaluated_utc": "2026-10-20T10:31:36.135Z",
+  "expectations_sha256": "e241c51ccb7c72993d2e16376bb0763bd99f25e6aa52f9a1399ebd9a1b7ec4c8",
+  "pre_dir": "../runs/20261020T102007Z_PRE_SA_wp3",
+  "post_dir": "../runs/20261020T102637Z_POST_SA_wp3",
+  "rows": [
+    {
+      "id": "WP3-p0470",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-p0530",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-p0500",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-p04996",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-p0970",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-p1030",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-p09996",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-tiny",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-const",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-n2",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-n3",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-n4-pguard",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-n12",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-n8-moderate",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    }
+  ],
+  "summary": {
+    "fixtures": 14,
+    "PASS": 14,
+    "FAIL": []
+  }
+}

@@ -1,0 +1,391 @@
+{
+  "block": "G2E EVAL host g2d",
+  "evaluated_utc": "2026-10-20T11:57:59.685Z",
+  "expectations_sha256": "e241c51ccb7c72993d2e16376bb0763bd99f25e6aa52f9a1399ebd9a1b7ec4c8",
+  "pre_dir": "<RELEASE_TREE>/tests/g2e_reproduction/baseline_pre_captures/host_g2d",
+  "post_dir": "<RUN_OUTPUT>/T-B2_G2E_REPRODUCTION/POST_host_g2d",
+  "rows": [
+    {
+      "id": "G2D-HS1-n1-good",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_not_published_no_envelope": true,
+        "no_m3_localStorage": true,
+        "m5_not_ready_as_PRE": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "G2D-HS1-n1-low",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_not_published_no_envelope": true,
+        "no_m3_localStorage": true,
+        "m5_not_ready_as_PRE": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "G2D-HS1-n1-adv15",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_not_published_no_envelope": true,
+        "no_m3_localStorage": true,
+        "m5_not_ready_as_PRE": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "G2D-HS1-n1-floor26",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_not_published_no_envelope": true,
+        "no_m3_localStorage": true,
+        "m5_not_ready_as_PRE": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "G2D-HS2-floor-stable",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "G2D-HS2-floor-moderate",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "G2D-HS2-n3-floor-insufficient",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "G2D-O6-noisy-n12",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "G2D-O6-moderate-n12",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "G2D-O6-plateau-n12",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "G2D-O6-nonsig",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "G2D-O6-slow-sig",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    }
+  ],
+  "summary": {
+    "fixtures": 12,
+    "PASS": 4,
+    "FAIL": [
+      "G2D-HS2-floor-stable: m3_envelope_as_expected",
+      "G2D-HS2-floor-moderate: m3_envelope_as_expected",
+      "G2D-HS2-n3-floor-insufficient: m3_envelope_as_expected",
+      "G2D-O6-noisy-n12: m3_envelope_as_expected",
+      "G2D-O6-moderate-n12: m3_envelope_as_expected",
+      "G2D-O6-plateau-n12: m3_envelope_as_expected",
+      "G2D-O6-nonsig: m3_envelope_as_expected",
+      "G2D-O6-slow-sig: m3_envelope_as_expected"
+    ]
+  }
+}
