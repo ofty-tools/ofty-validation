@@ -1,0 +1,4 @@
+# Local test outputs and dependencies (not part of the release)
+tests/node_modules/
+tests/g2e_reproduction/out/
+tests/h1_historical/out/
