@@ -1,0 +1,15 @@
+{
+ "extracted": {
+  "engine_version": "1.0.0",
+  "scenarios": 23,
+  "assertion_instances_run": 146,
+  "assertion_instances_passed": 146,
+  "assertion_instances_failed": 0,
+  "combinations_passed": 192,
+  "combinations_total": 192,
+  "grand_total_line": "GRAND TOTAL: ALL PASS"
+ },
+ "page_errors": 0,
+ "requests_blocked": 0,
+ "matches_expected": true
+}

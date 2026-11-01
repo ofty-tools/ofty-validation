@@ -1,0 +1,295 @@
+{
+  "block": "G2E EVAL standalone g2d",
+  "evaluated_utc": "2026-10-20T14:52:57.705Z",
+  "expectations_sha256": "e241c51ccb7c72993d2e16376bb0763bd99f25e6aa52f9a1399ebd9a1b7ec4c8",
+  "pre_dir": "<RELEASE_TREE_POSTFC>/tests/g2e_reproduction/baseline_pre_captures/standalone_g2d",
+  "post_dir": "<RUN_OUTPUT_POSTFC>/POST_standalone_g2d",
+  "rows": [
+    {
+      "id": "G2D-HS1-n1-good",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "G2D-HS1-n1-low",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "G2D-HS1-n1-adv15",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "G2D-HS1-n1-floor26",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "G2D-HS2-floor-stable",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "G2D-HS2-floor-moderate",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "G2D-HS2-n3-floor-insufficient",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "G2D-O6-noisy-n12",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "G2D-O6-moderate-n12",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "G2D-O6-plateau-n12",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "G2D-O6-nonsig",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "G2D-O6-slow-sig",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    }
+  ],
+  "summary": {
+    "fixtures": 12,
+    "PASS": 4,
+    "FAIL": [
+      "G2D-HS2-floor-stable: export_as_expected",
+      "G2D-HS2-floor-moderate: export_as_expected",
+      "G2D-HS2-n3-floor-insufficient: export_as_expected",
+      "G2D-O6-noisy-n12: export_as_expected",
+      "G2D-O6-moderate-n12: export_as_expected",
+      "G2D-O6-plateau-n12: export_as_expected",
+      "G2D-O6-nonsig: export_as_expected",
+      "G2D-O6-slow-sig: export_as_expected"
+    ]
+  }
+}

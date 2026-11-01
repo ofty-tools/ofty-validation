@@ -1,0 +1,54 @@
+G2-E reproduction kit · start 2026-10-20T14:21:46Z
+repository: <RELEASE_TREE>
+node: v22.22.0  pdftotext: pdftotext version 24.02.0  platform: Linux x86_64
+integrity: candidate/SHA256SUMS.txt OK
+integrity: KIT_SHA256SUMS.txt OK
+[POST_standalone_g2e] exit=0
+[POST_standalone_g2d] exit=0
+[POST_standalone_wp1] exit=0
+[POST_standalone_wp2] exit=0
+[POST_standalone_a02] exit=0
+[POST_standalone_a03] exit=0
+[POST_standalone_wp3] exit=0
+[POST_standalone_t2b_m4] exit=0
+[POST_host_g2e] exit=0
+[POST_host_g2d] exit=0
+[POST_host_wp1] exit=0
+[POST_host_wp2] exit=0
+[POST_host_a02] exit=0
+[POST_host_a03] exit=0
+[POST_host_wp3] exit=0
+[EVAL_v1.0_standalone_g2e] exit=0
+[EVAL_v1.1_standalone_g2e] exit=0
+[EVAL_v1.0_standalone_g2d] exit=0
+[EVAL_v1.1_standalone_g2d] exit=0
+[EVAL_v1.0_standalone_wp1] exit=0
+[EVAL_v1.1_standalone_wp1] exit=0
+[EVAL_v1.0_standalone_wp2] exit=0
+[EVAL_v1.1_standalone_wp2] exit=0
+[EVAL_v1.0_standalone_a02] exit=0
+[EVAL_v1.1_standalone_a02] exit=0
+[EVAL_v1.0_standalone_a03] exit=0
+[EVAL_v1.1_standalone_a03] exit=0
+[EVAL_v1.0_standalone_wp3] exit=0
+[EVAL_v1.1_standalone_wp3] exit=0
+[EVAL_v1.0_standalone_t2b_m4] exit=0
+[EVAL_v1.1_standalone_t2b_m4] exit=0
+[EVAL_v1.0_host_g2e] exit=0
+[EVAL_v1.1_host_g2e] exit=0
+[EVAL_v1.0_host_g2d] exit=0
+[EVAL_v1.1_host_g2d] exit=0
+[EVAL_v1.0_host_wp1] exit=0
+[EVAL_v1.1_host_wp1] exit=0
+[EVAL_v1.0_host_wp2] exit=0
+[EVAL_v1.1_host_wp2] exit=0
+[EVAL_v1.0_host_a02] exit=0
+[EVAL_v1.1_host_a02] exit=0
+[EVAL_v1.0_host_a03] exit=0
+[EVAL_v1.1_host_a03] exit=0
+[EVAL_v1.0_host_wp3] exit=0
+[EVAL_v1.1_host_wp3] exit=0
+v1.0: standalone 27/75, host 8/70, all 35/145
+v1.1: standalone 75/75, host 70/70, all 145/145
+outcome: REPRODUCED (matches EXPECTED_RESULTS.json)
+end 2026-10-20T14:28:18Z · overall exit=0 (0 = outcome matches EXPECTED_RESULTS.json)

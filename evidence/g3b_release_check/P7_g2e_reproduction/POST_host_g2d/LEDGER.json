@@ -1,0 +1,128 @@
+{
+  "block": "G2D CAPTURE host g2d",
+  "objects": [
+    "POST"
+  ],
+  "started_utc": "2026-10-20T14:25:05.611Z",
+  "node": "v22.22.0",
+  "platform": "linux/x64",
+  "playwright": "1.56.0",
+  "browser_version": "141.0.7390.37",
+  "capture_lib": {
+    "G2C_MODULES.cjs_sha256": "a98e02561bf7ac92aa37f0fa4904391507cd3cdf21ba633e4a62355c67e08984",
+    "G2C_HOST.cjs_sha256": "49f147f6cf2ee41ba6400b86dae51a5d7aa3a24d68dffe839e6776fc2a68cf63",
+    "moduleRun_block_sha256": "20228e8abe74650c30addfc461b394f1bc665bb9e508e683f29098b6979dba97",
+    "hostRun_block_sha256": "446f847ec1e5be62b63c7be9aa346d1f3623c57512e8a28315e3e2dcef507007"
+  },
+  "capture_lib_g2e": {
+    "g2d_capture_lib_sha256": "053c2610a9cf2d5dcda99ca18a2a444fb79122aa62eb2ec7e7a1274c24fff493",
+    "moduleRunMod_block_sha256": "2b201f9eeb02d66be14e2d55c5e3ae529f79f9b99c6ff213ed2afc625a9d4047"
+  },
+  "environment_note": "Linux headless Chromium; UA-CH platform emulated as Windows (G2-B HARNESS_FIX_02); not a genuine Windows execution",
+  "fixtures_sha256": "63ea5d23dae08f59b4b22bf2383d7b93514024ae0967584782d053d6e2d906c4",
+  "records": [
+    {
+      "id": "G2D-HS1-n1-good",
+      "object": "POST",
+      "file": "POST_G2D-HS1-n1-good.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "G2D-HS1-n1-low",
+      "object": "POST",
+      "file": "POST_G2D-HS1-n1-low.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "G2D-HS1-n1-adv15",
+      "object": "POST",
+      "file": "POST_G2D-HS1-n1-adv15.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "G2D-HS1-n1-floor26",
+      "object": "POST",
+      "file": "POST_G2D-HS1-n1-floor26.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "G2D-HS2-floor-stable",
+      "object": "POST",
+      "file": "POST_G2D-HS2-floor-stable.json",
+      "harness_error": null,
+      "m5_hero": "not_assessable"
+    },
+    {
+      "id": "G2D-HS2-floor-moderate",
+      "object": "POST",
+      "file": "POST_G2D-HS2-floor-moderate.json",
+      "harness_error": null,
+      "m5_hero": "not_assessable"
+    },
+    {
+      "id": "G2D-HS2-n3-floor-insufficient",
+      "object": "POST",
+      "file": "POST_G2D-HS2-n3-floor-insufficient.json",
+      "harness_error": null,
+      "m5_hero": "not_assessable"
+    },
+    {
+      "id": "G2D-O6-noisy-n12",
+      "object": "POST",
+      "file": "POST_G2D-O6-noisy-n12.json",
+      "harness_error": null,
+      "m5_hero": "history_vs_current_conflict"
+    },
+    {
+      "id": "G2D-O6-moderate-n12",
+      "object": "POST",
+      "file": "POST_G2D-O6-moderate-n12.json",
+      "harness_error": null,
+      "m5_hero": "history_vs_current_conflict"
+    },
+    {
+      "id": "G2D-O6-plateau-n12",
+      "object": "POST",
+      "file": "POST_G2D-O6-plateau-n12.json",
+      "harness_error": null,
+      "m5_hero": "history_vs_current_conflict"
+    },
+    {
+      "id": "G2D-O6-nonsig",
+      "object": "POST",
+      "file": "POST_G2D-O6-nonsig.json",
+      "harness_error": null,
+      "m5_hero": "history_vs_current_conflict"
+    },
+    {
+      "id": "G2D-O6-slow-sig",
+      "object": "POST",
+      "file": "POST_G2D-O6-slow-sig.json",
+      "harness_error": null,
+      "m5_hero": "no_signal"
+    }
+  ],
+  "tree_POST": {
+    "gate2/index.html": "e258018b8d7999aea23a35ddbaab896a8678518f084883a6efa066746cd79a83",
+    "gate2/semantic.cjs": "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf",
+    "gate2/session.js": "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12",
+    "index.html": "69877c7c7381509e17420b2a9f46ccdd0f6595d0b1abae6e3eb87b8a22d481b8",
+    "iop-cct/index.html": "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a",
+    "orchestrator/index.html": "95bb607c7f4df63ea22e3f3e24e455780c08a7b0e23b41a823c622fad6b7eb77",
+    "README.md": "4930f7ac332051f5e2210bbcbce543f6ea88a607ff8ba0091d12e629be9db847",
+    "rnfl-progression/index.html": "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847",
+    "SHA256SUMS.txt": "cbd06e7bd3d3727320450b82358c1cd66071d16f1d83773763204a910648fd24",
+    "target-iop/index.html": "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0",
+    "vf-progression/index.html": "55f258c00fff5f573c2e05b3bf0e18ecfe62df950616d76f2c4764465c7d2cfa"
+  },
+  "served_POST": 132,
+  "finished_utc": "2026-10-20T14:25:52.116Z"
+}
