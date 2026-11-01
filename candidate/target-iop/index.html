@@ -1,0 +1,2272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="color-scheme" content="light"/>
+<title>OFTY Tool #2 — Target IOP</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%91%81%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #F4F6F9;
+    --surface: #FFFFFF;
+    --surface-2: #F8FAFC;
+    --border: #E2E8F0;
+    --border-focus: #1C4F8C;
+    --primary: #1C4F8C;
+    --primary-light: #EEF4FF;
+    --primary-dark: #163E70;
+    --primary-ring: rgba(28,79,140,0.18);
+    --primary-border-20: #CEDEEF;
+    --primary-border-25: #C2D3EB;
+    --primary-grad-end: #4A7FC1;
+    --accent: #0e9f6e;
+    --accent-light: #ecfdf5;
+    --warn: #92400E;
+    --warn-light: #FFFBEB;
+    --warn-border: #FCD34D;
+    --ok: #166534;
+    --ok-light: #F0FDF4;
+    --ok-border: #86EFAC;
+    --danger: #991B1B;
+    --danger-light: #FEF2F2;
+    --text: #0F172A;
+    --text-2: #334155;
+    --text-3: #64748B;
+    --text-4: #94A3B8;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --radius: 10px;
+    --radius-sm: 6px;
+    --radius-lg: 14px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+    --shadow: 0 1px 4px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.09), 0 2px 4px rgba(0,0,0,0.04);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    background: var(--bg);
+  }
+
+  body {
+    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ── Nav bar — full width, fixed height, back link ── */
+  .nav-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  .nav-bar-inner {
+    max-width: 520px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .nav-back {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-3);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    letter-spacing: 0.03em;
+    transition: color 0.15s;
+  }
+  .nav-back:hover { color: var(--primary); }
+.nav-back svg { flex-shrink: 0; }
+
+  /* ── Site header — sticky, full width ── */
+  .site-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 16px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    box-shadow: var(--shadow-sm);
+  }
+  .site-header-inner {
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* ── Page content wrap ── */
+  .page-wrap {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 20px 16px 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--surface);
+    color: var(--primary);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    padding: 2px 8px 2px 7px;
+    border-radius: 4px;
+    border: 1px solid var(--primary-border-25);
+    margin-bottom: 8px;
+    width: fit-content;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+  }
+  .badge-dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background: var(--primary);
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .site-header h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.4px;
+    line-height: 1.25;
+  }
+  .site-header h1 em {
+    font-style: normal;
+    color: var(--text-3);
+    font-weight: 400;
+  }
+  .header-sub {
+    font-size: 13px;
+    color: var(--text-3);
+    margin-top: 4px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .card-head {
+    padding: 12px 18px 10px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+  }
+  .card-head-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+  .card-body {
+    padding: 18px 18px 20px;
+  }
+
+  .form-grid { display: flex; flex-direction: column; gap: 14px; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label { font-size: 13px; font-weight: 500; color: var(--text-2); }
+  .field-hint { font-size: 11.5px; color: var(--text-4); line-height: 1.4; margin-top: 1px; padding-left: 3px; }
+  .field-separator { height: 1px; background: var(--border); margin: 2px 0 0; }
+
+  .input-wrap {
+    position: relative;
+  }
+  .input-wrap input[type="number"] {
+    padding-right: 52px;
+  }
+  .input-unit {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-3);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  select, input[type="number"] {
+    font-family: var(--sans);
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 9px 12px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+  }
+  select:focus, input[type="number"]:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(26,86,219,0.12);
+    background: var(--surface);
+  }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  input::placeholder { color: #D1D5DB; opacity: 1; }
+  .range-hint {
+    display: none;
+    color: var(--err, #c0392b);
+    font-size: 0.72rem;
+    margin-top: 3px;
+    font-family: var(--mono);
+  }
+  #baseline.input-error ~ .range-hint,
+  #currentIOP.input-error ~ .range-hint { display: block; }
+  input::-webkit-input-placeholder { color: #D1D5DB; }
+  input::-moz-placeholder { color: #D1D5DB; opacity: 1; }
+  input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+  input.input-error {
+    border-color: var(--danger) !important;
+    box-shadow: 0 0 0 3px rgba(224,36,36,0.12) !important;
+  }
+  select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .btn-row { display: flex; flex-direction: row; gap: 10px; margin-top: 4px; }
+  .calc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    background: var(--primary);
+    border: none;
+    border-radius: var(--radius-sm);
+    height: 46px;
+    padding: 0 20px;
+    cursor: pointer;
+    flex: 1;
+    min-width: 0;
+    box-shadow: 0 2px 6px var(--primary-ring);
+    transition: background 0.15s, box-shadow 0.15s, transform 0.10s;
+    letter-spacing: 0.01em;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .calc-btn:hover { background: var(--primary-dark); box-shadow: 0 3px 10px var(--primary-ring); transform: translateY(-1px); }
+  .calc-btn:active { transform: translateY(0); box-shadow: none; }
+  .reset-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-2);
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    height: 46px;
+    padding: 0 18px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .reset-btn:hover { background: var(--bg); border-color: var(--text-3); color: var(--text); }
+  .reset-btn:active { background: var(--border); }
+
+  /* ── RESULT CARD — Tool #1 exact structure ── */
+  .result-card {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  .result-card.visible { display: block; }
+  .result-card.animated { animation: slideUp 0.25s ease forwards; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-inner {
+    background: var(--surface);
+    border-top: 3px solid var(--primary);
+    border-bottom: 1px solid var(--border);
+    padding: 22px 20px 18px;
+  }
+  /* Hero header row */
+  .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .result-header-left { display: flex; flex-direction: column; gap: 0; }
+
+  /* Eyebrow — DM Mono 10px/500 uppercase letter-spacing 0.10em — Tool #1 exact */
+  .result-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+
+  /* Range display — value + unit + measured tag on one flex baseline row */
+  .iop-display {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    flex-wrap: nowrap;
+    margin-top: 0;
+  }
+  .iop-value {
+    font-family: var(--mono);
+    font-size: 40px;
+    font-weight: 400;
+    color: var(--primary);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  /* Inline unit + measured tag group, baseline-aligned to the number */
+  .iop-unit-line {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-3);
+    font-weight: 400;
+    margin-left: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    display: inline;  /* participates in flex as inline child */
+  }
+  .iop-unit { display: none; }
+
+  /* Measured IOP inline tag */
+  .iop-measured-tag {
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 400;
+    color: var(--text-3);
+    letter-spacing: 0.01em;
+    margin-left: 5px;
+    white-space: nowrap;
+  }
+
+  /* Microtext — method indicator, tighter spacing below the row */
+  .iop-type {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-3);
+    margin-top: 5px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Copy button — Tool #1 btn-copy-wrap exact */
+  .copy-btn-wrap {
+    border-top: 1px solid var(--border);
+    padding: 12px 16px 14px;
+  }
+  .copy-btn {
+    width: 100%;
+    height: 40px;
+    background: var(--surface-2);
+    color: var(--text-2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .copy-btn:hover { background: var(--bg); color: var(--text); border-color: var(--text-3); }
+  .copy-btn.copied { background: var(--ok-light); border-color: var(--ok-border); color: var(--ok); }
+
+  /* Gap status row — inside card, full-bleed */
+  .gap-row {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .gap-row.visible { display: flex; }
+  .gap-row.gap-ok    { background: #f0faf4; }
+  .gap-row.gap-above { background: #fdf6ed; }
+  .gap-row.gap-below { background: #f0faf4; }  /* merged into ok-green */
+  .gap-row.gap-warn  { background: #f8f8f6; }  /* neutral gray for very low IOP */
+  .gap-chip {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .gap-ok    .gap-chip { background: #c3e6d0; color: #2d6a4a; }
+  .gap-above .gap-chip { background: #e8d0a8; color: #7a4f1a; }
+  .gap-below .gap-chip { background: #c3e6d0; color: #2d6a4a; }  /* same as ok */
+  .gap-warn  .gap-chip { background: #e2e0da; color: #4a4845; }
+  .gap-text { font-size: 12.5px; line-height: 1.4; font-weight: 400; }
+  .gap-ok    .gap-text { color: #2d6a4a; }
+  .gap-above .gap-text { color: #7a4f1a; }
+  .gap-below .gap-text { color: #2d6a4a; }  /* same as ok */
+  .gap-warn  .gap-text  { color: #4a4845; }
+
+  .result-divider { display: none; } /* replaced by border-bottom on rows */
+
+  /* ── Unified warning box ── */
+  .warning-box {
+    display: none;
+    margin: 0;
+    padding: 10px 20px 11px;
+    font-size: 13px;
+    line-height: 1.5;
+    border-bottom: 1px solid var(--border);
+  }
+  .warning-box.wb-alert   { background: #fff5f5; color: #7f1d1d; }
+  .warning-box.wb-info    { background: #eff6ff; color: #1e40af; }
+  .warning-box.wb-info .wb-text { font-size: 11px; font-weight: 600; letter-spacing: 0.02em; color: #1e40af; }
+  .wb-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .wb-icon { flex-shrink: 0; margin-top: 1px; opacity: 0.75; }
+  .wb-text { font-size: 11px; font-weight: 600; }
+  .warning-box.wb-alert .wb-text { font-size: 11px; font-weight: 600; color: #991b1b; }
+
+
+  /* Inline hint under baseline field (NTG only) */
+  .ntg-inline-hint {
+    display: none;
+    font-size: 11.5px;
+    color: #92400e;
+    line-height: 1.4;
+    margin-top: 2px;
+    padding: 5px 9px;
+    background: #fffbeb;
+    border-left: 2px solid #fcd34d;
+    border-radius: 3px;
+  }
+
+  /* Clinical summary — mirrors Tool #1 result-detail rows exactly */
+  .clinical-summary { display: flex; flex-direction: column; }
+  .cs-row {
+    padding: 11px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .cs-row:last-child { border-bottom: none; }
+  .cs-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-3);
+  }
+  .cs-value {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    text-align: right;
+  }
+
+  /* Triggers — replaces Tool #1 result-note amber bar */
+  .triggers-collapsible {
+    border-top: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .triggers-collapsible-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-2);
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s;
+    height: auto;
+  }
+  .triggers-collapsible-header:hover { background: var(--surface-2); }
+  .triggers-collapsible-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-2);
+  }
+  .triggers-collapsible-icon {
+    color: var(--text-3);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+  .triggers-collapsible.open .triggers-collapsible-icon { transform: rotate(180deg); }
+  .triggers-collapsible-body {
+    display: none;
+    padding: 0 20px 14px;
+  }
+  .triggers-collapsible.open .triggers-collapsible-body { display: block; }
+  .triggers-collapsible-body ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 6px;
+  }
+  .triggers-collapsible-body ul li {
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+  .triggers-collapsible-body ul li::before {
+    content: '\2013\00a0';
+    color: var(--text-3);
+  }
+
+  .collapse {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .collapse-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 20px;
+    cursor: pointer;
+    user-select: none;
+    gap: 8px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    text-align: left;
+    letter-spacing: 0.01em;
+    background: none;
+    border: none;
+    width: 100%;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    height: auto;
+  }
+  .collapse-trigger:hover { background: var(--bg); }
+  .collapsible-label {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .collapsible-icon { color: var(--text-3); transition: transform 0.22s; flex-shrink: 0; }
+  .collapse-trigger-label {
+    flex: 1;
+    text-align: left;
+  }
+  .collapse-trigger-icon { width: 16px; height: 16px; flex-shrink: 0; color: var(--text-3); margin-right: 8px; }
+  .collapse-chevron { width: 18px; height: 18px; flex-shrink: 0; color: var(--text-3); transition: transform 0.20s ease; }
+  .collapse.open .collapse-chevron { transform: rotate(180deg); }
+  .collapse-body {
+    display: none;
+    padding: 14px 20px 18px;
+    font-size: 13px;
+    color: var(--text-3);
+    line-height: 1.65;
+    border-top: 1px solid var(--border);
+  }
+  .collapse.open .collapse-body { display: block; }
+  .collapse-body p { margin-bottom: 10px; }
+  .collapse-body p:last-child { margin-bottom: 0; }
+  .collapse-body strong { color: var(--text-2); }
+  .collapse-preview-sm { font-size: 12px; color: var(--text-4); margin-top: 2px; }
+
+  .collapse-preview {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text-2);
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+  .btn-toggle-more {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--primary);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: var(--sans);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    display: inline;
+    transition: color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-toggle-more:hover { color: var(--primary-dark); }
+  .collapse-extra { display: none; margin-top: 12px; }
+  .collapse-extra.is-open { display: block; }
+  .collapse-extra p { font-size: 13px; line-height: 1.65; color: var(--text-2); margin-bottom: 10px; }
+  .collapse-extra p:last-child { margin-bottom: 0; }
+  .collapse-extra strong { color: var(--text); font-weight: 600; }
+
+  .sources-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .sources-list li {
+    font-size: 13px;
+    color: var(--text-3);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .sources-list li::before {
+    content: '\2013';
+    position: absolute;
+    left: 0;
+    color: var(--text-4);
+  }
+  .sources-list li strong { color: var(--text-2); }
+
+  .src-list { list-style: none; padding: 0; margin: 0; }
+  .src-list li {
+    display: flex;
+    gap: 9px;
+    align-items: baseline;
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.5;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .src-list li:last-child { border-bottom: none; }
+  .src-list li::before {
+    content: '-';
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-3);
+    flex-shrink: 0;
+  }
+
+  .ver-list { list-style: none; padding: 0; margin: 0; }
+  .ver-list > li {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.5;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .ver-list > li:last-child { border-bottom: none; }
+  .ver-notes {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0 0;
+  }
+  .ver-notes li {
+    display: flex;
+    gap: 9px;
+    align-items: baseline;
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.5;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .ver-notes li:last-child { border-bottom: none; }
+  .ver-notes li::before {
+    content: '-';
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-3);
+    flex-shrink: 0;
+  }
+
+  .ver-tag { font-weight: 500; color: var(--primary); margin-right: 6px; }
+
+  .site-footer {
+    text-align: center;
+    font-size: 11px;
+    color: #9CA3AF;
+    font-family: var(--mono);
+    margin-top: 4px;
+    padding-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  @media (max-width: 380px) { .site-footer { font-size: 10px; } }
+
+  /* ── Mode-chip info tooltip ── */
+  .iop-type { position: relative; display: inline-flex; align-items: center; gap: 4px; cursor: default; }
+  .mode-info-icon { position: relative; }
+  .mode-info-icon::after { content: ''; position: absolute; inset: -8px; }
+  .mode-info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1px solid var(--text-3);
+    font-size: 8.5px;
+    font-family: var(--sans);
+    font-style: normal;
+    color: var(--text-3);
+    line-height: 1;
+    cursor: pointer;
+    flex-shrink: 0;
+    user-select: none;
+    -webkit-user-select: none;
+
+  }
+  #oftyTooltip {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    max-width: 240px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 11px;
+    font-family: var(--sans);
+    font-size: 11.5px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-2);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+    pointer-events: none;
+  }
+  #oftyTooltip.visible { display: block; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+    html { scroll-behavior: auto; }
+  }
+
+  @media (max-width: 420px) {
+    .header { padding: 16px 18px 14px; }
+    .iop-value { font-size: 34px; }
+  }
+
+  .feedback-line { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; font-weight: 500; color: var(--text-3); font-family: 'DM Sans', sans-serif; text-align: center; padding: 14px 0 18px; text-decoration: none; transition: color .15s; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
+  .feedback-line svg { flex-shrink: 0; stroke: var(--text-3); transition: stroke .2s ease, transform .2s ease; }
+  .feedback-line em { font-style: normal; color: var(--primary); text-decoration: underline; text-underline-offset: 2px; text-decoration-color: transparent; transition: text-decoration-color .25s ease, color .15s; }
+  .feedback-line:hover svg { stroke: var(--primary); transform: scale(1.15); }
+  .feedback-line:hover em { color: var(--primary-dark); text-decoration-color: var(--primary-dark); }
+  .page-wrap > .feedback-line { margin-top: -12px; margin-bottom: -10px; }
+</style>
+<script src="../gate2/session.js"></script></head>
+<body data-gate2-module="m2">
+<div id="oftyTooltip" role="tooltip"></div>
+
+<nav class="nav-bar" aria-label="Site navigation">
+  <div class="nav-bar-inner">
+    <a class="nav-back" href="../index.html" aria-label="Back to OFTY Glaucoma Suite">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to OFTY Glaucoma Suite
+    </a>
+  </div>
+</nav>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <div class="badge" role="status" aria-label="Beta tool"><span class="badge-dot" aria-hidden="true"></span>OFTY TOOL #2</div>
+    <h1>Target IOP <em>(OAG / OHT)</em></h1>
+    <p class="header-sub">Estimates a target IOP range from stage, CCT, and progression status.</p>
+  </div>
+</header>
+
+<div class="page-wrap">
+
+  <div class="card">
+    <div class="card-head">
+      <span class="card-head-label">Patient Parameters</span>
+    </div>
+    <div class="card-body">
+    <div class="form-grid">
+
+      <div class="field">
+        <label for="stage">Glaucoma Stage</label>
+        <select id="stage" onchange="handleStageChange(); invalidateStoredM2Result(); updateRangeHints();">
+          <option value="OHT">Ocular Hypertension (OHT)</option>
+          <option value="Mild">Mild POAG (Early)</option>
+          <option value="Moderate">Moderate POAG</option>
+          <option value="Severe">Severe / Advanced POAG</option>
+          <option value="NTG">Normal-Tension Glaucoma (NTG)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="baseline">Baseline IOP (measured, optional)</label>
+        <div class="input-wrap">
+          <input type="number" id="baseline" min="9" max="60" step="0.5" placeholder="22" autocomplete="off"/>
+          <div class="range-hint" id="baseline-hint">9 – 60 mmHg</div>
+          <span class="input-unit">mmHg</span>
+        </div>
+        <span class="ntg-inline-hint" id="ntgBaselineHint">For NTG, untreated IOP is typically &le;21&thinsp;mmHg. If higher, consider POAG or verify context.</span>
+      </div>
+
+      <div class="field">
+        <label for="cct">Central Corneal Thickness (CCT)</label>
+        <select id="cct">
+          <option value="average">Average (520&ndash;560 &micro;m)</option>
+          <option value="thin">Thin (&lt;520 &micro;m)</option>
+          <option value="thick">Thick (&gt;560 &micro;m)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="progression">Confirmed Progression</label>
+        <select id="progression" onchange="invalidateStoredM2Result();">
+          <option value="none">No confirmed progression</option>
+          <option value="confirmed">Confirmed progression (structural or functional)</option>
+        </select>
+        <span class="field-hint" id="ohtHint" style="display:none;">Not applicable for OHT. Documented glaucomatous progression requires diagnostic/stage reassessment.</span>
+      </div>
+
+      <div class="field-separator"></div>
+
+      <div class="field">
+        <label for="currentIOP">On-treatment IOP (measured, optional)</label>
+        <div class="input-wrap">
+          <input type="number" id="currentIOP" min="6" max="60" step="0.5" placeholder="18" autocomplete="off"/>
+          <div class="range-hint" id="currentIOP-hint">6 – 60 mmHg</div>
+          <span class="input-unit">mmHg</span>
+        </div>
+        <!-- G2-B AS-M1 (UI text only): visible pressure-source instruction; no logic change -->
+        <span class="field-hint" id="currentIOP-instruction">Enter the measured Goldmann (GAT) IOP as recorded &mdash; not the M1 CCT-based estimate or any other derived value.</span>
+      </div>
+
+      <div class="btn-row">
+        <button class="calc-btn" onclick="calculate()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Calculate
+        </button>
+        <button class="reset-btn" onclick="resetAll()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Reset
+        </button>
+      </div>
+
+    </div>
+    </div><!-- card-body -->
+  </div>
+
+  <div class="result-card" id="resultCard">
+
+    <div class="result-inner">
+      <div class="result-header">
+        <div class="result-header-left">
+          <div class="result-title">Target IOP Range</div>
+          <div class="iop-display">
+            <div class="iop-value" id="iopRange">&mdash;</div>
+            <span class="iop-unit-line" id="iopUnitLine">mmHg</span>
+          </div>
+          <div class="iop-type" id="modeChip"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gap-row" id="gapRow">
+      <div class="gap-chip" id="gapChip">OK</div>
+      <div class="gap-text" id="gapText">Within target</div>
+    </div>
+    <div id="warningBox" class="warning-box">
+      <div class="wb-row">
+        <svg class="wb-icon" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span class="wb-text" id="warningBoxText"></span>
+      </div>
+    </div>
+
+    <div class="clinical-summary" id="rationaleBox"></div>
+
+    <div class="triggers-collapsible" id="triggersCollapsible">
+      <button class="triggers-collapsible-header" onclick="toggleTriggers()" aria-expanded="false">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span class="triggers-collapsible-label">When clinicians typically tighten the target</span>
+        <svg class="triggers-collapsible-icon" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="triggers-collapsible-body">
+        <ul>
+          <li>Disc hemorrhage at any visit</li>
+          <li>Structural or functional progression despite IOP in target</li>
+          <li>Central visual field threat or fixation involvement</li>
+          <li>Young patient or long life expectancy</li>
+          <li>Monophthalmic patient</li>
+          <li>Significant vascular risk factors</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="copy-btn-wrap">
+      <button class="btn copy-btn" id="copyBtn" onclick="copyResult()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        Copy result
+      </button>
+    </div>
+
+    <div class="result-divider"></div>
+
+  </div>
+
+  <!-- FEEDBACK -->
+  <a class="feedback-line" href="mailto:dott.andrea.ragosta@gmail.com?subject=%5BOFTY%20M2%5D%20Feedback">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <em>Share feedback or report a case</em>
+  </a>
+
+  <div class="collapse" id="disclaimerCollapsible">
+    <button class="collapse-trigger" onclick="toggleCollapsible('disclaimerCollapsible')" aria-expanded="false" aria-controls="collapse-disc-body">
+      <svg class="collapse-trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span class="collapse-trigger-label">Disclaimer</span>
+      <svg class="collapse-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="collapse-body" id="collapse-disc-body">
+      <p class="collapse-preview" style="font-style:italic;">Evidence-informed starting range for clinical guidance only. Does not replace specialist judgment or individualized assessment.</p>
+      <p style="font-size:12px;font-style:italic;color:var(--text-2);line-height:1.6;margin-top:6px;">Input IOP values should be Goldmann-measured. Enter the original measured value; no numerical pachymetry correction is applied. CCT is incorporated as a categorical clinical modifier. For separate IOP/CCT contextualisation, use M1.</p>
+      <p style="font-size:12px;font-style:italic;color:var(--text-2);line-height:1.6;margin-top:4px;">Eyes with extreme CCT (&lt;480 &micro;m or &gt;620 &micro;m) may require additional clinical judgement.</p>
+      <button class="btn-toggle-more" onclick="toggleMore('disclaimerExtra', this)">Read full disclaimer</button>
+      <div class="collapse-extra" id="disclaimerExtra">
+        <p>This tool estimates a suggested target IOP range based on glaucoma stage, central corneal thickness (CCT), and progression status. It applies guideline-derived target bands for open-angle glaucoma — including normal-tension glaucoma — and ocular hypertension, and has not been validated for angle-closure or secondary glaucomas.</p>
+        <p>When untreated baseline IOP is unavailable, the displayed range is a stage-based starting reference rather than an individualized target. It should be refined using baseline and longitudinal clinical data.</p>
+        <p>The suggested range is a starting point, not a fixed prescription. Target IOP must be reassessed over time according to treatment response, structural or functional progression, optic nerve findings, and patient-specific factors.</p>
+        <p>CCT is incorporated as a categorical clinical modifier (thin, average, or thick) that biases the result toward the lower or upper portion of the recommended band. It does not represent a numerical correction of measured IOP. The original Goldmann-measured IOP, not an M1-derived estimate or other CCT-adjusted value, should be entered in M2. Individual corneal biomechanical properties are not accounted for in this model.</p>
+        <p>For ocular hypertension, borderline untreated IOP values are interpreted together with CCT using predefined clinical compatibility rules. This categorical approach reflects the possible direction of tonometric bias but is not a numerical IOP correction or a definitive diagnostic criterion. When the entered baseline IOP and CCT combination falls outside the supported pathway, no target range is generated and clinical reassessment is required.</p>
+        <p>The clinician retains full responsibility for diagnostic and therapeutic decisions. This tool is intended as a decision-support aid and is not a substitute for clinical evaluation. Not intended for patient self-use.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="collapse" id="sourcesCollapsible">
+    <button class="collapse-trigger" onclick="toggleCollapsible('sourcesCollapsible')" aria-expanded="false" aria-controls="collapse-src-body">
+      <svg class="collapse-trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      <span class="collapse-trigger-label">Sources (Summary)</span>
+      <svg class="collapse-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="collapse-body" id="collapse-src-body">
+      <ul class="src-list">
+        <li>Gedde SJ, Vinod K, Wright MM, et al. Primary open-angle glaucoma preferred practice pattern. Ophthalmology. 2021;128(1S):P71&ndash;P150.</li>
+        <li>European Glaucoma Society. Terminology and guidelines for glaucoma, 6th edition. Br J Ophthalmol. 2025;109(Suppl 1):1&ndash;72.</li>
+        <li>Weinreb RN, Khaw PT. Primary open-angle glaucoma: target intraocular pressure. Surv Ophthalmol. 2004;49(5):529&ndash;545.</li>
+        <li>Sihota R, Angmo D, Ramaswamy D, Dada T. Simplifying &ldquo;target&rdquo; intraocular pressure for different stages of primary open-angle glaucoma and primary angle-closure glaucoma. Indian J Ophthalmol. 2018;66(4):495&ndash;505.</li>
+        <li>Heijl A, Leske MC, Bengtsson B, et al. Reduction of intraocular pressure and glaucoma progression: results from the Early Manifest Glaucoma Trial. Arch Ophthalmol. 2002;120(10):1268&ndash;1279.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="collapse" id="versionCollapsible">
+    <button class="collapse-trigger" onclick="toggleCollapsible('versionCollapsible')" aria-expanded="false" aria-controls="collapse-ver-body">
+      <svg class="collapse-trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span class="collapse-trigger-label">Version History</span>
+      <svg class="collapse-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="collapse-body" id="collapse-ver-body">
+      <ul class="ver-list">
+        <li>
+          <span><span class="ver-tag">v1.1</span>Jul 2026</span>
+          <ul class="ver-notes">
+            <li>Mode B wording clarified when baseline IOP is unavailable</li>
+            <li>Disclaimer expanded for stage-based reference use, CCT input handling, and OHT compatibility rules</li>
+            <li>OHT progression hint clarified</li>
+            <li>Incorrect Sihota reference attribution corrected</li>
+            <li>Copied result now reports the estimation mode</li>
+            <li>Stored results are invalidated when inputs change, reset occurs, or calculation is withheld</li>
+            <li>No change to clinical logic, target ranges, thresholds, or algorithm v1.0.0</li>
+          </ul>
+        </li>
+        <li>
+          <span><span class="ver-tag">v1.0</span>Mar 2026</span>
+          <ul class="ver-notes">
+            <li>Initial public release</li>
+            <li>Target IOP estimation — Mode A (personalized) and Mode B (stage-based)</li>
+            <li>OHT, NTG, Mild, Moderate, and Severe POAG supported</li>
+            <li>CCT-modulated targets aligned to published clinical evidence</li>
+            <li>Input validation, clinical flags, and gap row across all categories</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="site-footer">OFTY &middot; M2 &middot; &copy; 2026 Andrea Ragosta, MD, FEBO</footer>
+
+</div>
+<script>
+'use strict';
+
+function r05(v)           { return Math.round(v * 2) / 2; }
+function c05(v)           { return Math.round(v * 2) / 2; }
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+function fmt(v)           { return Number.isInteger(v) ? String(v) : v.toFixed(1); }
+
+var MIN_SPAN = 1.0;
+
+// enforceSpan: guarantee windowHi - windowLo >= MIN_SPAN.
+// bandLo/bandHi are used as outer limits; if unknown, pass 0/99.
+function enforceSpan(lo, hi, bandLo, bandHi) {
+  if (bandLo === undefined) bandLo = 0;
+  if (bandHi === undefined) bandHi = 99;
+  if (hi < lo) { hi = lo; }                           // swap guard
+  if ((hi - lo) < MIN_SPAN) {
+    hi = r05(lo + MIN_SPAN);                           // try expand up
+    if (hi > bandHi) {                                 // hit ceiling
+      hi = bandHi;
+      lo = r05(hi - MIN_SPAN);
+      if (lo < bandLo) { lo = bandLo; hi = Math.min(bandHi, r05(bandLo + MIN_SPAN)); }
+    }
+  }
+  return [lo, hi];
+}
+
+function formatRangeDisplay(lo, hi) {
+  return fmt(lo) + '–' + fmt(hi);   // en-dash
+}
+function formatRangeAscii(lo, hi) {
+  return fmt(lo) + '-' + fmt(hi);
+}
+// Sanity notes:
+// NTG Mode B lookup: stable/average=10–12, stable/thick=11–13, confirmed/average=9–11 ✓
+
+var STAGES = {
+  OHT:      { pct: 20, band: [18, 24], label: 'Ocular Hypertension (OHT)' },
+  Mild:     { pct: 25, band: [15, 17], label: 'Mild POAG (Early)' },
+  Moderate: { pct: 35, band: [12, 15], label: 'Moderate POAG' },
+  Severe:   { pct: 45, band: [10, 12], label: 'Severe / Advanced POAG' },
+  NTG:      { pct: 30, band: [10, 12], label: 'Normal-Tension Glaucoma (NTG)' }
+};
+var POAG_ORDER = ['OHT', 'Mild', 'Moderate', 'Severe'];
+
+function applyCCT(windowLo, windowHi, bandLo, bandHi, cct) {
+  if (cct === 'thin') {
+    windowLo = Math.max(bandLo, r05(windowLo - 0.5));
+    windowHi = Math.max(windowLo + 1, Math.min(bandHi, r05(windowHi - 0.5)));
+  } else if (cct === 'thick') {
+    windowHi = Math.min(bandHi, r05(windowHi + 0.5));
+    windowLo = Math.min(r05(windowLo + 0.5), windowHi - 1);
+  }
+  return [windowLo, windowHi];
+}
+
+function computeModeA(stageKey, baseline, cct, progression) {
+  // G1-D02 B-narrow: only the approved POAG target branch is neutralized.
+  // Original CCT remains authoritative for UI input eligibility.
+  if (cct === 'thick' && (stageKey === 'Mild' || stageKey === 'Moderate')) cct = 'average';
+  var pct               = STAGES[stageKey].pct;
+  var band              = STAGES[stageKey].band.slice();
+  var effectiveStageKey = stageKey;
+  var progressionEscalated = false;
+  var rationaleFragments   = [];
+
+  if (progression === 'confirmed') {
+    progressionEscalated = true;
+    // NTG: early-return handles it. OHT: progression disabled.
+    // POAG: pct + bias handled inside POAG MODE A block below.
+  }
+
+  // NTG MODE A: anchor-based, physiologic floor 6, ceiling baseline-1
+  // For baseline ≥ 12 (anchorRaw ≥ 8): use Math.round and floor 8 (original behaviour).
+  // For baseline < 12 (anchorRaw < 8): use Math.floor to preserve sub-integer differences
+  //   and drop the floor to 6 so the range tracks the baseline downward.
+  // ntgHi is capped at baseline-1 so the target is always strictly below baseline.
+  if (stageKey === 'NTG') {
+    // Hardcoded overrides for borderline and edge cases
+    // 1. Thick 12-13 confirmed: floor at 8-9
+    if (cct === 'thick' && (baseline === 12 || baseline === 13) && progression === 'confirmed') {
+      return { windowLo: 8, windowHi: 9, impliedPct: 35,
+               progressionEscalated: false, effectiveStageKey: 'NTG',
+               rationaleFragments: [], feasibilityNote: '' };
+    }
+    // 2. Baseline 8: target 7-8 (any CCT, any progression)
+    if (baseline === 8) {
+      return { windowLo: 7, windowHi: 8, impliedPct: 6,
+               progressionEscalated: false, effectiveStageKey: 'NTG',
+               rationaleFragments: [], feasibilityNote: 'Very low target — consider perfusion and tolerability.' };
+    }
+    // 3. Average 22 no progression: 13-15
+    if (cct === 'average' && baseline === 22 && progression !== 'confirmed') {
+      return { windowLo: 13, windowHi: 15, impliedPct: 33,
+               progressionEscalated: false, effectiveStageKey: 'NTG',
+               rationaleFragments: [], feasibilityNote: '' };
+    }
+    if (cct === 'thin' && baseline === 21 && progression !== 'confirmed') {
+      return { windowLo: 13, windowHi: 15, impliedPct: 33,
+               progressionEscalated: false, effectiveStageKey: 'NTG',
+               rationaleFragments: [], feasibilityNote: '' };
+    }
+    if (cct === 'thick' && baseline === 13 && progression !== 'confirmed') {
+      return { windowLo: 8, windowHi: 9, impliedPct: 35,
+               progressionEscalated: false, effectiveStageKey: 'NTG',
+               rationaleFragments: [], feasibilityNote: '' };
+    }
+    if (cct === 'average' && baseline === 21 && progression !== 'confirmed') {
+      return { windowLo: 13, windowHi: 15, impliedPct: 33,
+               progressionEscalated: false, effectiveStageKey: 'NTG',
+               rationaleFragments: [], feasibilityNote: '' };
+    }
+    var ntgPct    = progression === 'confirmed' ? 0.40 : 0.30;
+    var ntgRaw    = baseline * (1 - ntgPct);
+    var ntgAnchor, ntgFloor;
+    if (ntgRaw >= 8) {
+      ntgAnchor = Math.round(ntgRaw);   // original rounding for normal-range baselines
+      ntgFloor  = 8;
+    } else {
+      ntgAnchor = Math.floor(ntgRaw);   // floor preserves sub-integer step for low baselines
+      ntgFloor  = 6;
+    }
+    var ntgLo = Math.max(ntgFloor, ntgAnchor >= 8 ? ntgAnchor - 1 : ntgAnchor);
+    var ntgHi = Math.min(baseline - 1, ntgAnchor + 1);
+    if (ntgHi <= ntgLo) { ntgHi = Math.min(baseline - 1, ntgLo + 1); }
+    if (ntgHi < 6)      { ntgHi = 6; }
+    if (ntgHi <= ntgLo) { ntgHi = ntgLo; }
+    // Safety floor: clamp any target below 7 to 7-8
+    if (ntgLo < 7) { ntgLo = 7; ntgHi = 8; }
+    if (ntgHi < 7) { ntgHi = 7; }
+    var ntgMid     = (ntgLo + ntgHi) / 2;
+    var ntgImplied = Math.max(0, Math.round(((baseline - ntgMid) / baseline) * 100 / 5) * 5);
+    var ntgWarn    = (ntgLo <= 9 || ntgHi <= 10) ? 'Very low target — consider perfusion and tolerability.' : '';
+    return { windowLo: ntgLo, windowHi: ntgHi, impliedPct: ntgImplied,
+             progressionEscalated: false, effectiveStageKey: 'NTG',
+             rationaleFragments: [], feasibilityNote: ntgWarn };
+  }
+  // END NTG MODE A
+
+  // ── OHT MODE A: OHTS-aligned, whole integers, 2 mmHg span ──
+  if (stageKey === 'OHT') {
+    // Hardcoded targets for borderline cases
+    var ohtBorderline = null;
+    if (cct === 'thin' && (baseline === 19 || baseline === 20)) ohtBorderline = [16, 18];
+    if (cct === 'thick' && baseline === 21) ohtBorderline = [20, 22];
+    if (cct === 'thick' && baseline === 22) ohtBorderline = [21, 23];
+    if (ohtBorderline) {
+      var ohtMidB = (ohtBorderline[0] + ohtBorderline[1]) / 2;
+      var ohtImpliedB = Math.max(0, Math.round(((baseline - ohtMidB) / baseline) * 100 / 5) * 5);
+      return { windowLo: ohtBorderline[0], windowHi: ohtBorderline[1],
+               impliedPct: ohtImpliedB, progressionEscalated: false,
+               effectiveStageKey: 'OHT', rationaleFragments: [], feasibilityNote: '' };
+    }
+    var ohtPct     = cct === 'thin' ? 0.25 : cct === 'thick' ? 0.18 : 0.20;
+    var ohtFloor   = cct === 'thin' ? 14 : 18;
+    var ohtCeiling = cct === 'thin' ? 22 : 23;  // thick and average both capped at 23
+    var ohtAnchor  = Math.round(baseline * (1 - ohtPct));
+    var ohtLo      = Math.max(ohtFloor, ohtAnchor - 1);
+    var ohtHi      = ohtLo + 2;
+    if (ohtHi > ohtCeiling) { ohtHi = ohtCeiling; ohtLo = Math.max(ohtFloor, ohtHi - 2); }
+    if (ohtHi <= ohtLo)     { ohtHi = ohtLo + 2; }
+    var ohtMid     = (ohtLo + ohtHi) / 2;
+    var ohtImplied = Math.max(0, Math.round(((baseline - ohtMid) / baseline) * 100 / 5) * 5);
+    return {
+      windowLo: ohtLo, windowHi: ohtHi,
+      impliedPct: ohtImplied,
+      progressionEscalated: false,
+      effectiveStageKey: 'OHT',
+      rationaleFragments: [],
+      feasibilityNote: ''
+    };
+  }
+  // END OHT MODE A
+
+  // POAG MODE A: anchor-based, stage-clamped, CCT+progression specific clamps
+  var POAG_PCTS_A   = { Mild: [0.25, 0.30], Moderate: [0.35, 0.40], Severe: [0.45, 0.50] };
+  // CCT+progression specific clamps from Table 1
+  var POAG_CLAMPS_CCT = {
+    Mild: {
+      none:      { thin: [14,16], average: [15,17], thick: [16,18] },
+      confirmed: { thin: [13,15], average: [14,16], thick: [15,17] }
+    },
+    Moderate: {
+      none:      { thin: [11,13], average: [12,14], thick: [13,15] },
+      confirmed: { thin: [10,12], average: [11,13], thick: [12,14] }
+    },
+    Severe: {
+      none:      { thin: [8,10],  average: [9,11],  thick: [9,11]  },
+      confirmed: { thin: [8,10],  average: [8,10],  thick: [8,10]  }
+    }
+  };
+  // Hardcoded overrides for Mild POAG edge cases
+  if (stageKey === 'Mild' && cct === 'average' && baseline === 14) {
+    var _lo = progression === 'confirmed' ? 13 : 14;
+    var _hi = 16;
+    if (progression === 'confirmed') _hi = 15;
+    var _mid = (_lo + _hi) / 2;
+    var _pct = Math.max(0, Math.round(((baseline - _mid) / baseline) * 100 / 5) * 5);
+    return { windowLo: _lo, windowHi: _hi, impliedPct: _pct,
+             progressionEscalated: false, effectiveStageKey: 'Mild',
+             rationaleFragments: [], feasibilityNote: '' };
+  }
+
+  if (POAG_PCTS_A[stageKey]) {
+    var pPct       = progression === 'confirmed' ? POAG_PCTS_A[stageKey][1] : POAG_PCTS_A[stageKey][0];
+    var _progKey   = progression === 'confirmed' ? 'confirmed' : 'none';
+    var _cctClamp  = POAG_CLAMPS_CCT[stageKey][_progKey][cct];
+    var pClampLo   = _cctClamp[0];
+    var pClampHi   = _cctClamp[1];
+    var pBias      = 0;  // CCT bias now handled via clamps, not offset
+    var pRaw       = baseline * (1 - pPct) + pBias;
+    var pAnchor  = Math.max(pClampLo, Math.min(pClampHi, pRaw));
+    var pLo      = Math.max(pClampLo, Math.floor(pAnchor - 1));
+    var pHi      = Math.min(pClampHi, Math.ceil(pAnchor + 1));
+    if (pHi <= pLo) { pHi = Math.min(pClampHi, pLo + 1); }
+    if (pHi <= pLo) { pHi = pLo; }
+    var pMid     = (pLo + pHi) / 2;
+    var pImplied = Math.max(0, Math.round(((baseline - pMid) / baseline) * 100 / 5) * 5);
+    var pSevWarn = (stageKey === 'Severe' && pLo <= 9)
+                    ? 'Low target range — ensure tolerability and perfusion stability.' : '';
+    return { windowLo: pLo, windowHi: pHi, impliedPct: pImplied,
+             progressionEscalated: progressionEscalated,
+             effectiveStageKey: stageKey,
+             rationaleFragments: rationaleFragments,
+             feasibilityNote: pSevWarn };
+  }
+  // END POAG MODE A
+
+  // Fallback
+  return { windowLo: 12, windowHi: 14, impliedPct: 0, progressionEscalated: false,
+           effectiveStageKey: stageKey, rationaleFragments: [], feasibilityNote: '' };
+}
+
+function computeModeB(stageKey, cct, progression) {
+  if (cct === 'thick' && (stageKey === 'Mild' || stageKey === 'Moderate' ||
+      (stageKey === 'NTG' && progression === 'confirmed'))) cct = 'average';
+  var band              = STAGES[stageKey].band.slice();
+  var effectiveStageKey = stageKey;
+  var progressionEscalated = false;
+  var rationaleFragments   = [];
+  var biasLower            = false;
+
+  if (progression === 'confirmed') {
+    progressionEscalated = true;
+    // NTG/OHT: handled by early-returns.
+    // POAG: progression bias applied inside POAG MODE B block below.
+  }
+
+  // NTG MODE B: integer lookup — thin < average < thick, stable > confirmed
+  if (stageKey === 'NTG') {
+    var NTG_B = {
+      none:      { thin: [9, 11], average: [11, 13], thick: [11, 13] },
+      confirmed: { thin: [8, 10], average: [9,  11], thick: [10, 12] }
+    };
+    var ntgEntry = NTG_B[progression] || NTG_B['none'];
+    var ntgBLo = ntgEntry[cct][0];
+    var ntgBHi = ntgEntry[cct][1];
+    var ntgBWarn = (ntgBLo <= 9 || ntgBHi <= 10) ? 'Very low target — consider perfusion and tolerability.' : '';
+    return { windowLo: ntgBLo, windowHi: ntgBHi,
+             progressionEscalated: false, effectiveStageKey: 'NTG',
+             rationaleFragments: [], feasibilityNote: ntgBWarn };
+  }
+  // END NTG MODE B
+
+  // OHT MODE B: fixed CCT bands, whole integers, 2 mmHg span
+  if (stageKey === 'OHT') {
+    var ohtLo, ohtHi;
+    if      (cct === 'thin')  { ohtLo = 18; ohtHi = 20; }
+    else if (cct === 'thick') { ohtLo = 21; ohtHi = 23; }
+    else                      { ohtLo = 20; ohtHi = 22; }
+    return {
+      windowLo: ohtLo, windowHi: ohtHi,
+      progressionEscalated: false,
+      effectiveStageKey: 'OHT',
+      rationaleFragments: []
+    };
+  }
+  // END OHT MODE B
+
+
+  // POAG MODE B: integer lookup — thin < average < thick, stable > confirmed.
+  // Severe + confirmed: fixed 8–10 regardless of CCT (stringent control priority).
+  var POAG_B = {
+    Mild: {
+      none:      { thin: [14, 16], average: [15, 17], thick: [16, 18] },
+      confirmed: { thin: [13, 15], average: [14, 16], thick: [15, 17] }
+    },
+    Moderate: {
+      none:      { thin: [11, 13], average: [12, 14], thick: [13, 15] },
+      confirmed: { thin: [10, 12], average: [11, 13], thick: [12, 14] }
+    },
+    Severe: {
+      none:      { thin: [8, 10], average: [9, 11], thick: [9, 11] },
+      confirmed: { thin: [8, 10], average: [8, 10], thick: [8, 10] }
+    }
+  };
+  if (POAG_B[stageKey]) {
+    var progKey = (progression === 'confirmed') ? 'confirmed' : 'none';
+    var entry   = POAG_B[stageKey][progKey];
+    var bLo = entry[cct][0];
+    var bHi = entry[cct][1];
+    var bcLo = bLo; var bcHi = bHi;  // clamps embedded in lookup
+    if (bHi <= bLo) { bHi = bLo; }
+    var bSevWarn = (stageKey === 'Severe' && bLo <= 9)
+                    ? 'Low target range — ensure tolerability and perfusion stability.' : '';
+    return { windowLo: bLo, windowHi: bHi,
+             progressionEscalated: progressionEscalated,
+             effectiveStageKey: stageKey,
+             rationaleFragments: rationaleFragments,
+             feasibilityNote: bSevWarn };
+  }
+  // END POAG MODE B
+
+  // Fallback
+  return { windowLo: 12, windowHi: 14, progressionEscalated: false,
+           effectiveStageKey: stageKey, rationaleFragments: [], feasibilityNote: '' };
+}
+
+// ── OFTY-Gx-M2 structured interface ──────────────────────────────────────────
+// Pure function: receives validated clinical inputs, returns a structured result
+// object. Does NOT touch the DOM. Uses existing compute helpers above.
+function computeM2_TargetIOP(input) {
+  var stageKey    = input.stage;
+  var baseline    = input.baseline;     // number or NaN
+  var cct         = input.cct;
+  var progression = input.progression;
+  var currentIOP  = input.currentIOP;  // number or NaN
+  var modeA       = !isNaN(baseline);
+
+  // Run existing engine
+  var res;
+  if (modeA) {
+    res = computeModeA(stageKey, baseline, cct, progression);
+    var _band = STAGES[stageKey] ? STAGES[stageKey].band : [0, 99];
+    var _sp   = enforceSpan(res.windowLo, res.windowHi, _band[0], _band[1]);
+    res.windowLo = _sp[0]; res.windowHi = _sp[1];
+    // OHT paradox clamp: target must not exceed a low baseline
+    if (stageKey === 'OHT' && baseline < 21) {
+      res.windowHi = Math.min(res.windowHi, baseline);
+      res.windowLo = Math.min(res.windowLo, baseline - 1);
+      var _csp = enforceSpan(c05(res.windowLo), c05(res.windowHi), _band[0], _band[1]);
+      res.windowLo = _csp[0]; res.windowHi = _csp[1];
+    }
+  } else {
+    res = computeModeB(stageKey, cct, progression);
+    var _band2 = STAGES[stageKey] ? STAGES[stageKey].band : [0, 99];
+    var _sp2   = enforceSpan(res.windowLo, res.windowHi, _band2[0], _band2[1]);
+    res.windowLo = _sp2[0]; res.windowHi = _sp2[1];
+  }
+
+  var lo  = res.windowLo;
+  var hi  = res.windowHi;
+  var mid = r05((lo + hi) / 2);
+
+  // Risk modifier summary (clinical-facing)
+  var modifiers = [];
+  var coveredThick = cct === 'thick' && (stageKey === 'Mild' || stageKey === 'Moderate' ||
+    (stageKey === 'NTG' && !modeA && progression === 'confirmed'));
+  if (cct === 'thin') modifiers.push('Thin CCT: retained unvalidated OFTY target heuristic');
+  if (cct === 'thick' && !coveredThick) modifiers.push('Thick CCT: retained pathway-specific OFTY heuristic');
+  if (progression === 'confirmed')  modifiers.push('Confirmed progression (tighter band applied)');
+
+  // Caution flags — deduplicated via object before converting to array
+  var cautionSet = {};
+  if (stageKey === 'Severe')                      cautionSet['advanced_stage'] = true;
+  if (modifiers.length >= 2)                      cautionSet['multiple_risk_modifiers'] = true;
+  if (stageKey === 'NTG' && lo <= 9)              cautionSet['clinical_override_recommended'] = true;
+  if (res.feasibilityNote)                        cautionSet['clinical_override_recommended'] = true;
+  if (!modeA)                                     cautionSet['limited_input_scope'] = true;
+  var cautions = Object.keys(cautionSet);
+
+  // Logic trace
+  var baselineRule = modeA
+    ? 'Mode A: anchor = baseline \xd7 (1 − stage_pct); range = anchor \xb1 1 mmHg, clamped to stage band'
+    : 'Mode B: fixed stage band; approved pathway-specific OFTY heuristic';
+  var stageRule = 'Stage: ' + stageKey
+    + (res.effectiveStageKey !== stageKey ? ' → escalated to ' + res.effectiveStageKey : '')
+    + '; band [' + STAGES[stageKey].band[0] + ', ' + STAGES[stageKey].band[1] + '] mmHg';
+  var modTrace = modifiers.length > 0 ? modifiers.slice() : ['No modifiers applied'];
+  modTrace.push('Original CCT: ' + cct + '; effective target CCT: ' + (coveredThick ? 'average' : cct));
+  if (coveredThick) modTrace.push('B-narrow O1: thick CCT does not modify this target or count as a target modifier');
+  if (stageKey === 'NTG' && modeA && cct === 'thick') modTrace.push('NTG Mode A retained exceptions; no universal CCT-neutral policy');
+  if (stageKey === 'OHT' && modeA && baseline < 21) {
+    modTrace.push('OHT paradox clamp: target capped at baseline (' + fmt(baseline) + ' mmHg)');
+  }
+
+  // Confidence: moderate when baseline is known (Mode A); low otherwise (Mode B, limited scope)
+  var confidence = modeA ? 'moderate' : 'low';
+
+  return {
+    module_id:         'OFTY-Gx-M2',
+    algorithm_version: '1.1.0-gate2.1',
+    target_policy_version: 'B-narrow-O1-0.4.1',
+    original_cct: cct,
+    effective_target_cct: coveredThick ? 'average' : cct,
+    final_copy_status: 'REQUIRES_AUTHOR_FINAL_COPY_APPROVAL',
+    inputs: {
+      stage:            stageKey,
+      baseline_mmhg:    modeA ? baseline : null,
+      cct:              cct,
+      progression:      progression,
+      current_iop_mmhg: !isNaN(currentIOP) ? currentIOP : null
+    },
+    outputs: {
+      target_iop_primary_mmhg:    mid,
+      target_iop_range_low_mmhg:  lo,
+      target_iop_range_high_mmhg: hi,
+      stage_label:                STAGES[res.effectiveStageKey].label,
+      risk_modifier_summary:      modifiers,
+      confidence_level:           confidence,
+      caution_flags:              cautions
+    },
+    logic_trace: {
+      baseline_rule_applied: baselineRule,
+      stage_rule_applied:    stageRule,
+      modifiers_applied:     modTrace
+    },
+    model: {
+      type:         'deterministic_rule_based',
+      intended_use: 'clinical_decision_support',
+      notes:        'Target IOP estimate for structured clinical reasoning; not a substitute for clinical judgement.'
+    },
+    // _ui: rendering-only fields consumed by calculate() — not part of the public schema.
+    // Kept separate to preserve a clean boundary between clinical output and display logic.
+    _ui: {
+      effectiveStageKey: res.effectiveStageKey,  // for stage label / escalation display
+      impliedPct:        res.impliedPct || 0,     // for "Approx. reduction" row
+      rangeDisplay:      formatRangeDisplay(lo, hi), // en-dash string for the hero number
+      rangeAscii:        formatRangeAscii(lo, hi)    // hyphen string for copy/export
+    }
+  };
+}
+// ── END OFTY-Gx-M2 ──────────────────────────────────────────────────────────
+
+var _result = null;
+
+function toggleCollapsible(id) { document.getElementById(id).classList.toggle('open'); }
+function toggleMore(id, btn) {
+  var el = document.getElementById(id);
+  var isOpen = el.classList.toggle('is-open');
+  btn.textContent = isOpen ? 'Hide full disclaimer' : 'Read full disclaimer';
+}
+function toggleTriggers() { document.getElementById('triggersCollapsible').classList.toggle('open'); }
+
+function resetCopyBtn() {
+  var btn = document.getElementById('copyBtn');
+  btn.classList.remove('copied');
+  btn.innerHTML =
+    '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">' +
+    '<rect x="9" y="9" width="13" height="13" rx="2"/>' +
+    '<path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>' +
+    '</svg> Copy';
+}
+
+function updateRangeHints() {
+  var stage = document.getElementById('stage').value;
+  var cct   = document.getElementById('cct').value;
+  var bHint = document.getElementById('baseline-hint');
+  var cHint = document.getElementById('currentIOP-hint');
+
+  // Baseline lower limit by stage/cct
+  var bMin, bMax;
+  if (stage === 'OHT') {
+    bMin = cct === 'thin' ? 19 : 20;
+    bMax = 34;
+  } else if (stage === 'NTG') {
+    var ntgUpper = cct === 'thin' ? 21 : cct === 'thick' ? 23 : 22;
+    bMin = cct === 'thick' ? 10 : 9;
+    bMax = ntgUpper - 1;
+  } else {
+    // Mild, Moderate, Severe
+    bMin = 13;
+    bMax = 49;
+  }
+
+  if (bHint) bHint.textContent = bMin + ' – ' + bMax + ' mmHg';
+  if (cHint) cHint.textContent = '6 – 50 mmHg';
+}
+
+function resetResultCard() {
+  var card = document.getElementById('resultCard');
+  if (card) card.classList.remove('is-visible');
+  var gapRow = document.getElementById('gapRow');
+  if (gapRow) gapRow.classList.remove('visible', 'gap-ok', 'gap-above', 'gap-below', 'gap-warn');
+}
+
+function resetAll() {
+  document.getElementById('stage').value       = 'OHT';
+  handleStageChange();
+  document.getElementById('baseline').value    = '';
+  document.getElementById('cct').value         = 'average';
+  document.getElementById('progression').value = 'none';
+  document.getElementById('currentIOP').value  = '';
+  document.getElementById('baseline').classList.remove('input-error');
+  document.getElementById('currentIOP').classList.remove('input-error');
+  var card = document.getElementById('resultCard');
+  card.classList.remove('visible', 'animated');
+  document.getElementById('gapRow').classList.remove('visible', 'gap-ok', 'gap-above', 'gap-below');
+  document.getElementById('rationaleBox').innerHTML = '';
+  hideWarning();
+  evaluateWarning('', '', '', false, NaN, '');
+  _result = null;
+  try { localStorage.removeItem('ofty_m2_result'); } catch(e) {}
+  resetCopyBtn();
+}
+
+function showResultCard() {
+  var card = document.getElementById('resultCard');
+  card.classList.remove('animated');
+  card.classList.add('visible');
+  void card.offsetWidth;
+  card.classList.add('animated');
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderGap(currentIOP, windowLo, windowHi) {
+  var gapRow  = document.getElementById('gapRow');
+  var gapChip = document.getElementById('gapChip');
+  var gapText = document.getElementById('gapText');
+  gapRow.classList.remove('visible', 'gap-ok', 'gap-above', 'gap-below', 'gap-warn');
+  if (isNaN(currentIOP)) { return; }
+  var gap, status;
+  if (currentIOP >= windowLo && currentIOP <= windowHi) {
+    // Within target
+    status = 'ok';
+    gapChip.textContent = 'OK';
+    gapText.textContent = 'Within target';
+  } else if (currentIOP > windowHi) {
+    // Above target
+    gap    = r05(currentIOP - windowHi);
+    status = 'above';
+    gapChip.textContent = 'Above';
+    var _isNTG = (_result && _result._ui.effectiveStageKey === 'NTG');
+    gapText.textContent = '+' + fmt(gap) + ' mmHg ' + (_isNTG ? 'above low-range target' : 'above target');
+  } else {
+    // Below target
+    if (currentIOP <= 8) {
+      // Very low IOP — neutral gray warning
+      status = 'warn';
+      gapChip.textContent = 'Low';
+      gapText.textContent = fmt(currentIOP) + ' mmHg — below target range; tolerability not established';
+    } else {
+      // Below but clinically acceptable — treat as favorable, show green
+      status = 'below';
+      gapChip.textContent = 'Below';
+      gapText.textContent = 'Below target range; no control or tolerability inference';
+    }
+  }
+  gapRow.classList.add('visible', 'gap-' + status);
+}
+
+function handleStageChange() {
+  var stageEl = document.getElementById('stage');
+  var progEl  = document.getElementById('progression');
+  var hint    = document.getElementById('ohtHint');
+  var isOHT   = stageEl.value === 'OHT';
+  var triggersEl = document.getElementById('triggersCollapsible');
+  if (isOHT) {
+    progEl.value    = 'none';
+    progEl.disabled = true;
+    hint.style.display = '';
+    if (triggersEl) { triggersEl.style.display = 'none'; triggersEl.classList.remove('open'); }
+  } else {
+    progEl.disabled    = false;
+    hint.style.display = 'none';
+    if (triggersEl) { triggersEl.style.display = ''; }
+  }
+  var _baselineRaw  = document.getElementById('baseline').value.trim();
+  var _currentRaw   = document.getElementById('currentIOP').value.trim();
+  var _cct          = document.getElementById('cct').value;
+  evaluateWarning(stageEl.value, _baselineRaw, _currentRaw, false, NaN, _cct);
+}
+
+var CCT_SHORT  = { thin: 'Thin', average: 'Average', thick: 'Thick' };
+var PROG_SHORT = { none: 'None', confirmed: 'Confirmed' };
+
+function calculate() {
+  invalidateStoredM2Result();
+  var stageKey      = document.getElementById('stage').value;
+  var baselineRaw   = document.getElementById('baseline').value.trim();
+  var cct           = document.getElementById('cct').value;
+  var progression   = document.getElementById('progression').value;
+  var currentIOPRaw = document.getElementById('currentIOP').value.trim();
+  var baselineEl    = document.getElementById('baseline');
+  var currentEl     = document.getElementById('currentIOP');
+
+  var cctLabel   = CCT_SHORT[cct];
+  var progLabel  = PROG_SHORT[progression];
+  var stageLabel = STAGES[stageKey].label;
+
+  var modeA    = false;
+  var baseline = NaN;
+  if (baselineRaw !== '') {
+    baseline = parseFloat(baselineRaw);
+    if (isNaN(baseline) || baseline < 9 || baseline > 60 || (stageKey === 'OHT' && baseline >= 35)) {
+      baselineEl.classList.add('input-error');
+      baselineEl.focus();
+      return;
+    }
+    // NTG: block calculation for extreme baseline
+    // Mild POAG: block extreme baselines
+    if (stageKey === 'Mild' && (baseline < 13 || baseline > 50)) {
+      baselineEl.classList.add('input-error');
+      baselineEl.focus();
+      return;
+    }
+    // Moderate POAG: block extreme baselines
+    if (stageKey === 'Moderate' && (baseline < 13 || baseline > 50)) {
+      baselineEl.classList.add('input-error');
+      baselineEl.focus();
+      return;
+    }
+    // Severe POAG: block extreme baselines
+    if (stageKey === 'Severe' && (baseline < 13 || baseline > 50)) {
+      baselineEl.classList.add('input-error');
+      baselineEl.focus();
+      return;
+    }
+    // Moderate POAG: block extreme baselines
+    if (stageKey === 'Moderate' && (baseline < 13 || baseline > 50)) {
+      baselineEl.classList.add('input-error');
+      baselineEl.focus();
+      return;
+    }
+    // Severe POAG: block extreme baselines
+    if (stageKey === 'Severe' && (baseline < 13 || baseline > 50)) {
+      baselineEl.classList.add('input-error');
+      baselineEl.focus();
+      return;
+    }
+    // NTG: block CCT-specific upper limit + universal limits
+    var ntgUpperBlock = cct === 'thin' ? baseline >= 22 : cct === 'thick' ? baseline >= 24 : baseline >= 23;
+    var ntgLowerBlock = baseline <= 8 || (cct === 'thick' && baseline === 9);
+    if (stageKey === 'NTG' && (ntgLowerBlock || ntgUpperBlock)) {
+      baselineEl.classList.add('input-error');
+      baselineEl.focus();
+      return;
+    }
+    // OHT: block calculation for incoherent or implausible baseline
+    if (stageKey === 'OHT' && (baseline >= 35 || (cct === 'thin' && baseline < 19) || (cct === 'average' && baseline < 20) || (cct === 'thick' && baseline < 21))) {
+      baselineEl.classList.add('input-error');
+      baselineEl.focus();
+      return;
+    }
+    modeA = true;
+  }
+  baselineEl.classList.remove('input-error');
+
+  var currentIOP = NaN;
+  if (currentIOPRaw !== '') {
+    currentIOP = parseFloat(currentIOPRaw);
+    if (isNaN(currentIOP) || currentIOP < 6 || currentIOP > 60) {
+      currentEl.classList.add('input-error');
+      currentEl.focus();
+      return;
+    }
+  }
+  currentEl.classList.remove('input-error');
+
+  // OHT Mode B: block calculation if current IOP is implausible for OHT
+  if (stageKey === 'OHT' && !isNaN(currentIOP) && currentIOP > 30) {
+    currentEl.classList.add('input-error');
+    currentEl.focus();
+    return;
+  }
+  // Mild POAG: block on-treatment >50
+  if (stageKey === 'Mild' && !isNaN(currentIOP) && currentIOP > 50) {
+    currentEl.classList.add('input-error');
+    currentEl.focus();
+    return;
+  }
+  // Moderate POAG: block on-treatment >50
+  if (stageKey === 'Moderate' && !isNaN(currentIOP) && currentIOP > 50) {
+    currentEl.classList.add('input-error');
+    currentEl.focus();
+    return;
+  }
+  // Severe POAG: block on-treatment >50
+  if (stageKey === 'Severe' && !isNaN(currentIOP) && currentIOP > 50) {
+    currentEl.classList.add('input-error');
+    currentEl.focus();
+    return;
+  }
+  // Moderate POAG: block on-treatment >50
+  if (stageKey === 'Moderate' && !isNaN(currentIOP) && currentIOP > 50) {
+    currentEl.classList.add('input-error');
+    currentEl.focus();
+    return;
+  }
+  // Severe POAG: block on-treatment >50
+  if (stageKey === 'Severe' && !isNaN(currentIOP) && currentIOP > 50) {
+    currentEl.classList.add('input-error');
+    currentEl.focus();
+    return;
+  }
+
+  var rangeAscii, rangeDisplay;
+  var modeChip = document.getElementById('modeChip');
+
+  // Call the structured pure function
+  _result = computeM2_TargetIOP({
+    stage:      stageKey,
+    baseline:   baseline,
+    cct:        cct,
+    progression: progression,
+    currentIOP: currentIOP
+  });
+
+  /* ── OFTY Suite integration: persist result for M5 import ── */
+  try {
+    var _m2Store = JSON.parse(JSON.stringify(_result));
+    _m2Store._timestamp = new Date().toISOString();
+    localStorage.setItem('ofty_m2_result', JSON.stringify(_m2Store));
+    if (window.Gate2Session) {
+      var active = Gate2Session.current();
+      _m2Store.pressure_observation = { method: 'GAT', role: 'current_on_treatment',
+        value_mmhg: _m2Store.inputs.current_iop_mmhg, source_module: 'OFTY-Gx-M2',
+        observation_id: document.getElementById('g2observation')?.value || null,
+        attested: document.getElementById('g2gatattest')?.checked === true,
+        selected: document.getElementById('g2gatattest')?.checked === true,
+        observed_at: document.getElementById('g2observed')?.value || null,
+        unknown_time_reason: 'not_recorded',
+        target: [_m2Store.outputs.target_iop_range_low_mmhg, _m2Store.outputs.target_iop_range_high_mmhg] };
+      Gate2Session.publish('m2', _m2Store, active?.eye);
+    }
+  } catch(e) {}
+
+  var ui = _result._ui;
+  rangeAscii   = ui.rangeAscii;
+  rangeDisplay = ui.rangeDisplay;
+
+  // Backwards-compatible shape so renderGap / gap labels still work
+  var res_windowLo = _result.outputs.target_iop_range_low_mmhg;
+  var res_windowHi = _result.outputs.target_iop_range_high_mmhg;
+
+  if (modeA) {
+    modeChip.innerHTML = 'Personalized target <span class="mode-info-icon" data-tooltip="personalized" aria-label="What is a personalized target?">i</span>';
+    modeChip.className = 'iop-type';
+  } else {
+    modeChip.innerHTML = 'Stage-based target (baseline unavailable · not individualized) <span class="mode-info-icon" data-tooltip="stagebased" aria-label="What is a stage-based target?">i</span>';
+    modeChip.className = 'iop-type';
+  }
+
+  document.getElementById('iopRange').textContent = rangeDisplay;
+
+  var summaryEl = document.getElementById('rationaleBox');
+  summaryEl.innerHTML = '';
+  function csRow(label, value, useHTML) {
+    var row = document.createElement('div');
+    row.className = 'cs-row';
+    var l = document.createElement('span'); l.className = 'cs-label'; l.textContent = label;
+    var v = document.createElement('span'); v.className = 'cs-value';
+    if (useHTML) { v.innerHTML = value; } else { v.textContent = value; }
+    row.appendChild(l); row.appendChild(v);
+    summaryEl.appendChild(row);
+  }
+
+  if (modeA) {
+    csRow('Baseline IOP', fmt(baseline) + ' mmHg');
+    if (ui.impliedPct && ui.impliedPct > 0) {
+      csRow('Approx. reduction', '∼' + ui.impliedPct + '%');
+    }
+  }
+  csRow('Stage', ui.effectiveStageKey !== stageKey ? STAGES[ui.effectiveStageKey].label : stageLabel);
+  if (ui.effectiveStageKey !== stageKey) {
+    csRow('Escalated from', stageLabel);
+  }
+  csRow('CCT', cctLabel);
+  csRow('Progression', progLabel);
+  var _bandSuffix = '';
+  if (stageKey === 'NTG') {
+    _bandSuffix = cct === 'thin' ? ' <span style="color:var(--text-3);font-weight:400">(lower band)</span>'
+                : cct === 'thick' ? ' <span style="color:var(--text-3);font-weight:400">(upper band)</span>'
+                : ' <span style="color:var(--text-3);font-weight:400">(mid band)</span>';
+  }
+  csRow('Target', rangeDisplay + ' mmHg' + _bandSuffix, true);
+  if (!isNaN(currentIOP)) {
+    csRow('Current IOP', fmt(currentIOP) + ' mmHg');
+    var gapLabel;
+    if (currentIOP >= res_windowLo && currentIOP <= res_windowHi) {
+      gapLabel = 'Within target';
+    } else if (currentIOP > res_windowHi) {
+      gapLabel = '+' + fmt(r05(currentIOP - res_windowHi)) + ' mmHg above target';
+    } else {
+      gapLabel = currentIOP <= 8 ? fmt(currentIOP) + ' mmHg — verify tolerability' : 'Within or below target';
+    }
+    csRow('Gap to target', gapLabel);
+  }
+
+  evaluateWarning(stageKey, baselineRaw, currentIOPRaw, modeA, baseline, cct);
+  renderGap(currentIOP, res_windowLo, res_windowHi);
+  showResultCard();
+  resetCopyBtn();
+}
+
+function copyResult() {
+  if (!_result) return;
+  var o   = _result.outputs;
+  var inp = _result.inputs;
+  var ui  = _result._ui;
+
+  var baselineStr   = inp.baseline_mmhg !== null ? fmt(inp.baseline_mmhg)   + ' mmHg' : 'not entered';
+  var currentIOPStr = inp.current_iop_mmhg !== null ? fmt(inp.current_iop_mmhg) + ' mmHg' : 'not entered';
+  var progressionStr = inp.progression === 'confirmed' ? 'Yes' : 'No';
+
+  var gapStr = '';
+  if (inp.current_iop_mmhg !== null) {
+    var c = inp.current_iop_mmhg, lo = o.target_iop_range_low_mmhg, hi = o.target_iop_range_high_mmhg;
+    if (c >= lo && c <= hi) {
+      gapStr = 'Within target';
+    } else if (c > hi) {
+      gapStr = '+' + fmt(r05(c - hi)) + ' mmHg above target';
+    } else {
+      gapStr = '−' + fmt(r05(lo - c)) + ' mmHg below target';
+    }
+  }
+
+  var lines = [
+    'Target IOP range: ' + ui.rangeAscii + ' mmHg',
+    'Estimation mode: ' + (inp.baseline_mmhg !== null ? 'Personalized target' : 'Stage-based target (baseline unavailable; not individualized)'),
+    'Stage: ' + o.stage_label,
+    'CCT: ' + CCT_SHORT[inp.cct],
+    'Progression: ' + progressionStr,
+    '',
+    'Baseline IOP: ' + baselineStr,
+    'On-treatment IOP: ' + currentIOPStr,
+  ];
+  if (gapStr) { lines.push(''); lines.push('Gap from target: ' + gapStr); }
+  lines.push('');
+  var _verEl = document.querySelector('#versionCollapsible .ver-tag');
+  var _ver = _verEl ? _verEl.textContent.trim() : 'v1.0';
+  lines.push('Generated with OFTY Tool M2 ' + _ver);
+
+  var text = lines.join('\n');
+
+  function markCopied() {
+    var btn = document.getElementById('copyBtn');
+    btn.classList.add('copied');
+    btn.innerHTML =
+      '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">' +
+      '<polyline points="20 6 9 17 4 12"/>' +
+      '</svg> Copied!';
+    setTimeout(resetCopyBtn, 2200);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(markCopied).catch(function() { fallbackCopy(text, markCopied); });
+  } else { fallbackCopy(text, markCopied); }
+}
+
+function fallbackCopy(text, cb) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta); cb();
+}
+
+document.getElementById('cct').addEventListener('change', function() {
+  var stage = document.getElementById('stage').value;
+  var bRaw  = document.getElementById('baseline').value.trim();
+  var cRaw  = document.getElementById('currentIOP').value.trim();
+  evaluateWarning(stage, bRaw, cRaw, false, NaN, this.value);
+  invalidateStoredM2Result();
+  updateRangeHints();
+});
+['baseline','currentIOP'].forEach(function(id) {
+  var el = document.getElementById(id);
+  el.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+  el.addEventListener('wheel', function(e) { e.preventDefault(); }, { passive: false });
+  el.addEventListener('blur', function() { this.classList.remove('input-error'); });
+});
+
+// Real-time warning update from input fields
+document.getElementById('baseline').addEventListener('input', function() {
+  this.classList.remove('input-error');
+  var stage = document.getElementById('stage').value;
+  var cRaw  = document.getElementById('currentIOP').value.trim();
+  var cct   = document.getElementById('cct').value;
+  evaluateWarning(stage, this.value.trim(), cRaw, false, NaN, cct);
+  invalidateStoredM2Result();
+});
+document.getElementById('currentIOP').addEventListener('input', function() {
+  this.classList.remove('input-error');
+  var stage = document.getElementById('stage').value;
+  var bRaw  = document.getElementById('baseline').value.trim();
+  var cct   = document.getElementById('cct').value;
+  evaluateWarning(stage, bRaw, this.value.trim(), false, NaN, cct);
+  invalidateStoredM2Result();
+});
+
+// ── Unified warning system ──────────────────────────────────
+function updateRangeHints() {
+  var stage = document.getElementById('stage').value;
+  var cct   = document.getElementById('cct').value;
+  var bHint = document.getElementById('baseline-hint');
+  var cHint = document.getElementById('currentIOP-hint');
+
+  // Baseline lower limit by stage/cct
+  var bMin, bMax;
+  if (stage === 'OHT') {
+    bMin = cct === 'thin' ? 19 : 20;
+    bMax = 34;
+  } else if (stage === 'NTG') {
+    var ntgUpper = cct === 'thin' ? 21 : cct === 'thick' ? 23 : 22;
+    bMin = cct === 'thick' ? 10 : 9;
+    bMax = ntgUpper - 1;
+  } else {
+    // Mild, Moderate, Severe
+    bMin = 13;
+    bMax = 49;
+  }
+
+  if (bHint) bHint.textContent = bMin + ' – ' + bMax + ' mmHg';
+  if (cHint) cHint.textContent = '6 – 50 mmHg';
+}
+
+function resetResultCard() {
+  var card = document.getElementById('resultCard');
+  if (card) card.classList.remove('visible');
+  document.getElementById('gapRow').classList.remove('visible', 'gap-ok', 'gap-above', 'gap-below', 'gap-warn');
+}
+
+// Session-integrity helper: invalidates any stored/active M2 result so it can no
+// longer be copied or imported by M5 once it no longer corresponds to the visible
+// inputs (input change, reset, or a new blocked/withheld calculation attempt).
+// Does not alter computeM2_TargetIOP/computeModeA/computeModeB or any clinical logic.
+function invalidateStoredM2Result() {
+  _result = null;
+  try { localStorage.removeItem('ofty_m2_result'); } catch(e) {}
+  resetResultCard();
+}
+
+function setCurrentIOPEnabled(enabled) {
+  var el = document.getElementById('currentIOP');
+  if (!el) return;
+  el.disabled = !enabled;
+  el.style.opacity = enabled ? '' : '0.4';
+  if (!enabled) { el.value = ''; }
+}
+
+function showWarning(type, message) {
+  var el = document.getElementById('warningBox');
+  var tx = document.getElementById('warningBoxText');
+  if (!el || !tx) return;
+  el.className = 'warning-box ' + (type === 'info' ? 'wb-info' : 'wb-alert');
+  el.style.display = 'block';
+  tx.textContent = message;
+}
+function hideWarning() {
+  var el = document.getElementById('warningBox');
+  if (el) { el.style.display = 'none'; el.className = 'warning-box'; }
+}
+
+// Priority-ordered warning evaluation. Call from calculate(), handleStageChange(), input listeners.
+// modeAFlag and baselineNum are optional (pass false/NaN when called outside calculate()).
+function evaluateWarning(stage, baselineRaw, currentIOPRaw, modeAFlag, baselineNum, cct) {
+  var bRaw = (baselineRaw   || '').trim();
+  var cRaw = (currentIOPRaw || '').trim();
+  var bVal = bRaw ? Number(bRaw) : NaN;
+  var cVal = cRaw ? Number(cRaw) : NaN;
+  var bValid = bRaw !== '' && !isNaN(bVal);
+  var cValid = cRaw !== '' && !isNaN(cVal);
+
+  // Helper: highest numeric value among valid inputs
+  var maxVal = NaN;
+  if (bValid && cValid) maxVal = Math.max(bVal, cVal);
+  else if (bValid) maxVal = bVal;
+  else if (cValid) maxVal = cVal;
+
+  // ── Priority 1 (alert) ──────────────────────────────────────
+  // OHT with low IOP (incoherent diagnosis)
+  if (stage === 'OHT') {
+    var lowTrigger = bValid && ((cct === 'thin' && bVal < 19) || (cct === 'average' && bVal < 20) || (cct === 'thick' && bVal < 21));
+    if (lowTrigger) {
+      showWarning('alert', 'OHT usually implies IOP ≥21 mmHg. Verify measurement or check category.');
+      setCurrentIOPEnabled(false);
+      return;
+    }
+  }
+  // NTG with high IOP (incoherent diagnosis)
+  if (stage === 'NTG') {
+    // NTG high: CCT-specific thresholds
+    var ntgHighThresh = cct === 'thin' ? 22 : cct === 'thick' ? 24 : 23;  // thin 21, average 22, thick 23 handled by blue flag
+    var ntgBorderlineHigh = cct === 'thick' && bValid && bVal === 23;
+    var ntgHighTrigger = bValid && bVal >= ntgHighThresh;
+    if (ntgBorderlineHigh) {
+      showWarning('info', 'Borderline IOP — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    }
+    if (ntgHighTrigger) {
+      showWarning('alert', 'IOP above expected range — interpret within clinical context.');
+      setCurrentIOPEnabled(false);
+      return;
+    }
+    // NTG very low baseline
+
+  }
+  // OHT ≥30: extreme high (alert)
+  if (stage === 'OHT' && !isNaN(maxVal) && maxVal >= 35) {
+    showWarning('alert', 'High IOP — interpret within clinical context.');
+    setCurrentIOPEnabled(true);
+    return;
+  }
+
+  // ── Priority 2 ──────────────────────────────────────────────
+  var repVal = bValid ? bVal : NaN;  // CCT bias: baseline only, not on-treatment
+
+  // OHT thin 19-20 or thick 21-22: borderline info
+  if (stage === 'OHT' && !isNaN(repVal)) {
+    if ((cct === 'thin' && repVal >= 19 && repVal <= 20) ||
+        (cct === 'average' && repVal === 20) ||
+        (cct === 'thick' && repVal >= 21 && repVal <= 22)) {
+      showWarning('info', 'Borderline IOP — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    }
+  }
+  // OHT ≥26 non-thick, or ≥28 thick
+  if (stage === 'OHT' && !isNaN(maxVal) && maxVal >= 30) {
+    showWarning('alert', 'High IOP — interpret within clinical context.');
+    setCurrentIOPEnabled(true);
+    return;
+  }
+
+  // ── Mild POAG flags ────────────────────────────────────────
+  // On-treatment high flag (no baseline needed)
+  if (stage === 'Mild' && !bValid && cValid && cVal >= 35) {
+    showWarning('alert', 'High IOP — interpret within clinical context.');
+    setCurrentIOPEnabled(true);
+    return;
+  }
+  if (stage === 'Moderate' && !bValid && cValid && cVal >= 35) {
+    showWarning('alert', 'High IOP — interpret within clinical context.');
+    setCurrentIOPEnabled(true);
+    return;
+  }
+  if (stage === 'Mild' && bValid) {
+    if (bVal < 13 || bVal > 50) {
+      // blocked — no warning needed, handled in calculate()
+    } else if (bVal >= 13 && bVal < 18) {
+      showWarning('alert', 'Low IOP for POAG — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    } else if (bVal >= 18 && bVal <= 21) {
+      showWarning('info', 'Borderline IOP — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    } else if (bVal >= 35 && bVal <= 49) {
+      showWarning('alert', 'High IOP — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    }
+  }
+  if (stage === 'Moderate' && bValid) {
+    if (bVal < 13 || bVal > 50) {
+      // blocked
+    } else if (bVal >= 13 && bVal < 18) {
+      showWarning('alert', 'Low IOP for POAG — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    } else if (bVal >= 18 && bVal <= 21) {
+      showWarning('info', 'Borderline IOP — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    } else if (bVal >= 35 && bVal <= 49) {
+      showWarning('alert', 'High IOP — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    }
+  }
+
+  // ── Moderate POAG flags ─────────────────────────────────────
+  if (stage === 'Moderate' && !bValid && cValid && cVal >= 35) {
+    showWarning('alert', 'High IOP — interpret within clinical context.');
+    setCurrentIOPEnabled(true);
+    return;
+  }
+  if (stage === 'Moderate' && bValid) {
+    if (bVal < 13 || bVal > 50) {
+      // blocked
+    } else if (bVal >= 13 && bVal < 18) {
+      showWarning('alert', 'Low IOP for POAG — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    } else if (bVal >= 18 && bVal <= 21) {
+      showWarning('info', 'Borderline IOP — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    } else if (bVal >= 35 && bVal <= 49) {
+      showWarning('alert', 'High IOP — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    }
+  }
+
+  // ── Severe POAG flags ──────────────────────────────────────
+  if (stage === 'Severe' && !bValid && cValid && cVal >= 35) {
+    showWarning('alert', 'High IOP — interpret within clinical context.');
+    setCurrentIOPEnabled(true);
+    return;
+  }
+  if (stage === 'Severe' && bValid) {
+    if (bVal < 13 || bVal > 50) {
+      // blocked
+    } else if (bVal >= 13 && bVal < 18) {
+      showWarning('alert', 'Low IOP for POAG — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    } else if (bVal >= 18 && bVal <= 21) {
+      showWarning('info', 'Borderline IOP — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    } else if (bVal >= 35 && bVal <= 49) {
+      showWarning('alert', 'High IOP — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    }
+  }
+
+  // ── Priority 3 — CCT bias classification warnings ───────────
+
+  // NTG low IOP red flag: all CCT 9-11, thick 12-13
+  if (stage === 'NTG' && !isNaN(repVal)) {
+    var ntgLowRed = (repVal >= 9 && repVal <= 10) ||
+        (repVal === 11 && cct !== 'thin') ||
+        (cct === 'thick' && repVal >= 12 && repVal <= 13);
+    if (ntgLowRed) {
+      showWarning('alert', 'Low IOP — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    }
+  }
+  // NTG borderline blue flag: thin 20, thick 23
+  if (stage === 'NTG' && !isNaN(repVal)) {
+    if ((cct === 'thin' && (repVal === 20 || repVal === 21)) ||
+        (cct === 'average' && repVal === 22) ||
+        (cct === 'thick' && repVal === 23)) {
+      showWarning('info', 'Borderline IOP — interpret within clinical context.');
+      setCurrentIOPEnabled(true);
+      return;
+    }
+  }
+
+  // No warning condition met
+  hideWarning();
+  setCurrentIOPEnabled(true);
+}
+
+// ── Mode-chip tooltip controller ─────────────────────────────
+(function() {
+  var TIPS = {
+    stagebased:   'Returned when untreated baseline IOP is not entered. The range is derived from glaucoma stage, CCT, and progression status. It is a stage-based starting reference and not an individualized target.',
+    personalized: 'Returned when baseline IOP is entered. Target derived as a percentage reduction from the patient\'s own pre-treatment pressure level.'
+  };
+  var tip    = document.getElementById('oftyTooltip');
+  var MARGIN = 8;
+
+  function show(icon) {
+    var key = icon.getAttribute('data-tooltip');
+    if (!key || !TIPS[key]) return;
+    tip.textContent = TIPS[key];
+    tip.classList.add('visible');
+    position(icon);
+  }
+  function hide() { tip.classList.remove('visible'); }
+
+  function position(icon) {
+    var r  = icon.getBoundingClientRect();
+    var tw = tip.offsetWidth, th = tip.offsetHeight;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    // Center horizontally on mobile, follow icon on desktop
+    var left = Math.max(MARGIN, Math.min(vw - tw - MARGIN, (vw - tw) / 2));
+    var top  = r.bottom + MARGIN;
+    if (top + th > vh - MARGIN) top = r.top - th - MARGIN;
+    tip.style.left = left + 'px';
+    tip.style.top  = top  + 'px';
+  }
+
+  var _tipLocked = false;
+
+  window.addEventListener('scroll', function() {
+    _tipLocked = false; hide();
+  }, { passive: true });
+
+  document.addEventListener('mouseover', function(e) {
+    if (e.target.classList && e.target.classList.contains('mode-info-icon')) show(e.target);
+  });
+  document.addEventListener('mouseout', function(e) {
+    if (e.target.classList && e.target.classList.contains('mode-info-icon') && !_tipLocked) hide();
+  });
+  document.addEventListener('click', function(e) {
+    if (e.target.classList && e.target.classList.contains('mode-info-icon')) {
+      e.stopPropagation();
+      if (tip.classList.contains('visible') && _tipLocked) {
+        _tipLocked = false; hide();
+      } else {
+        _tipLocked = true; show(e.target);
+      }
+    } else {
+      _tipLocked = false; hide();
+    }
+  });
+})();
+
+handleStageChange();
+updateRangeHints();
+</script>
+</body>
+</html>

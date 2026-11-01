@@ -1,0 +1,2389 @@
+<!DOCTYPE html>
+
+<!-- ============================================================
+  OFTY MODULAR CLINICAL SUITE -- MODULE DECLARATION
+  ============================================================
+  Module_ID:           OFTY-Gx-M4
+  Module_Name:         OCT Progression Analysis
+  Domain:              Glaucoma Structural Monitoring
+  Suite:               OFTY Glaucoma Suite
+  Suite_Version:       v1
+  Module_Version:      v1.1
+  Algorithm_Version:   v1.3.1 (G2-C working variant, unreleased; was v1.3.0)
+  UI_Version:          v1.8.2 (G2-C working variant, unreleased; was v1.8.1)
+  Release_Date:        2026
+  Author:              Andrea Ragosta, MD, FEBO
+
+  Suite_Compatibility: TRUE
+  Orchestrator_Input_Type: Structural_Progression_Output
+
+  Status:              Publishable / Suite-ready
+
+  UI_CHANGELOG (v1.8.2 -- G2-C working variant, unreleased)
+  ────────────────────────────────
+  - Method panel p-value shown with the G2-C display rule (4 decimals;
+    "< 0.0001" below 0.0001; never displayed on the other side of 0.05
+    or 0.10 than the unrounded p used for significance).
+
+  ENGINE_CHANGELOG (v1.3.1 -- G2-C working variant, unreleased)
+  ────────────────────────────────────────────────────────────
+  Algorithm_Version: 1.3.0 → 1.3.1
+  - structural_rate.p_value is exported unrounded (it was rounded to
+    2 dp, e.g. 0.047 exported as 0.05 while classified significant).
+  - p-values quoted in the interpretation and logic_trace notes use the
+    same display rule as the Method panel.
+  - _pval/_ibeta/_ols, significance thresholds, p-value guard, pre-final
+    gate, slope bands and classification unchanged.
+
+  UI_CHANGELOG (v1.8.1 -- G2-B working variant, unreleased)
+  ────────────────────────────────
+  - Persistent average-RNFL scope limitation (AS-M2) added to the result
+    card and copied text. Algorithm 1.3.0, engine, classification and
+    exported payload unchanged.
+
+  UI_CHANGELOG (v1.8.0)
+  ────────────────────────────────
+  - UI 1.8.0: canonical YYYY-MM entry; incomplete rows block analysis;
+    explicit scan-quality rating required (A1 P1/P3). Algorithm 1.3.0
+    and engine unchanged.
+
+  UI_CHANGELOG (v1.7.0)
+  ────────────────────────────────
+  - Visible adjudication wording updated for M4-06 (Low-final terminal
+    scan) and M4-12 (pre-final fast trend preserved despite Low final
+    scan) pathways.
+  - Stale M4 results are now cleared (window._lastM4Result and
+    localStorage['ofty_m4_result']) whenever a clinically relevant
+    input changes, matching the M3 session-integrity pattern.
+  - Copy output and persisted M5 payload aligned with the revised
+    M4-06 / M4-12 pathways; new caution-flag label added.
+  - Layout, styling, and responsive behaviour unchanged.
+
+  ENGINE_CHANGELOG (v1.3.0)
+  ────────────────────────────────────────────────────────────
+  Algorithm_Version: 1.2.4 → 1.3.0
+  - Terminal Low-quality artefact wording made more clinically balanced
+    (M4-06): no longer implies artefact is more likely than genuine
+    structural loss.
+  - New pre-final fast-trend confirmation gate (M4-12): a statistically
+    significant fast structural decline already established by the
+    preceding Good-reliability scans is preserved as fast_progression
+    despite a Low-reliability final scan, instead of being downgraded
+    by the terminal-artifact rule, the p-value guard, or the Poor
+    Quality Cap. Confidence is forced Low and repeat confirmation is
+    recommended.
+  - The existing M4-11 p-value guard is unchanged outside this narrow,
+    explicitly scoped exception.
+  - OLS regression, the corrected v1.2.4 p-value implementation,
+    classification thresholds, and the structured-output schema are
+    unchanged.
+
+  UI_CHANGELOG (v1.0.0 → v1.1.0)
+  ────────────────────────────────
+  - Max 12 rows enforced; addRowBtn disabled at cap; hint shown
+  - Date auto-masking (M3-identical): digits → YYYY-MM on input/keydown
+  - Gap >24 mo badge in date column (M3-identical)
+  - Excel-style Enter on RNFL input: add row, focus next date
+  - Sparkline adapted for RNFL (µm): floor line at 50 µm,
+    solid black trend line, reliability-coloured circles
+  - PROG_LABELS_UI: added myopia_limited_structural_signal entry
+  - RISK_LABELS_UI: added myopia_limited entry
+  - renderResult: fixed redundant near-floor double-write
+  - hideResult: removed duplicate classList.remove call
+  - btn-remove: upgraded to 44×44 touch-safe target (M3-identical)
+  - BETA badge removed; header badge updated to OFTY TOOL #4
+
+  ENGINE_CHANGELOG (v1.0.0 — no change to Algorithm_Version)  [superseded by v1.1.0 below]
+  ────────────────────────────────────────────────────────────
+  - Priority 2.5: V-shape mid-series artefact detector
+    (drop ≥8 µm + recovery ≥8 µm at interior point → suspicious_trend/low)
+  - ERM modifier elevated to classification-path override:
+    erm_maculopathy + slope ≤ SLOPE_STABLE → erm_limited_structural_signal
+    (analogous to high_myopia path; distinct key, shared risk label)
+  - New caution_flag: erm_limits_oct_interpretation
+  - New logic_trace field: vshape_rule_applied
+
+  ENGINE_CHANGELOG (v1.1.0)
+  ────────────────────────────────────────────────────────────
+  Algorithm_Version: 1.0.0 → 1.1.0
+  - Change 1 (n=2 Prudence Cap): fast_progression with n=2 is retained
+    ONLY when both scans are Good AND |RNFL diff| >= 8 µm; otherwise
+    downgraded to suspicious_trend / Moderate. Positive slope already
+    maps to Stable via cascade (no additional code needed).
+  - Change 2 (P2 Bilateral Reliability for n=2): terminal artifact rule
+    extended for n=2 to fire when EITHER scan (pen or lat) has Low or
+    Borderline reliability, provided drop >= 4 µm.
+  - New caution_flag: n2_single_interval_limitation
+
+  ENGINE_CHANGELOG (v1.2.0)
+  ────────────────────────────────────────────────────────────
+  Algorithm_Version: 1.1.0 → 1.2.0
+  - Change 1 (p-value guard): when n<5, slope<=−1.0, and p>=0.05,
+    fast_progression is downgraded to suspicious_trend/Moderate.
+    Prevents non-significant slopes from generating Fast/High alerts.
+  - Change 2 (Poor Quality Cap): when last scan is Low/Borderline,
+    slope<=−2.0, and |pen−lat| < 5 µm, fast_progression is downgraded
+    to suspicious_trend/Moderate.
+  - Change 3 (Borderline Penalty): when nBorderline >= 2, confidence
+    is forced to Low regardless of n or other adjustments.
+  - New caution_flags: slope_not_statistically_significant,
+    poor_quality_final_scan_cap
+
+  ENGINE_CHANGELOG (v1.2.4)
+  ─────────────────────────────────────────────────────────────
+  Algorithm_Version: 1.2.3 → 1.2.4
+  - Corrected a numerical boundary error in the Student t two-tailed
+    p-value helper (_ibeta / _pval). The regularized incomplete beta had
+    inverted boundary returns and lacked the continued-fraction symmetry
+    transform I_x(a,b)=1-I_{1-x}(b,a) for x > (a+1)/(a+b+2); this produced
+    spuriously small p-values when |t| was near zero (e.g. _pval(0, df)
+    returned 0 instead of 1.0).
+  - Flat and near-flat slopes now return high (non-significant) p-values:
+    _pval(0, df) = 1.0; very small |t| -> ~0.9999; large |t| -> ~0.0.
+  - Classification thresholds and the full clinical rule cascade are
+    UNCHANGED; only the numerical p-value computation is corrected.
+  - The displayed p-value, the statistical_significance token, and the
+    p-value-guard decision are now numerically correct for low-|t| series.
+
+  ENGINE_CHANGELOG (v1.2.3)
+  ────────────────────────────────────────────────────────────
+  Algorithm_Version: 1.2.2 → 1.2.3
+  - n=2 Universal Noise-Floor Gate: when nv=2 AND |RNFL diff| < 4 µm AND
+    classification is suspicious_trend, clinical_risk is forced to Low
+    regardless of the cascade path taken. This closes a logical paradox
+    where the Tiered Prudence Cap (v1.2.2) could give Low risk via the
+    fast_progression path but Relevant risk via the suspicious_trend direct
+    path for the same |diff| (e.g. leap-year floating-point effect).
+    floor_effect, artifact, and modifier-limited paths are excluded.
+
+  ENGINE_CHANGELOG (v1.2.2)
+  ────────────────────────────────────────────────────────────
+  Algorithm_Version: 1.2.1 → 1.2.2
+  - Tiered n=2 Prudence Cap: when |RNFL diff| < 4 µm (sub-noise-floor),
+    clinical_risk is downgraded to Low (previously always Relevant).
+    The 4 µm threshold corresponds to OCT test-retest variability (SD ~2-3 µm).
+    Classification remains suspicious_trend in both tiers.
+    Interpretation text updated to cite test-retest variability explicitly.
+
+  ENGINE_CHANGELOG (v1.2.1 -- housekeeping, no logic change)
+  ────────────────────────────────────────────────────────────
+  Algorithm_Version: 1.2.0 -> 1.2.1
+  - Consolidated INTERP_MYOPIA_LIMITED and INTERP_ERM_LIMITED into
+    named constants. Both slope ranges now share a single source of
+    truth. No text content changed.
+  - Added documentation comment for post-cascade override texts.
+
+  UI_CHANGELOG (v1.2.4 -- UI fix only, no algorithm change)
+  ────────────────────────────────────────────────────────────
+  - Hard block added in analyze(): if any filled RNFL field is
+    out of [30-130] range, showError() fires and calculation is
+    aborted before the engine is called. Previously the field
+    turned red but the row was silently skipped (engine received
+    fewer tests than the user intended).
+
+  UI_CHANGELOG (v1.2.5 -- consistency fix)
+  ────────────────────────────────────────────────────────────
+  - Removed live "input" event listener on RNFL field that was
+    turning the field red while the user was still typing. Now
+    matches M3 behaviour: .invalid class applied only at Analyze
+    time via collectTests(), not on every keystroke.
+
+  UI_CHANGELOG (v1.2.6)
+  ────────────────────────────────────────────────────────────
+  - Added inline .rnfl-hint ("30 - 130 um") below the RNFL field,
+    shown via .rnfl-input.invalid ~ .rnfl-hint CSS rule.
+  - Removed showError() text from invalid RNFL block; calculation
+    blocked silently (return); feedback = red field + inline hint.
+  ============================================================ -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>OFTY Tool #4 — OCT Progression Analysis</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%91%81%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light only;
+  --bg:           #F4F6F9;
+  --surface:      #FFFFFF;
+  --surface-2:    #F8FAFC;
+  --border:       #E2E8F0;
+  --border-focus: #1C4F8C;
+  --text-1:       #0F172A;
+  --text-2:       #334155;
+  --text-3:       #64748B;
+  --text-4:       #94A3B8;
+  --primary:      #1C4F8C;
+  --primary-light:#EEF4FF;
+  --primary-dark: #163E70;
+  --primary-ring: rgba(28,79,140,0.18);
+  --primary-border-20: #CEDEEF;
+  --primary-border-25: #C2D3EB;
+  --primary-grad-end:  #4A7FC1;
+  --ok:           #166534;
+  --ok-dim:       #F0FDF4;
+  --ok-border:    #86EFAC;
+  --warn:         #92400E;
+  --warn-dim:     #FFFBEB;
+  --warn-border:  #FCD34D;
+  --err:          #991B1B;
+  --err-dim:      #FEF2F2;
+  --err-border:   #FCA5A5;
+  --radius-sm:    6px;
+  --radius:       10px;
+  --radius-lg:    14px;
+  --shadow-sm:    0 1px 2px rgba(0,0,0,0.06);
+  --shadow:       0 1px 4px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:    0 4px 16px rgba(0,0,0,0.09), 0 2px 4px rgba(0,0,0,0.04);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light only;
+    --bg:           #F4F6F9;
+    --surface:      #FFFFFF;
+    --surface-2:    #F8FAFC;
+    --border:       #E2E8F0;
+    --border-focus: #1C4F8C;
+    --text-1:       #0F172A;
+    --text-2:       #334155;
+    --text-3:       #64748B;
+    --text-4:       #94A3B8;
+    --primary:      #1C4F8C;
+    --primary-light:#EEF4FF;
+    --primary-dark: #163E70;
+    --primary-ring: rgba(28,79,140,0.18);
+    --primary-border-20: #CEDEEF;
+    --primary-border-25: #C2D3EB;
+    --primary-grad-end:  #4A7FC1;
+    --ok:           #166534;
+    --ok-dim:       #F0FDF4;
+    --ok-border:    #86EFAC;
+    --warn:         #92400E;
+    --warn-dim:     #FFFBEB;
+    --warn-border:  #FCD34D;
+    --err:          #991B1B;
+    --err-dim:      #FEF2F2;
+    --err-border:   #FCA5A5;
+  }
+  html, body { background-color: #F4F6F9 !important; color: #0F172A !important; }
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; background: var(--bg); }
+body {
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  background: var(--bg); color: var(--text-1);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.site-header {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 18px 16px 16px; position: sticky; top: 0; z-index: 20;
+  box-shadow: var(--shadow-sm);
+}
+.site-header-inner { max-width: 520px; margin: 0 auto; }
+.badge {
+  display: inline-flex; align-items: center;
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--primary); background: var(--primary-light);
+  border: 1px solid var(--primary-border-25); border-radius: 4px;
+  padding: 2px 8px 2px 7px; gap: 5px; margin-bottom: 8px;
+}
+.badge-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--primary); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.site-header h1 { font-size: 18px; font-weight: 600; letter-spacing: -0.025em; color: var(--text-1); line-height: 1.25; }
+.header-sub { margin-top: 5px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-3); letter-spacing: 0.04em; }
+main { max-width: 520px; margin: 0 auto; padding: 20px 16px 64px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 0; margin-bottom: 12px; box-shadow: var(--shadow); overflow: hidden; }
+.card-head { padding: 12px 18px 10px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+.card-head-label { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--text-3); }
+.card-body { padding: 18px 18px 20px; }
+.eye-selector-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.eye-selector-row label { font-size: 13px; font-weight: 500; color: var(--text-2); white-space: nowrap; }
+select, input[type="text"], input[type="number"] {
+  font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text-1);
+  background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  padding: 9px 12px; width: 100%; outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  appearance: none; -webkit-appearance: none;
+}
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px;
+}
+select:focus, input[type="text"]:focus, input[type="number"]:focus {
+  border-color: var(--border-focus); background: var(--surface); box-shadow: 0 0 0 3px var(--primary-ring);
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+input.invalid { border-color: var(--err) !important; box-shadow: 0 0 0 2px rgba(153,27,27,0.12) !important; }
+/* A1 P1/P3: missing scan-quality rating + row-validation message panel */
+select.rel-input.invalid { border-color: var(--err) !important; box-shadow: 0 0 0 2px rgba(153,27,27,0.12) !important; }
+.row-errors { margin: 10px 0 0 0; padding: 8px 10px; border: 1px solid var(--err); border-radius: 6px; color: var(--err); font-size: 13px; }
+.row-errors[hidden] { display: none; }
+.row-errors .row-errors-title { margin: 0 0 4px 0; font-weight: 600; }
+.row-errors ul { margin: 0; padding-left: 18px; }
+tr.row-invalid .date-input, tr.row-invalid .rnfl-input, tr.row-invalid .rel-input {
+  border-color: var(--err) !important;
+  box-shadow: 0 0 0 2px rgba(153,27,27,0.12) !important;
+}
+.entry-hint { font-size: 11px; color: var(--text-3); margin: 0 0 8px 0; letter-spacing: 0.01em; }
+
+/* ── Nav bar (M3-identical) ── */
+.nav-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 16px; height: 40px; display: flex; align-items: center; }
+.nav-bar-inner { max-width: 520px; margin: 0 auto; width: 100%; }
+.nav-back { display: inline-flex; align-items: center; gap: 5px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-3); text-decoration: none; letter-spacing: 0.03em; transition: color 0.15s; }
+.nav-back:hover { color: var(--primary); }
+.nav-back svg { flex-shrink: 0; }
+
+/* ── Gap >24 months badge (M3-identical) ── */
+.gap-badge {
+  display: none; align-items: center; gap: 3px;
+  margin-top: 4px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.02em;
+  color: #92400e;
+  background: #fef3c7; border: 1px solid #fcd34d;
+  border-radius: 4px; padding: 2px 6px;
+  white-space: nowrap;
+}
+.gap-badge.visible { display: inline-flex; }
+
+.field-table { width: 100%; border-collapse: collapse; }
+.field-table thead th {
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  color: var(--text-2); text-transform: none; letter-spacing: 0;
+  padding: 0 8px 10px 0; text-align: left;
+}
+.field-table thead th:last-child { padding-right: 0; width: 44px; }
+.field-table tbody tr + tr td { padding-top: 7px; }
+.field-table tbody td { padding-right: 8px; vertical-align: top; }
+.field-table tbody td:last-child { padding-right: 0; }
+  .rnfl-hint { display: none; color: var(--error, #c0392b); font-size: 0.72rem; margin-top: 3px; }
+  .rnfl-input.invalid ~ .rnfl-hint { display: block; }
+.col-date { width: 34%; } .col-rnfl { width: 28%; } .col-rel { width: 30%; } .col-rm { width: 44px; }
+
+/* ── btn-remove: 44x44 touch-safe target (M3-identical) ── */
+.btn-remove {
+  width: 44px; height: 44px; margin-top: 0;
+  border: none; background: none; color: var(--text-4);
+  font-size: 18px; line-height: 1; cursor: pointer;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  transition: color 0.15s, background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  min-width: 44px; min-height: 44px;
+}
+@media (hover: hover) {
+  .btn-remove:hover { color: var(--err); background: var(--err-dim); }
+  .btn-remove:active { color: var(--err); background: var(--err-dim); }
+}
+.btn-remove:focus { outline: none; box-shadow: none; background: none; color: var(--text-4); }
+.btn-remove:focus:not(:focus-visible) { outline: none; box-shadow: none; background: none; color: var(--text-4); }
+.btn-remove.btn-pressed { color: var(--err); background: var(--err-dim); }
+
+.btn-row { display: flex; gap: 10px; margin-top: 18px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  border: none; border-radius: var(--radius-sm); cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.10s, border-color 0.15s;
+  outline: none; -webkit-tap-highlight-color: transparent; white-space: nowrap;
+}
+.btn-primary { flex: 1; height: 46px; background: var(--primary); color: #fff; letter-spacing: 0.01em; box-shadow: 0 2px 6px var(--primary-ring); }
+.btn-primary:hover { background: var(--primary-dark); box-shadow: 0 3px 10px var(--primary-ring); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); box-shadow: none; }
+.btn-secondary {
+  height: 46px; padding: 0 18px; background: transparent;
+  color: var(--text-2); border: 1.5px solid var(--border);
+}
+.btn-secondary:hover { background: var(--surface-2); border-color: var(--text-3); color: var(--text-1); }
+.btn-secondary:focus,
+.btn-secondary:focus-visible,
+.btn-secondary:focus:not(:focus-visible) { outline: none; box-shadow: none; border-color: var(--border); background: transparent; color: var(--text-2); }
+.btn-secondary:active { background: var(--surface-2); border-color: var(--text-3); }
+.btn.btn-pressed.btn-secondary { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+.btn.btn-pressed.btn-primary { background: var(--primary-dark); }
+.btn-ghost { height: 46px; padding: 0 14px; background: transparent; color: var(--text-3); border: none; font-size: 13px; }
+.btn-ghost:hover { color: var(--text-2); background: var(--surface-2); }
+
+.modifiers-section { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+.modifiers-title { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+.modifier-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.modifier-row:last-child { margin-bottom: 0; }
+.modifier-row input[type="checkbox"] { width: 14px; height: 14px; flex-shrink: 0; accent-color: var(--primary); cursor: pointer; margin: 0; padding: 0; appearance: auto; -webkit-appearance: auto; }
+.modifier-label { font-size: 13px; color: var(--text-2); cursor: pointer; }
+.result-card { display: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 12px; box-shadow: var(--shadow-md); overflow: hidden; }
+.result-card.visible { display: block; animation: slideUp 0.22s ease forwards; }
+@keyframes slideUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+.result-hero { background: var(--surface); border-bottom: 1px solid var(--border); padding: 22px 20px 18px; position: relative; }
+.result-hero::after { content: ''; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--primary), var(--primary-grad-end)); }
+.result-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--primary); margin-bottom: 8px; }
+.result-number-row { display: flex; align-items: baseline; gap: 6px; line-height: 1; }
+.result-number { font-family: 'DM Mono', monospace; font-size: 40px; font-weight: 400; color: var(--primary); letter-spacing: -0.03em; line-height: 1; }
+.result-number.slope-unreliable { font-size: 14px; font-weight: 400; color: var(--text-3); letter-spacing: 0; opacity: 0.85; }
+.result-number-unit { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 400; color: var(--primary); opacity: 0.70; }
+.result-slope-tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 400; letter-spacing: 0.02em; color: var(--primary); opacity: 0.60; margin-left: 10px; vertical-align: middle; white-space: nowrap; }
+.result-section { padding: 13px 20px; border-bottom: 1px solid var(--border); }
+.result-section:last-of-type { border-bottom: none; }
+.result-section-label { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-3); margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
+.result-section-value { font-size: 14px; font-weight: 600; color: var(--text-1); line-height: 1.3; }
+.result-section-sub { font-size: 12px; color: var(--text-3); margin-top: 2px; line-height: 1.4; }
+.interp-section { padding: 13px 20px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+.interp-section-label { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-3); margin-bottom: 5px; }
+.interp-section-text { font-size: 13px; color: var(--text-2); line-height: 1.60; }
+.risk-strip { display: none; }
+.risk-strip.visible { display: block; }
+.risk-strip-inner { padding: 10px 20px 11px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+.risk-strip.risk-low      .risk-strip-inner { background: var(--ok-dim);  border-bottom-color: var(--ok-border); }
+.risk-strip.risk-relevant .risk-strip-inner { background: var(--warn-dim); border-bottom-color: var(--warn-border); }
+.risk-strip.risk-high     .risk-strip-inner { background: var(--err-dim);  border-bottom-color: var(--err-border); }
+.risk-strip.risk-indeterminate  .risk-strip-inner { background: var(--surface-2); border-bottom-color: var(--border); }
+.risk-strip.risk-myopia_limited .risk-strip-inner { background: #eef3fb; border-bottom-color: #93b4d9; }
+.risk-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.risk-strip.risk-low      .risk-dot { background: var(--ok); }
+.risk-strip.risk-relevant .risk-dot { background: var(--warn); }
+.risk-strip.risk-high     .risk-dot { background: var(--err); }
+.risk-strip.risk-indeterminate   .risk-dot { background: var(--text-4); }
+.risk-strip.risk-myopia_limited  .risk-dot { background: #4a7abf; }
+.risk-label { font-size: 12px; font-weight: 600; }
+.risk-strip.risk-low      .risk-label { color: var(--ok); }
+.risk-strip.risk-relevant .risk-label { color: var(--warn); }
+.risk-strip.risk-high     .risk-label { color: var(--err); }
+.risk-strip.risk-indeterminate   .risk-label { color: var(--text-3); }
+.risk-strip.risk-myopia_limited  .risk-label { color: #2c5191; }
+
+
+/* ── Sparkline (M3-identical CSS) ── */
+.sparkline-wrap {
+  border-bottom: 1px solid var(--border);
+  padding: 14px 20px 10px;
+  background: var(--surface);
+  box-sizing: border-box;
+  max-width: 520px;
+  margin: 0 auto;
+  display: none;
+}
+.sparkline-inner { width: 100%; line-height: 0; }
+.sparkline-inner svg { display: block; width: 100%; height: auto; }
+.sparkline-legend {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  margin-top: 8px;
+  font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--text-3);
+}
+.sparkline-legend-item { display: inline-flex; align-items: center; gap: 5px; }
+
+.copy-btn-wrap { padding: 12px 16px 14px; border-top: 1px solid var(--border); }
+.copy-btn { width: 100%; height: 40px; background: var(--surface-2); color: var(--text-2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.15s; -webkit-tap-highlight-color: transparent; }
+.copy-btn:hover { background: var(--bg); color: var(--text-1); border-color: var(--text-3); }
+.copy-btn.copied { background: var(--ok-dim); border-color: var(--ok-border); color: var(--ok); }
+.collapse { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; box-shadow: var(--shadow-sm); overflow: hidden; }
+.collapse-trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 13px 16px; background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-1); text-align: left; letter-spacing: 0.01em; -webkit-tap-highlight-color: transparent; transition: background 0.15s; height: auto; }
+.collapse-trigger:hover { background: var(--surface-2); }
+.collapse-chevron { width: 16px; height: 16px; flex-shrink: 0; color: var(--text-3); transition: transform 0.20s ease; }
+.collapse.is-open .collapse-chevron { transform: rotate(180deg); }
+.collapse-trigger-icon { width: 16px; height: 16px; flex-shrink: 0; color: var(--text-3); margin-right: 8px; }
+.collapse-trigger-label { flex: 1; text-align: left; }
+.collapse-body { display: none; border-top: 1px solid var(--border); padding: 14px 16px 16px; }
+.collapse.is-open .collapse-body { display: block; }
+.meta-row { display: flex; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--surface-2); font-size: 12px; }
+.meta-row:last-child { border-bottom: none; }
+.meta-key { color: var(--text-3); flex-shrink: 0; width: 160px; }
+.meta-val { color: var(--text-2); font-family: 'DM Mono', monospace; font-size: 11px; line-height: 1.5; }
+.section-divider { height: 1px; background: var(--border); margin: 10px 0; }
+.notes-list { list-style: none; display: flex; flex-direction: column; gap: 3px; margin-top: 4px; }
+.notes-list li { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-3); padding: 2px 0; border-bottom: 1px solid var(--surface-2); line-height: 1.5; }
+.notes-list li:last-child { border-bottom: none; }
+.site-footer {
+  text-align: center; font-size: 11px; color: #9CA3AF;
+  font-family: 'DM Mono', monospace; margin-top: 4px; padding-bottom: 8px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+@media (max-width: 380px) { .site-footer { font-size: 10px; } }
+.tip-wrap { position: relative; display: inline-flex; align-items: center; gap: 4px; }
+.tip-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 13px; height: 13px; border-radius: 50%;
+  border: 1px solid var(--text-3);
+  color: var(--text-3); font-size: 8.5px; font-weight: 400;
+  cursor: pointer; flex-shrink: 0; line-height: 1;
+  font-family: 'DM Sans', sans-serif; font-style: normal;
+  user-select: none; -webkit-user-select: none;
+}
+/* All tooltips rendered via #oftyTooltip (position:fixed, JS-controlled) */
+.tip-bubble { display: none; }
+#oftyTooltip {
+  display: none; position: fixed; z-index: 9999; max-width: 240px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 6px; padding: 9px 11px;
+  font-family: 'DM Sans', sans-serif; font-size: 11.5px; font-weight: 400;
+  line-height: 1.5; color: var(--text-2);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.10); pointer-events: none;
+}
+#oftyTooltip.visible { display: block; }
+  /* Sources list */
+  .src-list { list-style: none; padding: 0; margin: 0; }
+  .src-list li {
+    display: flex; gap: 9px; align-items: baseline;
+    font-size: 13px; color: var(--text-2); line-height: 1.5;
+    padding: 6px 0; border-bottom: 1px solid var(--border);
+  }
+  .src-list li:last-child { border-bottom: none; }
+  .src-list li::before {
+    content: '-'; font-family: 'DM Mono', monospace;
+    font-size: 11px; color: var(--text-3); flex-shrink: 0;
+  }
+  /* Version list */
+  .ver-list { list-style: none; padding: 0; margin: 0; }
+  .ver-list > li {
+    display: flex; flex-direction: column; gap: 0;
+    font-size: 13px; color: var(--text-2); line-height: 1.5;
+    padding: 6px 0; border-bottom: 1px solid var(--border);
+  }
+  .ver-list > li:last-child { border-bottom: none; }
+  .ver-tag { font-weight: 500; color: var(--primary); margin-right: 6px; }
+  .ver-notes { list-style: none; padding: 0; margin: 4px 0 0 0; }
+  .ver-notes li {
+    display: flex; gap: 9px; align-items: baseline;
+    font-size: 13px; color: var(--text-2); line-height: 1.5;
+    padding: 6px 0; border-bottom: 1px solid var(--border);
+  }
+  .ver-notes li:last-child { border-bottom: none; }
+  .ver-notes li::before {
+    content: '-'; font-family: 'DM Mono', monospace;
+    font-size: 11px; color: var(--text-3); flex-shrink: 0;
+  }
+/* ── Input placeholders — light gray matching M1/M2/M3 ────── */
+.date-input::placeholder              { color: #C8CDD5; opacity: 1; }
+.date-input::-webkit-input-placeholder{ color: #C8CDD5; }
+.date-input::-moz-placeholder         { color: #C8CDD5; opacity: 1; }
+.date-input:-ms-input-placeholder     { color: #C8CDD5; }
+.rnfl-input::placeholder              { color: #C8CDD5; opacity: 1; }
+.rnfl-input::-webkit-input-placeholder{ color: #C8CDD5; }
+.rnfl-input::-moz-placeholder         { color: #C8CDD5; opacity: 1; }
+.rnfl-input:-ms-input-placeholder     { color: #C8CDD5; }
+
+  .collapse-preview {
+    font-size: 13px; line-height: 1.6; color: var(--text-2);
+    font-style: italic; margin-bottom: 10px;
+  }
+  .btn-toggle-more {
+    font-size: 12px; font-weight: 500; color: var(--primary);
+    background: none; border: none; padding: 0; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    text-decoration: underline; text-underline-offset: 2px;
+    height: auto; display: inline; transition: color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-toggle-more:hover { color: var(--primary-dark); }
+  .collapse-extra { display: none; margin-top: 12px; }
+  .collapse-extra.is-open { display: block; }
+  .collapse-extra p { font-size: 13px; line-height: 1.65; color: var(--text-2); margin-bottom: 10px; }
+  .collapse-extra p:last-child { margin-bottom: 0; }
+  .collapse-extra strong { color: var(--text-1); font-weight: 600; }
+
+  .feedback-line { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; font-weight: 500; color: var(--text-3); font-family: 'DM Sans', sans-serif; text-align: center; padding: 14px 0 18px; text-decoration: none; transition: color .15s; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
+  .feedback-line svg { flex-shrink: 0; stroke: var(--text-3); transition: stroke .2s ease, transform .2s ease; }
+  .feedback-line em { font-style: normal; color: var(--primary); text-decoration: underline; text-underline-offset: 2px; text-decoration-color: transparent; transition: text-decoration-color .25s ease, color .15s; }
+  .feedback-line:hover svg { stroke: var(--primary); transform: scale(1.15); }
+  .feedback-line:hover em { color: var(--primary-dark); text-decoration-color: var(--primary-dark); }
+</style>
+<script src="../gate2/session.js"></script></head>
+<body data-gate2-module="m4">
+
+<div id="oftyTooltip" role="tooltip"></div>
+
+<nav class="nav-bar" aria-label="Site navigation">
+  <div class="nav-bar-inner">
+    <a class="nav-back" href="../index.html" aria-label="Back to OFTY Glaucoma Suite">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to OFTY Glaucoma Suite
+    </a>
+  </div>
+</nav>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <div class="badge" role="status" aria-label="OFTY Tool #4">
+      <span class="badge-dot" aria-hidden="true"></span>
+      OFTY TOOL #4
+    </div>
+    <h1>OCT Progression Analysis</h1>
+    <p class="header-sub">Serial RNFL thickness analysis to help assess glaucoma structural progression.</p>
+  </div>
+</header>
+
+<main>
+
+  <div class="card">
+    <div class="card-head"><span class="card-head-label">Patient Parameters</span></div>
+    <div class="card-body">
+
+      <div class="eye-selector-row" style="margin-bottom:16px">
+        <label for="eyeSelect">Eye</label>
+        <select id="eyeSelect" style="max-width:90px">
+          <option value="OD">OD</option>
+          <option value="OS">OS</option>
+        </select>
+      </div>
+
+      <p class="entry-hint">Enter measurements in chronological order.</p>
+
+      <table class="field-table">
+        <thead>
+          <tr>
+            <th class="col-date">Date (YYYY-MM)</th>
+            <th class="col-rnfl">Global RNFL (&micro;m)</th>
+            <th class="col-rel">
+              <span class="tip-wrap">Reliability
+                <span class="tip-icon" data-tip="reliability" tabindex="0">i</span>
+              </span>
+            </th>
+            <th class="col-rm"></th>
+          </tr>
+        </thead>
+        <tbody id="fieldRows"></tbody>
+      </table>
+      <div id="rowErrors" class="row-errors" role="alert" hidden></div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="analyzeBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Calculate
+        </button>
+        <button class="btn btn-secondary" id="addRowBtn">+ Add OCT</button>
+        <button class="btn btn-secondary" id="resetBtn">Reset</button>
+      </div>
+      <div id="maxRowsNote" style="display:none;font-size:12px;color:var(--text-3);margin-top:6px;">Max 12 measurements. To estimate the current trend, evaluate only the most recent clinically relevant series.</div>
+
+      <div class="modifiers-section">
+        <div class="modifiers-title">Clinical Modifiers</div>
+        <div class="modifier-row">
+          <input type="checkbox" id="highMyopia">
+          <label class="modifier-label" for="highMyopia">High Myopia / Tilted Disc</label>
+        </div>
+        <div class="modifier-row">
+          <input type="checkbox" id="macularPathology">
+          <label class="modifier-label" for="macularPathology">Macular Pathology (e.g., ERM)</label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="result-card" id="resultCard">
+
+    <div class="result-hero">
+      <div class="result-eyebrow">OCT Progression Analysis &middot; <span id="heroEye"></span></div>
+      <div class="result-number-row">
+        <div class="result-number" id="heroSlope">&mdash;</div>
+        <div class="result-number-unit" id="heroSlopeUnit">&micro;m / year</div>
+        <span class="result-slope-tag" id="heroSlopeTag"></span>
+      </div>
+    </div>
+
+    <!-- Sparkline (M4-adapted: RNFL µm, floor line at 50 µm) -->
+    <div class="sparkline-wrap" id="sparklineWrap">
+      <div class="sparkline-inner">
+        <svg id="sparklineSvg" viewBox="0 0 500 140" preserveAspectRatio="none" width="100%"></svg>
+      </div>
+      <div class="sparkline-legend">
+        <span class="sparkline-legend-item"><svg width="8" height="8"><circle cx="4" cy="4" r="4" fill="var(--primary)"/></svg> Reliable</span>
+        <span class="sparkline-legend-item"><svg width="8" height="8"><circle cx="4" cy="4" r="4" fill="var(--warn)"/></svg> Borderline</span>
+        <span class="sparkline-legend-item"><svg width="8" height="8"><circle cx="4" cy="4" r="4" fill="var(--text-4)"/></svg> Low reliability</span>
+      </div>
+    </div>
+
+
+
+    <div class="result-section" id="sectionProgression">
+      <div class="result-section-label">
+        Progression
+        <span class="tip-wrap" id="progTipWrap">
+          <span class="tip-icon" id="progTipIcon" data-tip="progression" tabindex="0">i</span>
+        </span>
+      </div>
+      <div class="result-section-value" id="resProgression">&mdash;</div>
+    </div>
+
+    <div class="result-section" id="sectionConfidence">
+      <div class="result-section-label">Confidence</div>
+      <div class="result-section-value" id="resConfidence">&mdash;</div>
+      <div class="result-section-sub" id="resConfidenceSub"></div>
+    </div>
+
+    <div class="risk-strip" id="riskStrip">
+      <div class="risk-strip-inner">
+        <span class="risk-dot"></span>
+        <span class="tip-wrap">
+          <span class="risk-label" id="riskTitle"></span>
+          <span class="tip-icon" data-tip="risk" tabindex="0" style="opacity:0.65">i</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="interp-section" id="interpSection">
+      <div class="interp-section-label">Interpretation</div>
+      <div class="interp-section-text" id="interpretationText"></div>
+    </div>
+
+    <!-- G2-B AS-M2 (UI text only): persistent average-RNFL scope limitation, shown on every
+         result card including Not assessable; no change to classification or payload. -->
+    <div class="scope-limitation" id="scopeLimitation" role="note" style="padding:11px 20px 12px;font-size:12px;line-height:1.55;color:var(--text-2);">Limitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.</div>
+
+    <div class="copy-btn-wrap">
+      <button class="copy-btn" id="copyBtn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy
+      </button>
+    </div>
+
+  </div>
+
+  <!-- FEEDBACK -->
+  <a class="feedback-line" href="mailto:dott.andrea.ragosta@gmail.com?subject=%5BOFTY%20M4%5D%20Feedback">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <em>Share feedback or report a case</em>
+  </a>
+
+  <div class="collapse" id="collapseTransparency">
+    <button class="collapse-trigger" id="transparencyToggle">
+      <svg class="collapse-trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span class="collapse-trigger-label">Method &amp; Thresholds</span>
+      <svg class="collapse-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="collapse-body" id="transparencyBody">
+
+      <!-- ── Static parameters ── -->
+      <div class="meta-row"><span class="meta-key">Method</span><span class="meta-val">Linear regression (RNFL &sim; time, &micro;m/year)</span></div>
+      <div class="meta-row"><span class="meta-key">Date resolution</span><span class="meta-val">Month-level (YYYY-MM). Day set to 01.</span></div>
+      <div class="meta-row"><span class="meta-key">Plausible range</span><span class="meta-val">30&ndash;130 &micro;m</span></div>
+      <div class="meta-row"><span class="meta-key">Adequate data</span><span class="meta-val">n &ge; 4 scans, all reliable</span></div>
+      <div class="meta-row"><span class="meta-key">Limited data</span><span class="meta-val">n &lt; 4 OR &ge; 1 low-reliability scan</span></div>
+      <div class="meta-row"><span class="meta-key">Scan quality</span><span class="meta-val">Scan quality is the clinician's rating of the OCT scan (Good, Borderline or Low). It is not an automatically measured device reliability index. No rating is assumed: rate each scan before analysis.</span></div>
+      <div class="section-divider"></div>
+      <div class="meta-row"><span class="meta-key">Stable trend</span><span class="meta-val">slope &gt; &minus;1.0 &micro;m/year</span></div>
+      <div class="meta-row"><span class="meta-key">Suspicious trend</span><span class="meta-val">&minus;2.0 &lt; slope &le; &minus;1.0 &micro;m/year</span></div>
+      <div class="meta-row"><span class="meta-key">Fast progression</span><span class="meta-val">slope &le; &minus;2.0 &micro;m/year</span></div>
+      <div class="meta-row"><span class="meta-key">RNFL floor</span><span class="meta-val">&le; 50 &micro;m (Not assessable)</span></div>
+      <div class="meta-row"><span class="meta-key">Near-floor</span><span class="meta-val">51&ndash;55 &micro;m (caution flag)</span></div>
+      <div class="meta-row"><span class="meta-key">Algorithm</span><span class="meta-val">UDE v1.3.1</span></div>
+
+      <!-- ── Dynamic section: hidden until Calculate is pressed ── -->
+      <div id="traceSection" style="display:none">
+        <div class="section-divider"></div>
+        <div class="meta-row"><span class="meta-key">Sufficiency rule</span><span class="meta-val" id="traceSufficiency">&mdash;</span></div>
+        <div class="meta-row"><span class="meta-key">Classification rule</span><span class="meta-val" id="traceClassRule">&mdash;</span></div>
+        <div class="meta-row"><span class="meta-key">p-value</span><span class="meta-val" id="tracePValue">&mdash;</span></div>
+        <div class="meta-row"><span class="meta-key">95% CI (slope)</span><span class="meta-val" id="traceCI">&mdash;</span></div>
+        <div class="section-divider"></div>
+        <div class="meta-row"><span class="meta-key">Measurements used</span><span class="meta-val" id="traceN">&mdash;</span></div>
+        <div class="meta-row"><span class="meta-key">Follow-up</span><span class="meta-val" id="traceFollowup">&mdash;</span></div>
+        <div class="meta-row"><span class="meta-key">Period</span><span class="meta-val" id="tracePeriod">&mdash;</span></div>
+      </div>
+
+      <!-- ── Limitations (inline, M3-style) ── -->
+      <div class="section-divider"></div>
+      <div style="font-size:12px;color:var(--text-3);line-height:1.6"><strong style="color:var(--text-2)">Limitations:</strong><br>Uses global RNFL only &#8212; sector and GCC analysis not included. Segmentation errors and scan artefacts may produce apparent thinning. Floor effect limits sensitivity at advanced stages. Short series may show amplified slope variance.</div>
+
+
+    </div>    </div>
+  </div>
+
+  <div class="collapse" id="collapseDisclaimer">
+    <button class="collapse-trigger" id="disclaimerToggle">
+      <svg class="collapse-trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span class="collapse-trigger-label">Disclaimer</span>
+      <svg class="collapse-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="collapse-body" id="disclaimerBody">
+      <p class="collapse-preview">Evidence-informed structural progression analysis based on serial OCT RNFL data. Does not replace clinical judgment or comprehensive evaluation of OCT findings.</p>
+      <button class="btn-toggle-more" onclick="toggleMore('disclaimerExtra', this)">Read full disclaimer</button>
+      <div class="collapse-extra" id="disclaimerExtra">
+        <p>This tool analyses longitudinal peripapillary RNFL thickness values using linear regression to estimate the rate of structural change over time. Classification is based on deterministic rule-based logic and is intended as a structured decision support aid, not as a standalone diagnostic conclusion.</p>
+        <p>OCT RNFL interpretation may be affected by segmentation errors, signal quality artefacts, device variability, anatomic variation (high myopia, tilted disc, peripapillary atrophy, ERM), floor effect, and the inherent limitations of serial trend analysis with short follow-up. RNFL slope estimation requires adequate serial data; results from small or short series should be interpreted with caution. Global RNFL does not capture sector-level or focal structural loss.</p>
+        <p>The clinician retains full responsibility for all diagnostic and therapeutic decisions. This tool is intended as a decision-support aid, consistent with current glaucoma guidelines, and is not a substitute for clinical evaluation. Not intended for patient self-use.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Sources (Summary) -->
+  <div class="collapse" id="collapse-src">
+    <button class="collapse-trigger" id="collapse-src-btn" aria-expanded="false" aria-controls="collapse-src-body">
+      <svg class="collapse-trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      <span class="collapse-trigger-label">Sources (Summary)</span>
+      <svg class="collapse-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="collapse-body" id="collapse-src-body">
+      <ul class="src-list">
+        <li>Weinreb RN, Khaw PT. Primary open-angle glaucoma. Lancet. 2004;363(9422):1711&ndash;1720.</li>
+        <li>Mwanza JC, Budenz DL. Optical coherence tomography platforms and parameters for glaucoma diagnosis and progression. Curr Opin Ophthalmol. 2018;29(2):101&ndash;110.</li>
+        <li>Leung CK, Cheung CY, Weinreb RN, et al. Retinal nerve fiber layer imaging with spectral-domain optical coherence tomography: a variability and diagnostic performance study. Ophthalmology. 2009;116(7):1257&ndash;1263.</li>
+        <li>Medeiros FA, Zangwill LM, Bowd C, et al. Evaluation of retinal nerve fiber layer, optic nerve head, and macular thickness measurements for glaucoma detection using optical coherence tomography. Am J Ophthalmol. 2005;139(1):44&ndash;55.</li>
+        <li>European Glaucoma Society. Terminology and Guidelines for Glaucoma. 6th ed. 2025.</li>
+        <li>Gedde SJ, Vinod K, Wright MM, et al. Primary open-angle glaucoma preferred practice pattern. Ophthalmology. 2021;128(1S):P71&ndash;P150.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Version History -->
+  <div class="collapse" id="collapse-ver">
+    <button class="collapse-trigger" id="collapse-ver-btn" aria-expanded="false" aria-controls="collapse-ver-body">
+      <svg class="collapse-trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span class="collapse-trigger-label">Version History</span>
+      <svg class="collapse-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="collapse-body" id="collapse-ver-body">
+      <ul class="ver-list">
+        <li>
+          <span><span class="ver-tag">v1.1</span>Jul 2026</span>
+          <ul class="ver-notes">
+            <li>Balanced wording for Low-quality terminal scans (M4-06): artefact and true structural loss are both acknowledged, without implying artefact is more likely</li>
+            <li>Independently established pre-final fast structural trends are now preserved despite a Low-reliability final scan (M4-12)</li>
+            <li>A Low-reliability final scan reduces confidence and requires repeat confirmation of the current rate</li>
+            <li>Non-significant short-series slopes remain Suspicious trend (M4-11 p-value guard unchanged)</li>
+            <li>Stale stored results are now cleared whenever a clinically relevant input changes</li>
+            <li>Algorithm updated to v1.3.0</li>
+            <li>Regression method, corrected p-value implementation, and numerical thresholds unchanged</li>
+            <li>UI 1.8.0: canonical YYYY-MM entry; incomplete rows block analysis; explicit scan-quality rating required</li>
+            <li>UI 1.8.1 (Oct 2026, G2-B working variant, unreleased): persistent average-RNFL scope limitation added to the result card and copied text; algorithm, classification, confidence, risk and exported payload unchanged</li>
+            <li>Algorithm 1.3.1 / UI 1.8.2 (Oct 2026, G2-C working variant, unreleased): the p-value is exported unrounded and displayed with 4 decimals (below 0.0001 as &lt; 0.0001), never on the other side of 0.05 or 0.10 than the value used for significance; significance rules, regression and thresholds unchanged</li>
+          </ul>
+        </li>
+        <li>
+          <span><span class="ver-tag">v1.0</span>Apr 2026</span>
+          <ul class="ver-notes">
+            <li>First public release</li>
+            <li>Rule-based OLS regression on serial peripapillary RNFL measurements</li>
+            <li>Cascade classification: floor effect, artifact detection, V-shape artefact, slope-based</li>
+            <li>Confidence level with reliability and modifier adjustments</li>
+            <li>Clinical Risk output with structured interpretation text</li>
+            <li>Clinical modifiers: high myopia, ERM maculopathy</li>
+            <li>Sparkline chart with structural floor reference</li>
+            <li>Mobile-optimised UI with gap warning and Excel-style navigation</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="site-footer">OFTY &middot; M4 &middot; &copy; 2026 Andrea Ragosta, MD, FEBO</footer>
+
+</main>
+
+
+<!--
+  ============================================================
+  SECTION 1 -- CORE CLINICAL ENGINE
+  ============================================================
+  Module:            OFTY-Gx-M4 -- OCT Progression Analysis
+  Pure_Function:     computeM4_StructuralTrend(input)
+  DOM_Access:        NONE  (engine is fully DOM-independent)
+  Algorithm:         Deterministic rule-based OLS trend analysis
+
+  INPUT SCHEMA
+  {
+    eye:       "OD" | "OS",
+    tests:     [ { date: "YYYY-MM", rnfl: <number>, reliability: "good"|"borderline"|"low" } ],
+    modifiers: [ "high_myopia", "erm_maculopathy" ]   // optional
+  }
+
+  CLASSIFICATION PRIORITY
+  1. Floor effect  (latest RNFL <= RNFL_FLOOR)
+  2. Artifact      (sudden drop + poor reliability)
+  3. Slope-based   (OLS regression)
+
+  CONFIDENCE DEGRADATION
+  Base from n: >=5 high, 3-4 medium, <3 low
+  Degrade 1 level each: low_reliability, high_myopia, erm_maculopathy
+  ============================================================
+-->
+<script>
+"use strict";
+
+/* ============================================================
+   CONSTANTS
+   ============================================================ */
+var RNFL_PLAUSIBLE_MIN      = 30;
+var RNFL_PLAUSIBLE_MAX      = 130;
+var RNFL_FLOOR              = 50;    /* Structural measurement floor -- thinning below this is unreliable */
+var RNFL_NEAR_FLOOR         = 55;    /* Near-floor warning zone: 51-55 um */
+var SLOPE_STABLE_THRESHOLD  = -1.0;  /* > -1.0 um/yr: compatible with age-related change */
+var SLOPE_FAST_THRESHOLD    = -2.0;  /* <= -2.0 um/yr: fast structural progression */
+var ARTIFACT_DROP_THRESHOLD = 4;     /* >= 4 um single-interval drop with poor reliability */
+var CONFIDENCE_LEVELS       = ["low", "medium", "high"];
+
+/* Interpretation text constants (Algorithm v1.2.1)
+   Centralised here so both slope ranges (suspicious and fast) share
+   a single source of truth. Modify once to update both paths. */
+var INTERP_MYOPIA_LIMITED =
+  "A structural signal is present, but RNFL interpretation is limited by high myopia. Peripapillary RNFL measurements in highly myopic eyes are frequently affected by axial elongation, disc tilt, peripapillary atrophy, and normative database mismatch. This finding should be correlated with functional data and disc examination before any conclusion regarding structural progression is drawn.";
+var INTERP_ERM_LIMITED =
+  "A structural signal is present, but RNFL interpretation is limited by macular pathology (e.g., ERM). Epiretinal membranes can cause segmentation errors and pseudo-thinning of the peripapillary RNFL independent of true glaucomatous loss. This finding must be correlated with visual field results before concluding structural progression.";
+
+/* ============================================================
+   STATISTICAL HELPERS
+   ============================================================ */
+
+/* Ordinary least-squares linear regression.
+   Returns null if fewer than 2 points or degenerate x-span. */
+function _ols(xs, ys) {
+  var n = xs.length;
+  if (n < 2) return null;
+  var i, sx = 0, sy = 0, sxy = 0, sx2 = 0;
+  for (i = 0; i < n; i++) {
+    sx  += xs[i]; sy  += ys[i];
+    sxy += xs[i] * ys[i]; sx2 += xs[i] * xs[i];
+  }
+  var mx  = sx / n, my = sy / n;
+  var sxx = sx2 - n * mx * mx;
+  var sxy2 = sxy - n * mx * my;
+  if (sxx === 0) return null;                       // degenerate: all x identical
+  var b = sxy2 / sxx, a = my - b * mx;
+  if (n < 3) {
+    return { slope: b, intercept: a,
+             p_value: null, ci95_lower: null, ci95_upper: null };
+  }
+  var rss = 0;
+  for (i = 0; i < n; i++) { var e = ys[i] - (b * xs[i] + a); rss += e * e; }
+  var mse  = rss / (n - 2);
+  var seb  = (sxx > 0) ? Math.sqrt(mse / sxx) : 0;
+  var tst  = (seb > 0) ? b / seb : null;
+  var df   = n - 2;
+  var pv   = (tst !== null && df > 0) ? _pval(Math.abs(tst), df) : null;
+  var tc   = _tcrit(df);
+  return {
+    slope:      b,
+    intercept:  a,
+    p_value:    pv,
+    ci95_lower: (tc !== null && seb > 0) ? b - tc * seb : null,
+    ci95_upper: (tc !== null && seb > 0) ? b + tc * seb : null
+  };
+}
+
+/* Two-tailed p-value via incomplete beta / normal approximation */
+function _pval(t, df) {
+  if (df <= 0) return null;
+  if (df >= 30) return 2 * (1 - _ncdf(t));
+  return _ibeta(df / 2, 0.5, df / (df + t * t));
+}
+function _ncdf(z) {
+  var t2 = 1 / (1 + 0.2316419 * Math.abs(z));
+  var p  = t2 * (0.319381530 + t2 * (-0.356563782 +
+           t2 * (1.781477937 + t2 * (-1.821255978 + t2 * 1.330274429))));
+  var phi = 1 - (1 / Math.sqrt(2 * Math.PI)) * Math.exp(-0.5 * z * z) * p;
+  return (z >= 0) ? phi : 1 - phi;
+}
+function _ibeta(a, b, x) {
+  /* Regularized incomplete beta I_x(a,b): 0 at x<=0, 1 at x>=1 (NR betai). */
+  if (x <= 0) return 0.0; if (x >= 1) return 1.0;
+  var lb = _lgam(a + b) - _lgam(a) - _lgam(b) + a * Math.log(x) + b * Math.log(1 - x);
+  var bt = Math.exp(lb);
+  if (x < (a + 1) / (a + b + 2)) {
+    return bt * _bcf(a, b, x) / a;
+  }
+  return 1 - bt * _bcf(b, a, 1 - x) / b;
+}
+function _bcf(a, b, x) {
+  var MAXIT = 100, EPS = 3e-7;
+  var qab = a + b, qap = a + 1, qam = a - 1;
+  var c = 1.0, d = 1 - qab * x / qap;
+  if (Math.abs(d) < 1e-30) d = 1e-30; d = 1 / d; var h = d;
+  for (var m = 1; m <= MAXIT; m++) {
+    var m2 = 2 * m;
+    var aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+    d = 1 + aa * d; if (Math.abs(d) < 1e-30) d = 1e-30;
+    c = 1 + aa / c; if (Math.abs(c) < 1e-30) c = 1e-30;
+    d = 1 / d; h *= d * c;
+    aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
+    d = 1 + aa * d; if (Math.abs(d) < 1e-30) d = 1e-30;
+    c = 1 + aa / c; if (Math.abs(c) < 1e-30) c = 1e-30;
+    d = 1 / d; var dl = d * c; h *= dl;
+    if (Math.abs(dl - 1) < EPS) break;
+  }
+  return h;
+}
+function _lgam(z) {
+  var C = [0.99999999999980993, 676.5203681218851, -1259.1392167224028,
+           771.32342877765313, -176.61502916214059, 12.507343278686905,
+           -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+  var g = 7;
+  if (z < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * z)) - _lgam(1 - z);
+  z -= 1; var x = C[0];
+  for (var i = 1; i < g + 2; i++) x += C[i] / (z + i);
+  var t = z + g + 0.5;
+  return 0.5 * Math.log(2 * Math.PI) + (z + 0.5) * Math.log(t) - t + Math.log(x);
+}
+function _tcrit(df) {
+  var tbl = { 1:12.706, 2:4.303, 3:3.182, 4:2.776, 5:2.571, 6:2.447, 7:2.365,
+              8:2.306,  9:2.262, 10:2.228, 11:2.201, 12:2.179, 13:2.160, 14:2.145,
+              15:2.131, 20:2.086, 25:2.060, 30:2.042 };
+  if (df <= 0) return null;
+  if (tbl[df] !== undefined) return tbl[df];
+  if (df > 30) return 1.960;
+  var keys = Object.keys(tbl).map(Number).sort(function(a, b) { return a - b; });
+  var lo = keys[0], hi = keys[keys.length - 1];
+  for (var k = 0; k < keys.length - 1; k++) {
+    if (keys[k] <= df && keys[k + 1] >= df) { lo = keys[k]; hi = keys[k + 1]; break; }
+  }
+  return tbl[lo] + (df - lo) / (hi - lo) * (tbl[hi] - tbl[lo]);
+}
+
+/* Utility: round to 2 decimals, return null for non-finite */
+function _r2(v) {
+  return (v === null || v === undefined || !isFinite(v)) ? null : Math.round(v * 100) / 100;
+}
+
+/* G2-C (Algorithm 1.3.1): p-value representation. The unrounded p is exported and is
+   the value used for every decision; text uses one display rule: 4 decimals,
+   "< 0.0001" below 0.0001, and never shown on the other side of 0.05 or 0.10
+   than the unrounded p. null stays null. */
+function _pnum(v) {
+  return (v === null || v === undefined || !isFinite(v)) ? null : v;
+}
+function _pfmt(v) {
+  if (v === null || v === undefined || !isFinite(v)) return null;
+  if (v < 0.0001) return "< 0.0001";
+  var s = v.toFixed(4);
+  if (v < 0.05 && parseFloat(s) >= 0.05) return "0.0499";
+  if (v < 0.10 && parseFloat(s) >= 0.10) return "0.0999";
+  return s;
+}
+function _ptxt(v) {
+  var s = _pfmt(v);
+  return s === null ? "p=null" : (s.charAt(0) === "<" ? "p<0.0001" : "p=" + s);
+}
+
+/* Confidence degradation helper */
+function _degrade(current, steps) {
+  var idx = CONFIDENCE_LEVELS.indexOf(current);
+  if (idx < 0) idx = 1;
+  return CONFIDENCE_LEVELS[Math.max(0, idx - steps)];
+}
+
+/* Parse a "YYYY-MM" or "YYYY-MM-DD" string to timestamp */
+function _parseMs(s) {
+  if (typeof s !== "string") return null;
+  var c = s.trim();
+  var full = (c.length === 7) ? c + "-01" : c;
+  var ts = Date.parse(full);
+  return isNaN(ts) ? null : ts;
+}
+
+/* Years elapsed from firstMs to ms (1-decimal precision) */
+function _yearsFrom(ms, firstMs) {
+  return (ms - firstMs) / (1000 * 60 * 60 * 24 * 365.25);
+}
+
+/* Dedup: keep first occurrence per YYYY-MM key */
+function _dedup(tests) {
+  var seen = Object.create(null), out = [];
+  for (var i = 0; i < tests.length; i++) {
+    var key = tests[i].date.substring(0, 7);
+    if (!seen[key]) { seen[key] = true; out.push(tests[i]); }
+  }
+  return out;
+}
+
+/* ============================================================
+   MAIN ENGINE
+   ============================================================ */
+function computeM4_StructuralTrend(input) {
+
+  /* Structured failure output -- always returns a valid OFTY object */
+  function failureOutput(reason, partial) {
+    partial = partial || {};
+    return {
+      module_id:         "OFTY-Gx-M4",
+      algorithm_version: "1.3.1",
+      mode:              "core",
+      inputs_summary:    partial.inputs_summary || null,
+      structural_rate: {
+        slope_rnfl_per_year: null, intercept: null,
+        p_value: null, ci95_lower: null, ci95_upper: null
+      },
+      classification:           "unclassifiable",
+      statistical_significance: "not_calculable",
+      data_quality:             partial.data_quality || "insufficient",
+      confidence_level:         "low",
+      clinical_risk:            "indeterminate",
+      interpretation:           "Insufficient or invalid data -- structural trend cannot be assessed.",
+      caution_flags:            partial.caution_flags || ["insufficient_data"],
+      detail_summary:           partial.detail_summary || null,
+      logic_trace: {
+        method:                      "linear_regression_rnfl_vs_time",
+        validation:                  reason,
+        slope_rule_applied:          "none",
+        floor_rule_applied:          "none",
+        artifact_rule_applied:       "none",
+        confidence_adjustments:      [],
+        notes:                       [reason].concat(partial.notes || [])
+      },
+      model: {
+        type:         "deterministic_trend_based",
+        intended_use: "clinical_decision_support",
+        notes: "This module provides a structured interpretation of OCT RNFL structural progression and does not replace clinical judgment."
+      }
+    };
+  }
+
+  /* -- Input guard -- */
+  if (!input || typeof input !== "object") {
+    return failureOutput("Input is null or not an object.");
+  }
+
+  var eye  = (typeof input.eye === "string") ? input.eye.trim() : "unknown";
+  var mods = Array.isArray(input.modifiers) ? input.modifiers : [];
+  var nsub = Array.isArray(input.tests) ? input.tests.length : 0;
+
+  if (!Array.isArray(input.tests) || input.tests.length === 0) {
+    return failureOutput("No tests array provided.", {
+      caution_flags: ["insufficient_data", "no_input"]
+    });
+  }
+
+  /* -- Parse and validate tests -- */
+  var notes   = [];
+  var parsed  = [];
+  var ltValidation = [];
+
+  for (var i = 0; i < input.tests.length; i++) {
+    var t = input.tests[i];
+    if (!t || typeof t !== "object") {
+      ltValidation.push("index " + i + ": not an object -- skipped"); continue;
+    }
+    var d = _parseMs(t.date);
+    if (d === null) {
+      ltValidation.push("index " + i + ": invalid date '" + t.date + "' -- skipped"); continue;
+    }
+    var rv = parseFloat(t.rnfl);
+    if (isNaN(rv) || rv < RNFL_PLAUSIBLE_MIN || rv > RNFL_PLAUSIBLE_MAX) {
+      ltValidation.push("index " + i + ": RNFL " + rv + " outside [" + RNFL_PLAUSIBLE_MIN + "-" + RNFL_PLAUSIBLE_MAX + "] -- skipped"); continue;
+    }
+    var rel = (typeof t.reliability === "string") ? t.reliability.toLowerCase().trim() : "good";
+    if (rel !== "good" && rel !== "borderline" && rel !== "low") {
+      ltValidation.push("index " + i + ": unrecognised reliability '" + rel + "' -- set to low");
+      rel = "low";
+    }
+    parsed.push({ ms: d, date: (typeof t.date === "string" ? t.date.trim() : ""), rnfl: rv, reliability: rel });
+  }
+
+  /* -- Chronological sort (explicit, before any computation) -- */
+  parsed.sort(function(a, b) { return a.ms - b.ms; });
+
+  /* -- Dedup by month -- */
+  var beforeDedup = parsed.length;
+  parsed = _dedup(parsed);
+  if (parsed.length < beforeDedup) {
+    ltValidation.push("removed " + (beforeDedup - parsed.length) + " duplicate month(s)");
+  }
+
+  var nv = parsed.length;
+  var inputs_summary = { eye: eye, n_tests_submitted: nsub, n_tests_used: nv, modifiers: mods };
+
+  if (nv < 2) {
+    ltValidation.push("fewer than 2 valid tests remain -- regression not possible");
+    return failureOutput("insufficient_valid_tests", {
+      inputs_summary: inputs_summary,
+      caution_flags:  ["insufficient_data", "low_test_count"],
+      notes:          ltValidation
+    });
+  }
+
+  /* -- Detail summary -- */
+  var f0  = parsed[0].ms;
+  var lat = parsed[nv - 1];
+  var pen = parsed[nv - 2];
+
+  /* Follow-up in years, 1-decimal precision */
+  var followup_years = Math.round(_yearsFrom(lat.ms, f0) * 10) / 10;
+
+  var nLow = 0, nBorderline = 0;
+  for (var k = 0; k < nv; k++) {
+    if (parsed[k].reliability === "low")        nLow++;
+    if (parsed[k].reliability === "borderline") nBorderline++;
+  }
+
+  var detail_summary = {
+    valid_test_count:             nv,
+    low_reliability_count:        nLow,
+    borderline_reliability_count: nBorderline,
+    followup_years:               followup_years,
+    latest_rnfl:                  lat.rnfl,
+    latest_reliability:           lat.reliability
+  };
+
+  /* -- Data quality -- */
+  var data_quality, sufficiency_rule;
+  if (nv >= 4 && nLow === 0) {
+    data_quality    = "adequate";
+    sufficiency_rule = "adequate: n >= 4 AND no low-reliability scans";
+  } else if (nv >= 2 && nLow <= 1) {
+    data_quality    = "limited";
+    sufficiency_rule = "limited: n >= 2 AND at most 1 low-reliability scan";
+  } else {
+    data_quality    = "insufficient";
+    sufficiency_rule = "insufficient: n < 2 OR multiple low-reliability scans";
+  }
+  notes.push("data_quality=" + data_quality + " (n=" + nv + ", low_rel=" + nLow + ")");
+
+  /* -- Regression (protected against division-by-zero) -- */
+  var xs = [], ys = [];
+  for (var r = 0; r < nv; r++) {
+    xs.push(_yearsFrom(parsed[r].ms, f0));
+    ys.push(parsed[r].rnfl);
+  }
+  var reg   = _ols(xs, ys);   // returns null if degenerate
+  var slope = reg ? reg.slope : null;
+
+  if (reg)  notes.push("OLS: slope=" + _r2(slope) + " um/yr, " + _ptxt(reg.p_value));
+  else      notes.push("OLS: degenerate x-span -- regression null");
+
+  /* V-shape mid-series artefact pre-detection (reliability-independent).
+     Checks each interior point i (1..nv-2): flags if drop from [i-1] >= 8 um
+     AND immediate recovery to [i+1] >= 8 um.  Only the first occurrence is
+     recorded; subsequent interior points are not evaluated. */
+  var vshapeDetected = false, vshapeIdx = -1;
+  for (var vsi = 1; vsi < nv - 1; vsi++) {
+    if ((parsed[vsi - 1].rnfl - parsed[vsi].rnfl) >= 8 &&
+        (parsed[vsi + 1].rnfl - parsed[vsi].rnfl) >= 8) {
+      vshapeDetected = true; vshapeIdx = vsi; break;
+    }
+  }
+  if (vshapeDetected) notes.push("V-shape artefact pre-detected at index " + vshapeIdx +
+    " (drop=" + _r2(parsed[vshapeIdx - 1].rnfl - parsed[vshapeIdx].rnfl) +
+    " um, recovery=" + _r2(parsed[vshapeIdx + 1].rnfl - parsed[vshapeIdx].rnfl) + " um)");
+
+  /* -- Statistical significance -- */
+  var stat_sig;
+  if (!reg || reg.p_value === null) stat_sig = "not_calculable";
+  else if (reg.p_value < 0.05)     stat_sig = "significant";
+  else if (reg.p_value < 0.10)     stat_sig = "trend";
+  else                             stat_sig = "not_significant";
+
+  /* -- Base confidence from n -- */
+  var base_conf;
+  if (nv >= 5)      base_conf = "high";
+  else if (nv >= 3) base_conf = "medium";
+  else              base_conf = "low";
+
+  /* -- Confidence degradation (one level per qualifying condition) -- */
+  var conf_adj = [];
+  var deg = 0;
+  if (nLow > 0) {
+    deg++; conf_adj.push("low_reliability_scan_present");
+  }
+  if (mods.indexOf("high_myopia") !== -1) {
+    deg++; conf_adj.push("modifier:high_myopia");
+  }
+  if (mods.indexOf("erm_maculopathy") !== -1) {
+    deg++; conf_adj.push("modifier:erm_maculopathy");
+  }
+  var confidence_level = _degrade(base_conf, deg);
+  /* Borderline Penalty (Algorithm v1.2.0): two or more Borderline scans
+     collectively undermine trend reliability in the same way a Low scan
+     does individually. Force confidence to Low regardless of n or other
+     adjustments. Applied BEFORE the cascade so all downstream logic
+     sees the corrected confidence_level. */
+  if (nBorderline >= 2) {
+    confidence_level = "low";
+    conf_adj.push("nBorderline_gte2_forced_low");
+  }
+
+  /* High myopia modifier -- used inside slope classification rules */
+  var highMyopia     = (mods.indexOf("high_myopia") !== -1);
+  var ermMaculopathy = (mods.indexOf("erm_maculopathy") !== -1);
+
+  /* -- Classification cascade (priority: floor > artifact > slope) -- */
+  var classification, clinical_risk, interpretation;
+  var floor_rule    = "not_applied";
+  var artifact_rule = "not_applied";
+  var vshape_rule   = "not_applied";
+  var slope_rule    = "not_applied";
+  var caution_flags = [];
+
+  /* ── Pre-final fast-trend confirmation gate (Algorithm v1.3.0, M4-12) ────────
+     A statistically significant fast structural decline already established by
+     the preceding Good-reliability scans must not be erased by a single Low-
+     reliability final scan. Computed once here, after the full-series
+     regression and V-shape pre-detection, and used only to narrowly exclude
+     the terminal-artifact rule (Priority 2), the p-value guard, and the Poor
+     Quality Cap from downgrading an already-established fast progression
+     signal. Does not replace or modify the full-series regression, which
+     remains authoritative for all displayed/structured numerical output.
+     The pre-final regression (priorFastReg) is exposed only via logic_trace
+     notes below -- never as a second displayed slope. */
+  var priorFastTrendEstablished = false;
+  var priorFastReg = null;
+  if (nv >= 4 &&
+      lat.reliability === "low" &&
+      (nv - 1) >= 3 &&
+      !highMyopia && !ermMaculopathy &&
+      !vshapeDetected &&
+      lat.rnfl > RNFL_FLOOR &&
+      reg !== null &&
+      slope !== null && slope <= SLOPE_FAST_THRESHOLD) {
+    var _preFinal = parsed.slice(0, nv - 1);
+    var _allGoodPreFinal = true;
+    for (var _pfi = 0; _pfi < _preFinal.length; _pfi++) {
+      if (_preFinal[_pfi].reliability !== "good") { _allGoodPreFinal = false; break; }
+    }
+    if (_allGoodPreFinal && _preFinal[_preFinal.length - 1].rnfl < _preFinal[0].rnfl) {
+      var _pfXs = [], _pfYs = [];
+      for (var _pfr = 0; _pfr < _preFinal.length; _pfr++) {
+        _pfXs.push(_yearsFrom(_preFinal[_pfr].ms, f0));
+        _pfYs.push(_preFinal[_pfr].rnfl);
+      }
+      priorFastReg = _ols(_pfXs, _pfYs);
+      if (priorFastReg !== null &&
+          priorFastReg.slope <= SLOPE_FAST_THRESHOLD &&
+          priorFastReg.p_value !== null &&
+          priorFastReg.p_value < 0.05) {
+        priorFastTrendEstablished = true;
+      }
+    }
+  }
+
+  /* Priority 1: Floor effect */
+  if (lat.rnfl <= RNFL_FLOOR) {
+    classification = "floor_effect";
+    clinical_risk  = "high";
+    floor_rule     = "applied: latest_rnfl=" + lat.rnfl + " <= RNFL_FLOOR=" + RNFL_FLOOR;
+    caution_flags.push("rnfl_floor_effect");
+    interpretation = "RNFL thickness has reached the physiological measurement floor (approximately " + RNFL_FLOOR + " \u00b5m). Structural progression becomes difficult to assess at this level, and clinical interpretation should rely more heavily on functional data and direct examination findings.";
+    notes.push("floor_effect override applied (latest RNFL=" + lat.rnfl + " um)");
+  }
+  /* Priority 2: Artifact / quality rule */
+  /* Priority 2: Terminal / bilateral artefact.
+     Standard:   pen→lat drop >= 4 µm AND lat.reliability = low|borderline.
+     n=2 extension: also fires when PEN (first scan) reliability is
+     low|borderline, because an unreliable baseline produces an equally
+     untrustworthy single-interval delta. */
+  else if ((pen.rnfl - lat.rnfl) >= ARTIFACT_DROP_THRESHOLD &&
+           ((lat.reliability === "low" || lat.reliability === "borderline") ||
+            (nv === 2 && (pen.reliability === "low" || pen.reliability === "borderline"))) &&
+           !priorFastTrendEstablished) {
+    classification   = "suspicious_trend";
+    clinical_risk    = "relevant";
+    confidence_level = "low";
+    var _artTrigger  = (lat.reliability === "low" || lat.reliability === "borderline")
+      ? "latest_rel=" + lat.reliability
+      : "earliest_rel=" + pen.reliability + " (n=2 bilateral check)";
+    artifact_rule    = "applied: drop=" + _r2(pen.rnfl - lat.rnfl) + " um >= " + ARTIFACT_DROP_THRESHOLD + ", " + _artTrigger;
+    caution_flags.push("artifact_suspected_due_to_quality");
+    interpretation = (nv === 2 && !(lat.reliability === "low" || lat.reliability === "borderline"))
+      ? "An apparent reduction in RNFL thickness is observed, but the baseline scan has reduced signal quality. An unreliable starting point prevents a definitive trend assessment. A third measurement with good signal quality is required to establish a reliable baseline and confirm the rate of change."
+      : (nv >= 3 && lat.reliability === "low")
+        /* Algorithm v1.3.0 (M4-06): balanced wording -- poor quality prevents
+           confirmation, but genuine loss cannot be either confirmed or excluded.
+           Scoped to nv>=3 AND latest reliability exactly "low" only; final
+           Borderline scans and n=2 cases keep the prior generic wording below. */
+        ? "An apparent reduction in RNFL thickness is present, but the most recent scan has low reliability. The finding may reflect scan artefact, while true structural loss cannot be confirmed or excluded from this series. Review segmentation and scan quality, and repeat OCT under comparable acquisition conditions before classifying progression."
+        : "An apparent sudden reduction in RNFL thickness is observed, but the most recent scan has reduced signal quality. This pattern may reflect a measurement artefact rather than true structural progression. Repeat OCT with adequate signal quality is recommended before drawing clinical conclusions.";
+    notes.push("artifact rule applied (drop=" + _r2(pen.rnfl - lat.rnfl) + " um, rel=" + lat.reliability + ")");
+  }
+  /* Priority 2.5: V-shape mid-series artefact detector (reliability-independent).
+     Fires only if Priority 1 (floor) and Priority 2 (terminal artifact) did not fire.
+     A V-shape cannot arise from true structural loss (tissue does not regenerate
+     between consecutive scans); any 8+ µm drop-and-recovery pattern is artefactual. */
+  else if (vshapeDetected) {
+    var vsDrop  = _r2(parsed[vshapeIdx - 1].rnfl - parsed[vshapeIdx].rnfl);
+    var vsRecov = _r2(parsed[vshapeIdx + 1].rnfl - parsed[vshapeIdx].rnfl);
+    classification   = "suspicious_trend";
+    clinical_risk    = "relevant";
+    confidence_level = "low";
+    vshape_rule      = "applied: interior index=" + vshapeIdx +
+      " drop=" + vsDrop + " um, recovery=" + vsRecov + " um (threshold=8 um each)";
+    caution_flags.push("artifact_suspected_due_to_quality");
+    interpretation = "A V-shaped pattern was identified in the RNFL series: scan at position " +
+      (vshapeIdx + 1) + " shows a drop of " + vsDrop +
+      " µm followed by an immediate recovery of " + vsRecov +
+      " µm. This pattern is inconsistent with true structural loss and is consistent" +
+      " with a measurement artefact (e.g., segmentation error, media opacity, or acquisition" +
+      " noise). The overall regression trend is unreliable due to this outlier. Repeat OCT" +
+      " under optimised acquisition conditions is recommended before drawing clinical conclusions.";
+    notes.push("V-shape artefact rule applied (index " + vshapeIdx + ", drop=" + vsDrop + " um, recovery=" + vsRecov + " um)");
+  }
+  /* Priority 3: Slope-based */
+  else if (slope === null) {
+    classification = "unclassifiable";
+    clinical_risk  = "indeterminate";
+    slope_rule     = "not_applied: regression null (degenerate x-span)";
+    caution_flags.push("regression_failed");
+    interpretation = "RNFL structural trend cannot be assessed -- the measurement timeline is too compressed to compute a valid regression.";
+  }
+  else if (slope > SLOPE_STABLE_THRESHOLD) {
+    classification = "stable_trend";
+    clinical_risk  = "low";
+    slope_rule     = "stable_trend: slope=" + _r2(slope) + " > SLOPE_STABLE_THRESHOLD=" + SLOPE_STABLE_THRESHOLD;
+    interpretation = "No clear evidence of pathologic structural progression in the available OCT series. The RNFL thinning rate is compatible with age-related or non-pathologic structural change.";
+  }
+  else if (slope > SLOPE_FAST_THRESHOLD) {
+    /* Suspicious range: -2.0 < slope <= -1.0 */
+    if (highMyopia) {
+      classification = "myopia_limited_structural_signal";
+      clinical_risk  = "myopia_limited";
+      slope_rule     = "myopia_limited: high_myopia modifier, slope=" + _r2(slope) + " in suspicious range (" + SLOPE_FAST_THRESHOLD + " to " + SLOPE_STABLE_THRESHOLD + ")";
+      caution_flags.push("myopia_limits_oct_interpretation");
+      interpretation = INTERP_MYOPIA_LIMITED;
+    } else if (ermMaculopathy) {
+      classification = "erm_limited_structural_signal";
+      clinical_risk  = "myopia_limited";
+      slope_rule     = "erm_limited: erm_maculopathy modifier, slope=" + _r2(slope) + " in suspicious range (" + SLOPE_FAST_THRESHOLD + " to " + SLOPE_STABLE_THRESHOLD + ")";
+      caution_flags.push("erm_limits_oct_interpretation");
+      interpretation = INTERP_ERM_LIMITED;
+    } else {
+      classification = "suspicious_trend";
+      clinical_risk  = "relevant";
+      slope_rule     = "suspicious_trend: SLOPE_FAST_THRESHOLD=" + SLOPE_FAST_THRESHOLD + " < slope=" + _r2(slope) + " <= SLOPE_STABLE_THRESHOLD=" + SLOPE_STABLE_THRESHOLD;
+      interpretation = "Structural thinning rate exceeds expected age-related change and may represent glaucomatous progression. Continued serial structural monitoring is recommended.";
+    }
+  }
+  else {
+    /* Fast progression range: slope <= -2.0 */
+    if (highMyopia) {
+      classification = "myopia_limited_structural_signal";
+      clinical_risk  = "myopia_limited";
+      slope_rule     = "myopia_limited: high_myopia modifier, slope=" + _r2(slope) + " <= SLOPE_FAST_THRESHOLD=" + SLOPE_FAST_THRESHOLD;
+      caution_flags.push("myopia_limits_oct_interpretation");
+      interpretation = INTERP_MYOPIA_LIMITED;
+    } else if (ermMaculopathy) {
+      classification = "erm_limited_structural_signal";
+      clinical_risk  = "myopia_limited";
+      slope_rule     = "erm_limited: erm_maculopathy modifier, slope=" + _r2(slope) + " <= SLOPE_FAST_THRESHOLD=" + SLOPE_FAST_THRESHOLD;
+      caution_flags.push("erm_limits_oct_interpretation");
+      interpretation = INTERP_ERM_LIMITED;
+    } else {
+      classification = "fast_progression";
+      clinical_risk  = "high";
+      slope_rule     = "fast_progression: slope=" + _r2(slope) + " <= SLOPE_FAST_THRESHOLD=" + SLOPE_FAST_THRESHOLD;
+      interpretation = "Structural thinning rate is consistent with fast structural progression and warrants clinical correlation. Reassessment of management strategy may be indicated.";
+    }
+  }
+
+  /* ── Override interpretation note (Algorithm v1.2.1) ────────────────────────
+     The three post-cascade overrides (n=2 Prudence Cap, p-value Guard,
+     Poor Quality Cap) each yield suspicious_trend but with distinct
+     contextual texts explaining WHY the downgrade occurred. They are NOT
+     derived from a shared constant and must be maintained independently
+     if clinical wording changes. */
+
+  /* ── n=2 Prudence Cap (Algorithm v1.1.0) ──────────────────────────────────────
+     A single measurement interval cannot establish a confirmed structural trend.
+     "Fast progression" with n=2 is retained ONLY when BOTH conditions hold:
+       (a) Both scans have Good reliability
+       (b) |RNFL difference| >= 8 um (well above OCT test-retest variability)
+     Otherwise fast_progression -> suspicious_trend / relevant (Moderate).
+     NOTE: Positive slopes (slope > 0) already map to stable_trend via the
+     cascade (slope > SLOPE_STABLE_THRESHOLD = -1.0 covers all positive values);
+     no additional override is needed for that case.
+     ERM/myopia-limited paths are unaffected (cls != fast_progression). */
+  if (nv === 2 && classification === "fast_progression") {
+    var _bothGood = (parsed[0].reliability === "good" && parsed[1].reliability === "good");
+    var _absDiff  = Math.abs(parsed[1].rnfl - parsed[0].rnfl);
+    if (!(_bothGood && _absDiff >= 8)) {
+      classification = "suspicious_trend";
+      caution_flags.push("n2_single_interval_limitation");
+      if (_absDiff < 4) {
+        /* Tiered sub-noise-floor branch (Algorithm v1.2.2):
+           |diff| < 4 µm is within OCT test-retest variability (SD ~2-3 µm).
+           Risk is downgraded to Low — the signal cannot be distinguished from noise. */
+        clinical_risk  = "low";
+        interpretation = "A slight reduction in RNFL thickness is observed, but the magnitude is within the known range of OCT test-retest variability for a single interval. While the trend is suspicious, the clinical risk is currently low. A third measurement is essential to differentiate physiological noise from true progression.";
+        notes.push("n=2 tiered prudence cap (noise-floor): fast_progression \u2192 suspicious_trend/low (absDiff=" + _r2(_absDiff) + " \u00b5m < 4 \u00b5m noise-floor threshold)");
+      } else {
+        /* Standard prudence cap: 4 µm ≤ |diff| < 8 µm — signal present but
+           single interval insufficient to confirm. Risk remains Relevant. */
+        clinical_risk  = "relevant";
+        interpretation = "The RNFL thinning rate exceeds expected age-related change. With only two measurements available, a confirmed structural trend cannot be established from a single measurement interval. Additional serial OCT examinations are recommended to characterise the rate of structural change before drawing clinical conclusions.";
+        notes.push("n=2 prudence cap applied: fast_progression \u2192 suspicious_trend/relevant (bothGood=" + _bothGood + ", absDiff=" + _r2(_absDiff) + " \u00b5m; 8 \u00b5m threshold not met)");
+      }
+    } else {
+      notes.push("n=2 fast_progression RETAINED: bothGood=true, absDiff=" + _r2(_absDiff) + " \u00b5m \u2265 8 \u00b5m threshold");
+    }
+  }
+
+  /* ── p-value Guard (Algorithm v1.2.0, Change 1) ─────────────────────────────────
+     With fewer than 5 measurements, OLS has very few degrees of freedom and the
+     p-value is unreliable. When n < 5 AND slope ≤ −1.0 AND p ≥ 0.05 (not
+     statistically significant), a fast_progression label is premature — the slope
+     magnitude may reflect noise rather than a true structural trend.
+     Only applies when classification is still fast_progression at this point
+     (floor, artifact, V-shape, n=2 cap may have already downgraded it). */
+  if (nv < 5 &&
+      slope !== null && slope <= SLOPE_STABLE_THRESHOLD &&
+      reg !== null && reg.p_value !== null && reg.p_value >= 0.05 &&
+      classification === "fast_progression" &&
+      priorFastTrendEstablished !== true) {
+    classification = "suspicious_trend";
+    clinical_risk  = "relevant";
+    interpretation = "The RNFL thinning rate falls in the fast-progression range, but the slope estimate is not statistically significant given the limited number of measurements (n=" + nv + ", " + _ptxt(reg.p_value) + "). A confirmed structural trend requires additional serial examinations. Continued OCT monitoring is recommended.";
+    caution_flags.push("slope_not_statistically_significant");
+    notes.push("p-value guard applied: n=" + nv + " < 5, slope=" + _r2(slope) + " \u00b5m/yr, " + _ptxt(reg.p_value) + " \u2265 0.05 \u2014 fast_progression \u2192 suspicious_trend");
+  }
+
+  /* ── Poor Quality Cap (Algorithm v1.2.0, Change 2) ─────────────────────────────
+     When the final scan is Low or Borderline, the fast-progression label requires
+     a meaningful structural signal between the last two scans to be credible.
+     If the penultimate-to-latest drop is < 5 µm (within test-retest variability),
+     the fast slope is driven by earlier measurements, not by the final scan — which
+     may itself be unreliable. Downgrade to Suspicious trend.
+     Fires only when classification is still fast_progression (i.e., neither the
+     p-value guard nor any higher-priority rule has already downgraded it). */
+  if ((lat.reliability === "low" || lat.reliability === "borderline") &&
+      slope !== null && slope <= SLOPE_FAST_THRESHOLD &&
+      (pen.rnfl - lat.rnfl) < 5 &&
+      classification === "fast_progression" &&
+      priorFastTrendEstablished !== true) {
+    classification = "suspicious_trend";
+    clinical_risk  = "relevant";
+    interpretation = "An RNFL thinning rate consistent with fast structural progression is estimated, but the final scan has reduced signal quality and the observed change from the preceding scan (" + _r2(pen.rnfl - lat.rnfl) + " \u00b5m) is within normal measurement variability. Repeat OCT with adequate scan quality is recommended before drawing clinical conclusions.";
+    caution_flags.push("poor_quality_final_scan_cap");
+    notes.push("Poor quality cap applied: lat.rel=" + lat.reliability + ", slope=" + _r2(slope) + " \u00b5m/yr, pen-lat drop=" + _r2(pen.rnfl - lat.rnfl) + " \u00b5m < 5 \u00b5m \u2014 fast_progression \u2192 suspicious_trend");
+  }
+
+  /* \u2500\u2500 M4-12 pre-final fast-trend exception: final state \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+     When priorFastTrendEstablished is true, the terminal-artifact rule, the
+     p-value guard, and the Poor Quality Cap have already been bypassed above
+     (see the added exclusions), so classification should already be
+     fast_progression at this point via the ordinary slope cascade. The
+     explicit force below guarantees the frozen M4-12 state exactly:
+     fast_progression / low confidence / high risk, with the required
+     interpretation and caution flag, regardless of cascade path taken. */
+  if (priorFastTrendEstablished) {
+    classification    = "fast_progression";
+    clinical_risk     = "high";
+    confidence_level  = "low";
+    interpretation    = "The preceding reliable OCT scans already demonstrate a consistent pattern of structural thinning. The most recent scan has low reliability, reducing confidence in the current estimated rate but not removing the progression signal established by the earlier series. Review segmentation and scan quality, and repeat OCT under comparable acquisition conditions to confirm the current rate of structural loss.";
+    if (caution_flags.indexOf("final_scan_low_reliability_rate_confirmation_required") === -1) {
+      caution_flags.push("final_scan_low_reliability_rate_confirmation_required");
+    }
+    artifact_rule = "bypassed: pre-final Good-scan series independently established statistically significant fast progression";
+    notes.push("M4-12 pre-final fast-trend gate: " + (nv - 1) + " pre-final scans, all Good; pre-final slope=" +
+      _r2(priorFastReg.slope) + " \u00b5m/yr (<= " + SLOPE_FAST_THRESHOLD + "), pre-final " + _ptxt(priorFastReg.p_value) +
+      " (< 0.05); terminal-artifact rule bypassed; p-value guard bypassed; Poor Quality Cap bypassed; final scan (" +
+      lat.reliability + ") reduced confidence to low; fast_progression retained because progression was already " +
+      "demonstrated independently by the preceding reliable series.");
+  }
+
+  /* Near-floor caution flag (non-overriding: added regardless of slope classification).
+     Placed AFTER all post-cascade overrides so that the appended sentence is never
+     overwritten by n=2 Prudence Cap, p-value Guard, or Poor Quality Cap.
+     Fused via a connector instead of a bolted-on "Note:" sentence (form only --
+     same treatment as OFTY M3's clinical-override notes): identical content,
+     read as one continuous clause instead of a hard-stop fragment. */
+  if (lat.rnfl > RNFL_FLOOR && lat.rnfl <= RNFL_NEAR_FLOOR) {
+    caution_flags.push("rnfl_near_floor");
+    notes.push("near-floor warning: latest RNFL=" + lat.rnfl + " um in range (" + RNFL_FLOOR + "-" + RNFL_NEAR_FLOOR + " um]");
+    interpretation = interpretation.replace(/\.\s*$/, "") + "; the latest RNFL measurement (" + lat.rnfl + " \u00b5m) is approaching the physiological measurement floor (\u2264" + RNFL_FLOOR + " \u00b5m), and structural assessment reliability decreases significantly below this level.";
+  }
+
+  /* ── n=2 Universal Noise-Floor Gate (Algorithm v1.2.3) ──────────────────────────
+     When nv=2 and |RNFL diff| < 4 µm, the observed change is within OCT
+     test-retest variability regardless of how the slope was classified.
+     This gate runs AFTER all post-cascade overrides and the near-floor append
+     so that it catches cases where suspicious_trend was reached directly from
+     the cascade (e.g. leap-year floating-point effect producing slope slightly
+     above -2.0) — not only via the Prudence Cap path.
+     Only fires on suspicious_trend; floor, artifact, myopia/erm-limited paths
+     are excluded (classification guard). */
+  if (nv === 2 &&
+      classification === "suspicious_trend" &&
+      clinical_risk !== "low") {
+    var _uDiff = Math.abs(parsed[1].rnfl - parsed[0].rnfl);
+    if (_uDiff < 4) {
+      clinical_risk  = "low";
+      interpretation = "A slight reduction in RNFL thickness is observed, but the magnitude is within the known range of OCT test-retest variability for a single interval. While the trend is suspicious, the clinical risk is currently low. A third measurement is essential to differentiate physiological noise from true progression.";
+      if (caution_flags.indexOf("n2_single_interval_limitation") === -1) {
+        caution_flags.push("n2_single_interval_limitation");
+      }
+      notes.push("n=2 universal noise-floor gate: suspicious_trend risk \u2192 low (absDiff=" + _r2(_uDiff) + " \u00b5m < 4 \u00b5m, path-independent)");
+    }
+  }
+
+  /* -- Assemble structured OFTY output -- */
+  return {
+    module_id:         "OFTY-Gx-M4",
+    algorithm_version: "1.3.1",
+    mode:              "core",
+
+    inputs_summary: inputs_summary,
+
+    structural_rate: {
+      slope_rnfl_per_year: _r2(slope),
+      intercept:           reg ? _r2(reg.intercept)  : null,
+      p_value:             reg ? _pnum(reg.p_value)   : null,
+      ci95_lower:          reg ? _r2(reg.ci95_lower)  : null,
+      ci95_upper:          reg ? _r2(reg.ci95_upper)  : null
+    },
+
+    classification:           classification,
+    statistical_significance: stat_sig,
+    data_quality:             data_quality,
+    confidence_level:         confidence_level,
+    clinical_risk:            clinical_risk,
+    interpretation:           interpretation,
+    caution_flags:            caution_flags,
+
+    detail_summary: detail_summary,
+
+    logic_trace: {
+      method:                 "linear_regression_rnfl_vs_time",
+      validation:             ltValidation.length > 0 ? ltValidation.join("; ") : "all tests passed",
+      slope_rule_applied:     slope_rule,
+      floor_rule_applied:     floor_rule,
+      artifact_rule_applied:  artifact_rule,
+      vshape_rule_applied:    vshape_rule,
+      confidence_adjustments: conf_adj.length > 0 ? conf_adj : ["none"],
+      sufficiency_rule:       sufficiency_rule,
+      notes:                  notes
+    },
+
+    model: {
+      type:         "deterministic_trend_based",
+      intended_use: "clinical_decision_support",
+      notes: "This module provides a structured interpretation of OCT RNFL structural progression and does not replace clinical judgment."
+    }
+  };
+}
+
+/* ============================================================
+   SECTION 2 -- UI LAYER
+   ============================================================
+   UI_Version:        v1.7.0
+   Responsibility:    Read input fields, sort tests, call
+                      computeM4_StructuralTrend(), map structured
+                      output to DOM.  No clinical rules here.
+   ============================================================ */
+
+var RISK_LABELS_UI = {
+  "low":             "Low clinical risk",
+  "relevant":        "Moderate clinical risk",
+  "high":            "High clinical risk",
+  "indeterminate":   "Indeterminate clinical risk",
+  "myopia_limited":  "Uncertain clinical risk \u2014 functional correlation required"
+};
+
+var PROG_LABELS_UI = {
+  "stable_trend":                     "Stable",
+  "suspicious_trend":                 "Suspicious trend",
+  "fast_progression":                 "Progressing",
+  "myopia_limited_structural_signal": "Signal limited",
+  "erm_limited_structural_signal":    "Signal limited",
+  "floor_effect":                     "Not assessable",
+  "unclassifiable":                   "Not assessable"
+};
+
+var SLOPE_TAGS_UI = {
+  "stable_trend":                     "Stable slope",
+  "suspicious_trend":                 "Suspicious slope",
+  "fast_progression":                 "Fast progression",
+  "myopia_limited_structural_signal": "Myopia-limited signal",
+  "erm_limited_structural_signal":    "ERM-limited signal",
+  "floor_effect":                     "Floor effect",
+  "unclassifiable":                   ""
+};
+
+/* -- Row management ---------------------------------------- */
+var fieldRows = document.getElementById("fieldRows");
+var rowCount  = 0;
+
+/* Update gap >24 mo badges across all rows (M3-identical) */
+function updateGapBadges() {
+  var rows = document.getElementById("fieldRows").querySelectorAll("tr");
+  var dates = [];
+  rows.forEach(function(row) {
+    var inp = row.querySelector(".date-input");
+    dates.push(inp ? inp.value.trim() : "");
+  });
+  rows.forEach(function(row, i) {
+    var badge = row.querySelector(".gap-badge");
+    if (!badge) return;
+    badge.classList.remove("visible");
+    if (i === 0) return;
+    var dCur = dates[i]; var dPrev = dates[i - 1];
+    if (!dCur || !dPrev || dCur.length < 7 || dPrev.length < 7) return;
+    var tCur  = Date.parse(dCur  + "-01");
+    var tPrev = Date.parse(dPrev + "-01");
+    if (isNaN(tCur) || isNaN(tPrev)) return;
+    var gapMonths = (tCur - tPrev) / (1000 * 60 * 60 * 24 * 30.4375);
+    if (gapMonths > 24) badge.classList.add("visible");
+  });
+}
+
+function addRow(dateVal, rnflVal, relVal) {
+  if (rowCount >= 12) return; // hard cap
+  rowCount++;
+  document.getElementById("maxRowsNote").style.display = (rowCount >= 12) ? "" : "none";
+  document.getElementById("addRowBtn").disabled = (rowCount >= 12);
+
+  var tr = document.createElement("tr");
+
+  /* Date cell */
+  var tdDate = document.createElement("td"); tdDate.className = "col-date";
+  var inDate = document.createElement("input"); inDate.type = "text";
+  inDate.placeholder = "YYYY-MM"; inDate.className = "date-input"; inDate.maxLength = 7;
+  if (dateVal) inDate.value = dateVal;
+  /* Gap badge */
+  var gapBadge = document.createElement("span"); gapBadge.className = "gap-badge";
+  gapBadge.innerHTML = "&#9888; Gap &gt;24 mo";
+  tdDate.appendChild(inDate); tdDate.appendChild(gapBadge); tr.appendChild(tdDate);
+
+  /* RNFL cell */
+  var tdRnfl = document.createElement("td"); tdRnfl.className = "col-rnfl";
+  var inRnfl = document.createElement("input"); inRnfl.type = "number";
+  inRnfl.placeholder = "85"; inRnfl.step = "1";
+  inRnfl.min = String(RNFL_PLAUSIBLE_MIN); inRnfl.max = String(RNFL_PLAUSIBLE_MAX);
+  inRnfl.className = "rnfl-input";
+  if (rnflVal !== undefined && rnflVal !== "") inRnfl.value = rnflVal;
+  var rnflHint = document.createElement("div");
+  rnflHint.className = "rnfl-hint";
+  rnflHint.textContent = "30 – 130 µm";
+  tdRnfl.appendChild(inRnfl);
+  tdRnfl.appendChild(rnflHint);
+  tr.appendChild(tdRnfl);
+
+  /* Clear invalid state as soon as the user interacts with the field
+     (input = starts typing, blur = clicks elsewhere).
+     Validation runs fresh on the next Analyze press. */
+  function _clearRnflInvalid() { inRnfl.classList.remove("invalid"); }
+  inRnfl.addEventListener("input", _clearRnflInvalid);
+  inRnfl.addEventListener("blur",  _clearRnflInvalid);
+
+  /* Reliability cell */
+  var tdRel = document.createElement("td"); tdRel.className = "col-rel";
+  var sel = document.createElement("select"); sel.className = "rel-input";
+  /* A1 P3: no implicit Good. First option is an empty "Select…" placeholder; a rating is
+     preselected only when passed explicitly (programmatic/harness paths); never copied. */
+  var phOpt = document.createElement("option");
+  phOpt.value = ""; phOpt.textContent = "Select…"; phOpt.disabled = true; phOpt.selected = true;
+  sel.appendChild(phOpt);
+  var relOpts = [["good","Good"],["borderline","Borderline"],["low","Low"]];
+  for (var oi = 0; oi < relOpts.length; oi++) {
+    var opt = document.createElement("option");
+    opt.value = relOpts[oi][0]; opt.textContent = relOpts[oi][1];
+    if (relVal === relOpts[oi][0]) opt.selected = true;
+    sel.appendChild(opt);
+  }
+  sel.addEventListener("change", function() { sel.classList.remove("invalid"); });
+  tdRel.appendChild(sel); tr.appendChild(tdRel);
+
+  /* Remove button */
+  var tdRm = document.createElement("td"); tdRm.className = "col-rm";
+  var btnRm = document.createElement("button"); btnRm.className = "btn-remove"; btnRm.title = "Remove";
+  btnRm.innerHTML = "&times;";
+  btnRm.addEventListener("click", function() {
+    hideResult();
+    fieldRows.removeChild(tr);
+    rowCount = Math.max(0, rowCount - 1);
+    document.getElementById("maxRowsNote").style.display = (rowCount >= 12) ? "" : "none";
+    document.getElementById("addRowBtn").disabled = (rowCount >= 12);
+    updateGapBadges();
+    var self = this;
+    setTimeout(function() { self.blur(); }, 300);
+  });
+  tdRm.appendChild(btnRm); tr.appendChild(tdRm);
+
+  fieldRows.appendChild(tr);
+
+  /* Date input: keydown — dash/space/slash shortcut at 4 digits (M3-identical) */
+  inDate.addEventListener("keydown", function(e) {
+    if (e.key === "-" || e.key === " " || e.code === "Space" || e.key === "/") {
+      var digits = this.value.replace(/\D/g, "");
+      if (digits.length === 4) {
+        e.preventDefault();
+        this.value = digits + "-";
+        try { this.setSelectionRange(5, 5); } catch(ex) {}
+      }
+    }
+  });
+
+  /* Date input: input — clear validation state + gap badge update (M3-identical) */
+  inDate.addEventListener("input", function() {
+    /* A1 P1: value rewrite / caret auto-mask removed (it transposed "202401" into "2024-10").
+       Entry is validated strictly as YYYY-MM at Analyze time; the keydown separator is kept. */
+    this.classList.remove("invalid");
+    var row = this.closest("tr");
+    if (row) {
+      row.classList.remove("row-invalid");
+      var prev = row.previousElementSibling;
+      var next = row.nextElementSibling;
+      if (prev) prev.classList.remove("row-invalid");
+      if (next) next.classList.remove("row-invalid");
+    }
+    updateGapBadges();
+  });
+
+  /* RNFL range validation occurs at analysis time (collectTests), not live.
+     This is consistent with M3 behaviour: the field turns red only when
+     the user presses Analyze, not while typing. */
+}
+
+function resetAll() {
+  fieldRows.innerHTML = ""; rowCount = 0;
+  document.getElementById("maxRowsNote").style.display = "none";
+  document.getElementById("addRowBtn").disabled = false;
+  for (var i = 0; i < 3; i++) addRow();
+  hideResult();
+  document.getElementById("eyeSelect").value = "OD";
+  document.getElementById("highMyopia").checked = false;
+  document.getElementById("macularPathology").checked = false;
+  if (document.activeElement) document.activeElement.blur();
+}
+
+/* -- Collect tests from table ------------------------------ */
+/* A1 P1/P3 (§4.5): strict YYYY-MM; partial/invalid rows and missing scan-quality ratings
+   are reported (row-numbered, 1-based display order) instead of being silently dropped.
+   Returns { tests, rowIndex, errors }: tests[i] came from table row rowIndex[i] (0-based). */
+function collectTests() {
+  var rows  = fieldRows.querySelectorAll("tr");
+  var tests = [], rowIndex = [], errors = [];
+  for (var ri = 0; ri < rows.length; ri++) {
+    var row       = rows[ri];
+    var dateInput = row.querySelector(".date-input");
+    var rnflInput = row.querySelector(".rnfl-input");
+    var relInput  = row.querySelector(".rel-input");
+    var dateVal   = dateInput.value.trim();
+    var rnflVal   = rnflInput.value.trim();
+    var rnflBad   = !!(rnflInput.validity && rnflInput.validity.badInput);
+    var relVal    = relInput ? relInput.value : "";
+    /* R0: entirely empty row; the "Select…" placeholder alone never makes a row partial. */
+    if (dateVal === "" && rnflVal === "" && !rnflBad && relVal === "") continue;
+    var rowNo = ri + 1;
+
+    /* R2: date — strict YYYY-MM (two-digit month), reject future */
+    var validDate = false;
+    if (dateVal === "") {
+      errors.push("Row " + rowNo + ": date missing.");
+    } else {
+      validDate = /^\d{4}-(0[1-9]|1[0-2])$/.test(dateVal);
+      if (validDate) {
+        var now = new Date();
+        var nowYM = now.getFullYear() * 12 + now.getMonth();
+        var parts1 = dateVal.split("-");
+        var enteredYM = parseInt(parts1[0], 10) * 12 + (parseInt(parts1[1], 10) - 1);
+        if (enteredYM > nowYM) validDate = false;
+      }
+      if (!validDate) errors.push("Row " + rowNo + ": enter the date as YYYY-MM with a two-digit month (e.g. 2024-01); future months are not accepted.");
+    }
+
+    /* R3: measurement */
+    var rnflNum   = parseFloat(rnflVal);
+    var validRnfl = !rnflBad && rnflVal !== "" && !isNaN(rnflNum) && rnflNum >= RNFL_PLAUSIBLE_MIN && rnflNum <= RNFL_PLAUSIBLE_MAX;
+    if (!validRnfl) {
+      if (rnflVal === "" && !rnflBad) errors.push("Row " + rowNo + ": average RNFL value missing.");
+      else errors.push("Row " + rowNo + ": average RNFL must be a number from 30 to 130 µm.");
+    }
+
+    /* R4: explicit clinician scan-quality rating required (A1 P3) */
+    var validRel = (relVal === "good" || relVal === "borderline" || relVal === "low");
+    if (!validRel) errors.push("Row " + rowNo + ": select the scan quality rating (Good, Borderline or Low).");
+
+    if (!validDate) { dateInput.classList.add("invalid"); } else { dateInput.classList.remove("invalid"); }
+    if (!validRnfl) { rnflInput.classList.add("invalid"); } else { rnflInput.classList.remove("invalid"); }
+    if (relInput) { if (!validRel) { relInput.classList.add("invalid"); } else { relInput.classList.remove("invalid"); } }
+    if (!validDate || !validRnfl || !validRel) continue;
+
+    /* R5: complete row — engine input object unchanged from M5TC */
+    tests.push({ date: dateVal, rnfl: rnflNum, reliability: relInput.value });
+    rowIndex.push(ri);
+  }
+  return { tests: tests, rowIndex: rowIndex, errors: errors };
+}
+
+/* A1 P1: single row-validation message panel below the examination table (role="alert"). */
+var ROW_ERRORS_HEADER = "Analysis not run. Correct the rows listed below, or clear them.";
+function showRowErrors(messages) {
+  var panel = document.getElementById("rowErrors");
+  if (!panel) return;
+  panel.innerHTML = "";
+  var head = document.createElement("p"); head.className = "row-errors-title"; head.textContent = ROW_ERRORS_HEADER;
+  panel.appendChild(head);
+  var list = document.createElement("ul");
+  for (var i = 0; i < messages.length; i++) {
+    var li = document.createElement("li"); li.textContent = messages[i]; list.appendChild(li);
+  }
+  panel.appendChild(list);
+  panel.hidden = false;
+}
+function clearRowErrors() {
+  var panel = document.getElementById("rowErrors");
+  if (!panel) return;
+  panel.innerHTML = "";
+  panel.hidden = true;
+}
+
+/* -- Sort tests chronologically ---------------------------- */
+function sortTestsChronologically(tests) {
+  return tests.slice().sort(function(a, b) {
+    return Date.parse(a.date + "-01") - Date.parse(b.date + "-01");
+  });
+}
+
+/* -- Confidence subtext ------------------------------------ */
+function confidenceSubtext(detail) {
+  var nv          = detail.valid_test_count;
+  var nLow        = detail.low_reliability_count;
+  var nBorderline = detail.borderline_reliability_count;
+  var fy          = detail.followup_years;
+  if (nv < 2)    return "A single measurement does not allow trend estimation.";
+  if (nv === 2)  return "Two measurements provide a very limited trend estimate.";
+  var months = Math.round(fy * 12);
+  var parts  = [nv + " measurements"];
+  if (months < 12 && nv >= 2) parts.push(months + " month" + (months !== 1 ? "s" : "") + " follow-up");
+  if (nLow > 0)             parts.push(nLow + " low-reliability scan" + (nLow > 1 ? "s" : ""));
+  else if (nBorderline > 0) parts.push(nBorderline + " borderline scan" + (nBorderline > 1 ? "s" : ""));
+  return parts.join(" \u00b7 ") + ".";
+}
+
+function capitalize(s) {
+  return (s && s.length > 0) ? s.charAt(0).toUpperCase() + s.slice(1) : (s || "");
+}
+
+/* -- Sparkline (M4-adapted: RNFL µm, floor line at 50 µm) ---- */
+function drawSparkline(d) {
+  var svg  = document.getElementById("sparklineSvg");
+  var wrap = document.getElementById("sparklineWrap");
+  if (!svg || !wrap) return;
+  var pts = d.sparklineTests;
+  var n   = pts.length;
+  if (n < 2) { wrap.style.display = "none"; return; }
+  wrap.style.display = "block";
+  var firstTs = Date.parse(pts[0].date + "-01");
+  var lastTs  = Date.parse(pts[n - 1].date + "-01");
+  var timeSpan = (lastTs - firstTs) || 1;
+  var vals    = [];
+  for (var vi = 0; vi < n; vi++) vals.push(pts[vi].rnfl);
+  var minRNFL = Math.min.apply(null, vals);
+  var maxRNFL = Math.max.apply(null, vals);
+  var topY    = maxRNFL + 5;
+  var bottomY = Math.min(minRNFL - 5, RNFL_FLOOR - 3);
+  if (topY < RNFL_FLOOR + 10) topY = RNFL_FLOOR + 10;
+  var rangeY  = topY - bottomY;
+  if (rangeY === 0) rangeY = 1;
+  function getY(v) { return 30 + ((topY - v) / rangeY) * 80; }
+  function getX(ts) { return 40 + ((ts - firstTs) / timeSpan) * 420; }
+  var html = "";
+  var floorY = getY(RNFL_FLOOR);
+  /* 1. Floor line at 50 µm (dashed, perfectly aligned) */
+  html += '<line x1="40" y1="' + floorY + '" x2="460" y2="' + floorY + '" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6 4"/>';
+  html += '<text x="15" y="' + floorY + '" font-family="DM Sans, sans-serif" font-size="10" font-weight="600" fill="var(--text-3)" alignment-baseline="middle" text-anchor="middle">50</text>';
+  /* 2. Trajectory line: solid, black, bold */
+  var polyPts = "";
+  for (var pi = 0; pi < n; pi++) {
+    var pTs = Date.parse(pts[pi].date + "-01");
+    polyPts += getX(pTs) + "," + getY(pts[pi].rnfl) + " ";
+  }
+  html += '<polyline points="' + polyPts.trim() + '" fill="none" stroke="var(--text-1)" stroke-width="2.5"/>';
+  /* 3. Data points and value labels (whole numbers for RNFL) */
+  for (var ci = 0; ci < n; ci++) {
+    var cTs  = Date.parse(pts[ci].date + "-01");
+    var cx   = getX(cTs);
+    var cy   = getY(pts[ci].rnfl);
+    var rel  = pts[ci].reliability;
+    var color = (rel === "good") ? "var(--primary)" : (rel === "borderline") ? "var(--warn)" : "var(--text-4)";
+    var lbl  = pts[ci].rnfl.toFixed(0);
+    html += '<text x="' + cx + '" y="' + (cy - 12) + '" font-family="DM Mono, monospace" font-size="9" font-weight="600" fill="var(--text-2)" text-anchor="middle" paint-order="stroke" stroke="white" stroke-width="3" stroke-linejoin="round">' + lbl + '</text>';
+    html += '<circle cx="' + cx + '" cy="' + cy + '" r="4.5" fill="' + color + '" stroke="#FFFFFF" stroke-width="1.5"/>';
+  }
+  /* 4. X-Axis labels (Years only at the bottom corners) */
+  html += '<text x="40"  y="135" font-family="DM Sans, sans-serif" font-size="10" font-weight="600" fill="var(--text-3)" text-anchor="middle">' + pts[0].date.substring(0, 4) + '</text>';
+  html += '<text x="460" y="135" font-family="DM Sans, sans-serif" font-size="10" font-weight="600" fill="var(--text-3)" text-anchor="middle">' + pts[n - 1].date.substring(0, 4) + '</text>';
+  svg.innerHTML = html;
+}
+
+/* -- Main analyze ------------------------------------------ */
+function analyze() {
+  hideResult();
+
+  var eye  = document.getElementById("eyeSelect").value;
+  var mods = [];
+  if (document.getElementById("highMyopia").checked)       mods.push("high_myopia");
+  if (document.getElementById("macularPathology").checked) mods.push("erm_maculopathy");
+
+  /* A1 P1/P3: classify every row; any partial/invalid/unrated row blocks before engine and publish. */
+  clearRowErrors();
+  var uiRowsAll = fieldRows.querySelectorAll("tr");
+  for (var _r = 0; _r < uiRowsAll.length; _r++) uiRowsAll[_r].classList.remove("row-invalid");
+  var collected    = collectTests();
+  var tests        = collected.tests;
+  var testRowIndex = collected.rowIndex;
+  if (collected.errors.length > 0) { showRowErrors(collected.errors); return; }
+
+  /* Block calculation if any filled RNFL field is out of plausible range.
+     collectTests() already marks invalid fields with .invalid class.
+     We read that state here and block before the engine is ever called. */
+  var _rnflInputs = fieldRows.querySelectorAll(".rnfl-input");
+  var _hasInvalidRnfl = false;
+  for (var _ii = 0; _ii < _rnflInputs.length; _ii++) {
+    if (_rnflInputs[_ii].classList.contains("invalid") && _rnflInputs[_ii].value.trim() !== "") {
+      _hasInvalidRnfl = true; break;
+    }
+  }
+  if (_hasInvalidRnfl) {
+    /* Red field + inline hint already visible -- block silently */
+    return;
+  }
+
+  if (tests.length < 1) { return; }
+
+  /* Chronological order validation on user-entered sequence */
+  if (tests.length >= 2) {
+    var uiRows = fieldRows.querySelectorAll("tr");
+    for (var ri = 0; ri < uiRows.length; ri++) uiRows[ri].classList.remove("row-invalid");
+    var inputMonths = tests.map(function(t) {
+      var p = t.date.split("-");
+      return parseInt(p[0], 10) * 12 + parseInt(p[1], 10);
+    });
+    for (var vi = 1; vi < inputMonths.length; vi++) {
+      if (inputMonths[vi] <= inputMonths[vi - 1]) {
+        /* A1 P1: mark the actual table rows of the offending tests, plus a message */
+        var rowA = testRowIndex[vi - 1], rowB = testRowIndex[vi];
+        if (uiRows[rowA]) uiRows[rowA].classList.add("row-invalid");
+        if (uiRows[rowB]) uiRows[rowB].classList.add("row-invalid");
+        showRowErrors(["Rows " + (rowA + 1) + " and " + (rowB + 1) + ": enter examinations oldest first, one per month."]);
+        return;
+      }
+    }
+  }
+
+  /* Explicit chronological sort before engine call */
+  var sortedTests = sortTestsChronologically(tests);
+
+  /* Engine call */
+  var result = computeM4_StructuralTrend({ eye: eye, tests: sortedTests, modifiers: mods });
+
+  /* Attach sparkline series: sorted tests with RNFL values for drawSparkline */
+  result._sparklineTests = sortedTests;
+
+  /* Failure gate: no detail_summary means engine returned a failure output */
+  if (!result.detail_summary) {
+    return;
+  }
+
+  renderResult(result);
+
+  /* ── OFTY Suite integration: persist result for M5 import ── */
+  try {
+    var _m4Store = JSON.parse(JSON.stringify(result));
+    delete _m4Store._sparklineTests;   /* UI-only field — not needed by M5 */
+    _m4Store._timestamp = new Date().toISOString();
+    localStorage.setItem('ofty_m4_result', JSON.stringify(_m4Store));
+    if (window.Gate2Session) Gate2Session.publish('m4', _m4Store, eye);
+  } catch(e) {}
+}
+
+/* -- Render structured output to DOM ----------------------- */
+function renderResult(res) {
+  document.getElementById("resultCard").classList.add("visible");
+
+  var sr     = res.structural_rate;
+  var detail = res.detail_summary;
+  var lt     = res.logic_trace;
+
+  /* Sparkline */
+  var spWrap = document.getElementById("sparklineWrap");
+  if (res._sparklineTests && res._sparklineTests.length >= 2) {
+    spWrap.style.display = "block";
+    drawSparkline({ sparklineTests: res._sparklineTests });
+  } else {
+    spWrap.style.display = "none";
+  }
+
+  /* Hero: slope number */
+  document.getElementById("heroEye").textContent = (res.inputs_summary && res.inputs_summary.eye) ? res.inputs_summary.eye : "";
+
+  var slopeReliable = (sr.slope_rnfl_per_year !== null && detail.valid_test_count >= 3 && res.classification !== "unclassifiable");
+  var heroSlopeEl   = document.getElementById("heroSlope");
+
+  if (slopeReliable) {
+    heroSlopeEl.textContent = (sr.slope_rnfl_per_year >= 0 ? "+" : "") + sr.slope_rnfl_per_year.toFixed(2);
+    heroSlopeEl.classList.remove("slope-unreliable");
+    document.getElementById("heroSlopeUnit").style.display = "";
+    var stag = SLOPE_TAGS_UI[res.classification] || "";
+    document.getElementById("heroSlopeTag").textContent = stag ? "(" + stag + ")" : "";
+  } else {
+    heroSlopeEl.textContent = (res.classification === "unclassifiable")
+      ? "Insufficient longitudinal data" : "Slope estimate unreliable";
+    heroSlopeEl.classList.add("slope-unreliable");
+    document.getElementById("heroSlopeUnit").style.display = "none";
+    document.getElementById("heroSlopeTag").textContent = "";
+  }
+
+  /* Progression */
+  document.getElementById("resProgression").textContent = PROG_LABELS_UI[res.classification] || res.classification;
+
+  /* Confidence */
+  var confLabels = { high: "High", medium: "Medium", low: "Low" };
+  document.getElementById("resConfidence").textContent    = confLabels[res.confidence_level] || capitalize(res.confidence_level);
+  document.getElementById("resConfidenceSub").textContent = confidenceSubtext(detail);
+
+  /* Risk strip */
+  var riskStrip = document.getElementById("riskStrip");
+  riskStrip.className = "risk-strip visible risk-" + res.clinical_risk;
+  document.getElementById("riskTitle").textContent = RISK_LABELS_UI[res.clinical_risk] || res.clinical_risk;
+
+  /* Interpretation */
+  document.getElementById("interpretationText").textContent = res.interpretation || "";
+
+  /* Transparency */
+  /* Show dynamic trace section now that we have results */
+  var tSec = document.getElementById("traceSection");
+  if (tSec) tSec.style.display = "";
+
+  document.getElementById("traceSufficiency").textContent = lt.sufficiency_rule || "--";
+  document.getElementById("traceClassRule").textContent   = lt.slope_rule_applied || "--";
+  document.getElementById("tracePValue").textContent      = (sr.p_value !== null) ? _pfmt(sr.p_value) : "Not available";
+  document.getElementById("traceCI").textContent          = (sr.ci95_lower !== null && sr.ci95_upper !== null)
+    ? sr.ci95_lower.toFixed(2) + " to " + sr.ci95_upper.toFixed(2) + " \u00b5m/year"
+    : "Not available";
+  document.getElementById("traceN").textContent           = String(detail.valid_test_count);
+  var months = Math.round(detail.followup_years * 12);
+  document.getElementById("traceFollowup").textContent    = months + " month" + (months !== 1 ? "s" : "");
+  var firstDate = res._sparklineTests && res._sparklineTests.length >= 2 ? res._sparklineTests[0].date.substring(0,7) : null;
+  var lastDate  = res._sparklineTests && res._sparklineTests.length >= 2 ? res._sparklineTests[res._sparklineTests.length-1].date.substring(0,7) : null;
+  document.getElementById("tracePeriod").textContent      = (firstDate && lastDate) ? firstDate + " — " + lastDate : "—";
+
+
+  window._lastM4Result = res;
+  document.getElementById("resultCard").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/* -- Helpers ----------------------------------------------- */
+function hideResult() {
+  var tSec = document.getElementById("traceSection");
+  if (tSec) tSec.style.display = "none";
+  document.getElementById("resultCard").classList.remove("visible");
+  document.getElementById("riskStrip").className = "risk-strip";
+  var spWrap = document.getElementById("sparklineWrap");
+  if (spWrap) spWrap.style.display = "none";
+  clearRowErrors(); /* A1 P1: row-validation panel cleared with any table change / new run */
+  window._lastM4Result = null;
+  try {
+    localStorage.removeItem("ofty_m4_result");
+  } catch (e) {}
+}
+
+/* -- Copy result ------------------------------------------- */
+/* G2-B AS-M2 (UI text only): same sentence as the #scopeLimitation card element. */
+var M4_SCOPE_LIMITATION = "This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.";
+document.getElementById("copyBtn").addEventListener("click", function() {
+  var res = window._lastM4Result; if (!res) return;
+  var sr      = res.structural_rate;
+  var detail  = res.detail_summary;
+  var isumm   = res.inputs_summary;
+  var confLabels = { high: "High", medium: "Medium", low: "Low" };
+  var months  = Math.round(detail.followup_years * 12);
+  var slopeStr = (sr.slope_rnfl_per_year !== null)
+    ? (sr.slope_rnfl_per_year >= 0 ? "+" : "") + sr.slope_rnfl_per_year.toFixed(2) + " \u00b5m/year"
+    : "--";
+  var latRnflStr = detail.latest_rnfl + " \u00b5m (" + capitalize(detail.latest_reliability) + ")";
+  var lines = [
+    "OFTY - OCT Progression Analysis (M4)",
+    "Eye: " + (isumm ? isumm.eye : "--"),
+    "RNFL slope: " + slopeStr,
+    "Classification: " + (PROG_LABELS_UI[res.classification] || res.classification),
+    "Confidence: " + (confLabels[res.confidence_level] || capitalize(res.confidence_level)),
+    "Clinical risk: " + (RISK_LABELS_UI[res.clinical_risk] || res.clinical_risk),
+    "Scans: " + detail.valid_test_count + " \u00b7 Follow-up: " + months + " month" + (months !== 1 ? "s" : ""),
+    "Latest RNFL: " + latRnflStr,
+    "Interpretation: " + (res.interpretation || "--")
+  ];
+  if (res.caution_flags && res.caution_flags.length > 0) {
+    var flagLabels = {
+      "myopia_limits_oct_interpretation":   "High myopia -- RNFL interpretation limited",
+      "rnfl_floor_effect":                  "RNFL floor effect",
+      "rnfl_near_floor":                    "RNFL approaching structural floor",
+      "artifact_suspected_due_to_quality":  "Artifact suspected (scan quality)",
+      "erm_limits_oct_interpretation":      "Macular pathology -- RNFL interpretation limited",
+      "regression_failed":                  "Regression failed",
+      "insufficient_data":                  "Insufficient data",
+      "n2_single_interval_limitation":       "Single interval -- trend not yet confirmed (n=2)",
+      "slope_not_statistically_significant":  "Slope not statistically significant (p >= 0.05)",
+      "poor_quality_final_scan_cap":          "Final scan quality insufficient for fast progression",
+      "final_scan_low_reliability_rate_confirmation_required": "Final scan has low reliability — current progression rate requires repeat confirmation"
+    };
+    var flagStrs = res.caution_flags.map(function(f) { return flagLabels[f] || f; });
+    lines.push("Caution flags: " + flagStrs.join("; "));
+  }
+  lines.push("Limitation: " + M4_SCOPE_LIMITATION); // G2-B AS-M2: persistent, every result
+  lines.push("Generated with OFTY Tool M4 v1.1");
+  var text = lines.join("\n");
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(flashCopied).catch(function() {
+        var ta = document.createElement("textarea"); ta.value = text;
+        ta.style.cssText = "position:fixed;top:0;left:0;opacity:0;pointer-events:none";
+        document.body.appendChild(ta); ta.setAttribute("readonly",""); ta.focus(); ta.select(); ta.setSelectionRange(0, 99999);
+        document.execCommand("copy"); document.body.removeChild(ta); flashCopied();
+      });
+    } else {
+      var ta = document.createElement("textarea"); ta.value = text;
+      ta.style.cssText = "position:fixed;top:0;left:0;opacity:0;pointer-events:none";
+      document.body.appendChild(ta); ta.setAttribute("readonly",""); ta.focus(); ta.select(); ta.setSelectionRange(0, 99999);
+      document.execCommand("copy"); document.body.removeChild(ta); flashCopied();
+    }
+  } catch(ex) {
+    var ta2 = document.createElement("textarea"); ta2.value = text;
+    ta2.style.cssText = "position:fixed;top:0;left:0;opacity:0;pointer-events:none";
+    document.body.appendChild(ta2); ta2.setAttribute("readonly",""); ta2.focus(); ta2.select(); ta2.setSelectionRange(0, 99999);
+    document.execCommand("copy"); document.body.removeChild(ta2); flashCopied();
+  }
+});
+
+function flashCopied() {
+  var btn = document.getElementById("copyBtn");
+  btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+  btn.classList.add("copied");
+  setTimeout(function() {
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy result';
+    btn.classList.remove("copied");
+  }, 1800);
+}
+
+/* -- Collapsibles ------------------------------------------ */
+function toggleMore(id, btn) {
+  var el = document.getElementById(id);
+  var isOpen = el.classList.toggle("is-open");
+  btn.textContent = isOpen ? "Hide full disclaimer" : "Read full disclaimer";
+}
+function makeCollapsible(triggerId, collapseId) {
+  var t = document.getElementById(triggerId), c = document.getElementById(collapseId);
+  if (!t || !c) return;
+  t.addEventListener("click", function() { c.classList.toggle("is-open"); });
+}
+makeCollapsible("transparencyToggle", "collapseTransparency");
+makeCollapsible("disclaimerToggle",   "collapseDisclaimer");
+
+/* -- Button wiring ----------------------------------------- */
+document.getElementById("analyzeBtn").addEventListener("click", function() {
+  var btn = this; btn.disabled = true;
+  try { analyze(); } finally { setTimeout(function() { btn.disabled = false; }, 350); }
+});
+/* Sources and Version History collapsibles */
+["src","ver"].forEach(function(id) {
+  var btn  = document.getElementById("collapse-" + id + "-btn");
+  var body = document.getElementById("collapse-" + id + "-body");
+  var wrap = document.getElementById("collapse-" + id);
+  if (!btn) return;
+  btn.addEventListener("click", function() {
+    var open = wrap.classList.toggle("is-open");
+    btn.setAttribute("aria-expanded", open);
+  });
+});
+
+document.getElementById("addRowBtn").addEventListener("click", function() {
+  if (rowCount < 12) { hideResult(); addRow(); }
+});
+document.getElementById("resetBtn").addEventListener("click", resetAll);
+
+/* ── PATCH: stale result / session invalidation (Algorithm v1.3.0) ──────────
+   Any clinically relevant input change must immediately invalidate a
+   previously displayed M4 result (and the persisted M5 payload) via the
+   shared hideResult() path, so M5 can never import a result that no longer
+   corresponds to the visible inputs. Does not interfere with date auto-mask,
+   gap badges, RNFL validation, chronological-order validation, Add/Remove,
+   Excel-style Enter, or successful result persistence. */
+document.getElementById("eyeSelect").addEventListener("change", function() { hideResult(); });
+document.getElementById("highMyopia").addEventListener("change", function() { hideResult(); });
+document.getElementById("macularPathology").addEventListener("change", function() { hideResult(); });
+document.getElementById("fieldRows").addEventListener("input", function(e) {
+  if (e.target && (e.target.classList.contains("date-input") || e.target.classList.contains("rnfl-input"))) {
+    hideResult();
+  }
+});
+document.getElementById("fieldRows").addEventListener("change", function(e) {
+  if (e.target && e.target.classList.contains("rel-input")) {
+    hideResult();
+  }
+});
+
+/* Excel-style Enter: on RNFL input → add row + focus next date input */
+document.getElementById("fieldRows").addEventListener("keydown", function(e) {
+  if (e.key !== "Enter") return;
+  if (e.target && e.target.classList.contains("rnfl-input")) {
+    e.preventDefault();
+    if (rowCount < 12) {
+      hideResult();
+      addRow();
+      var rows = document.getElementById("fieldRows").querySelectorAll("tr");
+      var lastRow = rows[rows.length - 1];
+      if (lastRow) {
+        var dateInput = lastRow.querySelector(".date-input");
+        if (dateInput) { setTimeout(function() { dateInput.focus(); }, 0); }
+      }
+    }
+    return;
+  }
+  /* All other inputs → analyze */
+  analyze();
+});
+
+/* Touch: brief visual feedback */
+document.addEventListener("touchstart", function(e) {
+  var el = e.target.closest(".btn, .btn-remove");
+  if (!el) return;
+  el.classList.add("btn-pressed");
+  setTimeout(function() { el.classList.remove("btn-pressed"); el.blur(); }, 300);
+}, { passive: true });
+
+/* -- Progression tooltip (JS-controlled, mobile-safe) ------ */
+(function() {
+  /* Unified tooltip system (M3-identical) — all tip-icons use data-tip="key" */
+  var TIPS = {
+    reliability: "Scan quality is the clinician's rating of the OCT scan (Good, Borderline or Low). It is not an automatically measured device reliability index. No rating is assumed: rate each scan before analysis.\nGood: reliable scan.\nBorderline: interpretable with some uncertainty.\nLow: poor signal quality — retained in regression, flagged in classification.",
+    progression: "Stable — RNFL change compatible with age-related structural stability\nSuspicious trend — RNFL thinning exceeds expected decay; trend not yet confirmed\nFast progression — structural thinning rate consistent with glaucomatous progression\nSignal limited — RNFL interpretation limited by high myopia or ERM\nNot assessable — floor effect or insufficient data",
+    risk: "Low: Stable RNFL or low structural risk.\nModerate: RNFL trend may warrant closer monitoring or assessment.\nHigh: Significant RNFL thinning that may require clinical escalation.\nUncertain: RNFL signal present but interpretation limited by high myopia or ERM — functional correlation required."
+  };
+  var TIPS_HTML = {
+    reliability: "Scan quality is the clinician's rating of the OCT scan (Good, Borderline or Low). It is not an automatically measured device reliability index. No rating is assumed: rate each scan before analysis.<br><b>Good:</b> reliable scan.<br><b>Borderline:</b> interpretable with some uncertainty.<br><b>Low:</b> poor signal quality — retained in regression, flagged in classification.",
+    progression: "<b>Stable</b> — RNFL change compatible with age-related structural stability<br><b>Suspicious trend</b> — RNFL thinning exceeds expected decay; trend not yet confirmed<br><b>Fast progression</b> — structural thinning rate consistent with glaucomatous progression<br><b>Signal limited</b> — RNFL interpretation limited by high myopia or ERM<br><b>Not assessable</b> — floor effect or insufficient data",
+    risk: "<b>Low:</b> Stable RNFL or low structural risk.<br><b>Moderate:</b> RNFL trend may warrant closer monitoring or assessment.<br><b>High:</b> Significant RNFL thinning that may require clinical escalation.<br><b>Uncertain:</b> RNFL signal present but interpretation limited by high myopia or ERM — functional correlation required."
+  };
+  var _tip = document.getElementById("oftyTooltip");
+  var _tipMargin = 8, _tipLocked = false;
+  function _show(icon) {
+    var key = icon.getAttribute("data-tip");
+    if (!key || !TIPS[key]) return;
+    _tip.innerHTML = TIPS_HTML[key];
+    _tip.classList.add("visible");
+    var r = icon.getBoundingClientRect();
+    var tw = _tip.offsetWidth, th = _tip.offsetHeight;
+    var vw = window.innerWidth;
+    var left = Math.max(_tipMargin, Math.min(vw - tw - _tipMargin, (vw - tw) / 2));
+    var top = r.top - th - _tipMargin;
+    if (top < _tipMargin) top = r.bottom + _tipMargin;
+    _tip.style.left = left + "px";
+    _tip.style.top  = top  + "px";
+  }
+  function _hide() { _tip.classList.remove("visible"); _tipLocked = false; }
+  window.addEventListener("scroll", function() { _hide(); }, { passive: true });
+  document.addEventListener("mouseover", function(e) {
+    if (e.target.classList && e.target.classList.contains("tip-icon") && !_tipLocked) _show(e.target);
+  });
+  document.addEventListener("mouseout", function(e) {
+    if (e.target.classList && e.target.classList.contains("tip-icon") && !_tipLocked) _hide();
+  });
+  document.addEventListener("click", function(e) {
+    if (e.target.classList && e.target.classList.contains("tip-icon")) {
+      e.stopPropagation();
+      if (_tipLocked && _tip.classList.contains("visible")) { _hide(); return; }
+      _show(e.target); _tipLocked = true;
+    } else { _hide(); }
+  });
+})();
+
+/* -- Init: 3 empty rows ------------------------------------ */
+(function() { for (var _i = 0; _i < 3; _i++) addRow(); })();
+
+</script>
+</body>
+</html>
