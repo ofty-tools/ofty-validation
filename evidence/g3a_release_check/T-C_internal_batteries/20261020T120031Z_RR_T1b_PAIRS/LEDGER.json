@@ -1,0 +1,94 @@
+{
+  "block": "T1b on POST (G2-B oracle)",
+  "started_utc": "2026-10-20T12:00:31.850Z",
+  "node": "v22.22.0",
+  "browser_version": "141.0.7390.37",
+  "N_source": {
+    "html_path": "<G3A_WORKSPACE>/internal_layout/g2e/rerun/g2c/wv/G2C-WV1/source/gate2/index.html",
+    "semantic_path": "<G3A_WORKSPACE>/internal_layout/g2e/rerun/g2c/wv/G2C-WV1/source/gate2/semantic.cjs",
+    "html_sha256": "e258018b8d7999aea23a35ddbaab896a8678518f084883a6efa066746cd79a83",
+    "semantic_sha256": "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+  },
+  "template_fixture": "A2-S-PRESSURE/Codex:P06-true",
+  "rows": [
+    {
+      "id": "T1b-1",
+      "pair": {
+        "id": "T1b-1",
+        "measured": 17,
+        "cct_um": 615,
+        "adjusted": 14,
+        "expected_position": "above_range",
+        "expected_raw_GAT_mmhg": 17,
+        "if_adjusted_were_used": "within_range",
+        "expected_copy_lines": [
+          "Target IOP range: 13-15 mmHg",
+          "On-treatment IOP (GAT): 17 mmHg · +2 mmHg above target"
+        ],
+        "expected_copy_sentence": "Current on-treatment GAT is above the target range."
+      },
+      "checks": {
+        "not_context_blocked": true,
+        "position": true,
+        "raw_GAT": true,
+        "range": true,
+        "basis": true,
+        "contextual_estimate_operative_false": true,
+        "selected_observation_id": true,
+        "reason_codes_exclude": true,
+        "no_M1_invariance": true,
+        "g2c_versions_accepted": true,
+        "substitution_control_discriminates": true,
+        "component_result_equals_api": true,
+        "json_pressure_equals_api": true,
+        "copy_lines": true,
+        "copy_sentence": true,
+        "copy_W1_once": true,
+        "screen_detail_measured": true,
+        "print_detail_measured": true,
+        "adjusted_not_in_gat_surfaces": true
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "T1b-2",
+      "pair": {
+        "id": "T1b-2",
+        "measured": 14,
+        "cct_um": 465,
+        "adjusted": 17,
+        "expected_position": "within_range",
+        "expected_raw_GAT_mmhg": 14,
+        "if_adjusted_were_used": "above_range",
+        "expected_copy_lines": [
+          "Target IOP range: 13-15 mmHg",
+          "On-treatment IOP (GAT): 14 mmHg · Within target"
+        ],
+        "expected_copy_sentence": "Current on-treatment GAT lies within the target range."
+      },
+      "checks": {
+        "not_context_blocked": true,
+        "position": true,
+        "raw_GAT": true,
+        "range": true,
+        "basis": true,
+        "contextual_estimate_operative_false": true,
+        "selected_observation_id": true,
+        "reason_codes_exclude": true,
+        "no_M1_invariance": true,
+        "g2c_versions_accepted": true,
+        "substitution_control_discriminates": true,
+        "component_result_equals_api": true,
+        "json_pressure_equals_api": true,
+        "copy_lines": true,
+        "copy_sentence": true,
+        "copy_W1_once": true,
+        "screen_detail_measured": true,
+        "print_detail_measured": true,
+        "adjusted_not_in_gat_surfaces": true
+      },
+      "status": "PASS"
+    }
+  ],
+  "finished_utc": "2026-10-20T12:00:33.339Z"
+}

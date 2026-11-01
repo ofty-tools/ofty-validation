@@ -1,0 +1,28 @@
+--- G2E_EVAL.cjs
++++ G2E_EVAL_v1.1_OAE01.cjs
+@@ -1,4 +1,6 @@
+ 'use strict';
++// G2-E evaluator v1.1 (ORACLE-AMENDMENT OA-E01, post hoc): identical to the frozen v1.0 except the expected export also
++// carries the new transport_version inside functional.native. v1.0 outputs are preserved.
+ // G2-E evaluator (frozen with the plan). Reads capture records only; never executes OFTY code.
+ // Expected POST = frozen transform of the PRE (G2D-WV1) capture (G2E_EXPECTATIONS.expected_post_transform):
+ //   M3: card, COPY, print, PDF unchanged; export gains functional.display.rendered_label (= the PRE card label) and the
+@@ -10,7 +12,7 @@
+ //   node G2E_EVAL.cjs standalone <set> <PRE_dir> <POST_dir> <outdir>
+ //   node G2E_EVAL.cjs host <set> <PRE_dir> <POST_dir> <outdir>
+ //   node G2E_EVAL.cjs selfcheck <standalone|host> <set> <dirA> <dirB> <outdir>     design-time: two PRE runs, identity
+-const C = require('./common.cjs');
++const C = require('../harness/common.cjs');   // v1.1 lives in harness_amendments/
+ const X = C.readJSON(C.FROZEN.G2E_EXP), T = X.texts, V = C.VERSIONS;
+ const line = (t, p) => (t || '').split('\n').find(l => l.startsWith(p)) || null;
+ function diffPaths(a, b, p = '', out = []) {
+@@ -51,6 +53,9 @@
+   e.transport_version = V.POST.m3_transport;
+   e.functional.candidate.ui = V.POST.m3_ui;
+   e.functional.display.rendered_label = preCardLabel;
++  // OA-E01 (post hoc, see G2E_OAE01_RECORD.json): the pre-existing source line `native: JSON.parse(JSON.stringify(_m3Store))`
++  // copies the store, including transport_version, into functional.native; that copy carries the same new value.
++  if (e.functional.native && 'transport_version' in e.functional.native) e.functional.native.transport_version = V.POST.m3_transport;
+   return e;
+ }
+ // Frozen M5 text transform (applied to every M5 text surface of the PRE capture).

@@ -1,0 +1,506 @@
+{
+ "plan": "G2-E M3/M5 semantic alignment, frozen expectations (see G2E_FROZEN_TEST_PLAN.md)",
+ "objects": {
+  "PRE": "G2D-WV1 (G2-D package final_source; M3 0796cc3f...434f, M5 host 088745d5...873c)",
+  "POST": "G2E-WV1 (G2D-WV1 + patch/apply_g2e_patches.py)"
+ },
+ "versions": {
+  "changed_files": [
+   "vf-progression/index.html",
+   "gate2/index.html"
+  ],
+  "unchanged_contract_files": [
+   "gate2/semantic.cjs",
+   "rnfl-progression/index.html"
+  ]
+ },
+ "texts": {
+  "discordant_label": "Discordant indicators — clinical review needed",
+  "src_absent": "M3 pattern-rule label: No progression detected",
+  "src_card_npd": "M3 pattern-rule label and card: No progression detected",
+  "src_card_prefix": "M3 pattern-rule label: No progression detected; M3 card: ",
+  "m5_old_unresolved": "(displayed: No progression detected; native",
+  "m5_old_plateau": "(displayed: No progression detected)",
+  "m5_old_clause": "and its displayed interpretation",
+  "m5_new_clause": "and its pattern-rule interpretation",
+  "m5_old_caution": "whereas the displayed current interpretation is stable",
+  "m5_new_caution": "whereas the M3 pattern-rule interpretation is stable",
+  "m5_old_detail_key": "Source display interpretation",
+  "m5_new_detail_key": "Source pattern-rule label (M3)",
+  "m5_card_row_key": "M3 card label"
+ },
+ "expected_post_transform": {
+  "m3_standalone": "card, COPY, print and PDF text unchanged; export = PRE export + functional.display.rendered_label (= PRE card label) + transport_version gate2-m3-0.2.1 + functional.candidate.ui 2.6.2; display.label unchanged; no export where PRE had none",
+  "m4_standalone": "unchanged",
+  "host_m3_m1_m2_m4": "M3 frame unchanged; M3 envelope as the standalone export rule; M1, M2, M4 envelopes and frames unchanged",
+  "host_m5_machine": "result and JSON identical (after volatile keys, timestamps, run UUIDs) except functional.display.rendered_label and functional.candidate.ui; hero, concern, disposition, reason codes, guards, confidence, selected rule, display.label, native fields identical",
+  "host_m5_text": "COPY, screen and print DOM = PRE text with: \"(displayed: No progression detected; native\" -> \"(<src>; native\"; \"(displayed: No progression detected)\" -> \"(<src>)\"; clause and caution replacements; detail row \"Source display interpretation\" renamed \"Source pattern-rule label (M3)\" with a new row \"M3 card label\" = M3 card label right after it; M5 UI label v0.4.7 -> v0.4.8. <src> = src_absent / src_card_npd / src_card_prefix + card, from the M3 card label",
+  "host_n1": "M3 frame unchanged; M3 not published; no envelope; M5 not ready"
+ },
+ "fixtures": [
+  {
+   "id": "E-O6-sig-fast",
+   "origin": "G2D-O6-noisy-n12",
+   "dates": [
+    "2019-01",
+    "2019-03",
+    "2019-05",
+    "2019-07",
+    "2019-09",
+    "2019-11",
+    "2020-01",
+    "2020-03",
+    "2020-05",
+    "2020-07",
+    "2020-09",
+    "2020-11"
+   ],
+   "md": [
+    -2,
+    -2.4,
+    -2.1,
+    -2.9,
+    -2.6,
+    -3.3,
+    -3,
+    -3.6,
+    -3.4,
+    -4.1,
+    -3.8,
+    -4.4
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "expect": {
+    "card_label": "Discordant indicators — clinical review needed",
+    "risk": "High clinical risk",
+    "export": true,
+    "pattern_rule_label": "Stable",
+    "native_significance": "significant",
+    "native_classification": "fast_progression",
+    "m5_hero": "history_vs_current_conflict",
+    "m5_codes": [
+     "unresolved_history_vs_current_interpretation"
+    ],
+    "m5_md_line": "Not reconciled (M3 pattern-rule label: No progression detected; M3 card: Discordant indicators — clinical review needed; native classification indicates progression)"
+   }
+  },
+  {
+   "id": "E-O6-sig-moderate",
+   "origin": "G2D-O6-moderate-n12",
+   "dates": [
+    "2019-01",
+    "2019-03",
+    "2019-05",
+    "2019-07",
+    "2019-09",
+    "2019-11",
+    "2020-01",
+    "2020-03",
+    "2020-05",
+    "2020-07",
+    "2020-09",
+    "2020-11"
+   ],
+   "md": [
+    -2,
+    -2.3,
+    -2.1,
+    -2.5,
+    -2.3,
+    -2.7,
+    -2.5,
+    -2.9,
+    -2.7,
+    -3.1,
+    -2.9,
+    -3.3
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "expect": {
+    "card_label": "Discordant indicators — clinical review needed",
+    "risk": "Moderate clinical risk",
+    "export": true,
+    "pattern_rule_label": "Stable",
+    "native_significance": "significant",
+    "native_classification": "moderate_progression",
+    "m5_hero": "history_vs_current_conflict",
+    "m5_codes": [
+     "unresolved_history_vs_current_interpretation"
+    ],
+    "m5_md_line": "Not reconciled (M3 pattern-rule label: No progression detected; M3 card: Discordant indicators — clinical review needed; native classification indicates progression)"
+   }
+  },
+  {
+   "id": "E-O6-sig-plateauFixC",
+   "origin": "G2D-O6-plateau-n12 (M3 branch L3139; M5 unresolved branch)",
+   "dates": [
+    "2012-01",
+    "2013-01",
+    "2014-01",
+    "2015-01",
+    "2016-01",
+    "2017-01",
+    "2018-01",
+    "2019-01",
+    "2020-01",
+    "2021-01",
+    "2022-01",
+    "2023-01"
+   ],
+   "md": [
+    -2,
+    -2,
+    -2,
+    -8,
+    -8,
+    -8,
+    -8,
+    -8,
+    -8,
+    -8,
+    -8,
+    -8
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "expect": {
+    "card_label": "Discordant indicators — clinical review needed",
+    "risk": "Moderate clinical risk",
+    "export": true,
+    "pattern_rule_label": "Stable",
+    "native_significance": "significant",
+    "native_classification": "moderate_progression",
+    "m5_hero": "history_vs_current_conflict",
+    "m5_codes": [
+     "unresolved_history_vs_current_interpretation"
+    ],
+    "m5_md_line": "Not reconciled (M3 pattern-rule label: No progression detected; M3 card: Discordant indicators — clinical review needed; native classification indicates progression)"
+   }
+  },
+  {
+   "id": "E-A1-nonsig-moderate",
+   "origin": "G2D-O6-nonsig",
+   "dates": [
+    "2023-01",
+    "2023-04",
+    "2023-07",
+    "2023-10",
+    "2024-02"
+   ],
+   "md": [
+    -2,
+    -3.6,
+    -1.9,
+    -3.4,
+    -3
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "expect": {
+    "card_label": "No progression detected",
+    "risk": "Moderate clinical risk",
+    "export": true,
+    "pattern_rule_label": "Stable",
+    "native_significance": "non_significant",
+    "native_classification": "moderate_progression",
+    "m5_hero": "history_vs_current_conflict",
+    "m5_codes": [
+     "non_significant_trend",
+     "unresolved_history_vs_current_interpretation"
+    ],
+    "m5_md_line": "Not reconciled (M3 pattern-rule label and card: No progression detected; native classification indicates progression)"
+   }
+  },
+  {
+   "id": "E-A1-plateau-L3568-nonsig",
+   "origin": "G2-E design aid P-a (M3 branch L3568; M5 plateau branch)",
+   "dates": [
+    "2022-01",
+    "2022-07",
+    "2023-01",
+    "2023-07",
+    "2024-01"
+   ],
+   "md": [
+    -2,
+    -8,
+    -8.5,
+    -8,
+    -8.5
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "expect": {
+    "card_label": "No progression detected",
+    "risk": "Moderate clinical risk",
+    "export": true,
+    "pattern_rule_label": "Stable",
+    "native_significance": "non_significant",
+    "native_classification": "very_fast_progression",
+    "m5_hero": "history_vs_current_conflict",
+    "m5_codes": [
+     "history_vs_current_plateau",
+     "inconsistent_functional_pattern",
+     "non_significant_trend"
+    ],
+    "m5_md_line": "Historical progression followed by a plateau (M3 pattern-rule label and card: No progression detected)"
+   }
+  },
+  {
+   "id": "E-clean-stable",
+   "origin": "G2D-O6-slow-sig (CLEAN_DOMAIN)",
+   "dates": [
+    "2019-01",
+    "2019-03",
+    "2019-05",
+    "2019-07",
+    "2019-09",
+    "2019-11",
+    "2020-01",
+    "2020-03",
+    "2020-05",
+    "2020-07",
+    "2020-09",
+    "2020-11"
+   ],
+   "md": [
+    -2,
+    -2.1,
+    -2.1,
+    -2.2,
+    -2.3,
+    -2.3,
+    -2.4,
+    -2.5,
+    -2.5,
+    -2.6,
+    -2.7,
+    -2.7
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "expect": {
+    "card_label": "No progression detected",
+    "risk": "Low clinical risk",
+    "export": true,
+    "pattern_rule_label": "Stable",
+    "native_significance": "significant",
+    "native_classification": "no_or_slow_progression",
+    "m5_hero": "no_signal",
+    "m5_codes": [],
+    "m5_md_line": "No progression detected"
+   }
+  },
+  {
+   "id": "E-HS1-n1",
+   "origin": "G2D-HS1-n1-good",
+   "dates": [
+    "2024-01"
+   ],
+   "md": [
+    -3
+   ],
+   "reliability": [
+    "good"
+   ],
+   "expect": {
+    "card_label": "Not assessable",
+    "risk": "Indeterminate clinical risk",
+    "export": false,
+    "no_low_risk": true
+   }
+  },
+  {
+   "id": "E-HS1-n1-ct",
+   "origin": "G2-E new",
+   "dates": [
+    "2024-01"
+   ],
+   "md": [
+    -3
+   ],
+   "reliability": [
+    "good"
+   ],
+   "central_threat": true,
+   "expect": {
+    "card_label": "Not assessable",
+    "risk": "High clinical risk",
+    "export": false,
+    "no_low_risk": true,
+    "modifier_note": "WARNING: Central visual field is threatened."
+   }
+  },
+  {
+   "id": "E-HS1-n1-mono",
+   "origin": "G2-E new",
+   "dates": [
+    "2024-01"
+   ],
+   "md": [
+    -3
+   ],
+   "reliability": [
+    "good"
+   ],
+   "monocular": true,
+   "expect": {
+    "card_label": "Not assessable",
+    "risk": "Moderate clinical risk",
+    "export": false,
+    "no_low_risk": true,
+    "modifier_note": "NOTE: This patient is functionally monocular."
+   }
+  },
+  {
+   "id": "E-HS1-n1-ct-mono",
+   "origin": "G2-E new",
+   "dates": [
+    "2024-01"
+   ],
+   "md": [
+    -3
+   ],
+   "reliability": [
+    "good"
+   ],
+   "central_threat": true,
+   "monocular": true,
+   "expect": {
+    "card_label": "Not assessable",
+    "risk": "High clinical risk",
+    "export": false,
+    "no_low_risk": true,
+    "modifier_note": "NOTE: This patient is functionally monocular. WARNING: Central visual field is threatened."
+   }
+  },
+  {
+   "id": "E-HS2-floor",
+   "origin": "G2D-HS2-floor-stable",
+   "dates": [
+    "2022-01",
+    "2022-07",
+    "2023-01",
+    "2023-07",
+    "2024-01"
+   ],
+   "md": [
+    -25.6,
+    -25.9,
+    -25.7,
+    -26.1,
+    -25.8
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "expect": {
+    "card_label": "Not assessable",
+    "risk": "High clinical risk",
+    "export": true,
+    "pattern_rule_label": "Not assessable",
+    "m5_hero": "not_assessable",
+    "m5_codes": [
+     "m3_not_assessable_floor",
+     "m3_not_assessable_source"
+    ],
+    "m5_md_line": "Not assessable (end-stage damage; floor effect)"
+   }
+  },
+  {
+   "id": "E-native-insufficient",
+   "origin": "WP1-T4A-n3-24m (G2-B T4 / G2-C P1)",
+   "dates": [
+    "2022-01",
+    "2023-01",
+    "2024-01"
+   ],
+   "md": [
+    -3,
+    -3.2,
+    -3.1
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good"
+   ],
+   "expect": {
+    "card_label": "Not assessable",
+    "risk": "Indeterminate clinical risk",
+    "export": true,
+    "pattern_rule_label": "Not assessable",
+    "m5_hero": "not_assessable",
+    "m5_codes": [
+     "m3_not_assessable_source",
+     "native_functional_insufficient"
+    ],
+    "m5_md_line": "Not assessable (visual field series insufficient)"
+   }
+  }
+ ]
+}

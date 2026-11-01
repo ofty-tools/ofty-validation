@@ -1,0 +1,47 @@
+--- G2E_package/harness/common.cjs
++++ tests/g2e_reproduction/harness/common.cjs
+@@ -1,29 +1,27 @@
+ 'use strict';
+ // G2-E harness: shared utilities. Copy of the G2-D common.cjs; utility functions unchanged. Changed: object roots (G2-E
+ // compares G2D-WV1 = PRE with G2E-WV1 = POST), frozen-input locations and the version table. Synthetic data only. Pages are served from 127.0.0.1; every other request is aborted.
++// RELEASE-KIT ADAPTATION (G3-A, HADAPT-G3A-01; path bindings only, no change to capture, comparison or oracle logic):
++//   Playwright is resolved from the kit's node_modules (or OFTY_PLAYWRIGHT_DIR); POST = <repository>/candidate (the released
++//   G2-E source); PRE sources are not shipped: the PRE side is the archived PRE capture set in baseline_pre_captures/;
++//   frozen inputs are read from tests/g2e_reproduction/frozen/. See ../HADAPT-G3A-01.md and common.cjs.diff.
+ const fs = require('node:fs'), path = require('node:path'), crypto = require('node:crypto'), http = require('node:http');
+-const PW = '/opt/npm-tools/node_modules/playwright';
+-const G2E = path.resolve(__dirname, '..');                                // .../scratchpad/g2e
+-const SCR = path.resolve(G2E, '..');                                      // .../scratchpad
+-const G2D_PKG = path.join(G2E, 'inputs/g2d_pkg');                         // G2-D package (read-only)
+-const G2C_PKG = path.join(G2E, 'inputs/g2c_pkg');                         // G2-C package (read-only)
+-const G2B_PKG = path.join(G2E, 'inputs/g2b_pkg');
++const G2E = path.resolve(__dirname, '..');                                // <repository>/tests/g2e_reproduction (the kit)
++const SCR = path.resolve(G2E, '../..');                                   // <repository>
++const PW = process.env.OFTY_PLAYWRIGHT_DIR || path.dirname(require.resolve('playwright/package.json', { paths: [G2E, path.resolve(G2E, '..')] }));
++const G2D_PKG = null, G2C_PKG = null, G2B_PKG = null;                     // not shipped; their frozen inputs are copied into frozen/
+ const CLOCK_ISO = '2026-10-14T10:00:00.000Z';
+ const ROOTS = {
+-  PRE: path.join(G2D_PKG, 'final_source/G2D-WV1'),                       // G2-E starting object = G2-D candidate (read-only)
+-  POST: path.join(G2E, 'wv/G2E-WV1/source'),                              // G2-E candidate
+-  G2C: path.join(G2C_PKG, 'final_source/G2C-WV1'),                        // history only
+-  G2B: path.join(G2B_PKG, 'final_source/G2B-WV1'),                        // history only
+-  C1: path.join(SCR, 'g2b/baseline/C1/OFTY_PAPER2_P1_SVG_ERRATA_UI_ONLY_C1_UNRELEASED/candidate_a1_source'),
+-  M5TC: path.join(SCR, 'g2b/baseline/M5TC/OFTY_PAPER2_GATE3_M5_CLINICAL_TEXT_CORRECTION_CANDIDATE/candidate_m5_text_correction'),
++  PRE: null,                                                              // not shipped (G2D-WV1); use baseline_pre_captures/
++  POST: path.join(SCR, 'candidate'),                                      // G2-E candidate as staged in this repository
+ };
+ const FROZEN = {
+   G2E_EXP: path.join(G2E, 'frozen/G2E_EXPECTATIONS.json'),
+-  G2D_EXP: path.join(G2D_PKG, 'test_plan_frozen/G2D_EXPECTATIONS.json'),
+-  G2C_REF: path.join(G2C_PKG, 'test_plan_frozen/G2C_REFERENCE.json'),
+-  G2C_A02_REF: path.join(G2C_PKG, 'supplements/A02'),
+-  G2C_A03: path.join(G2C_PKG, 'supplements/A03'),
+-  G2B_EXP: path.join(G2B_PKG, 'test_plan_frozen/g2b/G2B_EXPECTATIONS.json'),
++  G2D_EXP: path.join(G2E, 'frozen/G2D_EXPECTATIONS.json'),
++  G2C_REF: path.join(G2E, 'frozen/G2C_REFERENCE.json'),
++  G2C_A02_REF: path.join(G2E, 'frozen/supplements_A02'),
++  G2C_A03: path.join(G2E, 'frozen/supplements_A03'),
++  G2B_EXP: path.join(G2E, 'frozen/G2B_EXPECTATIONS.json'),
+ };
+ const sha256 = b => crypto.createHash('sha256').update(b).digest('hex');
+ const now = () => new Date().toISOString();

@@ -1,0 +1,275 @@
+{
+ "root": "<release tree>",
+ "files": 358,
+ "extensions": {
+  ".cff": 1,
+  ".txt": 9,
+  ".md": 16,
+  "(none)": 2,
+  ".html": 8,
+  ".json": 292,
+  ".cjs": 8,
+  ".sh": 1,
+  ".tsv": 3,
+  ".diff": 5,
+  ".log": 3,
+  ".csv": 8,
+  ".sha256": 1,
+  ".js": 1
+ },
+ "files_with_hits": {
+  "email": 6,
+  "m1_advanced_ref": 53,
+  "rotterdam": 3,
+  "abs_local_path": 2
+ },
+ "hits": {
+  "email": {
+   "CITATION.cff": [
+    "dott.andrea.ragosta@gmail.com"
+   ],
+   "README.md": [
+    "dott.andrea.ragosta@gmail.com"
+   ],
+   "candidate/rnfl-progression/index.html": [
+    "dott.andrea.ragosta@gmail.com"
+   ],
+   "candidate/vf-progression/index.html": [
+    "dott.andrea.ragosta@gmail.com"
+   ],
+   "candidate/target-iop/index.html": [
+    "dott.andrea.ragosta@gmail.com"
+   ],
+   "candidate/iop-cct/index.html": [
+    "dott.andrea.ragosta@gmail.com"
+   ]
+  },
+  "m1_advanced_ref": {
+   "README.md": [
+    "M1 Advanced"
+   ],
+   "CHANGELOG.md": [
+    "M1 Advanced"
+   ],
+   "tests/g2e_reproduction/frozen/G2B_EXPECTATIONS.json": [
+    "m1-advanced"
+   ],
+   "tests/g2e_reproduction/baseline_pre_captures/host_wp1/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "tests/g2e_reproduction/baseline_pre_captures/host_g2e/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "tests/g2e_reproduction/baseline_pre_captures/standalone_a03/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "tests/g2e_reproduction/baseline_pre_captures/host_a02/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "tests/g2e_reproduction/baseline_pre_captures/host_wp3/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "tests/g2e_reproduction/baseline_pre_captures/standalone_wp2/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "tests/g2e_reproduction/baseline_pre_captures/standalone_wp3/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "tests/g2e_reproduction/baseline_pre_captures/standalone_t2b_m4/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "tests/g2e_reproduction/baseline_pre_captures/standalone_g2e/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "tests/g2e_reproduction/baseline_pre_captures/host_a03/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "tests/g2e_reproduction/baseline_pre_captures/host_wp2/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "tests/g2e_reproduction/baseline_pre_captures/standalone_a02/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "tests/g2e_reproduction/baseline_pre_captures/standalone_wp1/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "tests/g2e_reproduction/baseline_pre_captures/standalone_g2d/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "tests/g2e_reproduction/baseline_pre_captures/host_g2d/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "docs/OBJECTS_AND_VERSIONS.md": [
+    "M1 Advanced",
+    "m1-advanced"
+   ],
+   "evidence/g3a_release_check/T-B2_g2e_reproduction/POST_standalone_wp2/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-B2_g2e_reproduction/POST_standalone_a02/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-B2_g2e_reproduction/POST_host_wp3/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-B2_g2e_reproduction/POST_standalone_wp3/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-B2_g2e_reproduction/POST_host_wp2/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-B2_g2e_reproduction/POST_standalone_a03/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-B2_g2e_reproduction/POST_standalone_g2d/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-B2_g2e_reproduction/POST_standalone_t2b_m4/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-B2_g2e_reproduction/POST_host_wp1/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-B2_g2e_reproduction/POST_host_g2e/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-B2_g2e_reproduction/POST_standalone_g2e/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-B2_g2e_reproduction/POST_standalone_wp1/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-B2_g2e_reproduction/POST_host_a02/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-B2_g2e_reproduction/POST_host_g2d/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-B2_g2e_reproduction/POST_host_a03/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-C_internal_batteries/20261020T115831Z_RR_POST_WP2_HELPER_GRID/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-C_internal_batteries/20261020T115834Z_RR_POST_M4_WP3/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-C_internal_batteries/20261020T120133Z_RR_T2b_M3M4_PARITY_OAE02/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-C_internal_batteries/20261020T120118Z_RR_T4_M3_CARD_EXPORT/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-C_internal_batteries/20261020T115902Z_RR_T1_PRESSURE50/LEDGER.json": [
+    "M1_ADVANCED"
+   ],
+   "evidence/g3a_release_check/T-C_internal_batteries/20261020T120033Z_RR_T1c_HOST/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-C_internal_batteries/20261020T115832Z_RR_POST_T3/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g3a_release_check/T-C_internal_batteries/20261020T120047Z_RR_T2b_M3M4_PARITY/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g2e_campaign_20261020/g2b_g2c_batteries_rerun/20261020T103150Z_RR_POST_M4_WP3/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g2e_campaign_20261020/g2b_g2c_batteries_rerun/20261020T103345Z_RR_T1c_HOST/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g2e_campaign_20261020/g2b_g2c_batteries_rerun/20261020T103430Z_RR_T4_M3_CARD_EXPORT/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g2e_campaign_20261020/g2b_g2c_batteries_rerun/20261020T103218Z_RR_T1_PRESSURE50/LEDGER.json": [
+    "M1_ADVANCED"
+   ],
+   "evidence/g2e_campaign_20261020/g2b_g2c_batteries_rerun/20261020T103359Z_RR_T2b_M3M4_PARITY/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g2e_campaign_20261020/g2b_g2c_batteries_rerun/20261020T103149Z_RR_POST_T3/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g2e_campaign_20261020/g2b_g2c_batteries_rerun/20261020T103524Z_RR_T2b_M3M4_PARITY_OAE02/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g2e_campaign_20261020/g2b_g2c_batteries_rerun/20261020T103148Z_RR_POST_WP2_HELPER_GRID/LEDGER.json": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "evidence/g2e_campaign_20261020/frozen_plan/PRE_G2D-WV1_TREE.sha256": [
+    "m1-advanced",
+    "m1_advanced"
+   ],
+   "candidate/README.md": [
+    "M1 Advanced"
+   ],
+   "candidate/gate2/index.html": [
+    "m1_advanced"
+   ]
+  },
+  "rotterdam": {
+   "README.md": [
+    "Rotterdam"
+   ],
+   "docs/OBJECTS_AND_VERSIONS.md": [
+    "Rotterdam"
+   ],
+   "evidence/g3a_release_check/G3A_TEST_PLAN_PREDECLARED.md": [
+    "Rotterdam"
+   ]
+  },
+  "abs_local_path": {
+   "tests/g2e_reproduction/harness/common.cjs.diff": [
+    "/opt/n",
+    "scratchpad"
+   ],
+   "evidence/g3a_release_check/T-B0_npm_ci.log": [
+    "/opt/p"
+   ]
+  }
+ }
+}

@@ -1,0 +1,477 @@
+{
+  "id": "PRE_E-HS1-n1",
+  "spec": {
+    "id": "E-HS1-n1",
+    "m1": {
+      "pio": "12",
+      "cct": "465"
+    },
+    "m2": {
+      "stage": "Moderate",
+      "baseline": "",
+      "cct": "thin",
+      "progression": "none",
+      "currentIOP": "12",
+      "attest": true,
+      "observation_id": "G2D-GRID-GAT"
+    },
+    "central_threat": false,
+    "monocular": false,
+    "m3_series": [
+      [
+        "2024-01",
+        -3
+      ]
+    ],
+    "m3_rel": [
+      "good"
+    ],
+    "m4_series": [
+      [
+        "2021-01",
+        85
+      ],
+      [
+        "2022-01",
+        85.2
+      ],
+      [
+        "2023-01",
+        84.9
+      ],
+      [
+        "2024-01",
+        85.1
+      ],
+      [
+        "2025-01",
+        85
+      ]
+    ],
+    "m4_rel": [
+      "good",
+      "good",
+      "good",
+      "good",
+      "good"
+    ],
+    "pdf": false
+  },
+  "started_utc": "2026-10-20T10:21:00.966Z",
+  "origin": "http://127.0.0.1:36739",
+  "capture": "hostRunN1",
+  "emulated_ua_ch": {
+    "brands": [
+      {
+        "brand": "HeadlessChrome",
+        "version": "141"
+      },
+      {
+        "brand": "Not?A_Brand",
+        "version": "8"
+      },
+      {
+        "brand": "Chromium",
+        "version": "141"
+      }
+    ],
+    "fullVersion": "141.0.7390.37",
+    "platform": "Windows",
+    "platformVersion": "10.0.0",
+    "architecture": "x86",
+    "model": "",
+    "mobile": false
+  },
+  "module_states": {
+    "m1": "PUBLISHED",
+    "m2": "PUBLISHED",
+    "m3": "DIRTY",
+    "m4": "PUBLISHED"
+  },
+  "m3_envelope": null,
+  "m3_frame": {
+    "card_visible": true,
+    "label": "Not assessable",
+    "hero_slope": "Slope estimate unreliable",
+    "hero_slope_tag": null,
+    "confidence": "Low",
+    "confidence_sub": "A single visual field does not allow trend estimation.",
+    "risk": "Indeterminate clinical risk",
+    "interpretation": "Progression analysis could not be performed: a minimum of two reliable visual fields with adequate follow-up is required to support trend estimation. Schedule additional visual field examinations to build an adequate longitudinal dataset.",
+    "scope_limitation": "Limitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.",
+    "card_inner_text": "VF PROGRESSION ANALYSIS · OD\nSlope estimate unreliable\nPROGRESSION\ni\nNot assessable\nCONFIDENCE\nLow\nA single visual field does not allow trend estimation.\nIndeterminate clinical risk\ni\nINTERPRETATION\nProgression analysis could not be performed: a minimum of two reliable visual fields with adequate follow-up is required to support trend estimation. Schedule additional visual field examinations to build an adequate longitudinal dataset.\nLimitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.\nCopy",
+    "localStorage": null,
+    "copy": "Eye: OD\nSlope: Not available (insufficient data)\nProgression: Not assessable\nConfidence: Low\nClinical risk: Indeterminate clinical risk\nFields: 1 · Follow-up: N/A\n\nInterpretation: Progression analysis could not be performed: a minimum of two reliable visual fields with adequate follow-up is required to support trend estimation. Schedule additional visual field examinations to build an adequate longitudinal dataset.\nLimitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.\n\nGenerated with OFTY Tool M3 v1.1"
+  },
+  "integrate_return": null,
+  "ready_before_save": false,
+  "start_save": "returned",
+  "ready_after_save": false,
+  "m5_result": null,
+  "m5_copy": null,
+  "m5_screen": {
+    "visible": true,
+    "inner_text": "Context or contributor changed. Reintegrate current results."
+  },
+  "served": [
+    [
+      "/gate2/index.html",
+      "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/semantic.cjs",
+      "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+    ],
+    [
+      "/iop-cct/index.html",
+      "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a"
+    ],
+    [
+      "/target-iop/index.html",
+      "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0"
+    ],
+    [
+      "/vf-progression/index.html",
+      "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+    ],
+    [
+      "/rnfl-progression/index.html",
+      "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/index.html",
+      "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/semantic.cjs",
+      "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+    ],
+    [
+      "/iop-cct/index.html",
+      "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a"
+    ],
+    [
+      "/target-iop/index.html",
+      "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0"
+    ],
+    [
+      "/vf-progression/index.html",
+      "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+    ],
+    [
+      "/rnfl-progression/index.html",
+      "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/index.html",
+      "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/semantic.cjs",
+      "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+    ],
+    [
+      "/iop-cct/index.html",
+      "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a"
+    ],
+    [
+      "/target-iop/index.html",
+      "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0"
+    ],
+    [
+      "/vf-progression/index.html",
+      "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+    ],
+    [
+      "/rnfl-progression/index.html",
+      "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/index.html",
+      "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/semantic.cjs",
+      "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+    ],
+    [
+      "/iop-cct/index.html",
+      "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a"
+    ],
+    [
+      "/target-iop/index.html",
+      "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0"
+    ],
+    [
+      "/vf-progression/index.html",
+      "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+    ],
+    [
+      "/rnfl-progression/index.html",
+      "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/index.html",
+      "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/semantic.cjs",
+      "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+    ],
+    [
+      "/iop-cct/index.html",
+      "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a"
+    ],
+    [
+      "/target-iop/index.html",
+      "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0"
+    ],
+    [
+      "/vf-progression/index.html",
+      "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+    ],
+    [
+      "/rnfl-progression/index.html",
+      "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/index.html",
+      "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/semantic.cjs",
+      "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+    ],
+    [
+      "/iop-cct/index.html",
+      "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a"
+    ],
+    [
+      "/target-iop/index.html",
+      "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0"
+    ],
+    [
+      "/vf-progression/index.html",
+      "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+    ],
+    [
+      "/rnfl-progression/index.html",
+      "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/index.html",
+      "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/semantic.cjs",
+      "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+    ],
+    [
+      "/iop-cct/index.html",
+      "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a"
+    ],
+    [
+      "/target-iop/index.html",
+      "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0"
+    ],
+    [
+      "/vf-progression/index.html",
+      "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+    ],
+    [
+      "/rnfl-progression/index.html",
+      "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ]
+  ],
+  "events": {
+    "console": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      }
+    ],
+    "page_errors": [],
+    "aborted_external": [
+      "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap",
+      "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+      "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+    ],
+    "network_failed": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+        "err": "net::ERR_FAILED"
+      },
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap",
+        "err": "net::ERR_FAILED"
+      },
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+        "err": "net::ERR_FAILED"
+      },
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+        "err": "net::ERR_FAILED"
+      }
+    ]
+  },
+  "product_console_errors": [],
+  "finished_utc": "2026-10-20T10:21:05.044Z"
+}

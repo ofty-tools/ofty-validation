@@ -1,0 +1,695 @@
+{
+  "block": "G2E EVAL host wp1",
+  "evaluated_utc": "2026-10-20T14:28:17.177Z",
+  "expectations_sha256": "e241c51ccb7c72993d2e16376bb0763bd99f25e6aa52f9a1399ebd9a1b7ec4c8",
+  "pre_dir": "<RELEASE_TREE>/tests/g2e_reproduction/baseline_pre_captures/host_wp1",
+  "post_dir": "<RUN_OUTPUT>/POST_host_wp1",
+  "rows": [
+    {
+      "id": "WP1-T4A-n3-24m",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-T4B-n3-24m",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n2-24m",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n4-11m",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n4-12m",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n5-11m",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n5-12m",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n5-23m",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n5-24m",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n3-borderline-last",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n3-one-low",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n3-all-low",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n3-unknown",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n5-24m-unknown",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n5-24m-floor",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n3-redband",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n3-floor",
+      "checks": {
+        "no_harness_errors": true,
+        "m3_frame_unchanged": true,
+        "m3_envelope_as_expected": false,
+        "m3_localStorage_equals_envelope": true,
+        "m1_m2_m4_envelopes_identical": true,
+        "m1_m2_m4_frames_identical": true,
+        "m5_result_diff_only_presentation_paths": true,
+        "m5_result_rendered_label_value": true,
+        "m5_decision_fields_identical": true,
+        "m5_json_diff_only_presentation_paths": true,
+        "m5_copy_as_expected": true,
+        "m5_screen_as_expected": true,
+        "m5_print_dom_as_expected": true,
+        "m5_pdf_has_no_stale_wording": true,
+        "m5_pdf_has_new_rows": true,
+        "m5_no_stale_wording_any_surface": true,
+        "m5_no_card_warning_claim_unless_rendered": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "m3_envelope_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "m5_result_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "m5_json_diff": [
+        "functional.display.rendered_label",
+        "functional.candidate.ui"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "m3_envelope_as_expected"
+      ]
+    }
+  ],
+  "summary": {
+    "fixtures": 17,
+    "PASS": 0,
+    "FAIL": [
+      "WP1-T4A-n3-24m: m3_envelope_as_expected",
+      "WP1-T4B-n3-24m: m3_envelope_as_expected",
+      "WP1-n2-24m: m3_envelope_as_expected",
+      "WP1-n4-11m: m3_envelope_as_expected",
+      "WP1-n4-12m: m3_envelope_as_expected",
+      "WP1-n5-11m: m3_envelope_as_expected",
+      "WP1-n5-12m: m3_envelope_as_expected",
+      "WP1-n5-23m: m3_envelope_as_expected",
+      "WP1-n5-24m: m3_envelope_as_expected",
+      "WP1-n3-borderline-last: m3_envelope_as_expected",
+      "WP1-n3-one-low: m3_envelope_as_expected",
+      "WP1-n3-all-low: m3_envelope_as_expected",
+      "WP1-n3-unknown: m3_envelope_as_expected",
+      "WP1-n5-24m-unknown: m3_envelope_as_expected",
+      "WP1-n5-24m-floor: m3_envelope_as_expected",
+      "WP1-n3-redband: m3_envelope_as_expected",
+      "WP1-n3-floor: m3_envelope_as_expected"
+    ]
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "block": "G2E EVAL standalone a03",
+  "evaluated_utc": "2026-10-20T14:28:16.329Z",
+  "expectations_sha256": "e241c51ccb7c72993d2e16376bb0763bd99f25e6aa52f9a1399ebd9a1b7ec4c8",
+  "pre_dir": "<RELEASE_TREE>/tests/g2e_reproduction/baseline_pre_captures/standalone_a03",
+  "post_dir": "<RUN_OUTPUT>/POST_standalone_a03",
+  "rows": [
+    {
+      "id": "A03-n8-7m-monthly",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": true,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [],
+      "status": "PASS",
+      "failed": []
+    }
+  ],
+  "summary": {
+    "fixtures": 1,
+    "PASS": 1,
+    "FAIL": []
+  }
+}

@@ -1,0 +1,196 @@
+{
+ "started_utc": "2026-10-20T14:20:56.570Z",
+ "tree": "ofty-validation",
+ "checks": {
+  "P4_static_no_tracking_or_external": true,
+  "P2_required_links_present": true,
+  "P2_no_absolute_or_site_links": true,
+  "P2_index_http_200": true,
+  "P4_index_only_local_requests": true,
+  "P4_no_cookies": true,
+  "P2_all_required_links_navigate": true,
+  "P2_alias_reaches_gate2": true,
+  "P3_back_links_return_to_index": true
+ },
+ "notes": [],
+ "index_sha256": "69877c7c7381509e17420b2a9f46ccdd0f6595d0b1abae6e3eb87b8a22d481b8",
+ "index_static_hits": [
+  {
+   "pattern": "/gtag|googletagmanager|google-analytics|analytics/i",
+   "found": false
+  },
+  {
+   "pattern": "/https?:\\/\\//i",
+   "found": false
+  },
+  {
+   "pattern": "/\\/\\/[a-z0-9.-]+\\.[a-z]{2,}/i",
+   "found": false
+  },
+  {
+   "pattern": "/<script\\b/i",
+   "found": false
+  },
+  {
+   "pattern": "/<link\\b[^>]*rel=[\"']?stylesheet/i",
+   "found": false
+  },
+  {
+   "pattern": "/@import|url\\(/i",
+   "found": false
+  },
+  {
+   "pattern": "/<img\\b|<iframe\\b|<object\\b|<embed\\b/i",
+   "found": false
+  },
+  {
+   "pattern": "/fonts\\.(googleapis|gstatic)/i",
+   "found": false
+  },
+  {
+   "pattern": "/document\\.cookie|localStorage|sessionStorage/i",
+   "found": false
+  }
+ ],
+ "index_hrefs": [
+  "./iop-cct/index.html",
+  "./target-iop/index.html",
+  "./vf-progression/index.html",
+  "./rnfl-progression/index.html",
+  "./gate2/index.html",
+  "./orchestrator/index.html"
+ ],
+ "browser": "141.0.7390.37",
+ "playwright": "1.56.0",
+ "origin_pattern": "http://127.0.0.1:<port>",
+ "index_status": 200,
+ "index_title": "OFTY revision candidate G2-E — reviewer navigation",
+ "index_requests": [
+  "<local>/index.html"
+ ],
+ "cookies_after_index": 0,
+ "links": [
+  {
+   "id": "M1",
+   "href": "./iop-cct/index.html",
+   "landed": "/iop-cct/index.html",
+   "title": "OFTY Tool #1 — IOP/CCT Assessment — Goldmann-Based",
+   "http_ok": true,
+   "ok": true,
+   "external_requests_from_module": [
+    "https://fonts.googleapis.com/css2"
+   ]
+  },
+  {
+   "id": "M2",
+   "href": "./target-iop/index.html",
+   "landed": "/target-iop/index.html",
+   "title": "OFTY Tool #2 — Target IOP",
+   "http_ok": true,
+   "ok": true,
+   "external_requests_from_module": [
+    "https://fonts.googleapis.com/css2"
+   ]
+  },
+  {
+   "id": "M3",
+   "href": "./vf-progression/index.html",
+   "landed": "/vf-progression/index.html",
+   "title": "OFTY Tool #3 — VF Progression Analysis",
+   "http_ok": true,
+   "ok": true,
+   "external_requests_from_module": [
+    "https://fonts.googleapis.com/css2"
+   ]
+  },
+  {
+   "id": "M4",
+   "href": "./rnfl-progression/index.html",
+   "landed": "/rnfl-progression/index.html",
+   "title": "OFTY Tool #4 — OCT Progression Analysis",
+   "http_ok": true,
+   "ok": true,
+   "external_requests_from_module": [
+    "https://fonts.googleapis.com/css2"
+   ]
+  },
+  {
+   "id": "M5",
+   "href": "./gate2/index.html",
+   "landed": "/gate2/index.html",
+   "title": "OFTY Tool #5 — Gate 3 staging",
+   "http_ok": true,
+   "ok": true,
+   "external_requests_from_module": [
+    "https://fonts.googleapis.com/css2",
+    "https://fonts.googleapis.com/css2",
+    "https://fonts.googleapis.com/css2",
+    "https://fonts.googleapis.com/css2"
+   ]
+  },
+  {
+   "id": "M5-alias",
+   "href": "./orchestrator/index.html",
+   "landed": "/gate2/index.html",
+   "title": "OFTY Tool #5 — Gate 3 staging",
+   "http_ok": true,
+   "ok": true,
+   "external_requests_from_module": [
+    "https://fonts.googleapis.com/css2",
+    "https://fonts.googleapis.com/css2",
+    "https://fonts.googleapis.com/css2",
+    "https://fonts.googleapis.com/css2"
+   ]
+  }
+ ],
+ "back": [
+  {
+   "module": "iop-cct",
+   "back_links": 1,
+   "landed": "/index.html",
+   "title": "OFTY revision candidate G2-E — reviewer navigation",
+   "ok": true
+  },
+  {
+   "module": "target-iop",
+   "back_links": 1,
+   "landed": "/index.html",
+   "title": "OFTY revision candidate G2-E — reviewer navigation",
+   "ok": true
+  },
+  {
+   "module": "vf-progression",
+   "back_links": 1,
+   "landed": "/index.html",
+   "title": "OFTY revision candidate G2-E — reviewer navigation",
+   "ok": true
+  },
+  {
+   "module": "rnfl-progression",
+   "back_links": 1,
+   "landed": "/index.html",
+   "title": "OFTY revision candidate G2-E — reviewer navigation",
+   "ok": true
+  }
+ ],
+ "external_requests_all": [
+  "https://fonts.googleapis.com/css2"
+ ],
+ "external_requests_by_page": {
+  "/iop-cct/index.html": [
+   "fonts.googleapis.com"
+  ],
+  "/target-iop/index.html": [
+   "fonts.googleapis.com"
+  ],
+  "/vf-progression/index.html": [
+   "fonts.googleapis.com"
+  ],
+  "/rnfl-progression/index.html": [
+   "fonts.googleapis.com"
+  ]
+ },
+ "server_log_404": [],
+ "status": "PASS",
+ "finished_utc": "2026-10-20T14:21:04.963Z"
+}

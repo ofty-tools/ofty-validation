@@ -1,0 +1,78 @@
+{
+  "id": "WP3-n4-pguard",
+  "object": "PRE",
+  "module": "m4",
+  "started_utc": "2026-10-20T10:20:28.795Z",
+  "rows": [
+    [
+      "2021-01",
+      "90",
+      "good"
+    ],
+    [
+      "2022-01",
+      "85",
+      "good"
+    ],
+    [
+      "2023-01",
+      "87",
+      "good"
+    ],
+    [
+      "2024-01",
+      "82",
+      "good"
+    ]
+  ],
+  "screen": {
+    "label": "Suspicious trend",
+    "hero_slope": "-2.20",
+    "hero_slope_tag": "(Suspicious slope)",
+    "confidence": "Medium",
+    "confidence_sub": "4 measurements.",
+    "risk": "Moderate clinical risk",
+    "interpretation": "The RNFL thinning rate falls in the fast-progression range, but the slope estimate is not statistically significant given the limited number of measurements (n=4, p=0.1563). A confirmed structural trend requires additional serial examinations. Continued OCT monitoring is recommended.",
+    "card_inner_text": "OCT PROGRESSION ANALYSIS · OD\n-2.20\nµm / year\n(Suspicious slope)\n50\n90\n85\n87\n82\n2021\n2024\nReliable\nBorderline\nLow reliability\nPROGRESSION\nI\nSuspicious trend\nCONFIDENCE\nMedium\n4 measurements.\nModerate clinical risk\ni\nINTERPRETATION\nThe RNFL thinning rate falls in the fast-progression range, but the slope estimate is not statistically significant given the limited number of measurements (n=4, p=0.1563). A confirmed structural trend requires additional serial examinations. Continued OCT monitoring is recommended.\nLimitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.\nCopy",
+    "scope_element_visible": true,
+    "scope_element_text": "Limitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.",
+    "method": {
+      "sufficiency_rule": "adequate: n >= 4 AND no low-reliability scans",
+      "class_rule": "fast_progression: slope=-2.2 <= SLOPE_FAST_THRESHOLD=-2",
+      "p_value": "0.1563",
+      "ci": "-6.46 to 2.06 µm/year"
+    }
+  },
+  "copy": "OFTY - OCT Progression Analysis (M4)\nEye: OD\nRNFL slope: -2.20 µm/year\nClassification: Suspicious trend\nConfidence: Medium\nClinical risk: Moderate clinical risk\nScans: 4 · Follow-up: 36 months\nLatest RNFL: 82 µm (Good)\nInterpretation: The RNFL thinning rate falls in the fast-progression range, but the slope estimate is not statistically significant given the limited number of measurements (n=4, p=0.1563). A confirmed structural trend requires additional serial examinations. Continued OCT monitoring is recommended.\nCaution flags: Slope not statistically significant (p >= 0.05)\nLimitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.\nGenerated with OFTY Tool M4 v1.1",
+  "payload_text": "{\"module_id\":\"OFTY-Gx-M4\",\"algorithm_version\":\"1.3.1\",\"mode\":\"core\",\"inputs_summary\":{\"eye\":\"OD\",\"n_tests_submitted\":4,\"n_tests_used\":4,\"modifiers\":[]},\"structural_rate\":{\"slope_rnfl_per_year\":-2.2,\"intercept\":89.3,\"p_value\":0.15633851181448205,\"ci95_lower\":-6.46,\"ci95_upper\":2.06},\"classification\":\"suspicious_trend\",\"statistical_significance\":\"not_significant\",\"data_quality\":\"adequate\",\"confidence_level\":\"medium\",\"clinical_risk\":\"relevant\",\"interpretation\":\"The RNFL thinning rate falls in the fast-progression range, but the slope estimate is not statistically significant given the limited number of measurements (n=4, p=0.1563). A confirmed structural trend requires additional serial examinations. Continued OCT monitoring is recommended.\",\"caution_flags\":[\"slope_not_statistically_significant\"],\"detail_summary\":{\"valid_test_count\":4,\"low_reliability_count\":0,\"borderline_reliability_count\":0,\"followup_years\":3,\"latest_rnfl\":82,\"latest_reliability\":\"good\"},\"logic_trace\":{\"method\":\"linear_regression_rnfl_vs_time\",\"validation\":\"all tests passed\",\"slope_rule_applied\":\"fast_progression: slope=-2.2 <= SLOPE_FAST_THRESHOLD=-2\",\"floor_rule_applied\":\"not_applied\",\"artifact_rule_applied\":\"not_applied\",\"vshape_rule_applied\":\"not_applied\",\"confidence_adjustments\":[\"none\"],\"sufficiency_rule\":\"adequate: n >= 4 AND no low-reliability scans\",\"notes\":[\"data_quality=adequate (n=4, low_rel=0)\",\"OLS: slope=-2.2 um/yr, p=0.1563\",\"p-value guard applied: n=4 < 5, slope=-2.2 µm/yr, p=0.1563 ≥ 0.05 — fast_progression → suspicious_trend\"]},\"model\":{\"type\":\"deterministic_trend_based\",\"intended_use\":\"clinical_decision_support\",\"notes\":\"This module provides a structured interpretation of OCT RNFL structural progression and does not replace clinical judgment.\"},\"_timestamp\":\"2026-10-14T10:00:00.000Z\"}",
+  "payload_sha256": "25687fe54e3e6fb7c9a9ba2b4a1ddb4aaebe7261a014e1b7e06ae83b2f1e59df",
+  "print": {
+    "card_visible_under_print": true,
+    "card_inner_text_print": "OCT PROGRESSION ANALYSIS · OD\n-2.20\nµm / year\n(Suspicious slope)\n50\n90\n85\n87\n82\n2021\n2024\nReliable\nBorderline\nLow reliability\nPROGRESSION\nI\nSuspicious trend\nCONFIDENCE\nMedium\n4 measurements.\nModerate clinical risk\ni\nINTERPRETATION\nThe RNFL thinning rate falls in the fast-progression range, but the slope estimate is not statistically significant given the limited number of measurements (n=4, p=0.1563). A confirmed structural trend requires additional serial examinations. Continued OCT monitoring is recommended.\nLimitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.\nCopied!"
+  },
+  "pdf": {
+    "sha256": "88b02c0e5c3111379cc0c5de4c6d90ec4b0d29cd5ae21589890a90177fdd538c",
+    "text_normalized": "Standalone calculator · no integrated assessment publication. Back to OFTY Glaucoma Suite P A TIE N T P ARA M E TE R S Eye OD Enter measurements in chronological order. Date (YYYY-MM) Global RNFL (µm) Reliability i 2021-01 90 Good × 2022-01 85 Good × 2023-01 87 Good × 82 Good × O F TY T O OL #4 2024-01 OCT Progression Analysis Serial RNFL thickness analysis to help assess glaucoma structural progression. Calculate + Add OCT Reset CLINICAL MODIFIERS High Myopia / Tilted Disc Macular Pathology (e.g., ERM) OC T PR O GR E SS I ON A NA LYSI S · OD -2.20 µm / year 90 (Suspicious slope) 85 87 82 50 2021 Reliable PROGRESSION 2024 Borderline I Low reliability Suspicious trend CONFIDENCE Medium 4 measurements. Moderate clinical risk i INTERPRETATION The RNFL thinning rate falls in the fast-progression range, but the slope estimate is not statistically significant given the limited number of measurements (n=4, p=0.1563). A confirmed structural trend requires additional serial examinations. Continued OCT monitoring is recommended. Limitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening. Copied! Share feedback or report a case Method & Thresholds Disclaimer Sources (Summary) Version History OFTY · M4 · © 2026 Andrea Ragosta, MD, FEBO"
+  },
+  "events": {
+    "console": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      }
+    ],
+    "page_errors": [],
+    "aborted_external": [
+      "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+    ],
+    "network_failed": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+        "err": "net::ERR_FAILED"
+      }
+    ]
+  },
+  "product_console_errors": [],
+  "finished_utc": "2026-10-20T10:20:30.645Z"
+}

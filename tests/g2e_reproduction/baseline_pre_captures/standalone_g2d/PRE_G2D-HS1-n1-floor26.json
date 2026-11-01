@@ -1,0 +1,79 @@
+{
+  "id": "G2D-HS1-n1-floor26",
+  "object": "PRE",
+  "module": "m3",
+  "started_utc": "2026-10-20T10:18:45.424Z",
+  "rows": [
+    [
+      "2024-01",
+      "-26",
+      "good"
+    ]
+  ],
+  "screen": {
+    "label": "Not assessable",
+    "hero_slope": "Slope estimate unreliable",
+    "hero_slope_tag": "",
+    "confidence": "Low",
+    "confidence_sub": "A single visual field does not allow trend estimation.",
+    "risk": "High clinical risk",
+    "interpretation": "Visual field mean deviation has reached advanced threshold levels at which standard perimetric analysis is no longer a reliable indicator of functional change. Clinical management should prioritize intraocular pressure control and preservation of residual central vision.",
+    "card_inner_text": "VF PROGRESSION ANALYSIS · OD\nSlope estimate unreliable\nPROGRESSION\ni\nNot assessable\nCONFIDENCE\nLow\nA single visual field does not allow trend estimation.\nHigh clinical risk\ni\nINTERPRETATION\nVisual field mean deviation has reached advanced threshold levels at which standard perimetric analysis is no longer a reliable indicator of functional change. Clinical management should prioritize intraocular pressure control and preservation of residual central vision.\nLimitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.\nCopy",
+    "scope_element_visible": true,
+    "scope_element_text": "Limitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.",
+    "method": {
+      "fields": "1",
+      "followup": "N/A",
+      "sufficiency_rule": "—",
+      "class_rule": "—",
+      "p_value": "Not available",
+      "ci": "Not available"
+    },
+    "limitations_notes": [],
+    "branch_trace": [
+      "M3.source.L1602",
+      "M3.source.L3321"
+    ],
+    "last_data": {
+      "finalLabel": "Not assessable",
+      "confidence": "low",
+      "risk": "high",
+      "slope": null,
+      "slopeTag": "",
+      "n": 1,
+      "nativeInsufficient": false
+    }
+  },
+  "copy": "Eye: OD\nSlope: Not available (insufficient data)\nProgression: Not assessable\nConfidence: Low\nClinical risk: High clinical risk\nFields: 1 · Follow-up: N/A\n\nInterpretation: Visual field mean deviation has reached advanced threshold levels at which standard perimetric analysis is no longer a reliable indicator of functional change. Clinical management should prioritize intraocular pressure control and preservation of residual central vision.\nLimitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.\n\nGenerated with OFTY Tool M3 v1.1",
+  "payload_text": null,
+  "payload_sha256": null,
+  "print": {
+    "card_visible_under_print": true,
+    "card_inner_text_print": "VF PROGRESSION ANALYSIS · OD\nSlope estimate unreliable\nPROGRESSION\ni\nNot assessable\nCONFIDENCE\nLow\nA single visual field does not allow trend estimation.\nHigh clinical risk\ni\nINTERPRETATION\nVisual field mean deviation has reached advanced threshold levels at which standard perimetric analysis is no longer a reliable indicator of functional change. Clinical management should prioritize intraocular pressure control and preservation of residual central vision.\nLimitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.\nCopied!"
+  },
+  "pdf": {
+    "sha256": "941e4b657688b5b9c0215eb3e18cad4bca69d82cce7bf3deb55b0ac722c835cb",
+    "text_normalized": "Standalone calculator · no integrated assessment publication. Back to OFTY Glaucoma Suite O F TY T O OL #3 VF Progression Analysis Serial visual field MD analysis to help assess glaucoma functional progression. P A TIE N T P ARA M E TE R S Eye OD Enter visual fields in chronological order. Date (YYYY-MM) MD (dB) Reliability -26 Good 2024-01 Calculate + Add field i × Reset CLINICAL MODIFIERS Central threat to fixation Functionally monocular patient VF PRO G RE S SI O N A N AL YSIS · OD Slope estimate unreliable PROGRESSION i Not assessable CONFIDENCE Low A single visual field does not allow trend estimation. High clinical risk i INTERPRETATION Visual field mean deviation has reached advanced threshold levels at which standard perimetric analysis is no longer a reliable indicator of functional change. Clinical management should prioritize intraocular pressure control and preservation of residual central vision. Limitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening. Copied! Share feedback or report a case Method & Thresholds Disclaimer Sources (Summary) Version History OFTY · M3 · © 2026 Andrea Ragosta, MD, FEBO"
+  },
+  "events": {
+    "console": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      }
+    ],
+    "page_errors": [],
+    "aborted_external": [
+      "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+    ],
+    "network_failed": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+        "err": "net::ERR_FAILED"
+      }
+    ]
+  },
+  "product_console_errors": [],
+  "finished_utc": "2026-10-20T10:18:47.203Z"
+}

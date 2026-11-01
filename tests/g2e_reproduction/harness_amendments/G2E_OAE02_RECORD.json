@@ -1,0 +1,13 @@
+{
+ "id": "OA-E02",
+ "type": "post-hoc harness amendment (expected-path completion; same cause as OA-E01)",
+ "recorded_utc": "2026-10-20T10:35:24Z",
+ "trigger": "RR_T2b_M3M4_PARITY (10:33:59Z) under HADAPT-E01-b: the four M3 states failed m3_payload_diff_only_versions; the only path outside the allowed set was functional.native.transport_version. RR_T2c_FIXED_STRING then failed T2b_not_assessable_PASS as a consequence (and M5_W1_in_host_unchanged, as predicted).",
+ "cause": "HADAPT-E01-b listed transport_version and functional.display.rendered_label but omitted the copy of transport_version that pre-existing M3 code places in functional.native (see OA-E01).",
+ "amendment": "Allowed set + functional.native.transport_version, with its value asserted (gate2-m3-0.2.1). Nothing else changes.",
+ "preserved": "G2C_MODULES_v1.2_G2E.cjs and the failing RR_T2b_M3M4_PARITY / RR_T2c_FIXED_STRING blocks.",
+ "files": {
+  "G2C_MODULES_v1.2_G2E.cjs": "feabc9f0a6a8c3bac4fc03abd9d190316b416340423ae3b0b5b3a58fdc26d54d",
+  "G2C_MODULES_v1.3_G2E_OAE02.cjs": "a14809aaed377b05a852ba06c81066349bcee66d8e9b6e01e8b098e3b86e6117"
+ }
+}

@@ -1,0 +1,573 @@
+{
+ "run_dir": "<RUN_OUTPUT>",
+ "checked_utc": "2026-10-20T14:28:18.488Z",
+ "blocks": {
+  "host_a02": {
+   "expected": {
+    "fixtures": 2,
+    "v1.0_PASS": 0,
+    "v1.0_failed_checks": [
+     "m3_envelope_as_expected"
+    ],
+    "v1.0_diff_paths": [
+     "functional.native.transport_version"
+    ],
+    "v1.1_PASS": 2,
+    "g2e_record_v1.0": "evidence/runs/20261020T103053Z_EVAL_HOST_a02",
+    "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_HOST_a02_OAE01"
+   },
+   "capture": {
+    "records": 2,
+    "browser": "141.0.7390.37",
+    "playwright": "1.56.0",
+    "node": "v22.22.0"
+   },
+   "v1.0": {
+    "fixtures": 2,
+    "PASS": 0,
+    "failed_checks": [
+     "m3_envelope_as_expected"
+    ],
+    "diff_paths": [
+     "functional.native.transport_version"
+    ]
+   },
+   "v1.1": {
+    "fixtures": 2,
+    "PASS": 2,
+    "failed_checks": [],
+    "diff_paths": []
+   }
+  },
+  "host_a03": {
+   "expected": {
+    "fixtures": 1,
+    "v1.0_PASS": 0,
+    "v1.0_failed_checks": [
+     "m3_envelope_as_expected"
+    ],
+    "v1.0_diff_paths": [
+     "functional.native.transport_version"
+    ],
+    "v1.1_PASS": 1,
+    "g2e_record_v1.0": "evidence/runs/20261020T103053Z_EVAL_HOST_a03",
+    "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_HOST_a03_OAE01"
+   },
+   "capture": {
+    "records": 1,
+    "browser": "141.0.7390.37",
+    "playwright": "1.56.0",
+    "node": "v22.22.0"
+   },
+   "v1.0": {
+    "fixtures": 1,
+    "PASS": 0,
+    "failed_checks": [
+     "m3_envelope_as_expected"
+    ],
+    "diff_paths": [
+     "functional.native.transport_version"
+    ]
+   },
+   "v1.1": {
+    "fixtures": 1,
+    "PASS": 1,
+    "failed_checks": [],
+    "diff_paths": []
+   }
+  },
+  "host_g2d": {
+   "expected": {
+    "fixtures": 12,
+    "v1.0_PASS": 4,
+    "v1.0_failed_checks": [
+     "m3_envelope_as_expected"
+    ],
+    "v1.0_diff_paths": [
+     "functional.native.transport_version"
+    ],
+    "v1.1_PASS": 12,
+    "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_HOST_g2d",
+    "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_HOST_g2d_OAE01"
+   },
+   "capture": {
+    "records": 12,
+    "browser": "141.0.7390.37",
+    "playwright": "1.56.0",
+    "node": "v22.22.0"
+   },
+   "v1.0": {
+    "fixtures": 12,
+    "PASS": 4,
+    "failed_checks": [
+     "m3_envelope_as_expected"
+    ],
+    "diff_paths": [
+     "functional.native.transport_version"
+    ]
+   },
+   "v1.1": {
+    "fixtures": 12,
+    "PASS": 12,
+    "failed_checks": [],
+    "diff_paths": []
+   }
+  },
+  "host_g2e": {
+   "expected": {
+    "fixtures": 12,
+    "v1.0_PASS": 4,
+    "v1.0_failed_checks": [
+     "m3_envelope_as_expected"
+    ],
+    "v1.0_diff_paths": [
+     "functional.native.transport_version"
+    ],
+    "v1.1_PASS": 12,
+    "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_HOST_g2e",
+    "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_HOST_g2e_OAE01"
+   },
+   "capture": {
+    "records": 12,
+    "browser": "141.0.7390.37",
+    "playwright": "1.56.0",
+    "node": "v22.22.0"
+   },
+   "v1.0": {
+    "fixtures": 12,
+    "PASS": 4,
+    "failed_checks": [
+     "m3_envelope_as_expected"
+    ],
+    "diff_paths": [
+     "functional.native.transport_version"
+    ]
+   },
+   "v1.1": {
+    "fixtures": 12,
+    "PASS": 12,
+    "failed_checks": [],
+    "diff_paths": []
+   }
+  },
+  "host_wp1": {
+   "expected": {
+    "fixtures": 17,
+    "v1.0_PASS": 0,
+    "v1.0_failed_checks": [
+     "m3_envelope_as_expected"
+    ],
+    "v1.0_diff_paths": [
+     "functional.native.transport_version"
+    ],
+    "v1.1_PASS": 17,
+    "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_HOST_wp1",
+    "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_HOST_wp1_OAE01"
+   },
+   "capture": {
+    "records": 18,
+    "browser": "141.0.7390.37",
+    "playwright": "1.56.0",
+    "node": "v22.22.0"
+   },
+   "v1.0": {
+    "fixtures": 17,
+    "PASS": 0,
+    "failed_checks": [
+     "m3_envelope_as_expected"
+    ],
+    "diff_paths": [
+     "functional.native.transport_version"
+    ]
+   },
+   "v1.1": {
+    "fixtures": 17,
+    "PASS": 17,
+    "failed_checks": [],
+    "diff_paths": []
+   }
+  },
+  "host_wp2": {
+   "expected": {
+    "fixtures": 12,
+    "v1.0_PASS": 0,
+    "v1.0_failed_checks": [
+     "m3_envelope_as_expected"
+    ],
+    "v1.0_diff_paths": [
+     "functional.native.transport_version"
+    ],
+    "v1.1_PASS": 12,
+    "g2e_record_v1.0": "evidence/runs/20261020T103053Z_EVAL_HOST_wp2",
+    "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_HOST_wp2_OAE01"
+   },
+   "capture": {
+    "records": 12,
+    "browser": "141.0.7390.37",
+    "playwright": "1.56.0",
+    "node": "v22.22.0"
+   },
+   "v1.0": {
+    "fixtures": 12,
+    "PASS": 0,
+    "failed_checks": [
+     "m3_envelope_as_expected"
+    ],
+    "diff_paths": [
+     "functional.native.transport_version"
+    ]
+   },
+   "v1.1": {
+    "fixtures": 12,
+    "PASS": 12,
+    "failed_checks": [],
+    "diff_paths": []
+   }
+  },
+  "host_wp3": {
+   "expected": {
+    "fixtures": 14,
+    "v1.0_PASS": 0,
+    "v1.0_failed_checks": [
+     "m3_envelope_as_expected"
+    ],
+    "v1.0_diff_paths": [
+     "functional.native.transport_version"
+    ],
+    "v1.1_PASS": 14,
+    "g2e_record_v1.0": "evidence/runs/20261020T103053Z_EVAL_HOST_wp3",
+    "g2e_record_v1.1": "evidence/runs/20261020T103137Z_EVAL_HOST_wp3_OAE01"
+   },
+   "capture": {
+    "records": 14,
+    "browser": "141.0.7390.37",
+    "playwright": "1.56.0",
+    "node": "v22.22.0"
+   },
+   "v1.0": {
+    "fixtures": 14,
+    "PASS": 0,
+    "failed_checks": [
+     "m3_envelope_as_expected"
+    ],
+    "diff_paths": [
+     "functional.native.transport_version"
+    ]
+   },
+   "v1.1": {
+    "fixtures": 14,
+    "PASS": 14,
+    "failed_checks": [],
+    "diff_paths": []
+   }
+  },
+  "standalone_a02": {
+   "expected": {
+    "fixtures": 2,
+    "v1.0_PASS": 0,
+    "v1.0_failed_checks": [
+     "export_as_expected"
+    ],
+    "v1.0_diff_paths": [
+     "functional.native.transport_version"
+    ],
+    "v1.1_PASS": 2,
+    "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_SA_a02",
+    "g2e_record_v1.1": "evidence/runs/20261020T103135Z_EVAL_SA_a02_OAE01"
+   },
+   "capture": {
+    "records": 2,
+    "browser": "141.0.7390.37",
+    "playwright": "1.56.0",
+    "node": "v22.22.0"
+   },
+   "v1.0": {
+    "fixtures": 2,
+    "PASS": 0,
+    "failed_checks": [
+     "export_as_expected"
+    ],
+    "diff_paths": [
+     "functional.native.transport_version"
+    ]
+   },
+   "v1.1": {
+    "fixtures": 2,
+    "PASS": 2,
+    "failed_checks": [],
+    "diff_paths": []
+   }
+  },
+  "standalone_a03": {
+   "expected": {
+    "fixtures": 1,
+    "v1.0_PASS": 0,
+    "v1.0_failed_checks": [
+     "export_as_expected"
+    ],
+    "v1.0_diff_paths": [
+     "functional.native.transport_version"
+    ],
+    "v1.1_PASS": 1,
+    "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_SA_a03",
+    "g2e_record_v1.1": "evidence/runs/20261020T103135Z_EVAL_SA_a03_OAE01"
+   },
+   "capture": {
+    "records": 1,
+    "browser": "141.0.7390.37",
+    "playwright": "1.56.0",
+    "node": "v22.22.0"
+   },
+   "v1.0": {
+    "fixtures": 1,
+    "PASS": 0,
+    "failed_checks": [
+     "export_as_expected"
+    ],
+    "diff_paths": [
+     "functional.native.transport_version"
+    ]
+   },
+   "v1.1": {
+    "fixtures": 1,
+    "PASS": 1,
+    "failed_checks": [],
+    "diff_paths": []
+   }
+  },
+  "standalone_g2d": {
+   "expected": {
+    "fixtures": 12,
+    "v1.0_PASS": 4,
+    "v1.0_failed_checks": [
+     "export_as_expected"
+    ],
+    "v1.0_diff_paths": [
+     "functional.native.transport_version"
+    ],
+    "v1.1_PASS": 12,
+    "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_SA_g2d",
+    "g2e_record_v1.1": "evidence/runs/20261020T103135Z_EVAL_SA_g2d_OAE01"
+   },
+   "capture": {
+    "records": 12,
+    "browser": "141.0.7390.37",
+    "playwright": "1.56.0",
+    "node": "v22.22.0"
+   },
+   "v1.0": {
+    "fixtures": 12,
+    "PASS": 4,
+    "failed_checks": [
+     "export_as_expected"
+    ],
+    "diff_paths": [
+     "functional.native.transport_version"
+    ]
+   },
+   "v1.1": {
+    "fixtures": 12,
+    "PASS": 12,
+    "failed_checks": [],
+    "diff_paths": []
+   }
+  },
+  "standalone_g2e": {
+   "expected": {
+    "fixtures": 12,
+    "v1.0_PASS": 4,
+    "v1.0_failed_checks": [
+     "export_as_expected"
+    ],
+    "v1.0_diff_paths": [
+     "functional.native.transport_version"
+    ],
+    "v1.1_PASS": 12,
+    "g2e_record_v1.0": "evidence/runs/20261020T103051Z_EVAL_SA_g2e",
+    "g2e_record_v1.1": "evidence/runs/20261020T103135Z_EVAL_SA_g2e_OAE01"
+   },
+   "capture": {
+    "records": 12,
+    "browser": "141.0.7390.37",
+    "playwright": "1.56.0",
+    "node": "v22.22.0"
+   },
+   "v1.0": {
+    "fixtures": 12,
+    "PASS": 4,
+    "failed_checks": [
+     "export_as_expected"
+    ],
+    "diff_paths": [
+     "functional.native.transport_version"
+    ]
+   },
+   "v1.1": {
+    "fixtures": 12,
+    "PASS": 12,
+    "failed_checks": [],
+    "diff_paths": []
+   }
+  },
+  "standalone_t2b_m4": {
+   "expected": {
+    "fixtures": 4,
+    "v1.0_PASS": 4,
+    "v1.0_failed_checks": [],
+    "v1.0_diff_paths": [],
+    "v1.1_PASS": 4,
+    "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_SA_t2b_m4",
+    "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_SA_t2b_m4_OAE01"
+   },
+   "capture": {
+    "records": 4,
+    "browser": "141.0.7390.37",
+    "playwright": "1.56.0",
+    "node": "v22.22.0"
+   },
+   "v1.0": {
+    "fixtures": 4,
+    "PASS": 4,
+    "failed_checks": [],
+    "diff_paths": []
+   },
+   "v1.1": {
+    "fixtures": 4,
+    "PASS": 4,
+    "failed_checks": [],
+    "diff_paths": []
+   }
+  },
+  "standalone_wp1": {
+   "expected": {
+    "fixtures": 18,
+    "v1.0_PASS": 1,
+    "v1.0_failed_checks": [
+     "export_as_expected"
+    ],
+    "v1.0_diff_paths": [
+     "functional.native.transport_version"
+    ],
+    "v1.1_PASS": 18,
+    "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_SA_wp1",
+    "g2e_record_v1.1": "evidence/runs/20261020T103135Z_EVAL_SA_wp1_OAE01"
+   },
+   "capture": {
+    "records": 18,
+    "browser": "141.0.7390.37",
+    "playwright": "1.56.0",
+    "node": "v22.22.0"
+   },
+   "v1.0": {
+    "fixtures": 18,
+    "PASS": 1,
+    "failed_checks": [
+     "export_as_expected"
+    ],
+    "diff_paths": [
+     "functional.native.transport_version"
+    ]
+   },
+   "v1.1": {
+    "fixtures": 18,
+    "PASS": 18,
+    "failed_checks": [],
+    "diff_paths": []
+   }
+  },
+  "standalone_wp2": {
+   "expected": {
+    "fixtures": 12,
+    "v1.0_PASS": 0,
+    "v1.0_failed_checks": [
+     "export_as_expected"
+    ],
+    "v1.0_diff_paths": [
+     "functional.native.transport_version"
+    ],
+    "v1.1_PASS": 12,
+    "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_SA_wp2",
+    "g2e_record_v1.1": "evidence/runs/20261020T103135Z_EVAL_SA_wp2_OAE01"
+   },
+   "capture": {
+    "records": 12,
+    "browser": "141.0.7390.37",
+    "playwright": "1.56.0",
+    "node": "v22.22.0"
+   },
+   "v1.0": {
+    "fixtures": 12,
+    "PASS": 0,
+    "failed_checks": [
+     "export_as_expected"
+    ],
+    "diff_paths": [
+     "functional.native.transport_version"
+    ]
+   },
+   "v1.1": {
+    "fixtures": 12,
+    "PASS": 12,
+    "failed_checks": [],
+    "diff_paths": []
+   }
+  },
+  "standalone_wp3": {
+   "expected": {
+    "fixtures": 14,
+    "v1.0_PASS": 14,
+    "v1.0_failed_checks": [],
+    "v1.0_diff_paths": [],
+    "v1.1_PASS": 14,
+    "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_SA_wp3",
+    "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_SA_wp3_OAE01"
+   },
+   "capture": {
+    "records": 14,
+    "browser": "141.0.7390.37",
+    "playwright": "1.56.0",
+    "node": "v22.22.0"
+   },
+   "v1.0": {
+    "fixtures": 14,
+    "PASS": 14,
+    "failed_checks": [],
+    "diff_paths": []
+   },
+   "v1.1": {
+    "fixtures": 14,
+    "PASS": 14,
+    "failed_checks": [],
+    "diff_paths": []
+   }
+  }
+ },
+ "problems": [],
+ "totals": {
+  "v1.0": {
+   "standalone": [
+    27,
+    75
+   ],
+   "host": [
+    8,
+    70
+   ]
+  },
+  "v1.1": {
+   "standalone": [
+    75,
+    75
+   ],
+   "host": [
+    70,
+    70
+   ]
+  }
+ },
+ "totals_text": [
+  "v1.0: standalone 27/75, host 8/70, all 35/145",
+  "v1.1: standalone 75/75, host 70/70, all 145/145"
+ ],
+ "outcome": "REPRODUCED (matches EXPECTED_RESULTS.json)"
+}

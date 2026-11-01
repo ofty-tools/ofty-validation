@@ -1,0 +1,14 @@
+{
+ "id": "OA-E01",
+ "type": "post-hoc oracle amendment (expected-output completion)",
+ "recorded_utc": "2026-10-20T10:31:25Z",
+ "trigger": "Frozen v1.0 evaluator: every evaluation with an M3 export failed export_as_expected / m3_envelope_as_expected (EVAL_SA_* and EVAL_HOST_* blocks at 10:31Z). In every case the only differing path was functional.native.transport_version (PRE gate2-m3-0.2.0, POST gate2-m3-0.2.1).",
+ "cause": "The frozen expected transform set the top-level transport_version but not its copy in functional.native. The copy is made by pre-existing M3 code (vf-progression calculate(): functional.native = JSON.parse(JSON.stringify(_m3Store)) after _m3Store.transport_version is set), unchanged by G2-E. The value is the authorized contract version bump of G2E-01, not a new behaviour.",
+ "amendment": "Expected export also sets functional.native.transport_version to gate2-m3-0.2.1 when the PRE native block has that key. No other expectation, tolerance, fixture or check changes.",
+ "not_changed": "All M3 card/COPY/print/PDF checks, all M5 machine and text checks, all absolute checks, the versions table.",
+ "preserved": "v1.0 evaluator (harness/G2E_EVAL.cjs, frozen) and all its outputs (runs/*_EVAL_SA_*, runs/*_EVAL_HOST_*).",
+ "files": {
+  "G2E_EVAL.cjs": "2afadd7965634f39c67a32da443ed34ab711001942d7a74f634e1dc7ac2f57fa",
+  "G2E_EVAL_v1.1_OAE01.cjs": "ee4a6b45e631f96ac263eb52d83e48878518e8226c44cbadcbf86905aab1899d"
+ }
+}

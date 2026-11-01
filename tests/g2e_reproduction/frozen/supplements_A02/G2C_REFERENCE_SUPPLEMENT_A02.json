@@ -1,0 +1,92 @@
+{
+ "generator": "make_supplement_A02.py (helpers copied verbatim from the frozen ref/make_g2c_reference.py)",
+ "python": "3.13.16",
+ "scipy": "1.18.1",
+ "numpy": "2.5.3",
+ "amendment": "A-02 post-hoc coverage supplement (recorded after the frozen WP2 evaluation): series on which the PRE helper p (4 dp) is < 0.05 AND the 4-dp slope is negative, so the PRE engine decision itself flips to 'significant'; native data adequate. Selected with supplement/search_crossing_v2_A02.py (design aid mirroring the PRE helper; not an oracle).",
+ "oracle": "same as frozen WP2 series: POST p (4 dp) within 5e-5 + 1e-6 of SciPy; POST significance/confidence/flags follow the unchanged engine rules; slope/classification/data_quality and UI display unchanged; every export difference is a version or p-derived path. PRE values are recorded, not graded.",
+ "WP1_grid": [],
+ "WP2_grid": [],
+ "WP3_series": [],
+ "WP2_series": [
+  {
+   "id": "A02-decisionflip-n6",
+   "dates": [
+    "2022-01",
+    "2022-07",
+    "2023-01",
+    "2023-07",
+    "2024-01",
+    "2024-07"
+   ],
+   "md": [
+    -8.3,
+    -6.8,
+    -6.6,
+    -7.6,
+    -6.8,
+    -8.1
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "note": "PRE helper p ~0.043 with 4-dp slope -0.0001: PRE engine 'significant', native confidence 'high'",
+   "reference": {
+    "n": 6,
+    "slope": -8.354013471604403e-05,
+    "sse": 2.69333330283728,
+    "df": 4,
+    "t": -0.0002128172302720724,
+    "p_t_exact": 0.999840387078802
+   },
+   "followup_months": 30.0,
+   "expected_native_data_quality": "adequate"
+  },
+  {
+   "id": "A02-decisionflip-n7",
+   "dates": [
+    "2022-06",
+    "2022-12",
+    "2023-06",
+    "2023-12",
+    "2024-06",
+    "2024-12",
+    "2025-06"
+   ],
+   "md": [
+    -6.0,
+    -7.1,
+    -6.7,
+    -7.9,
+    -8.1,
+    -6.4,
+    -6.0
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "note": "PRE helper p ~0.043 with 4-dp slope -0.0001: PRE engine 'significant', native confidence 'high'",
+   "reference": {
+    "n": 7,
+    "slope": -8.372981620478593e-05,
+    "sse": 4.388571379448625,
+    "df": 5,
+    "t": -0.00023657289533424996,
+    "p_t_exact": 0.9998203906946113
+   },
+   "followup_months": 36.0,
+   "expected_native_data_quality": "adequate"
+  }
+ ]
+}

@@ -1,0 +1,410 @@
+{
+  "started_utc": "2026-10-20T12:02:51.518Z",
+  "note": "No UA-CH emulation: navigator.userAgentData as provided by headless Chromium on Linux",
+  "browser": "141.0.7390.37",
+  "steps": {
+    "caps_before": {
+      "engine_id": "unlisted",
+      "major": null,
+      "platform": "Linux",
+      "verified": false,
+      "status": "unverified",
+      "evidence_ids": [],
+      "allowlist_version": "VERIFIED_ENGINES_v1",
+      "caps": {
+        "secure_context": true,
+        "web_locks": true,
+        "subtle_crypto": true,
+        "random_uuid": true
+      }
+    },
+    "module_states": {
+      "m1": "PUBLISHED",
+      "m2": "PUBLISHED",
+      "m3": "PUBLISHED",
+      "m4": "PUBLISHED"
+    },
+    "m3_frame_label": "No progression detected",
+    "gate": {
+      "ok": false,
+      "reason_codes": [
+        {
+          "code": "browser_engine_unverified",
+          "class": 1,
+          "engine_id": "unlisted",
+          "allowlist_version": "VERIFIED_ENGINES_v1"
+        },
+        {
+          "code": "integration_stale",
+          "class": 7,
+          "integration_R": null,
+          "R": 40
+        }
+      ]
+    },
+    "integrate_return": {
+      "semantic_version": "gate2-semantic-0.3.1",
+      "context": {
+        "assessment_id": "3fc0b555-9ba6-48d2-a602-c9a7f592f2d8",
+        "generation": 1,
+        "eye": "OD",
+        "acquisition_epoch": "35da227a-3f46-4aec-a925-47cbb5806478",
+        "input_revision": 0,
+        "producers": {
+          "m1": {
+            "revision": 1,
+            "epoch": "a6b1aa1d-1166-49bd-a49e-6b9a149377ab",
+            "state": "ready"
+          },
+          "m2": {
+            "revision": 1,
+            "epoch": "31139679-e85e-424b-946e-0c6897b08a93",
+            "state": "ready"
+          },
+          "m3": {
+            "revision": 1,
+            "epoch": "ec16b3b6-e424-4dc3-814f-710797ee9935",
+            "state": "ready"
+          },
+          "m4": {
+            "revision": 1,
+            "epoch": "d25aee7d-9592-4efe-884a-eac463781d10",
+            "state": "ready"
+          }
+        }
+      },
+      "hero": {
+        "signal": "no_signal",
+        "qualified": true,
+        "material_codes": []
+      },
+      "pressure": {
+        "position": "within_range",
+        "raw_GAT_mmhg": 12,
+        "range": [
+          11,
+          13
+        ],
+        "basis": "selected_attested_current_GAT",
+        "selected_observation_id": "G3A-TD-GAT",
+        "contextual_estimate_operative": false
+      },
+      "functional": {
+        "native_classification": "no_or_slow_progression",
+        "numbers": {
+          "slope_md_per_year": 0.01,
+          "intercept": -3.06,
+          "p_value": 0.8239,
+          "ci95_lower": -0.1212,
+          "ci95_upper": 0.1412
+        },
+        "p_status": "available_native_convention_unchanged",
+        "display": {
+          "label": "Stable",
+          "assessability": "assessable",
+          "reason": null,
+          "confidence": "medium",
+          "concern": "low",
+          "rendered_label": "No progression detected"
+        },
+        "candidate": {
+          "state": "absent",
+          "authoritative": false,
+          "branch_ids": [
+            "M3.source.L1695"
+          ],
+          "assessment_scope": "source_display_candidate",
+          "source_sha256": null,
+          "source_lineage_sha256": "ba41b5dfef02c930cffcff8bbc42c010e55e458ba5d260ddec81d489e806a550",
+          "source_identity": "freeze_manifest",
+          "algorithm": "2.3.1",
+          "ui": "2.6.2",
+          "assessed_window": {
+            "dates": [
+              "2021-01-01",
+              "2022-01-01",
+              "2023-01-01",
+              "2024-01-01",
+              "2025-01-01"
+            ],
+            "regression_computed": false,
+            "basis": "unchanged M3 source interprets submitted history; no invented recent slope"
+          },
+          "reliability": {
+            "latest": "good",
+            "native_counts": {
+              "good": 5,
+              "borderline": 0,
+              "low": 0,
+              "unknown": 0,
+              "interpretable": 5
+            }
+          },
+          "caution_flags": [
+            "non_significant_trend"
+          ],
+          "confidence_scope": "source_display_only"
+        },
+        "source_predicates": {
+          "B1_red": false,
+          "C_yellow": false,
+          "monotonic_worsening": false
+        },
+        "branch_ids": [
+          "M3.source.L1695"
+        ],
+        "windows": {
+          "whole_history": {
+            "dates": [
+              "2021-01-01",
+              "2022-01-01",
+              "2023-01-01",
+              "2024-01-01",
+              "2025-01-01"
+            ],
+            "regression_computed": true,
+            "basis": "unchanged native M3 OLS"
+          },
+          "display": {
+            "dates": [
+              "2021-01-01",
+              "2022-01-01",
+              "2023-01-01",
+              "2024-01-01",
+              "2025-01-01"
+            ],
+            "regression_computed": false,
+            "basis": "unchanged M3 source interprets submitted history; no invented recent slope"
+          },
+          "current_plateau": {
+            "dates": null,
+            "basis": "narrower window unresolved; full history and source display retained"
+          }
+        },
+        "reliability": {
+          "latest": "good",
+          "native_counts": {
+            "good": 5,
+            "borderline": 0,
+            "low": 0,
+            "unknown": 0,
+            "interpretable": 5
+          }
+        },
+        "source_caution_flags": [
+          "non_significant_trend"
+        ],
+        "native_progression_band_preserved": false,
+        "independently_supported_progression_visible": false,
+        "candidate_confirms_progression": false,
+        "advanced_context_visible": false,
+        "advanced_context_basis": "existing M3.calculate source context L3616-L3624, not an M5 risk threshold",
+        "global_MD_scope": true,
+        "primary_assessability": "assessable",
+        "primary_state": "numerical_no_or_slow_progression",
+        "contextual_signal": "absent",
+        "selected_rule": "CLEAN_DOMAIN",
+        "native_data_quality": "adequate",
+        "native_sufficiency_rule": "adequate: n>=5 AND follow-up>=24 months",
+        "numerical_progression_visible": false
+      },
+      "structural": {
+        "state": "adequate_stable",
+        "declared_state": "adequate_stable",
+        "source_data_quality": "adequate",
+        "floor_context_visible": false,
+        "independent_progression_visible": false,
+        "native": {
+          "module_id": "OFTY-Gx-M4",
+          "algorithm_version": "1.3.1",
+          "mode": "core",
+          "inputs_summary": {
+            "eye": "OD",
+            "n_tests_submitted": 5,
+            "n_tests_used": 5,
+            "modifiers": []
+          },
+          "structural_rate": {
+            "slope_rnfl_per_year": -0.01,
+            "intercept": 85.06,
+            "p_value": 0.8239052711153179,
+            "ci95_lower": -0.14,
+            "ci95_upper": 0.12
+          },
+          "classification": "stable_trend",
+          "statistical_significance": "not_significant",
+          "data_quality": "adequate",
+          "confidence_level": "high",
+          "clinical_risk": "low",
+          "interpretation": "No clear evidence of pathologic structural progression in the available OCT series. The RNFL thinning rate is compatible with age-related or non-pathologic structural change.",
+          "caution_flags": [],
+          "detail_summary": {
+            "valid_test_count": 5,
+            "low_reliability_count": 0,
+            "borderline_reliability_count": 0,
+            "followup_years": 4,
+            "latest_rnfl": 85,
+            "latest_reliability": "good"
+          },
+          "logic_trace": {
+            "method": "linear_regression_rnfl_vs_time",
+            "validation": "all tests passed",
+            "slope_rule_applied": "stable_trend: slope=-0.01 > SLOPE_STABLE_THRESHOLD=-1",
+            "floor_rule_applied": "not_applied",
+            "artifact_rule_applied": "not_applied",
+            "vshape_rule_applied": "not_applied",
+            "confidence_adjustments": [
+              "none"
+            ],
+            "sufficiency_rule": "adequate: n >= 4 AND no low-reliability scans",
+            "notes": [
+              "data_quality=adequate (n=5, low_rel=0)",
+              "OLS: slope=-0.01 um/yr, p=0.8239"
+            ]
+          },
+          "model": {
+            "type": "deterministic_trend_based",
+            "intended_use": "clinical_decision_support",
+            "notes": "This module provides a structured interpretation of OCT RNFL structural progression and does not replace clinical judgment."
+          },
+          "_timestamp": "2026-10-20T12:02:52.519Z"
+        },
+        "average_RNFL_scope": true
+      },
+      "integration": {
+        "disposition": "complete",
+        "concern": "low",
+        "concern_scope": "assessed_domains_global_MD_average_RNFL",
+        "unqualified_reassurance": false,
+        "qualified_low_eligible": true,
+        "guards": [],
+        "reason_codes": [],
+        "review_status": "no_material_review_guard",
+        "clean_domain_concern": "low",
+        "pressure_low_eligibility": true,
+        "concern_basis": "inherited_v03_qualified_integration_or_material_review",
+        "low_eligibility_reason": "assessed_clean_domains_and_eligible_current_GAT_within_target"
+      },
+      "confidence": {
+        "native_M3": "medium",
+        "display_M3": "medium",
+        "integrated": "medium",
+        "scope": "assessed_domains"
+      },
+      "cautions": [],
+      "surface_material_sets": {
+        "hero": [],
+        "card": [],
+        "copy": [],
+        "print": [],
+        "json": []
+      },
+      "presentation": {
+        "copy_status": "REQUIRES_AUTHOR_FINAL_COPY_APPROVAL",
+        "assessment_qualification": null,
+        "oct_limitation": null,
+        "independently_scoped_structural_signal": null,
+        "functional_insufficient_preserved": false,
+        "artifact_role": "raw_JSON_staging_harness_not_production_equivalent_M5",
+        "material_hidden_count": 0,
+        "secondary_only_cap": 3,
+        "below_is_control_proof": false,
+        "management": "disabled",
+        "final_wording": "pending_author_review"
+      },
+      "m2_policy": {
+        "original_cct": "thin",
+        "effective_cct": "thin",
+        "covered_thick_modifier_count": 0,
+        "old_range": null,
+        "target_range": [
+          11,
+          13
+        ]
+      },
+      "provenance": {
+        "versions": {
+          "evaluated_at": "2026-10-20T12:02:55.034Z",
+          "producers": [
+            {
+              "module": "m1",
+              "algorithm": "1.0.0",
+              "revision": 1,
+              "epoch": "a6b1aa1d-1166-49bd-a49e-6b9a149377ab",
+              "generated_at": "2026-10-20T12:02:52.182Z",
+              "observation_id": null,
+              "observed_at": null
+            },
+            {
+              "module": "m2",
+              "algorithm": "1.1.0-gate2.1",
+              "revision": 1,
+              "epoch": "31139679-e85e-424b-946e-0c6897b08a93",
+              "generated_at": "2026-10-20T12:02:52.371Z",
+              "observation_id": "G3A-TD-GAT",
+              "observed_at": null
+            },
+            {
+              "module": "m3",
+              "algorithm": "2.3.1",
+              "revision": 1,
+              "epoch": "ec16b3b6-e424-4dc3-814f-710797ee9935",
+              "generated_at": "2026-10-20T12:02:52.444Z",
+              "observation_id": null,
+              "observed_at": null
+            },
+            {
+              "module": "m4",
+              "algorithm": "1.3.1",
+              "revision": 1,
+              "epoch": "d25aee7d-9592-4efe-884a-eac463781d10",
+              "generated_at": "2026-10-20T12:02:52.520Z",
+              "observation_id": null,
+              "observed_at": null
+            }
+          ],
+          "oracle": "oracle-spec-0.4.1",
+          "policy_contract": "G1-v0.2+G1-D03a-v0.1+PRECODE-H2-A2-v0.1+B1A-approved-2026-10-10"
+        },
+        "candidate_execution": "EXECUTED_SYNTHETIC_CANDIDATE",
+        "artifact_role": "isolated_candidate",
+        "oracle": "oracle-spec-0.4.1"
+      }
+    },
+    "ready_before_save": false,
+    "start_save": "returned",
+    "ready_after_save": false,
+    "m5_result_summary": {
+      "hero": "no_signal",
+      "codes": [],
+      "semantic_version": "gate2-semantic-0.3.1"
+    },
+    "m5_copy_head": null,
+    "screen_text_head": "OFTY · TOOL #5\nGlaucoma Suite Orchestrator\n\nIntegrated assessment · isolated Gate 3 UI staging candidate v0.4.8-ui-aprime-staging-A1 (unpublished staging build)\n\nDRAFT / REQUIRES_AUTHOR_FINAL_COPY_APPROVAL · synthetic staging only. Clinical validation and production deployment are not authorized. English clinical copy is provisional; Spanish and Italian clinical translations are unavailable.\n\nA′ owned assessment · synthetic staging\n\nOWNED · OD · 3fc0b555-9ba6-48d2-a602-c9a7f592f2d8 · save OK/recorded · last verified save 20/10/2026, 14:02:55 · browser_engine_unverified · event integrated\n\nEye \nSelect eye\nOD\nOS\n New assessment Release ownership Retry save\n\nReview saved snapshots   I reviewed the saved context and contributing results Resume reference Delete saved snapshot\n\nM1 · IOP context\nM2 · Target / measured GAT\nM3 · Functional\nM4 · Structural\nContributing module status (DRAFT wording)\nM1 · IOP context: current result received by M5.\nM2 · Target / measured GAT: current result received by M5.\nM3 · Functional (visual field): current result received by M5.\nM4 · Structural (RNFL): current result received by M5.\nIntegrate current resultsCopyPrint reportDownload JSON\n\nM1: current producer result · M2: current producer result · M3: current producer result · M4: current producer result\n\nNo progression signal in assessed domains\n\nConcern: low · complete\n\nCurrent verified producer snapshot only · 2026-10-20T12:02:55.034Z\n\nSemantic engine version: gate2-semantic-0.3.1\n\nUI staging can"
+  },
+  "ua_data": {
+    "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+    "brands": [
+      {
+        "brand": "HeadlessChrome",
+        "version": "141"
+      },
+      {
+        "brand": "Not?A_Brand",
+        "version": "8"
+      },
+      {
+        "brand": "Chromium",
+        "version": "141"
+      }
+    ],
+    "platform": "Linux"
+  },
+  "page_errors": [],
+  "aborted_external": 4,
+  "standalone_m3": {
+    "card_visible": true,
+    "label": "No progression detected"
+  },
+  "finished_utc": "2026-10-20T12:02:57.529Z"
+}

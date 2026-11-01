@@ -1,0 +1,98 @@
+{
+  "id": "G2D-O6-nonsig",
+  "object": "PRE",
+  "module": "m3",
+  "started_utc": "2026-10-20T10:18:58.459Z",
+  "rows": [
+    [
+      "2023-01",
+      "-2",
+      "good"
+    ],
+    [
+      "2023-04",
+      "-3.6",
+      "good"
+    ],
+    [
+      "2023-07",
+      "-1.9",
+      "good"
+    ],
+    [
+      "2023-10",
+      "-3.4",
+      "good"
+    ],
+    [
+      "2024-02",
+      "-3",
+      "good"
+    ]
+  ],
+  "screen": {
+    "label": "No progression detected",
+    "hero_slope": "-0.65",
+    "hero_slope_tag": "(Moderate slope)",
+    "confidence": "Low",
+    "confidence_sub": "5 fields.",
+    "risk": "Moderate clinical risk",
+    "interpretation": "Serial visual field analysis does not demonstrate evidence of functional progression. The series is stable, with no clinically meaningful decline detected across the follow-up period. The available data are limited and this finding should be interpreted with caution. Enhanced functional monitoring is recommended, and re-evaluation of clinical management targets may be warranted.",
+    "card_inner_text": "VF PROGRESSION ANALYSIS · OD\n-0.65\ndB / year\n(Moderate slope)\n0\n-2.0\n-3.6\n-1.9\n-3.4\n-3.0\n2023\n2024\nReliable\nBorderline\nLow reliability\nUnknown / not provided\nPROGRESSION\ni\nNo progression detected\nCONFIDENCE\nLow\n5 fields.\nModerate clinical risk\ni\nINTERPRETATION\nSerial visual field analysis does not demonstrate evidence of functional progression. The series is stable, with no clinically meaningful decline detected across the follow-up period. The available data are limited and this finding should be interpreted with caution. Enhanced functional monitoring is recommended, and re-evaluation of clinical management targets may be warranted.\nLimitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.\nCopy",
+    "scope_element_visible": true,
+    "scope_element_text": "Limitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.",
+    "method": {
+      "fields": "5",
+      "followup": "13.0 months",
+      "sufficiency_rule": "limited: n>=4 AND follow-up>=12 months",
+      "class_rule": "moderate_progression: slope <= -0.5 and > -1.0 dB/year",
+      "p_value": "0.5629",
+      "ci": "-3.86 to 2.55 dB/year"
+    },
+    "limitations_notes": [],
+    "branch_trace": [
+      "M3.source.L1695"
+    ],
+    "last_data": {
+      "finalLabel": "Stable",
+      "confidence": "low",
+      "risk": "relevant",
+      "slope": -0.6537,
+      "slopeTag": "Moderate slope",
+      "n": 5,
+      "nativeInsufficient": false
+    }
+  },
+  "copy": "Eye: OD\nSlope: -0.65 dB/year\nProgression: No progression detected\nConfidence: Low\nClinical risk: Moderate clinical risk\nFields: 5 · Follow-up: 13.0 months\n\nInterpretation: Serial visual field analysis does not demonstrate evidence of functional progression. The series is stable, with no clinically meaningful decline detected across the follow-up period. The available data are limited and this finding should be interpreted with caution. Enhanced functional monitoring is recommended, and re-evaluation of clinical management targets may be warranted.\nLimitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.\n\nGenerated with OFTY Tool M3 v1.1",
+  "payload_text": "{\"module_id\":\"OFTY-Gx-M3\",\"algorithm_version\":\"2.3.1\",\"mode\":\"core\",\"inputs_summary\":{\"eye\":\"OD\",\"n_tests_total\":5,\"n_tests_used\":5,\"followup_months\":13,\"first_date\":\"2023-01-01\",\"last_date\":\"2024-02-01\",\"reliability_counts\":{\"good\":5,\"borderline\":0,\"low\":0,\"unknown\":0,\"interpretable\":5}},\"progression_rate\":{\"slope_md_per_year\":-0.6537,\"intercept\":-2.4435,\"p_value\":0.5629,\"ci95_lower\":-3.8615,\"ci95_upper\":2.554},\"classification\":\"moderate_progression\",\"statistical_significance\":\"non_significant\",\"data_quality\":\"limited\",\"confidence_level\":\"medium\",\"caution_flags\":[\"limited_dataset\",\"non_significant_trend\"],\"logic_trace\":{\"method\":\"linear_regression_md_vs_time\",\"sufficiency_rule_applied\":\"limited: n>=4 AND follow-up>=12 months\",\"classification_rule_applied\":\"moderate_progression: slope <= -0.5 and > -1.0 dB/year\",\"notes\":[],\"suite_export_caution_basis\":[]},\"model\":{\"type\":\"deterministic_trend_based\",\"intended_use\":\"clinical_decision_support\",\"notes\":\"This module provides a structured interpretation of functional progression and does not replace clinical judgment.\"},\"transport_version\":\"gate2-m3-0.2.0\",\"final_copy_status\":\"REQUIRES_AUTHOR_FINAL_COPY_APPROVAL\",\"functional\":{\"series\":[{\"date\":\"2023-01-01\",\"md\":-2,\"reliability\":\"good\"},{\"date\":\"2023-04-01\",\"md\":-3.6,\"reliability\":\"good\"},{\"date\":\"2023-07-01\",\"md\":-1.9,\"reliability\":\"good\"},{\"date\":\"2023-10-01\",\"md\":-3.4,\"reliability\":\"good\"},{\"date\":\"2024-02-01\",\"md\":-3,\"reliability\":\"good\"}],\"eye\":\"OD\",\"central_threat\":false,\"monocular\":false,\"native\":{\"module_id\":\"OFTY-Gx-M3\",\"algorithm_version\":\"2.3.1\",\"mode\":\"core\",\"inputs_summary\":{\"eye\":\"OD\",\"n_tests_total\":5,\"n_tests_used\":5,\"followup_months\":13,\"first_date\":\"2023-01-01\",\"last_date\":\"2024-02-01\",\"reliability_counts\":{\"good\":5,\"borderline\":0,\"low\":0,\"unknown\":0,\"interpretable\":5}},\"progression_rate\":{\"slope_md_per_year\":-0.6537,\"intercept\":-2.4435,\"p_value\":0.5629,\"ci95_lower\":-3.8615,\"ci95_upper\":2.554},\"classification\":\"moderate_progression\",\"statistical_significance\":\"non_significant\",\"data_quality\":\"limited\",\"confidence_level\":\"medium\",\"caution_flags\":[\"limited_dataset\",\"non_significant_trend\"],\"logic_trace\":{\"method\":\"linear_regression_md_vs_time\",\"sufficiency_rule_applied\":\"limited: n>=4 AND follow-up>=12 months\",\"classification_rule_applied\":\"moderate_progression: slope <= -0.5 and > -1.0 dB/year\",\"notes\":[],\"suite_export_caution_basis\":[]},\"model\":{\"type\":\"deterministic_trend_based\",\"intended_use\":\"clinical_decision_support\",\"notes\":\"This module provides a structured interpretation of functional progression and does not replace clinical judgment.\"},\"transport_version\":\"gate2-m3-0.2.0\",\"final_copy_status\":\"REQUIRES_AUTHOR_FINAL_COPY_APPROVAL\"},\"display\":{\"label\":\"Stable\",\"assessability\":\"assessable\",\"reason\":null,\"confidence\":\"low\",\"concern\":\"relevant\"},\"source_predicates\":{\"B1_red\":false,\"C_yellow\":false,\"monotonic_worsening\":false},\"executed_source_statements\":[\"M3.source.L1695\"],\"candidate\":{\"state\":\"absent\",\"authoritative\":false,\"branch_ids\":[\"M3.source.L1695\"],\"assessment_scope\":\"source_display_candidate\",\"source_sha256\":null,\"source_lineage_sha256\":\"ba41b5dfef02c930cffcff8bbc42c010e55e458ba5d260ddec81d489e806a550\",\"source_identity\":\"freeze_manifest\",\"algorithm\":\"2.3.1\",\"ui\":\"2.6.1\",\"assessed_window\":{\"dates\":[\"2023-01-01\",\"2023-04-01\",\"2023-07-01\",\"2023-10-01\",\"2024-02-01\"],\"regression_computed\":false,\"basis\":\"unchanged M3 source interprets submitted history; no invented recent slope\"},\"reliability\":{\"latest\":\"good\",\"native_counts\":{\"good\":5,\"borderline\":0,\"low\":0,\"unknown\":0,\"interpretable\":5}},\"caution_flags\":[\"limited_dataset\",\"non_significant_trend\"],\"confidence_scope\":\"source_display_only\"},\"reliability\":{\"latest\":\"good\",\"native_counts\":{\"good\":5,\"borderline\":0,\"low\":0,\"unknown\":0,\"interpretable\":5}},\"windows\":{\"whole_history\":{\"dates\":[\"2023-01-01\",\"2023-04-01\",\"2023-07-01\",\"2023-10-01\",\"2024-02-01\"],\"regression_computed\":true,\"basis\":\"unchanged native M3 OLS\"},\"display\":{\"dates\":[\"2023-01-01\",\"2023-04-01\",\"2023-07-01\",\"2023-10-01\",\"2024-02-01\"],\"regression_computed\":false,\"basis\":\"unchanged M3 source interprets submitted history; no invented recent slope\"},\"current_plateau\":{\"dates\":null,\"basis\":\"narrower window unresolved; full history and source display retained\"}},\"source_observation\":{\"n\":5,\"lastMD\":-3,\"firstMD\":-2,\"lastRelLow\":false,\"maxReliableDrop\":1.6,\"source_interpretation\":\"Serial visual field analysis does not demonstrate evidence of functional progression. The series is stable, with no clinically meaningful decline detected across the follow-up period. The available data are limited and this finding should be interpreted with caution. Enhanced functional monitoring is recommended, and re-evaluation of clinical management targets may be warranted.\",\"limitations\":[]}},\"_timestamp\":\"2026-10-14T10:00:00.000Z\"}",
+  "payload_sha256": "1a86fe6209fc1f37b17ab91646a80c2a3f5a88e363a06fa8f79a8d920d64ebd0",
+  "print": {
+    "card_visible_under_print": true,
+    "card_inner_text_print": "VF PROGRESSION ANALYSIS · OD\n-0.65\ndB / year\n(Moderate slope)\n0\n-2.0\n-3.6\n-1.9\n-3.4\n-3.0\n2023\n2024\nReliable\nBorderline\nLow reliability\nUnknown / not provided\nPROGRESSION\ni\nNo progression detected\nCONFIDENCE\nLow\n5 fields.\nModerate clinical risk\ni\nINTERPRETATION\nSerial visual field analysis does not demonstrate evidence of functional progression. The series is stable, with no clinically meaningful decline detected across the follow-up period. The available data are limited and this finding should be interpreted with caution. Enhanced functional monitoring is recommended, and re-evaluation of clinical management targets may be warranted.\nLimitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.\nCopied!"
+  },
+  "pdf": {
+    "sha256": "23e9b1de05fa199bb12490fcad792cf7eb81ac4e54c13c441a0fd6c158015b43",
+    "text_normalized": "Standalone calculator · no integrated assessment publication. Back to OFTY Glaucoma Suite P A TIE N T P ARA M E TE R S Eye OD Enter visual fields in chronological order. Date (YYYY-MM) MD (dB) Reliability 2023-01 -2 Good × 2023-04 -3.6 Good × 2023-07 -1.9 Good × 2023-10 -3.4 Good × 2024-02 -3 Good × O F TY T O OL #3 i VF Progression Analysis Serial visual field MD analysis to help assess glaucoma Calculate + Add field functional Reset progression. CLINICAL MODIFIERS Central threat to fixation Functionally monocular patient VF PRO G RE S SI O N A N AL YSIS · OD -0.65 0 dB / year (Moderate slope) -1.9 -2.0 -3.4 -3.6 2023 Reliable -3.0 2024 Borderline Low reliability Unknown / not provided PROGRESSION i No progression detected CONFIDENCE Low 5 fields. Moderate clinical risk i INTERPRETATION Serial visual field analysis does not demonstrate evidence of functional progression. The series is stable, with no clinically meaningful decline detected across the follow-up period. The available data are limited and this finding should be interpreted with caution. Enhanced functional monitoring is recommended, and re-evaluation of clinical management targets may be warranted. Limitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening. Copied! Share feedback or report a case Method & Thresholds Disclaimer Sources (Summary) Version History OFTY · M3 · © 2026 Andrea Ragosta, MD, FEBO"
+  },
+  "events": {
+    "console": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      }
+    ],
+    "page_errors": [],
+    "aborted_external": [
+      "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+    ],
+    "network_failed": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+        "err": "net::ERR_FAILED"
+      }
+    ]
+  },
+  "product_console_errors": [],
+  "finished_utc": "2026-10-20T10:19:00.289Z"
+}

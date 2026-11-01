@@ -1,0 +1,1557 @@
+{
+  "id": "PRE_WP2-T1c-M3",
+  "spec": {
+    "id": "WP2-T1c-M3",
+    "m1": {
+      "pio": "12",
+      "cct": "465"
+    },
+    "m2": {
+      "stage": "Moderate",
+      "baseline": "",
+      "cct": "thin",
+      "progression": "none",
+      "currentIOP": "12",
+      "attest": true,
+      "observation_id": "G2D-GRID-GAT"
+    },
+    "central_threat": false,
+    "monocular": false,
+    "m3_series": [
+      [
+        "2021-01",
+        -3
+      ],
+      [
+        "2022-01",
+        -3.2
+      ],
+      [
+        "2023-01",
+        -2.9
+      ],
+      [
+        "2024-01",
+        -3.1
+      ],
+      [
+        "2025-01",
+        -3
+      ]
+    ],
+    "m3_rel": [
+      "good",
+      "good",
+      "good",
+      "good",
+      "good"
+    ],
+    "m4_series": [
+      [
+        "2021-01",
+        85
+      ],
+      [
+        "2022-01",
+        85.2
+      ],
+      [
+        "2023-01",
+        84.9
+      ],
+      [
+        "2024-01",
+        85.1
+      ],
+      [
+        "2025-01",
+        85
+      ]
+    ],
+    "m4_rel": [
+      "good",
+      "good",
+      "good",
+      "good",
+      "good"
+    ],
+    "pdf": true
+  },
+  "started_utc": "2026-10-20T10:23:15.962Z",
+  "origin": "http://127.0.0.1:39553",
+  "emulated_ua_ch": {
+    "brands": [
+      {
+        "brand": "HeadlessChrome",
+        "version": "141"
+      },
+      {
+        "brand": "Not?A_Brand",
+        "version": "8"
+      },
+      {
+        "brand": "Chromium",
+        "version": "141"
+      }
+    ],
+    "fullVersion": "141.0.7390.37",
+    "platform": "Windows",
+    "platformVersion": "10.0.0",
+    "architecture": "x86",
+    "model": "",
+    "mobile": false
+  },
+  "envelopes": {
+    "m1": {
+      "contract": "gate2-producer-0.1.0",
+      "module": "m1",
+      "context": {
+        "assessment_id": "f0fbff02-cae5-4b07-a561-e84dac03e577",
+        "generation": 1,
+        "eye": "OD",
+        "acquisition_epoch": "9c39d540-4062-48ad-8cef-08a0f992805f",
+        "input_revision": 0,
+        "producers": {}
+      },
+      "revision": 1,
+      "epoch": "f47a2113-c51f-4374-b5d3-a602ef8c268d",
+      "generated_at": "2026-10-20T10:23:16.477Z",
+      "payload": {
+        "module_id": "OFTY-Gx-M1",
+        "algorithm_version": "1.0.0",
+        "inputs": {
+          "pio_mmhg": 12,
+          "cct_um": 465
+        },
+        "outputs": {
+          "adjusted_iop_mmhg": 15,
+          "adjustment_mmhg": 3,
+          "cct_label": "thin",
+          "impact_class": "high",
+          "confidence_level": "moderate",
+          "caution_flags": [
+            "biomechanics_not_assessed",
+            "extreme_cct",
+            "large_adjustment"
+          ]
+        },
+        "model": {
+          "type": "linear",
+          "reference_cct_um": 540,
+          "factor_um_per_mmhg": 25
+        },
+        "_timestamp": "2026-10-20T10:23:16.475Z"
+      }
+    },
+    "m2": {
+      "contract": "gate2-producer-0.1.0",
+      "module": "m2",
+      "context": {
+        "assessment_id": "f0fbff02-cae5-4b07-a561-e84dac03e577",
+        "generation": 1,
+        "eye": "OD",
+        "acquisition_epoch": "9c39d540-4062-48ad-8cef-08a0f992805f",
+        "input_revision": 0,
+        "producers": {
+          "m1": {
+            "revision": 1,
+            "epoch": "f47a2113-c51f-4374-b5d3-a602ef8c268d",
+            "state": "ready"
+          }
+        }
+      },
+      "revision": 1,
+      "epoch": "b0645068-b1f3-46bc-98fd-0179ef1c5cd2",
+      "generated_at": "2026-10-20T10:23:16.669Z",
+      "payload": {
+        "module_id": "OFTY-Gx-M2",
+        "algorithm_version": "1.1.0-gate2.1",
+        "target_policy_version": "B-narrow-O1-0.4.1",
+        "original_cct": "thin",
+        "effective_target_cct": "thin",
+        "final_copy_status": "REQUIRES_AUTHOR_FINAL_COPY_APPROVAL",
+        "inputs": {
+          "stage": "Moderate",
+          "baseline_mmhg": null,
+          "cct": "thin",
+          "progression": "none",
+          "current_iop_mmhg": 12
+        },
+        "outputs": {
+          "target_iop_primary_mmhg": 12,
+          "target_iop_range_low_mmhg": 11,
+          "target_iop_range_high_mmhg": 13,
+          "stage_label": "Moderate POAG",
+          "risk_modifier_summary": [
+            "Thin CCT: retained unvalidated OFTY target heuristic"
+          ],
+          "confidence_level": "low",
+          "caution_flags": [
+            "limited_input_scope"
+          ]
+        },
+        "logic_trace": {
+          "baseline_rule_applied": "Mode B: fixed stage band; approved pathway-specific OFTY heuristic",
+          "stage_rule_applied": "Stage: Moderate; band [12, 15] mmHg",
+          "modifiers_applied": [
+            "Thin CCT: retained unvalidated OFTY target heuristic",
+            "Original CCT: thin; effective target CCT: thin"
+          ]
+        },
+        "model": {
+          "type": "deterministic_rule_based",
+          "intended_use": "clinical_decision_support",
+          "notes": "Target IOP estimate for structured clinical reasoning; not a substitute for clinical judgement."
+        },
+        "_ui": {
+          "effectiveStageKey": "Moderate",
+          "impliedPct": 0,
+          "rangeDisplay": "11–13",
+          "rangeAscii": "11-13"
+        },
+        "_timestamp": "2026-10-20T10:23:16.668Z",
+        "pressure_observation": {
+          "method": "GAT",
+          "role": "current_on_treatment",
+          "value_mmhg": 12,
+          "source_module": "OFTY-Gx-M2",
+          "observation_id": "G2D-GRID-GAT",
+          "attested": true,
+          "selected": true,
+          "observed_at": null,
+          "unknown_time_reason": "not_recorded",
+          "target": [
+            11,
+            13
+          ]
+        }
+      }
+    },
+    "m3": {
+      "contract": "gate2-producer-0.1.0",
+      "module": "m3",
+      "context": {
+        "assessment_id": "f0fbff02-cae5-4b07-a561-e84dac03e577",
+        "generation": 1,
+        "eye": "OD",
+        "acquisition_epoch": "9c39d540-4062-48ad-8cef-08a0f992805f",
+        "input_revision": 0,
+        "producers": {
+          "m1": {
+            "revision": 1,
+            "epoch": "f47a2113-c51f-4374-b5d3-a602ef8c268d",
+            "state": "ready"
+          },
+          "m2": {
+            "revision": 1,
+            "epoch": "b0645068-b1f3-46bc-98fd-0179ef1c5cd2",
+            "state": "ready"
+          }
+        }
+      },
+      "revision": 1,
+      "epoch": "ded367c1-0e33-4caa-bfc4-0a28a5f3f850",
+      "generated_at": "2026-10-20T10:23:16.734Z",
+      "payload": {
+        "module_id": "OFTY-Gx-M3",
+        "algorithm_version": "2.3.1",
+        "mode": "core",
+        "inputs_summary": {
+          "eye": "OD",
+          "n_tests_total": 5,
+          "n_tests_used": 5,
+          "followup_months": 48,
+          "first_date": "2021-01-01",
+          "last_date": "2025-01-01",
+          "reliability_counts": {
+            "good": 5,
+            "borderline": 0,
+            "low": 0,
+            "unknown": 0,
+            "interpretable": 5
+          }
+        },
+        "progression_rate": {
+          "slope_md_per_year": 0.01,
+          "intercept": -3.06,
+          "p_value": 0.8239,
+          "ci95_lower": -0.1212,
+          "ci95_upper": 0.1412
+        },
+        "classification": "no_or_slow_progression",
+        "statistical_significance": "non_significant",
+        "data_quality": "adequate",
+        "confidence_level": "medium",
+        "caution_flags": [
+          "non_significant_trend"
+        ],
+        "logic_trace": {
+          "method": "linear_regression_md_vs_time",
+          "sufficiency_rule_applied": "adequate: n>=5 AND follow-up>=24 months",
+          "classification_rule_applied": "no_or_slow_progression: slope > -0.5 dB/year",
+          "notes": [],
+          "suite_export_caution_basis": []
+        },
+        "model": {
+          "type": "deterministic_trend_based",
+          "intended_use": "clinical_decision_support",
+          "notes": "This module provides a structured interpretation of functional progression and does not replace clinical judgment."
+        },
+        "transport_version": "gate2-m3-0.2.0",
+        "final_copy_status": "REQUIRES_AUTHOR_FINAL_COPY_APPROVAL",
+        "functional": {
+          "series": [
+            {
+              "date": "2021-01-01",
+              "md": -3,
+              "reliability": "good"
+            },
+            {
+              "date": "2022-01-01",
+              "md": -3.2,
+              "reliability": "good"
+            },
+            {
+              "date": "2023-01-01",
+              "md": -2.9,
+              "reliability": "good"
+            },
+            {
+              "date": "2024-01-01",
+              "md": -3.1,
+              "reliability": "good"
+            },
+            {
+              "date": "2025-01-01",
+              "md": -3,
+              "reliability": "good"
+            }
+          ],
+          "eye": "OD",
+          "central_threat": false,
+          "monocular": false,
+          "native": {
+            "module_id": "OFTY-Gx-M3",
+            "algorithm_version": "2.3.1",
+            "mode": "core",
+            "inputs_summary": {
+              "eye": "OD",
+              "n_tests_total": 5,
+              "n_tests_used": 5,
+              "followup_months": 48,
+              "first_date": "2021-01-01",
+              "last_date": "2025-01-01",
+              "reliability_counts": {
+                "good": 5,
+                "borderline": 0,
+                "low": 0,
+                "unknown": 0,
+                "interpretable": 5
+              }
+            },
+            "progression_rate": {
+              "slope_md_per_year": 0.01,
+              "intercept": -3.06,
+              "p_value": 0.8239,
+              "ci95_lower": -0.1212,
+              "ci95_upper": 0.1412
+            },
+            "classification": "no_or_slow_progression",
+            "statistical_significance": "non_significant",
+            "data_quality": "adequate",
+            "confidence_level": "medium",
+            "caution_flags": [
+              "non_significant_trend"
+            ],
+            "logic_trace": {
+              "method": "linear_regression_md_vs_time",
+              "sufficiency_rule_applied": "adequate: n>=5 AND follow-up>=24 months",
+              "classification_rule_applied": "no_or_slow_progression: slope > -0.5 dB/year",
+              "notes": [],
+              "suite_export_caution_basis": []
+            },
+            "model": {
+              "type": "deterministic_trend_based",
+              "intended_use": "clinical_decision_support",
+              "notes": "This module provides a structured interpretation of functional progression and does not replace clinical judgment."
+            },
+            "transport_version": "gate2-m3-0.2.0",
+            "final_copy_status": "REQUIRES_AUTHOR_FINAL_COPY_APPROVAL"
+          },
+          "display": {
+            "label": "Stable",
+            "assessability": "assessable",
+            "reason": null,
+            "confidence": "medium",
+            "concern": "low"
+          },
+          "source_predicates": {
+            "B1_red": false,
+            "C_yellow": false,
+            "monotonic_worsening": false
+          },
+          "executed_source_statements": [
+            "M3.source.L1695"
+          ],
+          "candidate": {
+            "state": "absent",
+            "authoritative": false,
+            "branch_ids": [
+              "M3.source.L1695"
+            ],
+            "assessment_scope": "source_display_candidate",
+            "source_sha256": null,
+            "source_lineage_sha256": "ba41b5dfef02c930cffcff8bbc42c010e55e458ba5d260ddec81d489e806a550",
+            "source_identity": "freeze_manifest",
+            "algorithm": "2.3.1",
+            "ui": "2.6.1",
+            "assessed_window": {
+              "dates": [
+                "2021-01-01",
+                "2022-01-01",
+                "2023-01-01",
+                "2024-01-01",
+                "2025-01-01"
+              ],
+              "regression_computed": false,
+              "basis": "unchanged M3 source interprets submitted history; no invented recent slope"
+            },
+            "reliability": {
+              "latest": "good",
+              "native_counts": {
+                "good": 5,
+                "borderline": 0,
+                "low": 0,
+                "unknown": 0,
+                "interpretable": 5
+              }
+            },
+            "caution_flags": [
+              "non_significant_trend"
+            ],
+            "confidence_scope": "source_display_only"
+          },
+          "reliability": {
+            "latest": "good",
+            "native_counts": {
+              "good": 5,
+              "borderline": 0,
+              "low": 0,
+              "unknown": 0,
+              "interpretable": 5
+            }
+          },
+          "windows": {
+            "whole_history": {
+              "dates": [
+                "2021-01-01",
+                "2022-01-01",
+                "2023-01-01",
+                "2024-01-01",
+                "2025-01-01"
+              ],
+              "regression_computed": true,
+              "basis": "unchanged native M3 OLS"
+            },
+            "display": {
+              "dates": [
+                "2021-01-01",
+                "2022-01-01",
+                "2023-01-01",
+                "2024-01-01",
+                "2025-01-01"
+              ],
+              "regression_computed": false,
+              "basis": "unchanged M3 source interprets submitted history; no invented recent slope"
+            },
+            "current_plateau": {
+              "dates": null,
+              "basis": "narrower window unresolved; full history and source display retained"
+            }
+          },
+          "source_observation": {
+            "n": 5,
+            "lastMD": -3,
+            "firstMD": -3,
+            "lastRelLow": false,
+            "maxReliableDrop": 0.20000000000000018,
+            "source_interpretation": "Serial visual field analysis does not demonstrate evidence of functional progression. No measurable decline was detected. The dataset would benefit from additional fields or extended follow-up to strengthen this estimate. Routine follow-up is appropriate.",
+            "limitations": []
+          }
+        },
+        "_timestamp": "2026-10-20T10:23:16.733Z"
+      }
+    },
+    "m4": {
+      "contract": "gate2-producer-0.1.0",
+      "module": "m4",
+      "context": {
+        "assessment_id": "f0fbff02-cae5-4b07-a561-e84dac03e577",
+        "generation": 1,
+        "eye": "OD",
+        "acquisition_epoch": "9c39d540-4062-48ad-8cef-08a0f992805f",
+        "input_revision": 0,
+        "producers": {
+          "m1": {
+            "revision": 1,
+            "epoch": "f47a2113-c51f-4374-b5d3-a602ef8c268d",
+            "state": "ready"
+          },
+          "m2": {
+            "revision": 1,
+            "epoch": "b0645068-b1f3-46bc-98fd-0179ef1c5cd2",
+            "state": "ready"
+          },
+          "m3": {
+            "revision": 1,
+            "epoch": "ded367c1-0e33-4caa-bfc4-0a28a5f3f850",
+            "state": "ready"
+          }
+        }
+      },
+      "revision": 1,
+      "epoch": "9f157845-4b1d-4c92-99c1-7bc660596249",
+      "generated_at": "2026-10-20T10:23:16.799Z",
+      "payload": {
+        "module_id": "OFTY-Gx-M4",
+        "algorithm_version": "1.3.1",
+        "mode": "core",
+        "inputs_summary": {
+          "eye": "OD",
+          "n_tests_submitted": 5,
+          "n_tests_used": 5,
+          "modifiers": []
+        },
+        "structural_rate": {
+          "slope_rnfl_per_year": -0.01,
+          "intercept": 85.06,
+          "p_value": 0.8239052711153179,
+          "ci95_lower": -0.14,
+          "ci95_upper": 0.12
+        },
+        "classification": "stable_trend",
+        "statistical_significance": "not_significant",
+        "data_quality": "adequate",
+        "confidence_level": "high",
+        "clinical_risk": "low",
+        "interpretation": "No clear evidence of pathologic structural progression in the available OCT series. The RNFL thinning rate is compatible with age-related or non-pathologic structural change.",
+        "caution_flags": [],
+        "detail_summary": {
+          "valid_test_count": 5,
+          "low_reliability_count": 0,
+          "borderline_reliability_count": 0,
+          "followup_years": 4,
+          "latest_rnfl": 85,
+          "latest_reliability": "good"
+        },
+        "logic_trace": {
+          "method": "linear_regression_rnfl_vs_time",
+          "validation": "all tests passed",
+          "slope_rule_applied": "stable_trend: slope=-0.01 > SLOPE_STABLE_THRESHOLD=-1",
+          "floor_rule_applied": "not_applied",
+          "artifact_rule_applied": "not_applied",
+          "vshape_rule_applied": "not_applied",
+          "confidence_adjustments": [
+            "none"
+          ],
+          "sufficiency_rule": "adequate: n >= 4 AND no low-reliability scans",
+          "notes": [
+            "data_quality=adequate (n=5, low_rel=0)",
+            "OLS: slope=-0.01 um/yr, p=0.8239"
+          ]
+        },
+        "model": {
+          "type": "deterministic_trend_based",
+          "intended_use": "clinical_decision_support",
+          "notes": "This module provides a structured interpretation of OCT RNFL structural progression and does not replace clinical judgment."
+        },
+        "_timestamp": "2026-10-20T10:23:16.798Z"
+      }
+    }
+  },
+  "integrate_return_status": "result",
+  "result": {
+    "semantic_version": "gate2-semantic-0.3.1",
+    "context": {
+      "assessment_id": "f0fbff02-cae5-4b07-a561-e84dac03e577",
+      "generation": 1,
+      "eye": "OD",
+      "acquisition_epoch": "9c39d540-4062-48ad-8cef-08a0f992805f",
+      "input_revision": 0,
+      "producers": {
+        "m1": {
+          "revision": 1,
+          "epoch": "f47a2113-c51f-4374-b5d3-a602ef8c268d",
+          "state": "ready"
+        },
+        "m2": {
+          "revision": 1,
+          "epoch": "b0645068-b1f3-46bc-98fd-0179ef1c5cd2",
+          "state": "ready"
+        },
+        "m3": {
+          "revision": 1,
+          "epoch": "ded367c1-0e33-4caa-bfc4-0a28a5f3f850",
+          "state": "ready"
+        },
+        "m4": {
+          "revision": 1,
+          "epoch": "9f157845-4b1d-4c92-99c1-7bc660596249",
+          "state": "ready"
+        }
+      }
+    },
+    "hero": {
+      "signal": "no_signal",
+      "qualified": true,
+      "material_codes": []
+    },
+    "pressure": {
+      "position": "within_range",
+      "raw_GAT_mmhg": 12,
+      "range": [
+        11,
+        13
+      ],
+      "basis": "selected_attested_current_GAT",
+      "selected_observation_id": "G2D-GRID-GAT",
+      "contextual_estimate_operative": false
+    },
+    "functional": {
+      "native_classification": "no_or_slow_progression",
+      "numbers": {
+        "slope_md_per_year": 0.01,
+        "intercept": -3.06,
+        "p_value": 0.8239,
+        "ci95_lower": -0.1212,
+        "ci95_upper": 0.1412
+      },
+      "p_status": "available_native_convention_unchanged",
+      "display": {
+        "label": "Stable",
+        "assessability": "assessable",
+        "reason": null,
+        "confidence": "medium",
+        "concern": "low"
+      },
+      "candidate": {
+        "state": "absent",
+        "authoritative": false,
+        "branch_ids": [
+          "M3.source.L1695"
+        ],
+        "assessment_scope": "source_display_candidate",
+        "source_sha256": null,
+        "source_lineage_sha256": "ba41b5dfef02c930cffcff8bbc42c010e55e458ba5d260ddec81d489e806a550",
+        "source_identity": "freeze_manifest",
+        "algorithm": "2.3.1",
+        "ui": "2.6.1",
+        "assessed_window": {
+          "dates": [
+            "2021-01-01",
+            "2022-01-01",
+            "2023-01-01",
+            "2024-01-01",
+            "2025-01-01"
+          ],
+          "regression_computed": false,
+          "basis": "unchanged M3 source interprets submitted history; no invented recent slope"
+        },
+        "reliability": {
+          "latest": "good",
+          "native_counts": {
+            "good": 5,
+            "borderline": 0,
+            "low": 0,
+            "unknown": 0,
+            "interpretable": 5
+          }
+        },
+        "caution_flags": [
+          "non_significant_trend"
+        ],
+        "confidence_scope": "source_display_only"
+      },
+      "source_predicates": {
+        "B1_red": false,
+        "C_yellow": false,
+        "monotonic_worsening": false
+      },
+      "branch_ids": [
+        "M3.source.L1695"
+      ],
+      "windows": {
+        "whole_history": {
+          "dates": [
+            "2021-01-01",
+            "2022-01-01",
+            "2023-01-01",
+            "2024-01-01",
+            "2025-01-01"
+          ],
+          "regression_computed": true,
+          "basis": "unchanged native M3 OLS"
+        },
+        "display": {
+          "dates": [
+            "2021-01-01",
+            "2022-01-01",
+            "2023-01-01",
+            "2024-01-01",
+            "2025-01-01"
+          ],
+          "regression_computed": false,
+          "basis": "unchanged M3 source interprets submitted history; no invented recent slope"
+        },
+        "current_plateau": {
+          "dates": null,
+          "basis": "narrower window unresolved; full history and source display retained"
+        }
+      },
+      "reliability": {
+        "latest": "good",
+        "native_counts": {
+          "good": 5,
+          "borderline": 0,
+          "low": 0,
+          "unknown": 0,
+          "interpretable": 5
+        }
+      },
+      "source_caution_flags": [
+        "non_significant_trend"
+      ],
+      "native_progression_band_preserved": false,
+      "independently_supported_progression_visible": false,
+      "candidate_confirms_progression": false,
+      "advanced_context_visible": false,
+      "advanced_context_basis": "existing M3.calculate source context L3616-L3624, not an M5 risk threshold",
+      "global_MD_scope": true,
+      "primary_assessability": "assessable",
+      "primary_state": "numerical_no_or_slow_progression",
+      "contextual_signal": "absent",
+      "selected_rule": "CLEAN_DOMAIN",
+      "native_data_quality": "adequate",
+      "native_sufficiency_rule": "adequate: n>=5 AND follow-up>=24 months",
+      "numerical_progression_visible": false
+    },
+    "structural": {
+      "state": "adequate_stable",
+      "declared_state": "adequate_stable",
+      "source_data_quality": "adequate",
+      "floor_context_visible": false,
+      "independent_progression_visible": false,
+      "native": {
+        "module_id": "OFTY-Gx-M4",
+        "algorithm_version": "1.3.1",
+        "mode": "core",
+        "inputs_summary": {
+          "eye": "OD",
+          "n_tests_submitted": 5,
+          "n_tests_used": 5,
+          "modifiers": []
+        },
+        "structural_rate": {
+          "slope_rnfl_per_year": -0.01,
+          "intercept": 85.06,
+          "p_value": 0.8239052711153179,
+          "ci95_lower": -0.14,
+          "ci95_upper": 0.12
+        },
+        "classification": "stable_trend",
+        "statistical_significance": "not_significant",
+        "data_quality": "adequate",
+        "confidence_level": "high",
+        "clinical_risk": "low",
+        "interpretation": "No clear evidence of pathologic structural progression in the available OCT series. The RNFL thinning rate is compatible with age-related or non-pathologic structural change.",
+        "caution_flags": [],
+        "detail_summary": {
+          "valid_test_count": 5,
+          "low_reliability_count": 0,
+          "borderline_reliability_count": 0,
+          "followup_years": 4,
+          "latest_rnfl": 85,
+          "latest_reliability": "good"
+        },
+        "logic_trace": {
+          "method": "linear_regression_rnfl_vs_time",
+          "validation": "all tests passed",
+          "slope_rule_applied": "stable_trend: slope=-0.01 > SLOPE_STABLE_THRESHOLD=-1",
+          "floor_rule_applied": "not_applied",
+          "artifact_rule_applied": "not_applied",
+          "vshape_rule_applied": "not_applied",
+          "confidence_adjustments": [
+            "none"
+          ],
+          "sufficiency_rule": "adequate: n >= 4 AND no low-reliability scans",
+          "notes": [
+            "data_quality=adequate (n=5, low_rel=0)",
+            "OLS: slope=-0.01 um/yr, p=0.8239"
+          ]
+        },
+        "model": {
+          "type": "deterministic_trend_based",
+          "intended_use": "clinical_decision_support",
+          "notes": "This module provides a structured interpretation of OCT RNFL structural progression and does not replace clinical judgment."
+        },
+        "_timestamp": "2026-10-20T10:23:16.798Z"
+      },
+      "average_RNFL_scope": true
+    },
+    "integration": {
+      "disposition": "complete",
+      "concern": "low",
+      "concern_scope": "assessed_domains_global_MD_average_RNFL",
+      "unqualified_reassurance": false,
+      "qualified_low_eligible": true,
+      "guards": [],
+      "reason_codes": [],
+      "review_status": "no_material_review_guard",
+      "clean_domain_concern": "low",
+      "pressure_low_eligibility": true,
+      "concern_basis": "inherited_v03_qualified_integration_or_material_review",
+      "low_eligibility_reason": "assessed_clean_domains_and_eligible_current_GAT_within_target"
+    },
+    "confidence": {
+      "native_M3": "medium",
+      "display_M3": "medium",
+      "integrated": "medium",
+      "scope": "assessed_domains"
+    },
+    "cautions": [],
+    "surface_material_sets": {
+      "hero": [],
+      "card": [],
+      "copy": [],
+      "print": [],
+      "json": []
+    },
+    "presentation": {
+      "copy_status": "REQUIRES_AUTHOR_FINAL_COPY_APPROVAL",
+      "assessment_qualification": null,
+      "oct_limitation": null,
+      "independently_scoped_structural_signal": null,
+      "functional_insufficient_preserved": false,
+      "artifact_role": "raw_JSON_staging_harness_not_production_equivalent_M5",
+      "material_hidden_count": 0,
+      "secondary_only_cap": 3,
+      "below_is_control_proof": false,
+      "management": "disabled",
+      "final_wording": "pending_author_review"
+    },
+    "m2_policy": {
+      "original_cct": "thin",
+      "effective_cct": "thin",
+      "covered_thick_modifier_count": 0,
+      "old_range": null,
+      "target_range": [
+        11,
+        13
+      ]
+    },
+    "provenance": {
+      "versions": {
+        "evaluated_at": "2026-10-20T10:23:16.823Z",
+        "producers": [
+          {
+            "module": "m1",
+            "algorithm": "1.0.0",
+            "revision": 1,
+            "epoch": "f47a2113-c51f-4374-b5d3-a602ef8c268d",
+            "generated_at": "2026-10-20T10:23:16.477Z",
+            "observation_id": null,
+            "observed_at": null
+          },
+          {
+            "module": "m2",
+            "algorithm": "1.1.0-gate2.1",
+            "revision": 1,
+            "epoch": "b0645068-b1f3-46bc-98fd-0179ef1c5cd2",
+            "generated_at": "2026-10-20T10:23:16.669Z",
+            "observation_id": "G2D-GRID-GAT",
+            "observed_at": null
+          },
+          {
+            "module": "m3",
+            "algorithm": "2.3.1",
+            "revision": 1,
+            "epoch": "ded367c1-0e33-4caa-bfc4-0a28a5f3f850",
+            "generated_at": "2026-10-20T10:23:16.734Z",
+            "observation_id": null,
+            "observed_at": null
+          },
+          {
+            "module": "m4",
+            "algorithm": "1.3.1",
+            "revision": 1,
+            "epoch": "9f157845-4b1d-4c92-99c1-7bc660596249",
+            "generated_at": "2026-10-20T10:23:16.799Z",
+            "observation_id": null,
+            "observed_at": null
+          }
+        ],
+        "oracle": "oracle-spec-0.4.1",
+        "policy_contract": "G1-v0.2+G1-D03a-v0.1+PRECODE-H2-A2-v0.1+B1A-approved-2026-10-10"
+      },
+      "candidate_execution": "EXECUTED_SYNTHETIC_CANDIDATE",
+      "artifact_role": "isolated_candidate",
+      "oracle": "oracle-spec-0.4.1"
+    }
+  },
+  "copy": "OFTY Tool M5 — Integrated Glaucoma Assessment\nEye: OD\n\nIntegrated concern: Low\nGlobal MD (M3): No progression detected · Slope: 0.01 dB/year (p = 0.82)\nAverage RNFL (M4): Stable\nTarget IOP range: 11-13 mmHg\nOn-treatment IOP (GAT): 12 mmHg · Within target\n\nInterpretation: No progression signal was found in either domain assessed: global MD (M3) shows no progression and average RNFL (M4) shows a stable trend. Current on-treatment GAT lies within the target range.\n\nLimitation: This output does not establish individual disease risk, pressure control or treatment tolerability.\nLimitation: Where assessed, global visual-field (MD) and average RNFL trends may miss focal or sectoral progression. The absence of a global progression signal does not exclude localized worsening.\n\nGenerated with OFTY Tool M5 · Staging candidate v0.4.7-ui-aprime-staging-A1 · Engine gate2-semantic-0.3.1 · Inputs: M1 1.0.0, M2 1.1.0-gate2.1, M3 2.3.1, M4 1.3.1\n[DRAFT / REQUIRES_AUTHOR_FINAL_COPY_APPROVAL · synthetic staging only]",
+  "json_returned": true,
+  "json_download": {
+    "suggested_filename": "OFTY_GATE3_ASSESSMENT.json",
+    "sha256": "ada94ea9df539974e08e2c3527c11b3f68e7fd118320d2c27204c23c225a0237"
+  },
+  "json_text": "{\n  \"semantic_version\": \"gate2-semantic-0.3.1\",\n  \"context\": {\n    \"assessment_id\": \"f0fbff02-cae5-4b07-a561-e84dac03e577\",\n    \"generation\": 1,\n    \"eye\": \"OD\",\n    \"acquisition_epoch\": \"9c39d540-4062-48ad-8cef-08a0f992805f\",\n    \"input_revision\": 0,\n    \"producers\": {\n      \"m1\": {\n        \"revision\": 1,\n        \"epoch\": \"f47a2113-c51f-4374-b5d3-a602ef8c268d\",\n        \"state\": \"ready\"\n      },\n      \"m2\": {\n        \"revision\": 1,\n        \"epoch\": \"b0645068-b1f3-46bc-98fd-0179ef1c5cd2\",\n        \"state\": \"ready\"\n      },\n      \"m3\": {\n        \"revision\": 1,\n        \"epoch\": \"ded367c1-0e33-4caa-bfc4-0a28a5f3f850\",\n        \"state\": \"ready\"\n      },\n      \"m4\": {\n        \"revision\": 1,\n        \"epoch\": \"9f157845-4b1d-4c92-99c1-7bc660596249\",\n        \"state\": \"ready\"\n      }\n    }\n  },\n  \"hero\": {\n    \"signal\": \"no_signal\",\n    \"qualified\": true,\n    \"material_codes\": []\n  },\n  \"pressure\": {\n    \"position\": \"within_range\",\n    \"raw_GAT_mmhg\": 12,\n    \"range\": [\n      11,\n      13\n    ],\n    \"basis\": \"selected_attested_current_GAT\",\n    \"selected_observation_id\": \"G2D-GRID-GAT\",\n    \"contextual_estimate_operative\": false\n  },\n  \"functional\": {\n    \"native_classification\": \"no_or_slow_progression\",\n    \"numbers\": {\n      \"slope_md_per_year\": 0.01,\n      \"intercept\": -3.06,\n      \"p_value\": 0.8239,\n      \"ci95_lower\": -0.1212,\n      \"ci95_upper\": 0.1412\n    },\n    \"p_status\": \"available_native_convention_unchanged\",\n    \"display\": {\n      \"label\": \"Stable\",\n      \"assessability\": \"assessable\",\n      \"reason\": null,\n      \"confidence\": \"medium\",\n      \"concern\": \"low\"\n    },\n    \"candidate\": {\n      \"state\": \"absent\",\n      \"authoritative\": false,\n      \"branch_ids\": [\n        \"M3.source.L1695\"\n      ],\n      \"assessment_scope\": \"source_display_candidate\",\n      \"source_sha256\": null,\n      \"source_lineage_sha256\": \"ba41b5dfef02c930cffcff8bbc42c010e55e458ba5d260ddec81d489e806a550\",\n      \"source_identity\": \"freeze_manifest\",\n      \"algorithm\": \"2.3.1\",\n      \"ui\": \"2.6.1\",\n      \"assessed_window\": {\n        \"dates\": [\n          \"2021-01-01\",\n          \"2022-01-01\",\n          \"2023-01-01\",\n          \"2024-01-01\",\n          \"2025-01-01\"\n        ],\n        \"regression_computed\": false,\n        \"basis\": \"unchanged M3 source interprets submitted history; no invented recent slope\"\n      },\n      \"reliability\": {\n        \"latest\": \"good\",\n        \"native_counts\": {\n          \"good\": 5,\n          \"borderline\": 0,\n          \"low\": 0,\n          \"unknown\": 0,\n          \"interpretable\": 5\n        }\n      },\n      \"caution_flags\": [\n        \"non_significant_trend\"\n      ],\n      \"confidence_scope\": \"source_display_only\"\n    },\n    \"source_predicates\": {\n      \"B1_red\": false,\n      \"C_yellow\": false,\n      \"monotonic_worsening\": false\n    },\n    \"branch_ids\": [\n      \"M3.source.L1695\"\n    ],\n    \"windows\": {\n      \"whole_history\": {\n        \"dates\": [\n          \"2021-01-01\",\n          \"2022-01-01\",\n          \"2023-01-01\",\n          \"2024-01-01\",\n          \"2025-01-01\"\n        ],\n        \"regression_computed\": true,\n        \"basis\": \"unchanged native M3 OLS\"\n      },\n      \"display\": {\n        \"dates\": [\n          \"2021-01-01\",\n          \"2022-01-01\",\n          \"2023-01-01\",\n          \"2024-01-01\",\n          \"2025-01-01\"\n        ],\n        \"regression_computed\": false,\n        \"basis\": \"unchanged M3 source interprets submitted history; no invented recent slope\"\n      },\n      \"current_plateau\": {\n        \"dates\": null,\n        \"basis\": \"narrower window unresolved; full history and source display retained\"\n      }\n    },\n    \"reliability\": {\n      \"latest\": \"good\",\n      \"native_counts\": {\n        \"good\": 5,\n        \"borderline\": 0,\n        \"low\": 0,\n        \"unknown\": 0,\n        \"interpretable\": 5\n      }\n    },\n    \"source_caution_flags\": [\n      \"non_significant_trend\"\n    ],\n    \"native_progression_band_preserved\": false,\n    \"independently_supported_progression_visible\": false,\n    \"candidate_confirms_progression\": false,\n    \"advanced_context_visible\": false,\n    \"advanced_context_basis\": \"existing M3.calculate source context L3616-L3624, not an M5 risk threshold\",\n    \"global_MD_scope\": true,\n    \"primary_assessability\": \"assessable\",\n    \"primary_state\": \"numerical_no_or_slow_progression\",\n    \"contextual_signal\": \"absent\",\n    \"selected_rule\": \"CLEAN_DOMAIN\",\n    \"native_data_quality\": \"adequate\",\n    \"native_sufficiency_rule\": \"adequate: n>=5 AND follow-up>=24 months\",\n    \"numerical_progression_visible\": false\n  },\n  \"structural\": {\n    \"state\": \"adequate_stable\",\n    \"declared_state\": \"adequate_stable\",\n    \"source_data_quality\": \"adequate\",\n    \"floor_context_visible\": false,\n    \"independent_progression_visible\": false,\n    \"native\": {\n      \"module_id\": \"OFTY-Gx-M4\",\n      \"algorithm_version\": \"1.3.1\",\n      \"mode\": \"core\",\n      \"inputs_summary\": {\n        \"eye\": \"OD\",\n        \"n_tests_submitted\": 5,\n        \"n_tests_used\": 5,\n        \"modifiers\": []\n      },\n      \"structural_rate\": {\n        \"slope_rnfl_per_year\": -0.01,\n        \"intercept\": 85.06,\n        \"p_value\": 0.8239052711153179,\n        \"ci95_lower\": -0.14,\n        \"ci95_upper\": 0.12\n      },\n      \"classification\": \"stable_trend\",\n      \"statistical_significance\": \"not_significant\",\n      \"data_quality\": \"adequate\",\n      \"confidence_level\": \"high\",\n      \"clinical_risk\": \"low\",\n      \"interpretation\": \"No clear evidence of pathologic structural progression in the available OCT series. The RNFL thinning rate is compatible with age-related or non-pathologic structural change.\",\n      \"caution_flags\": [],\n      \"detail_summary\": {\n        \"valid_test_count\": 5,\n        \"low_reliability_count\": 0,\n        \"borderline_reliability_count\": 0,\n        \"followup_years\": 4,\n        \"latest_rnfl\": 85,\n        \"latest_reliability\": \"good\"\n      },\n      \"logic_trace\": {\n        \"method\": \"linear_regression_rnfl_vs_time\",\n        \"validation\": \"all tests passed\",\n        \"slope_rule_applied\": \"stable_trend: slope=-0.01 > SLOPE_STABLE_THRESHOLD=-1\",\n        \"floor_rule_applied\": \"not_applied\",\n        \"artifact_rule_applied\": \"not_applied\",\n        \"vshape_rule_applied\": \"not_applied\",\n        \"confidence_adjustments\": [\n          \"none\"\n        ],\n        \"sufficiency_rule\": \"adequate: n >= 4 AND no low-reliability scans\",\n        \"notes\": [\n          \"data_quality=adequate (n=5, low_rel=0)\",\n          \"OLS: slope=-0.01 um/yr, p=0.8239\"\n        ]\n      },\n      \"model\": {\n        \"type\": \"deterministic_trend_based\",\n        \"intended_use\": \"clinical_decision_support\",\n        \"notes\": \"This module provides a structured interpretation of OCT RNFL structural progression and does not replace clinical judgment.\"\n      },\n      \"_timestamp\": \"2026-10-20T10:23:16.798Z\"\n    },\n    \"average_RNFL_scope\": true\n  },\n  \"integration\": {\n    \"disposition\": \"complete\",\n    \"concern\": \"low\",\n    \"concern_scope\": \"assessed_domains_global_MD_average_RNFL\",\n    \"unqualified_reassurance\": false,\n    \"qualified_low_eligible\": true,\n    \"guards\": [],\n    \"reason_codes\": [],\n    \"review_status\": \"no_material_review_guard\",\n    \"clean_domain_concern\": \"low\",\n    \"pressure_low_eligibility\": true,\n    \"concern_basis\": \"inherited_v03_qualified_integration_or_material_review\",\n    \"low_eligibility_reason\": \"assessed_clean_domains_and_eligible_current_GAT_within_target\"\n  },\n  \"confidence\": {\n    \"native_M3\": \"medium\",\n    \"display_M3\": \"medium\",\n    \"integrated\": \"medium\",\n    \"scope\": \"assessed_domains\"\n  },\n  \"cautions\": [],\n  \"surface_material_sets\": {\n    \"hero\": [],\n    \"card\": [],\n    \"copy\": [],\n    \"print\": [],\n    \"json\": []\n  },\n  \"presentation\": {\n    \"copy_status\": \"REQUIRES_AUTHOR_FINAL_COPY_APPROVAL\",\n    \"assessment_qualification\": null,\n    \"oct_limitation\": null,\n    \"independently_scoped_structural_signal\": null,\n    \"functional_insufficient_preserved\": false,\n    \"artifact_role\": \"raw_JSON_staging_harness_not_production_equivalent_M5\",\n    \"material_hidden_count\": 0,\n    \"secondary_only_cap\": 3,\n    \"below_is_control_proof\": false,\n    \"management\": \"disabled\",\n    \"final_wording\": \"pending_author_review\"\n  },\n  \"m2_policy\": {\n    \"original_cct\": \"thin\",\n    \"effective_cct\": \"thin\",\n    \"covered_thick_modifier_count\": 0,\n    \"old_range\": null,\n    \"target_range\": [\n      11,\n      13\n    ]\n  },\n  \"provenance\": {\n    \"versions\": {\n      \"evaluated_at\": \"2026-10-20T10:23:16.823Z\",\n      \"producers\": [\n        {\n          \"module\": \"m1\",\n          \"algorithm\": \"1.0.0\",\n          \"revision\": 1,\n          \"epoch\": \"f47a2113-c51f-4374-b5d3-a602ef8c268d\",\n          \"generated_at\": \"2026-10-20T10:23:16.477Z\",\n          \"observation_id\": null,\n          \"observed_at\": null\n        },\n        {\n          \"module\": \"m2\",\n          \"algorithm\": \"1.1.0-gate2.1\",\n          \"revision\": 1,\n          \"epoch\": \"b0645068-b1f3-46bc-98fd-0179ef1c5cd2\",\n          \"generated_at\": \"2026-10-20T10:23:16.669Z\",\n          \"observation_id\": \"G2D-GRID-GAT\",\n          \"observed_at\": null\n        },\n        {\n          \"module\": \"m3\",\n          \"algorithm\": \"2.3.1\",\n          \"revision\": 1,\n          \"epoch\": \"ded367c1-0e33-4caa-bfc4-0a28a5f3f850\",\n          \"generated_at\": \"2026-10-20T10:23:16.734Z\",\n          \"observation_id\": null,\n          \"observed_at\": null\n        },\n        {\n          \"module\": \"m4\",\n          \"algorithm\": \"1.3.1\",\n          \"revision\": 1,\n          \"epoch\": \"9f157845-4b1d-4c92-99c1-7bc660596249\",\n          \"generated_at\": \"2026-10-20T10:23:16.799Z\",\n          \"observation_id\": null,\n          \"observed_at\": null\n        }\n      ],\n      \"oracle\": \"oracle-spec-0.4.1\",\n      \"policy_contract\": \"G1-v0.2+G1-D03a-v0.1+PRECODE-H2-A2-v0.1+B1A-approved-2026-10-10\"\n    },\n    \"candidate_execution\": \"EXECUTED_SYNTHETIC_CANDIDATE\",\n    \"artifact_role\": \"isolated_candidate\",\n    \"oracle\": \"oracle-spec-0.4.1\"\n  },\n  \"limitations\": {\n    \"focal_sectoral\": \"Where assessed, global visual-field (MD) and average RNFL trends may miss focal or sectoral progression. The absence of a global progression signal does not exclude localized worsening.\"\n  }\n}",
+  "json_download_equals_blob": true,
+  "screen": {
+    "primary_paragraphs": [
+      "Concern: low · complete",
+      "Current verified producer snapshot only · 2026-10-20T10:23:16.823Z",
+      "Semantic engine version: gate2-semantic-0.3.1",
+      "UI staging candidate: v0.4.7-ui-aprime-staging-A1 (unpublished staging build; not a software release)",
+      "Functional assessment: numerical no or slow progression",
+      "Assessed scope: global MD (M3) and average RNFL (M4).",
+      "Global MD (M3): assessed.",
+      "Average RNFL (M4): assessed.",
+      "This output does not establish individual disease risk, pressure control or treatment tolerability.",
+      "Where assessed, global visual-field (MD) and average RNFL trends may miss focal or sectoral progression. The absence of a global progression signal does not exclude localized worsening.",
+      "Scope wording: DRAFT — requires author final-copy approval."
+    ],
+    "detail_pairs": [
+      [
+        "Current measured Goldmann GAT (mmHg)",
+        "12"
+      ],
+      [
+        "Source target interval (mmHg)",
+        "11 – 13"
+      ],
+      [
+        "Measured GAT position",
+        "within range"
+      ],
+      [
+        "Pressure measurement basis",
+        "selected attested current GAT"
+      ],
+      [
+        "Selected observation ID",
+        "G2D-GRID-GAT"
+      ],
+      [
+        "Functional assessment",
+        "numerical no or slow progression"
+      ],
+      [
+        "Functional assessability",
+        "assessable"
+      ],
+      [
+        "Native functional classification",
+        "no or slow progression"
+      ],
+      [
+        "Source display interpretation",
+        "Stable"
+      ],
+      [
+        "Native MD slope (dB/year)",
+        "0.01"
+      ],
+      [
+        "Native p-value",
+        "0.8239"
+      ],
+      [
+        "Native functional data quality",
+        "adequate"
+      ],
+      [
+        "Native functional confidence",
+        "medium"
+      ],
+      [
+        "Structural assessment",
+        "adequate stable"
+      ],
+      [
+        "Structural source data quality",
+        "adequate"
+      ],
+      [
+        "Independent structural progression visible",
+        "false"
+      ],
+      [
+        "Integrated concern",
+        "low"
+      ],
+      [
+        "Assessed domain scope",
+        "assessed domains global MD average RNFL"
+      ],
+      [
+        "Integrated confidence",
+        "medium"
+      ],
+      [
+        "Assessment disposition",
+        "complete"
+      ]
+    ],
+    "result_visible": true,
+    "result_inner_text": "No progression signal in assessed domains\n\nConcern: low · complete\n\nCurrent verified producer snapshot only · 2026-10-20T10:23:16.823Z\n\nSemantic engine version: gate2-semantic-0.3.1\n\nUI staging candidate: v0.4.7-ui-aprime-staging-A1 (unpublished staging build; not a software release)\n\nFunctional assessment: numerical no or slow progression\n\nAssessed scope: global MD (M3) and average RNFL (M4).\n\nGlobal MD (M3): assessed.\n\nAverage RNFL (M4): assessed.\n\nThis output does not establish individual disease risk, pressure control or treatment tolerability.\n\nWhere assessed, global visual-field (MD) and average RNFL trends may miss focal or sectoral progression. The absence of a global progression signal does not exclude localized worsening.\n\nScope wording: DRAFT — requires author final-copy approval.\n\nClinical cautions — all material items\nNo material caution codes in this verified snapshot.\nDomain detail\nCurrent measured Goldmann GAT (mmHg)\n12\nSource target interval (mmHg)\n11 – 13\nMeasured GAT position\nwithin range\nPressure measurement basis\nselected attested current GAT\nSelected observation ID\nG2D-GRID-GAT\nFunctional assessment\nnumerical no or slow progression\nFunctional assessability\nassessable\nNative functional classification\nno or slow progression\nSource display interpretation\nStable\nNative MD slope (dB/year)\n0.01\nNative p-value\n0.8239\nNative functional data quality\nadequate\nNative functional confidence\nmedium\nStructural assessment\nadequate stable\nStructural source data quality\nadequate\nIndependent structural progression visible\nfalse\nIntegrated concern\nlow\nAssessed domain scope\nassessed domains global MD average RNFL\nIntegrated confidence\nmedium\nAssessment disposition\ncomplete\nMethod, provenance and limitations"
+  },
+  "print_permission": {
+    "returned": true,
+    "calls": 1
+  },
+  "print_dom": {
+    "primary_paragraphs": [
+      "Concern: low · complete",
+      "Current verified producer snapshot only · 2026-10-20T10:23:16.823Z",
+      "Semantic engine version: gate2-semantic-0.3.1",
+      "UI staging candidate: v0.4.7-ui-aprime-staging-A1 (unpublished staging build; not a software release)",
+      "Functional assessment: numerical no or slow progression",
+      "Assessed scope: global MD (M3) and average RNFL (M4).",
+      "Global MD (M3): assessed.",
+      "Average RNFL (M4): assessed.",
+      "This output does not establish individual disease risk, pressure control or treatment tolerability.",
+      "Where assessed, global visual-field (MD) and average RNFL trends may miss focal or sectoral progression. The absence of a global progression signal does not exclude localized worsening.",
+      "Scope wording: DRAFT — requires author final-copy approval."
+    ],
+    "detail_pairs": [
+      [
+        "Current measured Goldmann GAT (mmHg)",
+        "12"
+      ],
+      [
+        "Source target interval (mmHg)",
+        "11 – 13"
+      ],
+      [
+        "Measured GAT position",
+        "within range"
+      ],
+      [
+        "Pressure measurement basis",
+        "selected attested current GAT"
+      ],
+      [
+        "Selected observation ID",
+        "G2D-GRID-GAT"
+      ],
+      [
+        "Functional assessment",
+        "numerical no or slow progression"
+      ],
+      [
+        "Functional assessability",
+        "assessable"
+      ],
+      [
+        "Native functional classification",
+        "no or slow progression"
+      ],
+      [
+        "Source display interpretation",
+        "Stable"
+      ],
+      [
+        "Native MD slope (dB/year)",
+        "0.01"
+      ],
+      [
+        "Native p-value",
+        "0.8239"
+      ],
+      [
+        "Native functional data quality",
+        "adequate"
+      ],
+      [
+        "Native functional confidence",
+        "medium"
+      ],
+      [
+        "Structural assessment",
+        "adequate stable"
+      ],
+      [
+        "Structural source data quality",
+        "adequate"
+      ],
+      [
+        "Independent structural progression visible",
+        "false"
+      ],
+      [
+        "Integrated concern",
+        "low"
+      ],
+      [
+        "Assessed domain scope",
+        "assessed domains global MD average RNFL"
+      ],
+      [
+        "Integrated confidence",
+        "medium"
+      ],
+      [
+        "Assessment disposition",
+        "complete"
+      ]
+    ],
+    "result_visible": true,
+    "result_inner_text": "No progression signal in assessed domains\n\nConcern: low · complete\n\nCurrent verified producer snapshot only · 2026-10-20T10:23:16.823Z\n\nSemantic engine version: gate2-semantic-0.3.1\n\nUI staging candidate: v0.4.7-ui-aprime-staging-A1 (unpublished staging build; not a software release)\n\nFunctional assessment: numerical no or slow progression\n\nAssessed scope: global MD (M3) and average RNFL (M4).\n\nGlobal MD (M3): assessed.\n\nAverage RNFL (M4): assessed.\n\nThis output does not establish individual disease risk, pressure control or treatment tolerability.\n\nWhere assessed, global visual-field (MD) and average RNFL trends may miss focal or sectoral progression. The absence of a global progression signal does not exclude localized worsening.\n\nScope wording: DRAFT — requires author final-copy approval.\n\nClinical cautions — all material items\nNo material caution codes in this verified snapshot.\nDomain detail\nCurrent measured Goldmann GAT (mmHg)\n12\nSource target interval (mmHg)\n11 – 13\nMeasured GAT position\nwithin range\nPressure measurement basis\nselected attested current GAT\nSelected observation ID\nG2D-GRID-GAT\nFunctional assessment\nnumerical no or slow progression\nFunctional assessability\nassessable\nNative functional classification\nno or slow progression\nSource display interpretation\nStable\nNative MD slope (dB/year)\n0.01\nNative p-value\n0.8239\nNative functional data quality\nadequate\nNative functional confidence\nmedium\nStructural assessment\nadequate stable\nStructural source data quality\nadequate\nIndependent structural progression visible\nfalse\nIntegrated concern\nlow\nAssessed domain scope\nassessed domains global MD average RNFL\nIntegrated confidence\nmedium\nAssessment disposition\ncomplete\nProvenance, versions and limitations\nSemantic engine version\ngate2-semantic-0.3.1\nUI staging candidate\nv0.4.7-ui-aprime-staging-A1 (unpublished staging build; not a software release)\nEvaluated at\n2026-10-20T10:23:16.823Z\nAssessment eye\nOD\nAssessment ID\nf0fbff02-cae5-4b07-a561-e84dac03e577\nOracle\noracle-spec-0.4.1\nPolicy contract\nG1-v0.2+G1-D03a-v0.1+PRECODE-H2-A2-v0.1+B1A-approved-2026-10-10\nM1 producer snapshot\nalgorithm 1.0.0 · revision 1 · generated 2026-10-20T10:23:16.477Z\nM2 producer snapshot\nalgorithm 1.1.0-gate2.1 · revision 1 · generated 2026-10-20T10:23:16.669Z\nM3 producer snapshot\nalgorithm 2.3.1 · revision 1 · generated 2026-10-20T10:23:16.734Z\nM4 producer snapshot\nalgorithm 1.3.1 · revision 1 · generated 2026-10-20T10:23:16.799Z\n\nDraft synthetic staging output. Raw technical fields are available in the JSON export."
+  },
+  "pdf": {
+    "sha256": "aec43483a124acb62ecf7898a0dbaf9bfd719b983dd50fe5f1bfd2418df1c236",
+    "text_normalized": "DRAFT · REQUIRES_AUTHOR_FINAL_COPY_APPROVAL · synthetic staging only No progression signal in assessed domains Concern: low · complete Current verified producer snapshot only · 2026-10-20T10:23:16.823Z Semantic engine version: gate2-semantic-0.3.1 UI staging candidate: v0.4.7-ui-aprime-staging-A1 (unpublished staging build; not a software release) Functional assessment: numerical no or slow progression Assessed scope: global MD (M3) and average RNFL (M4). Global MD (M3): assessed. Average RNFL (M4): assessed. This output does not establish individual disease risk, pressure control or treatment tolerability. Where assessed, global visual-field (MD) and average RNFL trends may miss focal or sectoral progression. The absence of a global progression signal does not exclude localized worsening. Scope wording: DRAFT — requires author final-copy approval. Clinical cautions — all material items No material caution codes in this verified snapshot. Domain detail Current measured Goldmann GAT (mmHg) Source target interval (mmHg) Measured GAT position Pressure measurement basis Selected observation ID Functional assessment Functional assessability Native functional classification Source display interpretation Native MD slope (dB/year) 12 11 – 13 within range selected attested current GAT G2D-GRID-GAT numerical no or slow progression assessable no or slow progression Stable 0.01 Native p-value Native functional data quality Native functional confidence Structural assessment Structural source data quality Independent structural progression visible Integrated concern Assessed domain scope Integrated confidence Assessment disposition 0.8239 adequate medium adequate stable adequate false low assessed domains global MD average RNFL medium complete Provenance, versions and limitations Semantic engine version UI staging candidate Evaluated at Assessment eye Assessment ID Oracle Policy contract M1 producer snapshot M2 producer snapshot M3 producer snapshot M4 producer snapshot gate2-semantic-0.3.1 v0.4.7-ui-aprime-staging-A1 (unpublished staging build; not a software release) 2026-10-20T10:23:16.823Z OD f0fbff02-cae5-4b07-a561-e84dac03e577 oracle-spec-0.4.1 G1-v0.2+G1-D03a-v0.1+PRECODE-H2-A2-v0.1+B1Aapproved-2026-10-10 algorithm 1.0.0 · revision 1 · generated 2026-1020T10:23:16.477Z algorithm 1.1.0-gate2.1 · revision 1 · generated 2026-1020T10:23:16.669Z algorithm 2.3.1 · revision 1 · generated 2026-1020T10:23:16.734Z algorithm 1.3.1 · revision 1 · generated 2026-1020T10:23:16.799Z Draft synthetic staging output. Raw technical fields are available in the JSON export."
+  },
+  "ready_after_print": true,
+  "m1_frame": {
+    "hero_eyebrow": "Measured GAT IOP",
+    "hero_number": "12.0",
+    "hero_subtitle": "Reference value, as entered",
+    "contextual_value": "15.0 mmHg",
+    "card_inner_text": "MEASURED GAT IOP\n12.0\nmmHg\nReference value, as entered\nCCT-based contextual estimate\nAncillary contextual estimate only — not used for target comparison and not an endorsed universal correction.\n15.0 mmHg\nCCT\n465 µm — thin cornea\nModel-derived offset\n+3.0 mmHg\nImpact\nHigh\nCAUTIONS\n• Extreme CCT — outside the model’s usual interpretative range.\n• Large offset — model output differs markedly from measured GAT IOP.\nMODEL LIMITATION\nCorneal biomechanics not assessed\nCopy",
+    "copy": "OFTY Tool M1 — IOP/CCT Assessment\n\nMeasured GAT IOP: 12.0 mmHg (reference value, as entered)\n\nCCT: 465 µm — thin cornea\nCCT-based contextual estimate: 15.0 mmHg (ancillary; not used for target comparison; not an endorsed universal correction)\nModel-derived offset: +3.0 mmHg\nImpact: High\n\nCautions:\n• Extreme CCT — outside the model’s usual interpretative range.\n• Large offset — model output differs markedly from measured GAT IOP.\n\nModel limitation: Corneal biomechanics not assessed.\n\nGenerated with OFTY Tool M1 — Algorithm v1.0.0 · UI v1.2.0"
+  },
+  "m2_frame": {
+    "iop_range": "11–13",
+    "instruction": "Enter the measured Goldmann (GAT) IOP as recorded — not the M1 CCT-based estimate or any other derived value."
+  },
+  "m3_frame": {
+    "label": "No progression detected",
+    "hero_slope": "+0.01",
+    "hero_slope_tag": "(Stable slope)",
+    "confidence": "Medium",
+    "risk": "Low clinical risk",
+    "interpretation": "Serial visual field analysis does not demonstrate evidence of functional progression. No measurable decline was detected. The dataset would benefit from additional fields or extended follow-up to strengthen this estimate. Routine follow-up is appropriate.",
+    "method_p": "0.8239",
+    "scope_limitation": "Limitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.",
+    "localStorage": "{\"module_id\":\"OFTY-Gx-M3\",\"algorithm_version\":\"2.3.1\",\"mode\":\"core\",\"inputs_summary\":{\"eye\":\"OD\",\"n_tests_total\":5,\"n_tests_used\":5,\"followup_months\":48,\"first_date\":\"2021-01-01\",\"last_date\":\"2025-01-01\",\"reliability_counts\":{\"good\":5,\"borderline\":0,\"low\":0,\"unknown\":0,\"interpretable\":5}},\"progression_rate\":{\"slope_md_per_year\":0.01,\"intercept\":-3.06,\"p_value\":0.8239,\"ci95_lower\":-0.1212,\"ci95_upper\":0.1412},\"classification\":\"no_or_slow_progression\",\"statistical_significance\":\"non_significant\",\"data_quality\":\"adequate\",\"confidence_level\":\"medium\",\"caution_flags\":[\"non_significant_trend\"],\"logic_trace\":{\"method\":\"linear_regression_md_vs_time\",\"sufficiency_rule_applied\":\"adequate: n>=5 AND follow-up>=24 months\",\"classification_rule_applied\":\"no_or_slow_progression: slope > -0.5 dB/year\",\"notes\":[],\"suite_export_caution_basis\":[]},\"model\":{\"type\":\"deterministic_trend_based\",\"intended_use\":\"clinical_decision_support\",\"notes\":\"This module provides a structured interpretation of functional progression and does not replace clinical judgment.\"},\"transport_version\":\"gate2-m3-0.2.0\",\"final_copy_status\":\"REQUIRES_AUTHOR_FINAL_COPY_APPROVAL\",\"functional\":{\"series\":[{\"date\":\"2021-01-01\",\"md\":-3,\"reliability\":\"good\"},{\"date\":\"2022-01-01\",\"md\":-3.2,\"reliability\":\"good\"},{\"date\":\"2023-01-01\",\"md\":-2.9,\"reliability\":\"good\"},{\"date\":\"2024-01-01\",\"md\":-3.1,\"reliability\":\"good\"},{\"date\":\"2025-01-01\",\"md\":-3,\"reliability\":\"good\"}],\"eye\":\"OD\",\"central_threat\":false,\"monocular\":false,\"native\":{\"module_id\":\"OFTY-Gx-M3\",\"algorithm_version\":\"2.3.1\",\"mode\":\"core\",\"inputs_summary\":{\"eye\":\"OD\",\"n_tests_total\":5,\"n_tests_used\":5,\"followup_months\":48,\"first_date\":\"2021-01-01\",\"last_date\":\"2025-01-01\",\"reliability_counts\":{\"good\":5,\"borderline\":0,\"low\":0,\"unknown\":0,\"interpretable\":5}},\"progression_rate\":{\"slope_md_per_year\":0.01,\"intercept\":-3.06,\"p_value\":0.8239,\"ci95_lower\":-0.1212,\"ci95_upper\":0.1412},\"classification\":\"no_or_slow_progression\",\"statistical_significance\":\"non_significant\",\"data_quality\":\"adequate\",\"confidence_level\":\"medium\",\"caution_flags\":[\"non_significant_trend\"],\"logic_trace\":{\"method\":\"linear_regression_md_vs_time\",\"sufficiency_rule_applied\":\"adequate: n>=5 AND follow-up>=24 months\",\"classification_rule_applied\":\"no_or_slow_progression: slope > -0.5 dB/year\",\"notes\":[],\"suite_export_caution_basis\":[]},\"model\":{\"type\":\"deterministic_trend_based\",\"intended_use\":\"clinical_decision_support\",\"notes\":\"This module provides a structured interpretation of functional progression and does not replace clinical judgment.\"},\"transport_version\":\"gate2-m3-0.2.0\",\"final_copy_status\":\"REQUIRES_AUTHOR_FINAL_COPY_APPROVAL\"},\"display\":{\"label\":\"Stable\",\"assessability\":\"assessable\",\"reason\":null,\"confidence\":\"medium\",\"concern\":\"low\"},\"source_predicates\":{\"B1_red\":false,\"C_yellow\":false,\"monotonic_worsening\":false},\"executed_source_statements\":[\"M3.source.L1695\"],\"candidate\":{\"state\":\"absent\",\"authoritative\":false,\"branch_ids\":[\"M3.source.L1695\"],\"assessment_scope\":\"source_display_candidate\",\"source_sha256\":null,\"source_lineage_sha256\":\"ba41b5dfef02c930cffcff8bbc42c010e55e458ba5d260ddec81d489e806a550\",\"source_identity\":\"freeze_manifest\",\"algorithm\":\"2.3.1\",\"ui\":\"2.6.1\",\"assessed_window\":{\"dates\":[\"2021-01-01\",\"2022-01-01\",\"2023-01-01\",\"2024-01-01\",\"2025-01-01\"],\"regression_computed\":false,\"basis\":\"unchanged M3 source interprets submitted history; no invented recent slope\"},\"reliability\":{\"latest\":\"good\",\"native_counts\":{\"good\":5,\"borderline\":0,\"low\":0,\"unknown\":0,\"interpretable\":5}},\"caution_flags\":[\"non_significant_trend\"],\"confidence_scope\":\"source_display_only\"},\"reliability\":{\"latest\":\"good\",\"native_counts\":{\"good\":5,\"borderline\":0,\"low\":0,\"unknown\":0,\"interpretable\":5}},\"windows\":{\"whole_history\":{\"dates\":[\"2021-01-01\",\"2022-01-01\",\"2023-01-01\",\"2024-01-01\",\"2025-01-01\"],\"regression_computed\":true,\"basis\":\"unchanged native M3 OLS\"},\"display\":{\"dates\":[\"2021-01-01\",\"2022-01-01\",\"2023-01-01\",\"2024-01-01\",\"2025-01-01\"],\"regression_computed\":false,\"basis\":\"unchanged M3 source interprets submitted history; no invented recent slope\"},\"current_plateau\":{\"dates\":null,\"basis\":\"narrower window unresolved; full history and source display retained\"}},\"source_observation\":{\"n\":5,\"lastMD\":-3,\"firstMD\":-3,\"lastRelLow\":false,\"maxReliableDrop\":0.20000000000000018,\"source_interpretation\":\"Serial visual field analysis does not demonstrate evidence of functional progression. No measurable decline was detected. The dataset would benefit from additional fields or extended follow-up to strengthen this estimate. Routine follow-up is appropriate.\",\"limitations\":[]}},\"_timestamp\":\"2026-10-20T10:23:16.733Z\"}",
+    "copy": "Eye: OD\nSlope: 0.01 dB/year\nProgression: No progression detected\nConfidence: Medium\nClinical risk: Low clinical risk\nFields: 5 · Follow-up: 48.0 months\n\nInterpretation: Serial visual field analysis does not demonstrate evidence of functional progression. No measurable decline was detected. The dataset would benefit from additional fields or extended follow-up to strengthen this estimate. Routine follow-up is appropriate.\nLimitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.\n\nGenerated with OFTY Tool M3 v1.1"
+  },
+  "m4_frame": {
+    "label": "Stable",
+    "hero_slope": "-0.01",
+    "hero_slope_tag": "(Stable slope)",
+    "confidence": "High",
+    "risk": "Low clinical risk",
+    "interpretation": "No clear evidence of pathologic structural progression in the available OCT series. The RNFL thinning rate is compatible with age-related or non-pathologic structural change.",
+    "method_p": "0.8239",
+    "scope_limitation": "Limitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.",
+    "localStorage": "{\"module_id\":\"OFTY-Gx-M4\",\"algorithm_version\":\"1.3.1\",\"mode\":\"core\",\"inputs_summary\":{\"eye\":\"OD\",\"n_tests_submitted\":5,\"n_tests_used\":5,\"modifiers\":[]},\"structural_rate\":{\"slope_rnfl_per_year\":-0.01,\"intercept\":85.06,\"p_value\":0.8239052711153179,\"ci95_lower\":-0.14,\"ci95_upper\":0.12},\"classification\":\"stable_trend\",\"statistical_significance\":\"not_significant\",\"data_quality\":\"adequate\",\"confidence_level\":\"high\",\"clinical_risk\":\"low\",\"interpretation\":\"No clear evidence of pathologic structural progression in the available OCT series. The RNFL thinning rate is compatible with age-related or non-pathologic structural change.\",\"caution_flags\":[],\"detail_summary\":{\"valid_test_count\":5,\"low_reliability_count\":0,\"borderline_reliability_count\":0,\"followup_years\":4,\"latest_rnfl\":85,\"latest_reliability\":\"good\"},\"logic_trace\":{\"method\":\"linear_regression_rnfl_vs_time\",\"validation\":\"all tests passed\",\"slope_rule_applied\":\"stable_trend: slope=-0.01 > SLOPE_STABLE_THRESHOLD=-1\",\"floor_rule_applied\":\"not_applied\",\"artifact_rule_applied\":\"not_applied\",\"vshape_rule_applied\":\"not_applied\",\"confidence_adjustments\":[\"none\"],\"sufficiency_rule\":\"adequate: n >= 4 AND no low-reliability scans\",\"notes\":[\"data_quality=adequate (n=5, low_rel=0)\",\"OLS: slope=-0.01 um/yr, p=0.8239\"]},\"model\":{\"type\":\"deterministic_trend_based\",\"intended_use\":\"clinical_decision_support\",\"notes\":\"This module provides a structured interpretation of OCT RNFL structural progression and does not replace clinical judgment.\"},\"_timestamp\":\"2026-10-20T10:23:16.798Z\"}",
+    "copy": "OFTY - OCT Progression Analysis (M4)\nEye: OD\nRNFL slope: -0.01 µm/year\nClassification: Stable\nConfidence: High\nClinical risk: Low clinical risk\nScans: 5 · Follow-up: 48 months\nLatest RNFL: 85 µm (Good)\nInterpretation: No clear evidence of pathologic structural progression in the available OCT series. The RNFL thinning rate is compatible with age-related or non-pathologic structural change.\nLimitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.\nGenerated with OFTY Tool M4 v1.1"
+  },
+  "served": [
+    [
+      "/gate2/index.html",
+      "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/semantic.cjs",
+      "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+    ],
+    [
+      "/iop-cct/index.html",
+      "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a"
+    ],
+    [
+      "/target-iop/index.html",
+      "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0"
+    ],
+    [
+      "/vf-progression/index.html",
+      "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+    ],
+    [
+      "/rnfl-progression/index.html",
+      "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/index.html",
+      "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/semantic.cjs",
+      "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+    ],
+    [
+      "/iop-cct/index.html",
+      "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a"
+    ],
+    [
+      "/target-iop/index.html",
+      "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0"
+    ],
+    [
+      "/vf-progression/index.html",
+      "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+    ],
+    [
+      "/rnfl-progression/index.html",
+      "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/index.html",
+      "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/semantic.cjs",
+      "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+    ],
+    [
+      "/iop-cct/index.html",
+      "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a"
+    ],
+    [
+      "/target-iop/index.html",
+      "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0"
+    ],
+    [
+      "/rnfl-progression/index.html",
+      "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847"
+    ],
+    [
+      "/vf-progression/index.html",
+      "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/index.html",
+      "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/semantic.cjs",
+      "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+    ],
+    [
+      "/iop-cct/index.html",
+      "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a"
+    ],
+    [
+      "/target-iop/index.html",
+      "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0"
+    ],
+    [
+      "/vf-progression/index.html",
+      "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+    ],
+    [
+      "/rnfl-progression/index.html",
+      "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/index.html",
+      "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/semantic.cjs",
+      "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+    ],
+    [
+      "/iop-cct/index.html",
+      "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a"
+    ],
+    [
+      "/target-iop/index.html",
+      "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0"
+    ],
+    [
+      "/vf-progression/index.html",
+      "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+    ],
+    [
+      "/rnfl-progression/index.html",
+      "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/index.html",
+      "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/semantic.cjs",
+      "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+    ],
+    [
+      "/iop-cct/index.html",
+      "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a"
+    ],
+    [
+      "/target-iop/index.html",
+      "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0"
+    ],
+    [
+      "/vf-progression/index.html",
+      "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+    ],
+    [
+      "/rnfl-progression/index.html",
+      "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/index.html",
+      "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/semantic.cjs",
+      "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+    ],
+    [
+      "/iop-cct/index.html",
+      "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a"
+    ],
+    [
+      "/target-iop/index.html",
+      "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0"
+    ],
+    [
+      "/vf-progression/index.html",
+      "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+    ],
+    [
+      "/rnfl-progression/index.html",
+      "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/index.html",
+      "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/semantic.cjs",
+      "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf"
+    ],
+    [
+      "/iop-cct/index.html",
+      "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a"
+    ],
+    [
+      "/target-iop/index.html",
+      "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0"
+    ],
+    [
+      "/vf-progression/index.html",
+      "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+    ],
+    [
+      "/rnfl-progression/index.html",
+      "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ],
+    [
+      "/gate2/session.js",
+      "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12"
+    ]
+  ],
+  "events": {
+    "console": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      }
+    ],
+    "page_errors": [],
+    "aborted_external": [
+      "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap",
+      "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+      "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+    ],
+    "network_failed": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+        "err": "net::ERR_FAILED"
+      },
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap",
+        "err": "net::ERR_FAILED"
+      },
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+        "err": "net::ERR_FAILED"
+      },
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+        "err": "net::ERR_FAILED"
+      }
+    ]
+  },
+  "product_console_errors": [],
+  "finished_utc": "2026-10-20T10:23:18.720Z"
+}

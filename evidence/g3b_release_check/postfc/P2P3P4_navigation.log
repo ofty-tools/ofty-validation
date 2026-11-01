@@ -1,0 +1,85 @@
+{
+ "status": "PASS",
+ "checks": {
+  "P4_static_no_tracking_or_external": true,
+  "P2_required_links_present": true,
+  "P2_no_absolute_or_site_links": true,
+  "P2_index_http_200": true,
+  "P4_index_only_local_requests": true,
+  "P4_no_cookies": true,
+  "P2_all_required_links_navigate": true,
+  "P2_alias_reaches_gate2": true,
+  "P3_back_links_return_to_index": true
+ },
+ "index_requests": [
+  "<local>/index.html"
+ ],
+ "links": [
+  [
+   "M1",
+   "/iop-cct/index.html",
+   true
+  ],
+  [
+   "M2",
+   "/target-iop/index.html",
+   true
+  ],
+  [
+   "M3",
+   "/vf-progression/index.html",
+   true
+  ],
+  [
+   "M4",
+   "/rnfl-progression/index.html",
+   true
+  ],
+  [
+   "M5",
+   "/gate2/index.html",
+   true
+  ],
+  [
+   "M5-alias",
+   "/gate2/index.html",
+   true
+  ]
+ ],
+ "back": [
+  [
+   "iop-cct",
+   "/index.html",
+   true
+  ],
+  [
+   "target-iop",
+   "/index.html",
+   true
+  ],
+  [
+   "vf-progression",
+   "/index.html",
+   true
+  ],
+  [
+   "rnfl-progression",
+   "/index.html",
+   true
+  ]
+ ],
+ "external_hosts_by_page": {
+  "/iop-cct/index.html": [
+   "fonts.googleapis.com"
+  ],
+  "/target-iop/index.html": [
+   "fonts.googleapis.com"
+  ],
+  "/vf-progression/index.html": [
+   "fonts.googleapis.com"
+  ],
+  "/rnfl-progression/index.html": [
+   "fonts.googleapis.com"
+  ]
+ }
+}

@@ -1,0 +1,2512 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>OFTY Tool #5 — Gate 3 staging</title><style>
+
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  color-scheme: light;
+
+  --bg:           #F4F6F9;
+  --surface:      #FFFFFF;
+  --surface-2:    #F8FAFC;
+  --border:       #E2E8F0;
+  --border-focus: #1C4F8C;
+
+  --text-1: #0F172A;
+  --text-2: #334155;
+  --text-3: #64748B;
+
+  --accent:       #1c4f8c;
+  --accent-dim:   #eef2f9;
+  --accent-hover: #163e70;
+  --accent-light: #c8d8ef;
+
+  --ok:        #166534;
+  --ok-bg:     #f0fdf4;
+  --ok-border: #86efac;
+  --ok-text:   #14532d;
+
+  --warn:        #92400e;
+  --warn-bg:     #fffbeb;
+  --warn-border: #fcd34d;
+  --warn-text:   #78350f;
+
+  --err:        #991b1b;
+  --err-bg:     #fef2f2;
+  --err-border: #fca5a5;
+  --err-text:   #7f1d1d;
+
+  --gray:        #6b7280;
+  --gray-bg:     #f9fafb;
+  --gray-border: #e5e7eb;
+  --gray-text:   #374151;
+
+  --radius-sm: 6px;
+  --radius:    9px;
+  --radius-lg: 13px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow:    0 1px 4px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.09), 0 2px 4px rgba(0,0,0,0.04);
+}
+
+/* ============================================================
+   RESET + BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; background: var(--bg); }
+body {
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   NAV BAR  (M1/M2/M3/M4-aligned)
+   ============================================================ */
+.nav-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+.nav-bar-inner {
+  max-width: 520px;
+  margin: 0 auto;
+  width: 100%;
+}
+.nav-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-3);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: color 0.15s;
+}
+.nav-back:hover { color: var(--accent); }
+.nav-back svg { flex-shrink: 0; }
+
+/* ============================================================
+   SITE HEADER  (M1/M2/M3/M4-aligned)
+   ============================================================ */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 18px 16px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: var(--shadow-sm);
+}
+.site-header-inner {
+  max-width: 520px;
+  margin: 0 auto;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-light);
+  border-radius: 4px;
+  padding: 2px 8px 2px 7px;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+.badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+.site-header h1 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--text-1);
+  line-height: 1.25;
+}
+.header-sub {
+  margin-top: 5px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.04em;
+}
+
+/* ============================================================
+   MAIN LAYOUT
+   ============================================================ */
+.main {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+
+/* ============================================================
+   SESSION BAR
+   ============================================================ */
+.session-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 11px 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.session-info { font-size: 13px; color: var(--text-2); }
+.session-info strong { color: var(--text-1); font-weight: 600; }
+
+/* ============================================================
+   IMPORT NOTICE
+   ============================================================ */
+.import-notice {
+  display: none;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-light);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--accent);
+  line-height: 1.5;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.card-header {
+  padding: 15px 20px 13px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: 0.01em;
+}
+.card-subtitle {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+/* ============================================================
+   DOMAIN CARDS
+   ============================================================ */
+.domain-card {
+  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+}
+.domain-card:last-child { border-bottom: none; }
+
+.domain-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 13px;
+}
+.domain-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.domain-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+}
+.domain-name { font-size: 13px; font-weight: 600; color: var(--text-1); }
+.domain-desc { font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
+
+/* ============================================================
+   STATUS BADGES
+   ============================================================ */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.status-badge::before { content: '●'; font-size: 7px; }
+.badge-imported { background: var(--ok-bg);   color: var(--ok);        border: 1px solid var(--ok-border); }
+.badge-manual   { background: #eff6ff;         color: #1e40af;          border: 1px solid #bfdbfe; }
+.badge-override { background: #fff7ed;         color: #9a3412;          border: 1px solid #fed7aa; }
+.badge-empty    { background: var(--surface-2);color: var(--text-3);    border: 1px solid var(--border); }
+.badge-excluded { background: #fef2f2;         color: #991b1b;          border: 1px solid #fca5a5; }
+.badge-invalid  { background: var(--warn-bg);  color: var(--warn-text); border: 1px solid var(--warn-border); }
+
+/* ============================================================
+   SOURCE INFO ROW (timestamp + module version under the badge)
+   ============================================================ */
+.source-info {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  color: var(--text-3);
+  letter-spacing: 0.02em;
+  margin-top: 4px;
+  margin-bottom: 11px;
+  line-height: 1.4;
+}
+.source-info-key {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+}
+.source-info-val {
+  color: var(--text-2);
+}
+.source-info-sep {
+  color: var(--border);
+  margin: 0 6px;
+}
+
+/* ============================================================
+   MANUAL ENTRY TOGGLE (always visible at the bottom of every card)
+   ============================================================ */
+.manual-toggle-row {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.btn-manual-toggle {
+  background: transparent;
+  color: var(--text-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-manual-toggle:hover {
+  background: var(--surface-2);
+  color: var(--text-1);
+  border-color: var(--text-3);
+}
+.btn-reimport {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn-reimport:hover {
+  background: var(--surface-2);
+  border-color: var(--accent);
+}
+
+/* ============================================================
+   SHOW DETAILS EXPAND (logic trace + raw input echo behind expand)
+   ============================================================ */
+.details-toggle {
+  background: transparent;
+  border: none;
+  padding: 8px 0;
+  color: var(--text-3);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  -webkit-tap-highlight-color: transparent;
+  letter-spacing: 0.02em;
+}
+.details-toggle:hover { color: var(--text-2); }
+.details-toggle-arrow {
+  display: inline-block;
+  transition: transform 0.15s ease;
+  font-size: 9px;
+}
+.domain-card[data-expanded="true"] .details-toggle-arrow { transform: rotate(90deg); }
+.details-content {
+  display: none;
+  margin-top: 6px;
+  padding: 11px 13px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  color: var(--text-2);
+  line-height: 1.65;
+  overflow-x: auto;
+}
+.domain-card[data-expanded="true"] .details-content { display: block; }
+.details-row {
+  display: flex;
+  gap: 8px;
+  padding: 2px 0;
+  border-bottom: 1px dashed transparent;
+}
+.details-row:not(:last-child) { border-bottom-color: var(--border); }
+.details-key {
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+  min-width: 130px;
+}
+.details-val { color: var(--text-1); word-break: break-word; }
+
+/* ============================================================
+   DOMAIN EXCLUSION CONTROL
+   ============================================================ */
+.btn-domain-remove {
+  width: 28px; height: 28px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-3);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  padding: 0;
+}
+.btn-domain-remove:hover {
+  color: var(--err);
+  background: var(--err-bg);
+  border-color: var(--err-border);
+}
+.btn-domain-remove[title]:hover::after { display: none; }
+
+/* When excluded: dim the entire domain card */
+.domain-card.is-excluded {
+  background: var(--surface-2);
+  opacity: 0.62;
+}
+.domain-card.is-excluded .domain-name,
+.domain-card.is-excluded .domain-desc { color: var(--text-3); }
+
+/* "Re-include" view inside excluded card */
+.excluded-note {
+  font-size: 12px;
+  color: var(--text-3);
+  font-style: italic;
+  margin: 4px 0 10px 0;
+  line-height: 1.5;
+}
+.excluded-note strong { color: var(--text-2); font-style: normal; font-weight: 500; }
+
+/* ============================================================
+   READ-ONLY DISPLAY BLOCK (for cards in 'imported' mode)
+   ============================================================ */
+.readonly-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 0;
+}
+.ro-row {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.ro-key {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  min-width: 130px;
+  flex-shrink: 0;
+}
+.ro-val {
+  font-size: 13.5px;
+  color: var(--text-1);
+  font-weight: 500;
+  flex: 1 1 auto;
+  word-break: break-word;
+}
+.ro-chips { display: flex; flex-wrap: wrap; gap: 5px; font-weight: 400; }
+.ro-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  color: var(--text-2);
+}
+
+@media (max-width: 480px) {
+  .ro-row { flex-direction: column; gap: 2px; }
+  .ro-key { min-width: 0; }
+}
+
+/* ============================================================
+   INLINE-EDITABLE FIELDS (M2 current IOP, etc.)
+   ============================================================ */
+.iop-edit-row .ro-val-edit {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.iop-inline-input {
+  width: 90px;
+  padding: 6px 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-1);
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s, background 0.15s;
+}
+.iop-inline-input:hover  { border-color: var(--text-3); }
+.iop-inline-input:focus  { outline: none; border-color: var(--accent); background: #fff; }
+.iop-inline-input::-webkit-outer-spin-button,
+.iop-inline-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.iop-inline-input { -moz-appearance: textfield; }
+.iop-unit {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.04em;
+}
+
+/* "Edited" pill — small visual marker that the value differs from imported */
+.iop-edited-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #1e40af;
+  cursor: help;
+}
+
+/* Warning chip for implausible values */
+.iop-warn-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 5px;
+  padding: 4px 10px;
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  color: var(--warn);
+  flex-basis: 100%;
+}
+
+/* IOP-vs-target status pill */
+.iop-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 11px;
+  border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+.iop-status-at      { background: var(--ok-bg);   color: var(--ok);       border: 1px solid var(--ok-border); }
+.iop-status-above   { background: var(--err-bg);  color: var(--err);      border: 1px solid var(--err-border); }
+.iop-status-below   { background: var(--warn-bg); color: var(--warn);     border: 1px solid var(--warn-border); }
+.iop-status-unknown { background: var(--surface-2);color: var(--text-3); border: 1px solid var(--border); }
+
+/* ============================================================
+   STAGE OVERRIDE (M2)
+   ============================================================ */
+.stage-override-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  margin-left: 6px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #9a3412;
+  cursor: help;
+  vertical-align: middle;
+}
+.stage-orig-note {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  color: var(--text-3);
+  margin-top: 4px;
+  letter-spacing: 0.02em;
+}
+.stage-orig-strike {
+  text-decoration: line-through;
+  color: var(--text-3);
+}
+
+.stage-override-row {
+  margin-top: 2px;
+  margin-bottom: 8px;
+  padding-left: 144px; /* align with .ro-val column */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+@media (max-width: 480px) {
+  .stage-override-row { padding-left: 0; }
+}
+.stage-override-active { gap: 10px; }
+.stage-override-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.stage-override-form select,
+.stage-override-form input[type="text"] {
+  padding: 7px 11px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text-1);
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s;
+}
+.stage-override-form select { min-width: 200px; flex: 0 0 auto; }
+.stage-override-form input[type="text"] { flex: 1 1 220px; min-width: 180px; }
+.stage-override-form select:focus,
+.stage-override-form input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.stage-override-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-stage-override-trigger {
+  align-self: flex-start;
+  background: transparent;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  padding: 5px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-3);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.btn-stage-override-trigger:hover {
+  color: #9a3412;
+  border-color: #fed7aa;
+  background: #fff7ed;
+}
+
+.btn-stage-override-apply {
+  background: #9a3412;
+  color: #fff;
+  border: 1px solid #9a3412;
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-stage-override-apply:hover { background: #7c2d12; }
+
+.btn-stage-override-cancel {
+  background: transparent;
+  color: var(--text-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.btn-stage-override-cancel:hover { color: var(--text-1); border-color: var(--text-3); }
+
+.btn-stage-override-remove {
+  align-self: flex-start;
+  background: #fff7ed;
+  color: #9a3412;
+  border: 1px solid #fed7aa;
+  border-radius: var(--radius-sm);
+  padding: 5px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-stage-override-remove:hover { background: #ffedd5; }
+
+.stage-override-reason {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: var(--text-3);
+  font-style: italic;
+}
+.stage-override-reason em { color: var(--text-2); font-style: normal; }
+
+/* ============================================================
+   FRESH DATA BANNER (Step 5)
+   ============================================================ */
+.fresh-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius-sm);
+  color: #1e40af;
+  font-size: 13px;
+  animation: freshBannerIn 0.22s ease-out;
+}
+@keyframes freshBannerIn {
+  from { opacity: 0; transform: translateY(-3px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fresh-banner svg { flex-shrink: 0; color: #1e40af; }
+.fresh-banner-text { flex: 1; line-height: 1.4; }
+.fresh-banner-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.btn-fresh-reimport {
+  background: #1e40af;
+  color: #fff;
+  border: 1px solid #1e40af;
+  border-radius: var(--radius-sm);
+  padding: 5px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-fresh-reimport:hover { background: #1e3a8a; }
+.btn-fresh-dismiss {
+  background: transparent;
+  color: #1e40af;
+  border: none;
+  border-radius: 4px;
+  padding: 0;
+  width: 22px;
+  height: 22px;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.btn-fresh-dismiss:hover { background: rgba(30, 64, 175, 0.1); }
+
+/* Invalid import banner (Algorithm v1.2.0) — compact contextual warning
+   shown on an empty domain card whose stored import failed validation.
+   Reuses existing OFTY --warn-* semantics; never red, no animation. */
+.invalid-import-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  border-radius: var(--radius-sm);
+  color: var(--warn-text);
+  font-size: 13px;
+}
+.invalid-import-banner svg { flex-shrink: 0; color: var(--warn-text); }
+.invalid-import-banner-text { flex: 1; line-height: 1.4; }
+
+/* ============================================================
+   EYE MISMATCH BANNER (Step 6)
+   ============================================================ */
+#eye-mismatch-banner {
+  margin: 0 0 18px 0;
+}
+.eye-mismatch-banner-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--err-bg);
+  border: 1.5px solid var(--err-border);
+  border-radius: var(--radius-sm);
+  color: var(--err);
+  font-size: 13.5px;
+  line-height: 1.5;
+  animation: eyeBannerIn 0.22s ease-out;
+}
+@keyframes eyeBannerIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.eye-mismatch-banner-inner svg { flex-shrink: 0; color: var(--err); margin-top: 2px; }
+.eye-mismatch-banner-text { flex: 1; color: var(--text-1); }
+.eye-mismatch-banner-text strong { color: var(--err); font-weight: 600; }
+
+/* Run button disabled-by-eye-mismatch visual state */
+.btn-disabled-eye-mismatch,
+.btn-disabled-eye-mismatch:hover {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  filter: grayscale(0.4);
+}
+
+/* ============================================================
+   STALE RUN STATE (Step 7)
+   ============================================================ */
+/* Run button when inputs have changed since the last successful run.
+   Amber color + subtle pulsing to draw attention. */
+.btn.btn-stale,
+.btn.btn-stale:hover {
+  background: #f59e0b;
+  border-color: #f59e0b;
+  color: #fff;
+  animation: btnStalePulse 2s ease-in-out infinite;
+}
+@keyframes btnStalePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.45); }
+  60%  { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0);   }
+  100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);     }
+}
+
+/* Stale overlay banner on the result card. Sits above the result content. */
+.result-stale-overlay {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: -2px -2px 16px -2px;
+  padding: 10px 16px;
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-left: 3px solid #f59e0b;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  color: #78350f;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.result-stale-overlay svg { flex-shrink: 0; color: #f59e0b; }
+.result-stale-text { flex: 1; }
+.result-stale-text strong { color: #78350f; font-weight: 600; }
+
+/* ============================================================
+   TOAST NOTIFICATIONS (Step 5)
+   ============================================================ */
+.ofty-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+  pointer-events: none;
+}
+.ofty-toast {
+  pointer-events: auto;
+  min-width: 240px;
+  max-width: 380px;
+  padding: 10px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text-1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+.ofty-toast-show { opacity: 1; transform: translateX(0); }
+.ofty-toast-success { border-left-color: var(--ok); }
+.ofty-toast-warn    { border-left-color: var(--warn); }
+.ofty-toast-info    { border-left-color: var(--accent); }
+
+@media (max-width: 520px) {
+  .ofty-toast-container { bottom: 12px; right: 12px; left: 12px; }
+  .ofty-toast { max-width: none; }
+}
+
+/* ============================================================
+   DOMAIN ACTIONS
+   ============================================================ */
+.domain-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 11px;
+}
+
+/* Reset-to-imported actions: hidden by default, revealed when form has been edited */
+.reset-actions { display: none; }
+.domain-card.has-edits .reset-actions {
+  display: flex;
+  animation: fadeInReset 0.18s ease-out;
+}
+@keyframes fadeInReset {
+  from { opacity: 0; transform: translateY(-2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   FORM
+   ============================================================ */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 520px) { .form-grid { grid-template-columns: 1fr; } }
+.form-full { grid-column: 1 / -1; }
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-3);
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+.field input,
+.field select {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text-1);
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+.field input:focus,
+.field select:focus {
+  border-color: var(--border-focus);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(28,79,140,0.15);
+}
+.field input[type="number"]::-webkit-inner-spin-button,
+.field input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.field input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+
+/* ── Input placeholders — light gray matching M1/M3/M4 ────── */
+.field input::placeholder              { color: #C8CDD5; opacity: 1; }
+.field input::-webkit-input-placeholder{ color: #C8CDD5; }
+.field input::-moz-placeholder         { color: #C8CDD5; opacity: 1; }
+.field input:-ms-input-placeholder     { color: #C8CDD5; }
+.field-hint {
+  font-size: 11.5px;
+  color: var(--text-3);
+  margin-top: 4px;
+}
+
+/* Required/optional inline marks on field labels */
+.req-mark {
+  color: var(--err);
+  font-weight: 700;
+  margin-left: 2px;
+}
+.optional-mark {
+  display: inline-block;
+  margin-left: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  font-weight: 400;
+}
+
+/* Caution flags multi-select (manual entry only) */
+.flag-checkbox-group {
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 1px dashed var(--border);
+}
+.flag-checkbox-label {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-2);
+  margin-bottom: 7px;
+  letter-spacing: 0.02em;
+}
+.flag-checkbox-items {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.flag-checkbox-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12.5px;
+  color: var(--text-2);
+  transition: background 0.12s, color 0.12s;
+}
+.flag-checkbox-item:hover { background: var(--surface-2); color: var(--text-1); }
+.flag-checkbox-item input[type="checkbox"] {
+  cursor: pointer;
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.btn-primary:not(:disabled):hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--accent-light);
+}
+.btn-secondary:not(:disabled):hover { background: var(--accent-dim); }
+.btn-ghost {
+  background: transparent;
+  color: var(--text-3);
+  border-color: var(--border);
+  font-size: 12px;
+}
+.btn-ghost:not(:disabled):hover { background: var(--surface-2); color: var(--text-2); }
+.btn-danger {
+  background: transparent;
+  color: var(--err);
+  border-color: var(--err-border);
+  font-size: 12px;
+}
+.btn-danger:not(:disabled):hover { background: var(--err-bg); }
+
+.btn-xl {
+  width: 100%;
+  justify-content: center;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.btn-xl:not(:disabled):hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+/* ============================================================
+   CTA
+   ============================================================ */
+.cta-section { margin: 22px 0 0; }
+.cta-hint {
+  font-size: 12px;
+  color: var(--text-3);
+  text-align: center;
+  margin-top: 9px;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   RESULT CARD
+   ============================================================ */
+.result-card { display: none; margin-top: 24px; }
+
+.result-header {
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Classification + Risk badge inline */
+.result-headline {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.result-classif {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-1);
+  line-height: 1.3;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Risk badge — kept inline next to classification */
+.risk-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 11px;
+  border-radius: var(--radius);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.risk-low         { background: var(--ok-bg);   color: var(--ok);       border: 1px solid var(--ok-border); }
+.risk-relevant    { background: var(--warn-bg);  color: var(--warn);     border: 1px solid var(--warn-border); }
+.risk-high        { background: var(--err-bg);   color: var(--err);      border: 1px solid var(--err-border); }
+.risk-indeterminate{ background: var(--gray-bg); color: var(--gray-text);border: 1px solid var(--gray-border); }
+
+/* Meta strip: Pattern + Confidence in DM Mono, key/value pairs */
+.result-meta {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  font-size: 11.5px;
+  font-family: 'DM Mono', monospace;
+  color: var(--text-3);
+}
+.result-meta-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.result-meta-key {
+  color: var(--text-3);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+.result-meta-val {
+  color: var(--text-2);
+  font-weight: 500;
+}
+
+/* Interpretation (M3/M4-aligned) */
+.interp-section {
+  padding: 13px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.interp-section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 5px;
+}
+.interp-section-text {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.60;
+}
+
+/* Clinical cautions (Algorithm v1.1.0) — compact yellow caution layer.
+   Reuses existing OFTY --warn-* semantics; never red, no icon, no animation. */
+.clinical-cautions {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--warn-bg);
+  border-left: 3px solid var(--warn-border);
+}
+.clinical-cautions-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--warn-text);
+  margin-bottom: 6px;
+}
+.clinical-cautions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.clinical-cautions-list li {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--warn-text);
+}
+.clinical-cautions-more {
+  font-size: 11.5px;
+  color: var(--warn-text);
+  margin-top: 6px;
+  font-style: italic;
+}
+
+/* Generic section label used in static method block etc. */
+.section-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-3);
+  margin-bottom: 7px;
+}
+
+/* Copy button (M3/M4-aligned) — extended in Step 9 to host Copy + Print + Download JSON */
+.copy-btn-wrap {
+  padding: 12px 16px 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+}
+.copy-btn-wrap .copy-btn { flex: 1 1 0; }
+@media (max-width: 560px) {
+  .copy-btn-wrap { flex-direction: column; }
+}
+.copy-btn {
+  height: 40px;
+  background: var(--surface-2);
+  color: var(--text-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.copy-btn:hover {
+  background: var(--bg);
+  color: var(--text-1);
+  border-color: var(--text-3);
+}
+.copy-btn.copied {
+  background: var(--ok-bg);
+  border-color: var(--ok-border);
+  color: var(--ok);
+}
+
+/* Collapsible (Logic Trace inside result card — visually aligned to .ofty-collapse) */
+.collapsible {}
+.collapsible-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 20px;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--border);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-1);
+  text-align: left;
+  letter-spacing: 0.01em;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+.collapsible-trigger:hover { background: var(--surface-2); }
+.collapsible-icon {
+  width: 16px; height: 16px; flex-shrink: 0;
+  color: var(--text-3); margin-right: 8px;
+}
+.collapsible-label { flex: 1; text-align: left; }
+.collapsible-chevron {
+  width: 16px; height: 16px; flex-shrink: 0;
+  color: var(--text-3); transition: transform 0.20s ease;
+}
+.collapsible-body { display: none; padding: 6px 20px 18px; }
+.collapsible.open .collapsible-chevron { transform: rotate(180deg); }
+.collapsible.open .collapsible-body   { display: block; }
+
+/* Flags */
+.flags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+.flag-chip {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 12px;
+  font-size: 11px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  font-family: 'DM Mono', monospace;
+}
+.flag-chip.highlight {
+  background: var(--warn-bg);
+  border-color: var(--warn-border);
+  color: var(--warn-text);
+}
+.flag-chip.adapter {
+  background: var(--accent-dim);
+  border-color: var(--accent-light);
+  color: var(--accent);
+}
+
+/* Trace */
+.trace-table { margin-top: 12px; width: 100%; }
+.trace-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.trace-row:last-child { border-bottom: none; }
+@media (max-width: 500px) { .trace-row { grid-template-columns: 1fr; gap: 2px; } }
+.trace-key {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding-top: 1px;
+}
+.trace-val {
+  color: var(--text-2);
+  font-family: 'DM Mono', monospace;
+  font-size: 11.5px;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   DISCLAIMER
+   ============================================================ */
+.disclaimer {
+  margin-top: 30px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 12px;
+  color: var(--text-3);
+  line-height: 1.65;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+  text-align: center;
+  padding: 24px 20px;
+  font-size: 12px;
+  color: var(--text-3);
+  border-top: 1px solid var(--border);
+  margin-top: 48px;
+}
+
+/* ============================================================
+   TOOLTIP SYSTEM (M3/M4-aligned)
+   ============================================================ */
+.tip-wrap {
+  position: relative; display: inline-flex; align-items: center; gap: 4px;
+}
+.tip-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 13px; height: 13px; border-radius: 50%;
+  border: 1px solid var(--text-3);
+  color: var(--text-3); font-size: 8.5px; font-weight: 400;
+  cursor: pointer; flex-shrink: 0; line-height: 1;
+  font-family: 'DM Sans', sans-serif; font-style: normal;
+  user-select: none; -webkit-user-select: none;
+}
+#oftyTooltip {
+  display: none; position: fixed; z-index: 9999; max-width: 260px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 9px 11px;
+  font-family: 'DM Sans', sans-serif; font-size: 11.5px; font-weight: 400;
+  line-height: 1.5; color: var(--text-2);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.10); pointer-events: none;
+}
+#oftyTooltip.visible { display: block; }
+#oftyTooltip b { color: var(--text-1); font-weight: 600; }
+
+/* ── Method & Thresholds inner styling (M3/M4-aligned) ── */
+.meta-row {
+  display: flex; gap: 8px; padding: 5px 0;
+  border-bottom: 1px solid var(--surface-2);
+  font-size: 12px;
+}
+.meta-row:last-child { border-bottom: none; }
+.meta-key { color: var(--text-3); flex-shrink: 0; width: 160px; }
+.meta-val { color: var(--text-2); font-family: 'DM Mono', monospace; font-size: 11px; line-height: 1.5; word-break: break-word; }
+.section-divider { height: 1px; background: var(--border); margin: 10px 0; }
+
+/* ============================================================
+   COLLAPSIBLE COMPONENT (M4-aligned)
+   ============================================================ */
+.ofty-collapse {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.ofty-collapse-trigger {
+  width: 100%; display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  background: none; border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 600;
+  color: var(--text-1); text-align: left;
+  letter-spacing: 0.01em;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+.ofty-collapse-trigger:hover { background: var(--surface-2); }
+.ofty-collapse-icon {
+  width: 16px; height: 16px; flex-shrink: 0;
+  color: var(--text-3); margin-right: 8px;
+}
+.ofty-collapse-label { flex: 1; text-align: left; }
+.ofty-collapse-chev {
+  width: 16px; height: 16px; flex-shrink: 0;
+  color: var(--text-3); transition: transform 0.20s ease;
+}
+.ofty-collapse.is-open .ofty-collapse-chev { transform: rotate(180deg); }
+.ofty-collapse-body {
+  display: none; border-top: 1px solid var(--border);
+  padding: 14px 16px 16px;
+}
+.ofty-collapse.is-open .ofty-collapse-body { display: block; }
+
+.ofty-collapse-preview {
+  font-size: 13px; line-height: 1.6; color: var(--text-2);
+  font-style: italic; margin-bottom: 10px;
+}
+.ofty-collapse-extra { display: none; margin-top: 12px; }
+.ofty-collapse-extra.is-open { display: block; }
+.ofty-collapse-extra p {
+  font-size: 13px; line-height: 1.65; color: var(--text-2);
+  margin-bottom: 10px;
+}
+.ofty-collapse-extra p:last-child { margin-bottom: 0; }
+.ofty-collapse-extra strong { color: var(--text-1); font-weight: 600; }
+.btn-toggle-more {
+  font-size: 12px; font-weight: 500; color: var(--accent);
+  background: none; border: none; padding: 0; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  text-decoration: underline; text-underline-offset: 2px;
+  height: auto; display: inline; transition: color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-toggle-more:hover { color: var(--accent-hover); }
+
+/* Source list */
+.src-list { list-style: none; padding: 0; margin: 0; }
+.src-list li {
+  display: flex; gap: 9px; align-items: baseline;
+  font-size: 13px; color: var(--text-2); line-height: 1.5;
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+}
+.src-list li:last-child { border-bottom: none; }
+.src-list li::before {
+  content: '-'; font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--text-3); flex-shrink: 0;
+}
+
+/* Version list */
+.ver-list { list-style: none; padding: 0; margin: 0; }
+.ver-list > li {
+  display: flex; flex-direction: column; gap: 0;
+  font-size: 13px; color: var(--text-2); line-height: 1.5;
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+}
+.ver-list > li:last-child { border-bottom: none; }
+.ver-tag {
+  font-weight: 500; color: var(--accent);
+  margin-right: 6px;
+}
+.ver-notes { list-style: none; padding: 0; margin: 4px 0 0 0; }
+.ver-notes li {
+  display: flex; gap: 9px; align-items: baseline;
+  font-size: 13px; color: var(--text-2); line-height: 1.5;
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+}
+.ver-notes li:last-child { border-bottom: none; }
+.ver-notes li::before {
+  content: '-'; font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--text-3); flex-shrink: 0;
+}
+
+/* Quick-start intro */
+.intro-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 13px 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+  font-size: 12.5px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.intro-card strong { color: var(--text-1); font-weight: 600; }
+.intro-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+}
+.intro-list li {
+  position: relative;
+  padding: 4px 0 4px 16px;
+  font-size: 12px;
+  color: var(--text-2);
+  line-height: 1.55;
+}
+.intro-list li::before {
+  content: '\2022';
+  position: absolute;
+  left: 2px;
+  top: 4px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ============================================================
+   MOBILE RESPONSIVE  (< 520px / phones)
+   ============================================================ */
+@media (max-width: 520px) {
+  /* Session bar: stack title + button vertically */
+  .session-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px 14px;
+  }
+  .session-bar .btn-danger { width: 100%; justify-content: center; }
+
+  /* Card header: stack title + subtitle vertically */
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 13px 16px 11px;
+  }
+
+  /* Domain card: tighter padding */
+  .domain-card { padding: 14px 16px; }
+
+  /* Domain header: allow badge to wrap below if needed */
+  .domain-header { flex-wrap: wrap; }
+
+  /* Result header: tighter padding on mobile */
+  .result-header {
+    padding: 16px 16px 12px;
+  }
+
+  /* Result inner sections */
+  .interp-section { padding-left: 16px; padding-right: 16px; }
+
+  /* Tighter result card body for narrow screens */
+  .collapsible-trigger { padding: 13px 16px; }
+  .collapsible-body    { padding: 6px 16px 16px; }
+  .trace-row           { padding: 5px 0; }
+
+  /* Risk hero badge stays readable */
+  .result-classif { font-size: 16px; }
+
+  /* Flag chips: prevent overflow on tiny names */
+  .flag-chip { word-break: break-all; max-width: 100%; }
+}
+
+/* ============================================================
+   FEEDBACK LINE  (M1/M2/M3/M4-aligned)
+   ============================================================ */
+.feedback-line {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  font-size: 11px; font-weight: 500; color: var(--text-3);
+  font-family: 'DM Sans', sans-serif; text-align: center;
+  padding: 14px 0 18px; text-decoration: none;
+  transition: color .15s;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2px;
+}
+.feedback-line svg {
+  flex-shrink: 0; stroke: var(--text-3);
+  transition: stroke .2s ease, transform .2s ease;
+}
+.feedback-line em {
+  font-style: normal; color: var(--accent);
+  text-decoration: underline; text-underline-offset: 2px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color .25s ease, color .15s;
+}
+.feedback-line:hover svg { stroke: var(--accent); transform: scale(1.15); }
+.feedback-line:hover em {
+  color: var(--accent-hover);
+  text-decoration-color: var(--accent-hover);
+}
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+.mt-6  { margin-top: 6px; }
+.mt-10 { margin-top: 10px; }
+.mt-14 { margin-top: 14px; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+
+/* ============================================================
+   PRINT DISCLAIMER FOOTER (hidden in normal view; shown when printing)
+   ============================================================ */
+.print-disclaimer {
+  display: none; /* hidden in screen view; @media print reveals it */
+  margin-top: 28px;
+  padding: 14px 20px;
+  border-top: 1.5px solid #000;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: #000;
+  text-align: center;
+}
+
+/* ============================================================
+   PRINT STYLESHEET (Step 9)
+   Optimizes the page for A4/Letter portrait. Hides interactive
+   controls and reveals the disclaimer footer. No external library.
+   ============================================================ */
+@media print {
+  /* Reset page margins */
+  @page {
+    size: A4 portrait;
+    margin: 14mm 12mm;
+  }
+
+  /* Force light, readable colors regardless of CSS variables */
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+    color-scheme: light !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide elements that don't make sense on paper */
+  .nav-bar,
+  .session-bar,
+  .reset-actions,
+  .domain-actions,
+  .manual-toggle-row,
+  .btn-domain-remove,
+  .btn-stage-override-trigger,
+  .btn-stage-override-apply,
+  .btn-stage-override-cancel,
+  .btn-stage-override-remove,
+  .stage-override-form,
+  .stage-override-actions,
+  .fresh-banner,
+  .ofty-toast-container,
+  .copy-btn-wrap,
+  .feedback-line,
+  #compute-btn,
+  #intro-card,
+  #import-notice,
+  .tip-icon,
+  .details-toggle,
+  .ofty-collapse-trigger,
+  .nav-back,
+  .site-footer,
+  .result-stale-overlay,
+  #eye-mismatch-banner {
+    display: none !important;
+  }
+
+  /* Show details content fully expanded for the printed record */
+  .details-content {
+    display: block !important;
+    border: 1px solid #999 !important;
+    background: #f8f8f8 !important;
+    color: #000 !important;
+    page-break-inside: avoid;
+  }
+
+  /* Always show technical details section (collapsed in screen view) */
+  .ofty-collapse-body {
+    display: block !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  /* Reveal the print-only disclaimer */
+  .print-disclaimer {
+    display: block !important;
+  }
+
+  /* Card layouts: avoid awkward page breaks inside */
+  .card,
+  .domain-card,
+  .result-card {
+    border: 1px solid #999 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+    margin-bottom: 12mm;
+  }
+
+  /* Form input controls — render as plain values rather than fields */
+  .iop-inline-input,
+  .stage-override-form input,
+  .stage-override-form select {
+    border: none !important;
+    background: transparent !important;
+    color: #000 !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    padding: 0 !important;
+  }
+
+  /* Status pills: keep colors as visual cues but ensure printable contrast */
+  .iop-status,
+  .badge-imported,
+  .badge-manual,
+  .badge-override,
+  .badge-excluded,
+  .iop-edited-pill,
+  .stage-override-pill {
+    border: 1px solid #666 !important;
+    color: #000 !important;
+    background: #f0f0f0 !important;
+  }
+
+  /* Avoid breaking key blocks across pages */
+  .domain-header,
+  .result-header,
+  .readonly-block,
+  .source-info {
+    page-break-inside: avoid;
+  }
+
+  /* Make all links non-underlined and avoid unsolicited URL footnotes */
+  a, a:visited { color: #000 !important; text-decoration: none !important; }
+
+  /* Prevent right-side scrollbar showing in print preview */
+  body { overflow: visible !important; }
+}
+
+/* Staging additions; palette and card grammar from authenticated M5, not a new brand. */
+main{max-width:760px;margin:auto;padding:24px 16px}h1{font-size:24px}h2{font-size:18px}h3{font-size:15px}p{margin:10px 0}nav{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}a{color:var(--accent)}button{font:inherit;padding:10px 14px;margin:4px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);cursor:pointer}button:disabled{opacity:.5;cursor:default}button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:3px}#integrate{background:var(--accent);color:var(--surface)}.card{padding:20px;margin:16px 0;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow)}.hero-title{font-size:26px;color:var(--accent);line-height:1.3}.hero-metric{color:var(--accent);font-size:21px}.context-note{color:var(--text-2);font-size:14px}.material{background:var(--warn-bg);border:1px solid var(--warn-border);color:var(--warn-text);padding:16px;border-radius:var(--radius);margin:16px 0}.material li{margin:9px 0;overflow-wrap:anywhere}.material ul{padding-left:22px}.method{background:var(--gray-bg);color:var(--gray-text)}dl{display:grid;grid-template-columns:minmax(130px,1fr) minmax(0,2fr);gap:8px 16px;margin:12px 0}dt{color:var(--text-3);font-size:13px}dd{overflow-wrap:anywhere}summary{cursor:pointer;font-weight:600;padding:8px 0}.draft{font-size:13px;color:var(--text-2)}#g2context input,#g2context select{max-width:100%;padding:4px}.denied{background:var(--warn-bg);border-color:var(--warn-border)}.system-error{background:var(--err-bg);color:var(--err-text)}@media(max-width:460px){dl{grid-template-columns:1fr;gap:4px}dd{margin-bottom:10px}.hero-title{font-size:22px}button{margin:4px 0}#g2context{margin:0!important}main{padding:18px 12px}}@media print{.producer,#host-controls,#publication-status,.g2-mod-notice,header,nav,#g2context,.actions,#inventory,.draft{display:none!important}main{max-width:none;padding:0}#result,.card,.material,.method,details{display:block!important;opacity:1!important}.card{box-shadow:none;break-inside:auto}details>*{display:block!important}body{background:white}#print-qualifier{display:block!important}.card.producer,section.card.producer,#result details.method,#result .method{display:none!important}#result .print-provenance{display:block!important}.material,#result .card>h2,#result .card>dl dt{break-inside:avoid}#result h2,#result h3{break-after:avoid}#result .print-provenance dl{grid-template-columns:minmax(120px,1fr) minmax(0,2fr)}}#print-qualifier{display:none}.print-provenance{display:none}
+</style><script>
+/* OFTY A-prime host — v0.4.2 ENGINEERING (Claude), staging only, synthetic data only.
+ * Based on blocked HT01 host. Exclusive Web Locks, synchronous producer form signatures,
+ * typed host-gate reason codes (D9 registry v0.2), reviewed reference-only Resume.
+ * The PERSISTENCE region below is the ONLY part whose semantics are policy-dependent (CP-01).
+ * v0.4.4-ui (ADPER02-N03): adds the presentation-only N03_NOTICE region; no gate, persistence, ownership or export semantics changed. */
+(() => {
+ 'use strict';
+ const MODULES=['m1','m2','m3','m4'],ROUTES={m1:'iop-cct',m2:'target-iop',m3:'vf-progression',m4:'rnfl-progression'};
+ const PREFIX='ofty_aprime_v1:snap:',SCHEMA='ofty-aprime-snapshot-1',PROTOCOL='ofty-aprime-host-1';
+ const HOST_BUILD='v0.4.4-ui-aprime-staging-CP01D-E1-PNEW01-N03UI-READY_FOR_INDEPENDENT_REVIEW';
+ const T_LOCK=3000,T_REGISTER=10000,MAX_RETENTION_NOTICE=10;
+ const clone=x=>x===undefined?undefined:JSON.parse(JSON.stringify(x)),uuid=()=>crypto.randomUUID(),by=id=>document.getElementById(id);
+ /* ---- D9 technical reason-code registry (v0.2 PROPOSED names; host-only, never merged into clinical codes) ---- */
+ const REGISTRY=Object.freeze({ownership_api_unavailable:1,browser_engine_unverified:1,ownership_lock_unavailable:1,instance_not_owner:1,duplicate_instance_owns_assessment:1,
+  resume_review_required:2,restored_recompute_required:2,snapshot_read_unavailable:2,snapshot_integrity_failed:2,retention_evicted:2,
+  persistence_failed_export_withheld:3,persistence_pending_export_withheld:3,persistence_confirmation_unverified:3,
+  producer_frame_not_ready:4,capture_integrity_failed:5,producer_dirty_unpublished:6,integration_stale:7,
+  retention_eviction_pending:8,retention_eviction_deferred:8,snapshot_delete_refused_owned:8,snapshot_delete_refused_in_flight:8,snapshot_delete_failed:8,legacy_storage_review_only:8,unconfirmed_attempt_present:8,confirmation_record_unverified:8,retention_notice_unsaved:8,
+  host_route_invalid:1});
+ const PUBLISH_REASONS=Object.freeze(['host_not_owner','frame_token_invalid','producer_eye_mismatch','host_publish_failed','framed_by_non_host','standalone_mode','producer_frame_not_ready']);
+ const rc=(code,extra={})=>{if(!(code in REGISTRY))throw Error('unregistered_reason_code:'+code);return {code,class:REGISTRY[code],...extra};};
+ const sortCodes=a=>a.sort((x,y)=>x.class-y.class||x.code.localeCompare(y.code));
+ /* ---- AD-07 versioned engine allowlist: UAData brands AND capabilities; UA string never sufficient ---- */
+ const VERIFIED_ENGINES_v1=Object.freeze({version:'VERIFIED_ENGINES_v1',entries:Object.freeze([
+  Object.freeze({engine_id:'msedge',brand:'Microsoft Edge',min_major:120,platforms:['Windows'],required_caps:['secure_context','web_locks','subtle_crypto','random_uuid'],status:'staging_target_pending_verification',evidence_ids:[]}),
+  Object.freeze({engine_id:'chromium',brand:'Chromium',min_major:120,platforms:['Windows'],required_caps:['secure_context','web_locks','subtle_crypto','random_uuid'],status:'staging_target_pending_verification',evidence_ids:[]})])});
+ function engine(){
+  const ua=navigator.userAgentData,brands=Array.isArray(ua?.brands)?ua.brands:[],platform=ua?.platform??null;
+  const caps={secure_context:!!window.isSecureContext,web_locks:typeof navigator.locks?.request==='function',subtle_crypto:!!(window.crypto&&crypto.subtle&&typeof crypto.subtle.digest==='function'),random_uuid:typeof crypto?.randomUUID==='function'};
+  // Prefer the most specific brand (Edge) over the shared Chromium brand.
+  for(const e of VERIFIED_ENGINES_v1.entries){const b=brands.find(x=>x.brand===e.brand);if(!b)continue;const major=Number(b.version);
+   const ok=Number.isFinite(major)&&major>=e.min_major&&e.platforms.includes(platform)&&e.required_caps.every(c=>caps[c]);
+   if(ok)return {engine_id:e.engine_id,major,platform,verified:e.status==='verified'&&e.evidence_ids.length>0,status:e.status,evidence_ids:e.evidence_ids.slice(),allowlist_version:VERIFIED_ENGINES_v1.version,caps};}
+  return {engine_id:brands.length?'unlisted':null,major:null,platform,verified:false,status:'unverified',evidence_ids:[],allowlist_version:VERIFIED_ENGINES_v1.version,caps};
+ }
+ const caps=engine();
+ /* ---- instance state ---- */
+ const instance_id=uuid();let state='NO_ASSESSMENT',active=null,R=0,lockHeld=false,release=null,save_seq=0,lockGen=0;
+ let integration={state:'NONE',R:null,result:null},persist={state:'NONE',R:null,save_seq:0},restored_from=null,lastVerifiedAt=null;
+ let obligations=new Set(),created_at=null,lastEvent='',retention_notice=[];const notices=new Map();
+ const mods=Object.fromEntries(MODULES.map(m=>[m,{state:'LOADING',cause:'loading',token:null,envelope:null,seq:null,signature:null,notifyFailures:null,revision:0,lastDirty:null,timer:null}]));
+ const same=(a,b)=>!!a&&!!b&&['assessment_id','generation','eye','acquisition_epoch','input_revision'].every(k=>a[k]===b[k]);
+ const noteSet=(code,detail)=>{notices.set(code,rc(code,detail===undefined?{}:{detail}));};
+ const noteDel=code=>notices.delete(code);
+ function owner(){return !!active&&state==='OWNED'&&lockHeld;}
+ function displayOnly(){return !!active&&state==='LOCAL_UNOWNED_DISPLAY';}
+ /* ---- @@N03_NOTICE_BEGIN · ADPER02-N03 v0.4.4-ui · presentation-only publication notices (English copy is DRAFT).
+  * Reads host state only. It never writes module, gate, integration, persistence, ownership or export state,
+  * never calls gate()/banner()/change()/requestSave(), and never touches producer storage or producer code.
+  * A missing publication is observable; its cause is reported as unknown unless M5 itself measured it. ---- */
+ const N03_SETTLE_MS=120;
+ const N03_LABEL=Object.freeze({m1:'M1 · IOP context',m2:'M2 · Target / measured GAT',m3:'M3 · Functional (visual field)',m4:'M4 · Structural (RNFL)'});
+ /* Read-only mirror of the frozen producers' own user triggers for their Calculate routine
+  * (M1 #btn-calc + Enter in #pio/#cct; M2 .calc-btn + Enter in #baseline/#currentIOP;
+  *  M3 #calculateBtn + Enter in #fieldRows except .md-input; M4 #analyzeBtn + Enter in #fieldRows except .rnfl-input). */
+ const N03_TRIGGERS=Object.freeze({
+  m1:{button:'#btn-calc',enter:e=>{const a=e.target?.ownerDocument?.activeElement;return !!a&&(a.id==='pio'||a.id==='cct');}},
+  m2:{button:'button.calc-btn',enter:e=>e.target?.id==='baseline'||e.target?.id==='currentIOP'},
+  m3:{button:'#calculateBtn',enter:e=>!!e.target?.closest?.('#fieldRows')&&!e.target.classList.contains('md-input')},
+  m4:{button:'#analyzeBtn',enter:e=>!!e.target?.closest?.('#fieldRows')&&!e.target.classList.contains('rnfl-input')}});
+ const n03=Object.fromEntries(MODULES.map(m=>[m,{ctx:null,token:null,attempt:null,reject:null,recovering:false}]));
+ let n03Gate=null;const n03Shown={alert:null,list:null,frames:{}};
+ const n03Ctx=()=>active?active.assessment_id+'|'+active.generation+'|'+active.acquisition_epoch:null;
+ function n03Sync(m){const p=n03[m],c=n03Ctx(),tk=mods[m].token;if(p.ctx!==c||p.token!==tk){p.ctx=c;p.token=tk;p.attempt=null;p.reject=null;p.recovering=false;}return p;}
+ function n03Watch(m,token,w){try{const t=N03_TRIGGERS[m];if(!t)return;
+  const rec=e=>{try{
+   if(!active||mods[m].token!==token)return;
+   const hit=e.type==='click'?!!e.target?.closest?.(t.button):(e.key==='Enter'&&t.enter(e));if(!hit)return;
+   const p=n03Sync(m),at=Date.now(),prev=p.attempt;
+   // A repeated Calculate keeps the memory of an earlier unresolved failure so recovery is still disclosed.
+   const carry=!!(prev&&(prev.failed||prev.settled||prev.carry))||!!p.reject||p.recovering;
+   // While the new attempt settles, keep showing the earlier failure (no flicker); it is replaced once the new outcome is known.
+   const prevFail=prev?(prev.failed||prev.settled?{at:prev.at,via:prev.via}:prev.prevFail||null):null;
+   p.attempt={token,revision:mods[m].revision,at,via:e.type==='click'?'calculate_button':'enter_key',settled:false,failed:false,carry,prevFail};
+   setTimeout(()=>{try{if(p.attempt&&p.attempt.at===at)p.attempt.settled=true;noticeRender();}catch{}},N03_SETTLE_MS);
+  }catch{}};
+  w.addEventListener('click',rec,true);w.addEventListener('keydown',rec,true);}catch{}}
+ function n03Reject(m,token,reason){try{if(!active||!mods[m]||mods[m].token!==token)return;const p=n03Sync(m);p.reject={reason,at:Date.now(),revision:mods[m].revision};}catch{}}
+ function n03State(m,g){
+  const x=mods[m],p=n03Sync(m);
+  // Accepted publication is the only thing that increments x.revision; it resolves an earlier attempt or rejection.
+  const okA=!!p.attempt&&x.revision>p.attempt.revision,okR=!!p.reject&&x.revision>p.reject.revision;
+  if(okA||okR){if((p.attempt&&(p.attempt.failed||p.attempt.carry))||p.reject)p.recovering=true;if(okA)p.attempt=null;if(okR)p.reject=null;}
+  if(p.attempt&&p.attempt.settled)p.attempt.failed=true;
+  if(x.state==='LOADING'||x.state==='NOT_READY')return {kind:'not_ready',cause:x.cause||'loading'};
+  // Failure/rejection are checked before RESTORED_REFERENCE so a failed recalculation of a resumed module is disclosed too.
+  const fa=p.attempt?(p.attempt.failed?p.attempt:p.attempt.prevFail):null,rj=p.reject;
+  if(rj&&(!fa||rj.at>=fa.at))return {kind:'rejected',reason:rj.reason,at:rj.at};
+  if(fa)return {kind:'not_published',at:fa.at,via:fa.via};
+  if(x.state==='RESTORED_REFERENCE')return {kind:'restored'};
+  // Recovery guidance persists through intermediate edits until exports are actually allowed (or the context changes).
+  if(p.recovering){if(g&&g.ok)p.recovering=false;else if(x.state==='PUBLISHED')return {kind:'recovering',code:g?.reason_codes?.[0]?.code||null};}
+  if(x.state==='DIRTY')return {kind:x.revision>0?'dirty_changed':'dirty_unsent'};
+  if(x.state==='PUBLISHED')return {kind:'published'};
+  return {kind:'empty'};
+ }
+ const n03Time=t=>{try{return new Date(t).toLocaleTimeString();}catch{return '';}};
+ const N03_WITHHELD='Copy, Print and JSON remain withheld.';
+ const N03_RECOVER='To continue: check the module page for its own messages and complete or correct the input; if browser storage might be full or blocked, check the browser storage settings; then press Calculate again in the module, press “Integrate current results” here, and wait until the save is confirmed.';
+ function n03Text(m,s){const L=N03_LABEL[m];switch(s.kind){
+  case 'not_published':return L+' — not received by M5. No result reached the M5 assessment after the last Calculate in this module ('+n03Time(s.at)+'). M5 cannot tell why: the module may not have accepted the input (for example, missing or invalid values), or it may have been unable to complete its own save in browser storage. If the module page shows a calculated result, that result is not part of this assessment. '+N03_WITHHELD+' '+N03_RECOVER;
+  case 'rejected':return L+' — result not accepted by M5. The module tried to send a result ('+n03Time(s.at)+'), but M5 did not accept it (technical reason: '+s.reason+'). That result is not part of this assessment. '+N03_WITHHELD+' Resolve the reason if possible, then press Calculate again in the module, press “Integrate current results” here, and wait until the save is confirmed.';
+  case 'recovering':{const integ=integration.state==='CURRENT'&&integration.R===R;
+   if(!integ)return L+' — a new result has now been received by M5. Next: press “Integrate current results”. '+N03_WITHHELD+' They become available only after the integrated assessment is saved and the save is confirmed.';
+   if(!owner())return L+' — the new result is integrated, but this window does not own the assessment, so it cannot be saved here. '+N03_WITHHELD;
+   if(persist.state==='FAILED')return L+' — the new result is integrated, but the save failed ('+(persist.code||'unknown')+'). Use “Retry save”. '+N03_WITHHELD+' They become available only after a confirmed save.';
+   if(persist.state==='OK'&&persist.R===R&&persist.confirmation==='recorded')return L+' — the new result is integrated and the save is confirmed, but export is still withheld (technical reason: '+(s.code||'see the status line')+'). '+N03_WITHHELD;
+   return L+' — the new result is integrated; waiting for the save to be confirmed (save status: '+persist.state+(persist.confirmation?'/'+persist.confirmation:'')+'). '+N03_WITHHELD;}
+  case 'dirty_changed':return L+': changed since its last result was sent to M5. Press Calculate in the module to send a current result.';
+  case 'dirty_unsent':return L+': input not yet sent to M5. Press Calculate in the module to send a result.';
+  case 'published':return L+': current result received by M5.';
+  case 'restored':return L+': restored for reference only. Recalculate in the module before it can be integrated.';
+  case 'not_ready':return L+': module page not ready ('+s.cause+').';
+  default:return L+': no result sent to M5 yet.';}}
+ const N03_ALERT_KINDS=['not_published','rejected'];
+ function noticeRender(g){try{
+  if(g!==undefined)n03Gate=g;const sec=by('publication-status'),al=by('publication-alert'),list=by('publication-status-list');if(!sec||!al||!list)return;
+  const states=active?MODULES.map(m=>[m,n03State(m,n03Gate)]):[];
+  sec.hidden=!active;sec.dataset.kinds=states.map(([m,s])=>m+':'+s.kind).join(',');
+  const fl=states.filter(([,s])=>N03_ALERT_KINDS.includes(s.kind)),alerts=fl.map(([m,s])=>n03Text(m,s));
+  // Key includes the attempt time, so a repeated failed Calculate re-inserts the alert content (re-announcement).
+  const ak=fl.map(([m,s])=>m+':'+s.kind+':'+s.at).join('|')+'\n'+alerts.join('\n');if(ak!==n03Shown.alert){n03Shown.alert=ak;al.replaceChildren(...alerts.map(t=>{const e=document.createElement('p');e.textContent=t;return e;}));al.hidden=!alerts.length;}
+  const items=states.map(([m,s])=>[m,s.kind,N03_ALERT_KINDS.includes(s.kind)?N03_LABEL[m]+': not received by M5 after the last Calculate — see the warning above.':n03Text(m,s)]);
+  const lk=items.map(i=>i[1]+'|'+i[2]).join('\n');if(lk!==n03Shown.list){n03Shown.list=lk;const ul=document.createElement('ul');for(const [m,k,t] of items){const li=document.createElement('li');li.dataset.module=m;li.dataset.kind=k;li.className='pub-'+k;li.textContent=t;ul.append(li);}list.replaceChildren(ul);}
+  for(const m of MODULES){const fn=by('g2-notice-'+m);if(!fn)continue;const s=states.find(x=>x[0]===m)?.[1];const show=!!s&&(N03_ALERT_KINDS.includes(s.kind)||s.kind==='recovering');const t=show?n03Text(m,s):'';
+   if(n03Shown.frames[m]!==t){n03Shown.frames[m]=t;fn.textContent=t;fn.hidden=!show;fn.dataset.kind=show?s.kind:'';}}
+ }catch{}}
+ /* ---- @@N03_NOTICE_END ---- */
+ /* ---- banner: primary host code + explicit last verified save timestamp ---- */
+ function banner(){const b=by('host-status');if(!b)return;let g;try{g=gate(false);}catch{g={reason_codes:[rc('instance_not_owner')]};}
+  const primary=g.reason_codes[0]?.code||'export_ready';const saved=lastVerifiedAt?('last verified save '+new Date(lastVerifiedAt).toLocaleString()):'no verified save yet';
+  const vol=[...notices.values()].map(n=>n.code+(n.detail?'('+(typeof n.detail==='string'?n.detail:JSON.stringify(n.detail))+')':'')).join('; ');
+  b.textContent=state+' · '+(active?active.eye+' · '+active.assessment_id:'Select eye and start New')+' · save '+persist.state+(persist.confirmation?'/'+persist.confirmation:'')+' · '+saved+' · '+primary+(lastEvent?' · event '+lastEvent:'')+(vol?' · VOLATILE NOTICE (not saved): '+vol:'');
+  b.dataset.primaryCode=primary;b.dataset.lastVerifiedAt=lastVerifiedAt||'';noticeRender(g);}
+ function withdraw(ev){if(integration.state==='CURRENT')integration.state='WITHDRAWN';try{window.Gate2UI?.withdraw();}catch{}if(ev)lastEvent=ev;banner();updateButtons();}
+ function change(ev){R++;persist={state:'PENDING',R,save_seq};withdraw(ev);}
+ function frame(m){return document.querySelector('iframe[data-gate2-module="'+m+'"]');}
+ /* ---- AC-04 synchronous canonical bounded form signature ---- */
+ function signature(m){
+  const f=frame(m);if(!f?.isConnected||!f.contentDocument||f.contentWindow.location.origin!==location.origin)throw Error('frame_record_unreadable');
+  const w=f.contentWindow,d=f.contentDocument,p=w.location.pathname.replace(/\/index\.html$/,'/');
+  if(!p.endsWith('/'+ROUTES[m]+'/')||d.body?.dataset.gate2Module!==m)throw Error('route_mismatch');
+  const controls=[...d.querySelectorAll('input,select,textarea')].filter(e=>!e.closest('#g2context')||['g2gatattest','g2observation','g2observed'].includes(e.id));
+  if(!controls.length||controls.length>512)throw Error('form_signature_bounds');
+  const parts=controls.map((e,i)=>{if(!e.isConnected||e.ownerDocument!==d)throw Error('form_signature_unreadable');const v=e.value;if(typeof v!=='string')throw Error('form_signature_unreadable');return [i,e.tagName,e.type,e.id,e.name,e.className,v,e.checked??null,e.selectedIndex??null,e.disabled,e.tagName==='SELECT'?[...e.options].map(o=>[o.value,o.selected,o.disabled]):null];});
+  const rows=[...d.querySelectorAll('#fieldRows > *')].map((e,i)=>[i,e.tagName,e.id,e.className,e.querySelectorAll('input,select,textarea').length]);
+  const str=JSON.stringify([parts,rows]);if(str.length>131072)throw Error('form_signature_bounds');return str;
+ }
+ function attest(m){
+  const x=mods[m],f=frame(m);let rec;try{rec=f?.contentWindow?.__OFTY_APRIME_FRAME__;}catch{rec=null;}
+  if(!f?.isConnected||!rec||rec.module!==m||rec.token!==x.token)throw Error('frame_record_unreadable');
+  return {seq:rec.seq,notifyFailures:rec.notifyFailures,signature:signature(m)};
+ }
+ /* P5/P6 evaluation; mutates module state fail-closed on mismatch (R+1, card withdrawn). Returns typed codes. */
+ function freshness(){
+  const out=[];
+  for(const m of MODULES){const x=mods[m];
+   if(x.state==='RESTORED_REFERENCE')continue; // reported under P4
+   if(x.state==='LOADING'||x.state==='NOT_READY'){out.push(rc('producer_frame_not_ready',{module:m,cause:x.cause||'loading'}));continue;}
+   if(x.state==='DIRTY'){out.push(rc('producer_dirty_unpublished',{module:m,cause:x.lastDirty}));continue;}
+   let a;try{a=attest(m);}catch(e){x.envelope=null;
+    if(e.message==='frame_record_unreadable'||e.message==='route_mismatch'){x.state='NOT_READY';x.cause=e.message==='route_mismatch'?'route_mismatch':'unloaded';out.push(rc('capture_integrity_failed',{module:m,detail:'frame_record_unreadable'}),rc('producer_frame_not_ready',{module:m,cause:x.cause}));}
+    else{x.state='DIRTY';x.lastDirty={type:'pull_check',detail:'form_signature_unreadable:'+e.message};out.push(rc('capture_integrity_failed',{module:m,detail:'form_digest_mismatch'}),rc('producer_dirty_unpublished',{module:m,cause:x.lastDirty}));}
+    change('capture_integrity_failed');continue;}
+   if(x.state==='PUBLISHED'){
+    const detail=a.seq!==x.seq?'seq_mismatch':a.signature!==x.signature?'form_digest_mismatch':a.notifyFailures!==x.notifyFailures?'seq_mismatch':null;
+    if(detail){x.state='DIRTY';x.envelope=null;x.lastDirty={type:'pull_check',detail};out.push(rc('capture_integrity_failed',{module:m,detail,expected_seq:x.seq,observed_seq:a.seq}),rc('producer_dirty_unpublished',{module:m,cause:x.lastDirty}));change('capture_integrity_failed');}
+   }
+  }
+  return out;
+ }
+ function fresh(){return freshness().length===0;}
+ /* ---- EXPORT_OK as an explicit, synchronous, typed predicate set (contract v0.2 §4.5) ---- */
+ function gate(forExport=true){
+  const codes=[];
+  if(window!==top||!location.pathname.replace(/\/index\.html$/,'/').endsWith('/gate2/'))codes.push(rc('host_route_invalid'));
+  if(!caps.caps.web_locks||!caps.caps.secure_context)codes.push(rc('ownership_api_unavailable',{detail:!caps.caps.secure_context?'insecure_context':'missing_locks'}));
+  else if(state==='LOCAL_UNOWNED_DISPLAY')codes.push(rc('ownership_api_unavailable',{detail:'locks_request_threw'}));
+  else if(!owner())codes.push(rc('instance_not_owner'));
+  if(!caps.verified&&caps.status!=='staging_target_pending_verification')codes.push(rc('browser_engine_unverified',{engine_id:caps.engine_id,allowlist_version:caps.allowlist_version}));
+  if(obligations.size)codes.push(rc('restored_recompute_required',{modules:[...obligations],restored_from:clone(restored_from)}));
+  if(active)codes.push(...freshness());
+  if(integration.state!=='CURRENT'||integration.R!==R)codes.push(rc('integration_stale',{integration_R:integration.R,R}));
+  const p=persistenceGate();if(p)codes.push(p);
+  return {ok:codes.length===0,reason_codes:sortCodes(codes)};
+ }
+ let lastGate={ok:false,reason_codes:[]};
+ function exportOK(){let g;try{g=gate(true);}catch(e){g={ok:false,reason_codes:[rc('instance_not_owner')]};}lastGate=g;return g.ok;}
+ function integrationAllowed(){
+  if(!(owner()||displayOnly())){lastEvent='instance_not_owner';banner();return false;}
+  if(obligations.size){lastEvent='restored_recompute_required';banner();return false;}
+  return fresh();
+ }
+ function context(m,token){if(!(owner()||displayOnly())||mods[m]?.token!==token)return null;return clone(active);}
+ /* ---- frame registry ---- */
+ function register(m,token,w){
+  if(!MODULES.includes(m)||frame(m)?.contentWindow!==w)throw Error('frame_token_invalid');
+  const x=mods[m];clearTimeout(x.timer);x.state=obligations.has(m)?'RESTORED_REFERENCE':'EMPTY';x.cause=null;x.token=token;x.envelope=null;x.lastDirty=null;
+  const a=attest(m);x.seq=a.seq;x.signature=a.signature;x.notifyFailures=a.notifyFailures;if(active){change('producer_registered');requestSave();}else banner();
+  const f=frame(m);let queued=false;
+  const resize=()=>{queued=false;if(!f.isConnected)return;try{const children=[...w.document.body.children].filter(e=>!['SCRIPT','STYLE'].includes(e.tagName)&&w.getComputedStyle(e).position!=='fixed');const bottom=Math.max(600,...children.map(e=>e.getBoundingClientRect().bottom+w.scrollY));const height=Math.min(20000,Math.ceil(bottom+24))+'px';if(f.style.height!==height)f.style.height=height;}catch{}};
+  const schedule=()=>{if(!queued){queued=true;requestAnimationFrame(resize);}};
+  const observer=new w.ResizeObserver(schedule);for(const e of w.document.body.children)if(!['SCRIPT','STYLE'].includes(e.tagName))observer.observe(e);schedule();n03Watch(m,token,w);
+ }
+ function armRegisterTimeout(m){const x=mods[m];clearTimeout(x.timer);x.timer=setTimeout(()=>{if(x.state==='LOADING'){x.state='NOT_READY';x.cause='register_timeout';x.token=null;x.envelope=null;if(active)change('producer_frame_not_ready');else banner();}},T_REGISTER);}
+ function markDirty(m,token,ev){
+  const x=mods[m];if(!x||x.token!==token)return;
+  x.state=x.state==='RESTORED_REFERENCE'?'RESTORED_REFERENCE':'DIRTY';x.envelope=null;x.lastDirty=ev?{type:ev.type,key:ev.key??null,trusted:!!ev.trusted,seq:ev.seq}:null;
+  if(active)change('producer_dirty_unpublished');
+ }
+ function frameError(m,token,cause){const x=mods[m];if(!x||x.token!==token)return;x.state='NOT_READY';x.cause=cause||'unloaded';x.envelope=null;if(active)change('producer_frame_not_ready');else banner();}
+ function publish(m,token,payload,eye,seq){
+  const x=mods[m];if(!x)return {status:'standalone_nonintegrated',reason:'framed_by_non_host'};
+  // Fail-closed first: the module is DIRTY until acceptance completes (exception discipline, §4.2).
+  const wasRestored=x.state==='RESTORED_REFERENCE';x.state=wasRestored?'RESTORED_REFERENCE':'DIRTY';x.envelope=null;if(active)change('producer_dirty_unpublished');
+  try{
+   if(!(owner()||displayOnly()))throw Error('host_not_owner');if(x.token!==token)throw Error('frame_token_invalid');if(eye!==active.eye)throw Error('producer_eye_mismatch');
+   let a;try{a=attest(m);}catch{throw Error('producer_frame_not_ready');}if(a.seq!==seq)throw Error('host_publish_failed');
+   const body=clone(payload);if(body===undefined)throw Error('host_publish_failed');
+   const revision=(x.revision||0)+1,epoch=uuid(),envelope={contract:'gate2-producer-0.1.0',module:m,context:clone(active),revision,epoch,generated_at:new Date().toISOString(),payload:body};
+   active.producers[m]={revision,epoch,state:'ready'};x.revision=revision;x.state='PUBLISHED';x.envelope=envelope;x.seq=a.seq;x.signature=a.signature;x.notifyFailures=a.notifyFailures;x.lastDirty=null;
+   obligations.delete(m);change('producer_published');requestSave();return clone(envelope);
+  }catch(e){const reason=PUBLISH_REASONS.includes(e.message)?e.message:'host_publish_failed';lastEvent='publish_rejected:'+reason;n03Reject(m,token,reason);banner();return {status:'standalone_nonintegrated',reason};}
+ }
+ function complete(result){if(!integrationAllowed())return false;R++;integration={state:result.status==='context_blocked'?'WITHDRAWN':'CURRENT',R,result:clone(result)};lastEvent='integrated';requestSave();banner();return true;}
+ function updateButtons(){if(!window.Gate2UI)return;const ok=exportOK();for(const id of ['copy','print','json'])if(by(id))by(id).disabled=!ok;banner();}
+ async function digest(s){if(!(window.crypto&&crypto.subtle))throw Error('digest_unavailable');try{return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(x=>x.toString(16).padStart(2,'0')).join('');}catch{throw Error('digest_unavailable');}}
+ function build(){
+  if(!owner()||obligations.size||!fresh())throw Error('snapshot_ineligible');
+  return {schema:SCHEMA,...clone(active),created_at,saved_at:new Date().toISOString(),instance_id,R,producers:Object.fromEntries(MODULES.map(m=>[m,{state:mods[m].state==='PUBLISHED'?'published':'empty',revision:mods[m].revision||0,epoch:mods[m].envelope?.epoch||null,envelope:mods[m].state==='PUBLISHED'?clone(mods[m].envelope):null}])),integration:{R:integration.state==='CURRENT'?integration.R:null,result:integration.state==='CURRENT'?clone(integration.result):null},ui_candidate:HOST_BUILD,restored_from,retention_notice:clone(retention_notice)};
+ }
+ function allowed(s,r,id){return s===save_seq&&R===r&&owner()&&active?.assessment_id===id&&!obligations.size&&fresh();}
+ function failCode(e){if(e?.name==='QuotaExceededError')return 'quota_exceeded';const m=e?.message;if(['write_verify_mismatch','digest_unavailable','existing_record_integrity_failed','snapshot_read_unavailable'].includes(m))return m;if(e instanceof SyntaxError)return 'existing_record_integrity_failed';return 'access_denied';}
+ /* Save eligibility is checked BEFORE any persistence state change; an ineligible request
+  * (restored obligations, dirty/not-ready producer, unowned/display-only) performs no write. */
+ function requestSave(opts){if(!owner()||obligations.size)return Promise.resolve(false);if(!fresh())return Promise.resolve(false);return startSave(opts||{});}
+ function markVerified(at){lastVerifiedAt=at;}
+ /*@@PERSISTENCE_BEGIN — CP-01 Option D (AUTHOR-APPROVED 2026-10-12 19:33, staging only) + P-NEW-01 erratum E1 (v0.4.3): confirmed-slot two-phase checkpoint.
+  * Record (one key): {schema:'ofty-aprime-checkpoint-2', confirmed: Ck|null, attempt: Ck|null}, Ck={body,body_sha256}.
+  * W1 {confirmed:prev, attempt:B} -> exact readback + all guards  => save OK (verified checkpoint; unchanged meaning).
+  * W2 {confirmed:B, attempt:null} is written only AFTER OK. B becomes the next W1's confirmed base only after exact W2 readback
+  * (E1): an OK/not_written or OK/uncertain B is never carried as 'confirmed' from memory; the base is then re-read from storage.
+  * Confirmation outcome is classified from evidence only (author condition 4):
+  *   recorded    — exact W2 bytes read back (immediately or on a later verification read);
+  *   not_written — a successful readback shows the W1 bytes (confirmation write took no effect);
+  *   uncertain   — no readback evidence (read denied/unavailable or unexpected bytes). Never reported as failed or confirmed.
+  * Integrated export requires confirmation === 'recorded' (CP-01 condition 2). Attempts are never resumable (condition 1). */
+ const RECORD_SCHEMA='ofty-aprime-checkpoint-2';let lastConfirmed=null;
+ // lastConfirmed is authoritative ONLY within the current ownership epoch (exclusive lock held since New/Resume).
+ // Red-team F1 (2026-10-12): without epoch binding, a stale in-memory checkpoint could roll back a newer one confirmed by another tab.
+ // issuedW2: body_sha256 of every checkpoint this epoch issued a W2 for (only after its W1 OK). A fresh read finding one of
+ // these in the confirmed slot is exact durable evidence that that W2 landed (E1.2.4). Cleared with lastConfirmed.
+ let issuedW2=[];
+ function resetPersistenceCache(){lastConfirmed=null;issuedW2=[];}
+ const myConfirmed=id=>!!lastConfirmed&&lastConfirmed.assessment_id===id&&!!active&&lastConfirmed.epoch===active.acquisition_epoch;
+ function confirmationEvidence(key,W1,W2){let v;try{v=localStorage.getItem(key);}catch(e){return {confirmation:'uncertain',readback:'denied:'+(e?.name||'Error')};}
+  if(v===W2)return {confirmation:'recorded',readback:'confirmation_bytes'};if(v===W1)return {confirmation:'not_written',readback:'pre_confirmation_bytes'};return {confirmation:'uncertain',readback:v===null?'absent':'unexpected_bytes'};}
+ async function verifiedBase(oldRaw,k){
+  if(oldRaw===null)return null;let o;try{o=JSON.parse(oldRaw);}catch{throw Error('existing_record_integrity_failed');}
+  if(o?.schema!==RECORD_SCHEMA)throw Error('existing_record_integrity_failed');if(!o.confirmed)return null;
+  validBodyOrThrow(k,o.confirmed.body);if(await digest(JSON.stringify(o.confirmed.body))!==o.confirmed.body_sha256)throw Error('existing_record_integrity_failed');
+  return o.confirmed;
+ }
+ function validBodyOrThrow(k,b){try{validBody(k,b);}catch{throw Error('existing_record_integrity_failed');}}
+ async function startSave(opts={}){
+  const prev=persist,s=++save_seq,r=R,id=active?.assessment_id;persist={state:'PENDING',R:r,save_seq:s};banner();let reachedOK=false;
+  try{
+   const snap=build(),hash=await digest(JSON.stringify(snap)),ck={body:snap,body_sha256:hash};
+   if(!allowed(s,r,id))return false;
+   const key=PREFIX+id;let oldRaw;try{oldRaw=localStorage.getItem(key);}catch{throw Error('snapshot_read_unavailable');}
+   // E1 (v0.4.3): the confirmed base is ALWAYS taken from a fresh, schema+digest-validated read of the stored confirmed slot.
+   // That slot is only ever written by a W2 after OK, or by a W1 carrying a base read from that slot, so it holds only
+   // W2-established checkpoints. In-memory knowledge is used solely to REFUSE a downgrade below a checkpoint this
+   // epoch itself saw W2-recorded (PNEW-INV4); it never supplies the base.
+   // Fast path (no extra await): the stored confirmed slot is byte-identical to the checkpoint this epoch itself W2-recorded.
+   // The base is still the STORED value; otherwise it is fully re-validated (schema + SHA-256).
+   let base;const mineNow=myConfirmed(id);
+   {let o=null;try{o=oldRaw===null?null:JSON.parse(oldRaw);}catch{}
+    if(mineNow&&o&&o.schema===RECORD_SCHEMA&&o.confirmed&&JSON.stringify(o.confirmed)===JSON.stringify(lastConfirmed.ck))base=o.confirmed;
+    else base=await verifiedBase(oldRaw,key);}
+   if(myConfirmed(id)){const lc=lastConfirmed.ck;
+    if(!base)throw Error('existing_record_integrity_failed');
+    if(base.body_sha256!==lc.body_sha256){
+     const iLc=issuedW2.lastIndexOf(lc.body_sha256),iB=issuedW2.lastIndexOf(base.body_sha256);
+     // accept only a checkpoint whose W2 THIS epoch issued after lc (fresh read = evidence it landed); anything else is a downgrade/foreign value
+     if(iB>iLc&&iB>=0)lastConfirmed={assessment_id:id,epoch:active.acquisition_epoch,ck:base};
+     else throw Error('existing_record_integrity_failed');}}
+   if(!allowed(s,r,id))return false;
+   // The record must not change between the base read and W1 (exclusive lock: a change means interference) → FAILED, never silent.
+   {let again;try{again=localStorage.getItem(key);}catch{throw Error('snapshot_read_unavailable');}if(again!==oldRaw)throw Error('write_verify_mismatch');}
+   const W1=JSON.stringify({schema:RECORD_SCHEMA,confirmed:base,attempt:ck});
+   localStorage.setItem(key,W1);
+   if(localStorage.getItem(key)!==W1)throw Error('write_verify_mismatch');
+   if(!allowed(s,r,id))return false;
+   // ---- verified: B's exact bytes were read back under sequence/R/lock/identity/freshness guards ----
+   // P-NEW-01 / erratum E1: W1 verification does NOT confirm. lastConfirmed (the next W1's confirmed base) advances ONLY on
+   // exact W2 readback evidence (below, or a later read-only exact verification in persistenceGate).
+   reachedOK=true;
+   const W2=JSON.stringify({schema:RECORD_SCHEMA,confirmed:ck,attempt:null});
+   persist={state:'OK',R:r,save_seq:s,saved_at:snap.saved_at,W1,W2,bytes:W2,confirmation:'pending',confirmation_write:null,confirmation_readback:null,ck,epoch:active.acquisition_epoch,assessment_id:id};
+   issuedW2.push(ck.body_sha256);if(issuedW2.length>64)issuedW2.splice(0,issuedW2.length-64);
+   try{localStorage.setItem(key,W2);persist.confirmation_write='returned';}catch(e){persist.confirmation_write='threw:'+(e?.name||'Error');}
+   const ev=confirmationEvidence(key,W1,W2);persist.confirmation=ev.confirmation;persist.confirmation_readback=ev.readback;
+   if(ev.confirmation==='recorded')lastConfirmed={assessment_id:id,epoch:active.acquisition_epoch,ck};
+   markVerified(snap.saved_at);
+   if(ev.confirmation!=='recorded')noteSet('confirmation_record_unverified',{confirmation:ev.confirmation,write:persist.confirmation_write,readback:ev.readback,saved_at:snap.saved_at});else noteDel('confirmation_record_unverified');
+   banner();updateButtons();try{await retain();}catch{}return true;
+  }catch(e){if(s===save_seq&&!reachedOK){
+    // Red-team F4: a retention-bookkeeping-only save must not present an earlier confirmed save at the same R as FAILED;
+    // the gate still re-reads storage, so any changed bytes still withhold export (fail closed).
+    if(opts.retentionOnly&&prev.state==='OK'&&prev.R===r&&prev.confirmation==='recorded'){persist=prev;noteSet('retention_notice_unsaved',{reason:'retention_bookkeeping_save_failed',detail:failCode(e),note:'eviction already performed; record kept in memory until next verified save (use Retry save)'});banner();updateButtons();}
+    else{persist={state:'FAILED',R:r,save_seq:s,code:failCode(e)};lastEvent='persistence_failed';banner();updateButtons();}}return false;}
+ }
+ function persistenceGate(){
+  if(persist.state!=='OK'||persist.R!==R)return persist.state==='FAILED'?rc('persistence_failed_export_withheld',{detail:persist.code,R:persist.R,save_seq:persist.save_seq}):rc('persistence_pending_export_withheld',{R:persist.R,save_seq:persist.save_seq});
+  const key=PREFIX+active.assessment_id;
+  if(persist.confirmation!=='recorded'){
+   // Later read-only verification may supply the missing evidence; it never writes and never upgrades without the exact W2 bytes.
+   const ev=confirmationEvidence(key,persist.W1,persist.W2);
+   if(ev.confirmation==='recorded'){persist.confirmation='recorded';persist.confirmation_readback='confirmation_bytes(later_verification)';noteDel('confirmation_record_unverified');
+    if(persist.ck&&active&&persist.assessment_id===active.assessment_id&&persist.epoch===active.acquisition_epoch)lastConfirmed={assessment_id:persist.assessment_id,epoch:persist.epoch,ck:persist.ck};}
+   else{if(ev.confirmation!==persist.confirmation||ev.readback!==persist.confirmation_readback){persist.confirmation=ev.confirmation;persist.confirmation_readback=ev.readback;noteSet('confirmation_record_unverified',{confirmation:ev.confirmation,write:persist.confirmation_write,readback:ev.readback,saved_at:persist.saved_at});}
+    return rc('persistence_confirmation_unverified',{detail:ev.confirmation,write:persist.confirmation_write,readback:ev.readback,R:persist.R,save_seq:persist.save_seq});}
+  }
+  let s;try{s=localStorage.getItem(key);}catch{return rc('snapshot_read_unavailable',{detail:'getitem_failed',assessment_id:active.assessment_id});}
+  if(s!==persist.bytes)return rc('persistence_failed_export_withheld',{detail:'write_verify_mismatch',R:persist.R,save_seq:persist.save_seq});
+  return null;
+ }
+ async function parseRecord(k,bytes){
+  let box;try{box=JSON.parse(bytes);}catch{return {invalid:true,error:'parse'};}
+  try{
+   if(box?.schema!==RECORD_SCHEMA)throw Error('schema');
+   let attempt=null;if(box.attempt){const ab=box.attempt.body;let integrity='invalid';try{validBody(k,ab);integrity=(await digest(JSON.stringify(ab)))===box.attempt.body_sha256?'valid':'invalid';}catch(e2){if(e2.message==='digest_unavailable')integrity='unavailable';}attempt={saved_at:ab?.saved_at??null,R:Number.isInteger(ab?.R)?ab.R:null,integrity,resumable:false};}
+   const c=box.confirmed;if(!c)return {unresumable:true,error:'no_confirmed_checkpoint',attempt};
+   validBody(k,c.body);if(await digest(JSON.stringify(c.body))!==c.body_sha256)throw Error('sha256');
+   return {body:c.body,label:'confirmed',attempt};
+  }catch(e){if(e.message==='digest_unavailable')return {read_unavailable:true,error:'digest_unavailable'};return {invalid:true,error:e.message==='sha256'?'sha256':'schema'};}
+ }
+ function recordBody(raw){try{return JSON.parse(raw)?.confirmed?.body||null;}catch{return null;}}
+ /*@@PERSISTENCE_END*/
+ function validBody(k,b){if(!b||b.schema!==SCHEMA||PREFIX+b.assessment_id!==k||b.input_revision!==0||!['OD','OS'].includes(b.eye)||!Number.isInteger(b.R)||!b.producers||MODULES.some(m=>!['empty','published'].includes(b.producers[m]?.state)))throw Error('schema');}
+ /* ---- T-02 typed reads: read failure is never reported as integrity failure; nothing auto-deleted ---- */
+ async function snapshots(){
+  // Red-team F3: collect prefixed keys synchronously BEFORE any await so concurrent inserts/removals cannot shift indices.
+  const out=[],keys=[];let n;try{n=localStorage.length;}catch{throw Object.assign(Error('snapshot_read_unavailable'),{detail:'enumeration_failed'});}
+  for(let i=0;i<n;i++){let k;try{k=localStorage.key(i);}catch{throw Object.assign(Error('snapshot_read_unavailable'),{detail:'enumeration_failed'});}keys.push(k);}
+  for(const k of keys){
+   if(!k?.startsWith(PREFIX))continue;let bytes;
+   try{bytes=localStorage.getItem(k);}catch{out.push({key:k,id:k.slice(PREFIX.length),read_unavailable:true,error:'getitem_failed'});continue;}
+   if(bytes===null)continue;
+   out.push({key:k,id:k.slice(PREFIX.length),bytes,...await parseRecord(k,bytes)});
+  }
+  const evicted=new Map();for(const x of out)for(const e of x.body?.retention_notice||[])if(e?.assessment_id&&!out.some(y=>y.id===e.assessment_id))evicted.set(e.assessment_id,e);
+  for(const [id,e] of evicted)out.push({key:PREFIX+id,id,evicted:true,evicted_at:e.evicted_at||null});
+  return out;
+ }
+ /* ---- ownership (AD-04, D4): exclusive, never steal; lock loss withdraws immediately ---- */
+ async function acquire(id,fn){
+  if(!caps.caps.web_locks||!caps.caps.secure_context)return {ok:false,code:'ownership_api_unavailable'};
+  state='ACQUIRING';banner();const gen=++lockGen;
+  return new Promise(resolve=>{let settled=false;const done=v=>{if(!settled){settled=true;resolve(v);}};
+   const timer=setTimeout(()=>{if(!settled){state='NO_ASSESSMENT';lastEvent='ownership_lock_unavailable';banner();done({ok:false,code:'ownership_lock_unavailable'});}},T_LOCK);
+   let req;try{req=navigator.locks.request('ofty-aprime:assessment:'+id,{mode:'exclusive',ifAvailable:true},async lock=>{clearTimeout(timer);
+     if(settled)return; // timed out: do not take ownership late
+     if(!lock){state='NO_ASSESSMENT';done({ok:false,code:'duplicate_instance_owns_assessment'});return;}
+     try{lockHeld=true;state='OWNED';await fn();if(gen!==lockGen){done({ok:false,code:'instance_not_owner'});return;}done({ok:true});await new Promise(r=>release=r);}catch(e){done({ok:false,code:e.message});}
+     finally{if(gen===lockGen)lost('ownership_lock_unavailable');}
+    });}catch(e){clearTimeout(timer);done({ok:false,code:'ownership_api_unavailable',detail:'locks_request_threw'});return;}
+   req.catch(()=>{clearTimeout(timer);if(gen===lockGen)lost('instance_not_owner');done({ok:false,code:'instance_not_owner'});});
+  });
+ }
+ function lost(ev){resetPersistenceCache();const wasOwned=lockHeld||state==='OWNED';lockHeld=false;release=null;save_seq++;if(state==='OWNED'||state==='ACQUIRING')state='NO_ASSESSMENT';if(wasOwned){integration={state:'NONE',R:null,result:null};withdraw(ev);}else banner();}
+ function relinquish(ev='resume_review_required'){resetPersistenceCache();lockGen++;lockHeld=false;save_seq++;const r=release;release=null;try{r?.();}catch{}active=null;obligations.clear();integration={state:'NONE',R:null,result:null};persist={state:'NONE',R:null,save_seq};state='NO_ASSESSMENT';withdraw(ev);}
+ function resetModulesForNew(){for(const m of MODULES){const x=mods[m];x.state=x.token?'EMPTY':x.state==='NOT_READY'?'NOT_READY':'LOADING';x.envelope=null;x.revision=0;x.lastDirty=null;if(x.token){try{const a=attest(m);x.seq=a.seq;x.signature=a.signature;x.notifyFailures=a.notifyFailures;}catch{x.state='NOT_READY';x.cause='unloaded';}}}}
+ async function prepareNew(eye){
+  if(!['OD','OS'].includes(eye)){lastEvent='eye_required';banner();return false;}
+  if(active&&!confirm('Discard the current working assessment and start New?'))return false;
+  let ss=[];try{ss=await snapshots();noteDel('snapshot_read_unavailable');}catch{noteSet('snapshot_read_unavailable','enumeration_failed');}
+  const old=ss.filter(x=>x.body).sort((a,b)=>a.body.saved_at.localeCompare(b.body.saved_at));
+  if(old.length>=2&&!confirm('After the new assessment is verified saved, the oldest saved snapshot will be removed: '+old[0].body.assessment_id+' · '+old[0].body.eye+' · '+old[0].body.saved_at+'. Continue?'))return false;
+  if(old.length>=2)noteSet('retention_eviction_pending',{assessment_id:old[0].body.assessment_id,saved_at:old[0].body.saved_at});
+  if(active||state==='LOCAL_UNOWNED_DISPLAY')relinquish('new_assessment');
+  const id=uuid();retention_notice=[];
+  const init=()=>{resetPersistenceCache();active={assessment_id:id,generation:1,eye,acquisition_epoch:uuid(),input_revision:0,producers:{}};created_at=new Date().toISOString();restored_from=null;obligations.clear();R=1;lastVerifiedAt=null;integration={state:'NONE',R:null,result:null};resetModulesForNew();};
+  if(!caps.caps.web_locks||!caps.caps.secure_context){state='LOCAL_UNOWNED_DISPLAY';init();persist={state:'NONE',R:null,save_seq};withdraw('ownership_api_unavailable');return true;}
+  const res=await acquire(id,async()=>{init();withdraw('new_assessment');await requestSave();});
+  if(!res.ok&&res.code==='ownership_api_unavailable'){state='LOCAL_UNOWNED_DISPLAY';init();persist={state:'NONE',R:null,save_seq};withdraw('ownership_api_unavailable');return true;}
+  if(!res.ok){lastEvent=res.code;banner();}return res.ok;
+ }
+ async function resume(id,reviewed){
+  if(reviewed!==true){lastEvent='resume_review_required';banner();return false;}
+  if(active||state==='LOCAL_UNOWNED_DISPLAY'){lastEvent='resume_refused_current_assessment_open';banner();return false;}
+  if(!caps.caps.web_locks||!caps.caps.secure_context){lastEvent='ownership_api_unavailable';banner();return false;}
+  let ss;try{ss=await snapshots();}catch(e){lastEvent='snapshot_read_unavailable';banner();return false;}
+  const s=ss.find(x=>x.id===id);
+  if(!s){lastEvent='snapshot_read_unavailable:stale_listing';banner();return false;}
+  if(s.read_unavailable){lastEvent='snapshot_read_unavailable';banner();return false;}
+  if(s.evicted){lastEvent='retention_evicted';banner();return false;}
+  if(!s.body){lastEvent='snapshot_integrity_failed';banner();return false;}
+  const res=await acquire(id,async()=>{
+   let now;try{now=localStorage.getItem(s.key);}catch{throw Error('snapshot_read_unavailable');}
+   if(now!==s.bytes)throw Error('snapshot_read_unavailable:stale_listing');
+   resetPersistenceCache();const b=s.body;active={assessment_id:id,generation:b.generation+1,eye:b.eye,acquisition_epoch:uuid(),input_revision:0,producers:{}};created_at=b.created_at;R=b.R+1;restored_from={assessment_id:id,saved_at:b.saved_at,R:b.R};retention_notice=clone(b.retention_notice||[]);lastVerifiedAt=null;
+   obligations=new Set(MODULES.filter(m=>b.producers[m].state==='published'));
+   resetModulesForNew();for(const m of MODULES)if(obligations.has(m)&&mods[m].state!=='LOADING'&&mods[m].state!=='NOT_READY')mods[m].state='RESTORED_REFERENCE';
+   persist={state:'NONE',R:null,save_seq:++save_seq};integration={state:'NONE',R:null,result:null};
+   const att=s.attempt?'\nNOTICE unconfirmed_attempt_present: a newer save attempt (saved_at '+s.attempt.saved_at+', R '+s.attempt.R+') was not confirmed and cannot be resumed; this reference is the previous confirmed checkpoint.':'';if(s.attempt)noteSet('unconfirmed_attempt_present',{assessment_id:id,attempt_saved_at:s.attempt.saved_at,attempt_R:s.attempt.R});
+   const ref=by('saved-reference');if(ref)ref.textContent='RESTORED_REFERENCE · saved_at '+b.saved_at+' · reference only; not exportable · recalculate every listed module in its producer: '+[...obligations].join(', ')+att+'\n'+JSON.stringify(b,null,2);
+   withdraw('restored_recompute_required');
+  });
+  if(!res.ok){if(state!=='OWNED'){active=null;obligations.clear();}lastEvent=res.code;banner();}
+  return res.ok;
+ }
+ /* ---- AC-03 exclusive deletion/eviction ---- */
+ async function removeSnapshot(id,confirmed,eviction=false){
+  const refuse=()=>confirmed!==true?'not_confirmed':id===active?.assessment_id?'snapshot_delete_refused_owned':persist.state==='PENDING'?'snapshot_delete_refused_in_flight':!caps.caps.web_locks?'snapshot_delete_refused_in_flight':null;
+  const pre=refuse();if(pre){if(pre!=='not_confirmed')noteSet(pre,{assessment_id:id,reason:pre.endsWith('in_flight')?'save_pending':undefined});banner();return false;}
+  return navigator.locks.request('ofty-aprime:assessment:'+id,{mode:'exclusive',ifAvailable:true},lock=>{
+   if(!lock){noteSet(eviction?'retention_eviction_deferred':'snapshot_delete_refused_in_flight',{assessment_id:id,reason:'lock_held_elsewhere'});banner();return false;}
+   const post=refuse();if(post){noteSet(post,{assessment_id:id});banner();return false;}
+   const key=PREFIX+id;let before;try{before=localStorage.getItem(key);}catch{noteSet('snapshot_delete_failed',{assessment_id:id,detail:'getitem_failed'});banner();return false;}
+   if(before===null)return true;
+   if(eviction){const b=recordBody(before);if(!b||!owner()||persist.state!=='OK'||b.assessment_id===active.assessment_id){noteSet('retention_eviction_deferred',{assessment_id:id,reason:'save_not_verified'});banner();return false;}}
+   try{localStorage.removeItem(key);}catch{noteSet('snapshot_delete_failed',{assessment_id:id,detail:'removeitem_threw'});banner();return false;}
+   let after;try{after=localStorage.getItem(key);}catch{after='?';}
+   if(after!==null){noteSet('snapshot_delete_failed',{assessment_id:id,detail:'verify_still_present'});banner();return false;}
+   if(eviction){retention_notice=[...retention_notice,{assessment_id:id,evicted_at:new Date().toISOString()}].slice(-MAX_RETENTION_NOTICE);noteDel('retention_eviction_pending');}
+   lastEvent=(eviction?'retention_evicted:':'snapshot_deleted:')+id;banner();return true;
+  });
+ }
+ async function retain(){
+  if(!owner()||persist.state!=='OK')return;let ss;try{ss=(await snapshots()).filter(x=>x.body).sort((a,b)=>a.body.saved_at.localeCompare(b.body.saved_at));}catch{noteSet('retention_eviction_deferred',{reason:'read_unavailable'});banner();return;}
+  let evictedAny=false;
+  // Oldest-first; a protected (lock-held elsewhere / unverified) snapshot is skipped, not a reason to stop (D5: cap may be exceeded only by protected ones).
+  const skipped=new Set();
+  while(ss.length>2){const target=ss.find(x=>x.body.assessment_id!==active.assessment_id&&!skipped.has(x.body.assessment_id));if(!target)break;
+   if(await removeSnapshot(target.body.assessment_id,true,true)){evictedAny=true;ss=ss.filter(x=>x!==target);}else skipped.add(target.body.assessment_id);
+   if(!owner()||persist.state!=='OK')break;}
+  // Retention bookkeeping enters checksum-protected data only through a fresh verified save (AC-04).
+  if(evictedAny)queueMicrotask(()=>requestSave({retentionOnly:true}));
+ }
+ function reload(m){if(!MODULES.includes(m))return;const x=mods[m];x.state='LOADING';x.cause='loading';x.envelope=null;x.token=null;if(active)change('producer_frame_not_ready');const f=frame(m);if(f){f.src='../'+ROUTES[m]+'/index.html';armRegisterTimeout(m);}}
+ function clear(m,confirmed){if(confirmed!==true)return false;if(obligations.has(m)){lastEvent='restored_recompute_required';banner();return false;}reload(m);return true;}
+ function legacyScan(){
+  const counts={gate23:0,native_m1_m4:0,m1_advanced:0,m5_historical:0};
+  try{const n=localStorage.length;for(let i=0;i<n;i++){const k=localStorage.key(i);if(k==null)continue;
+   if(k==='ofty_gate2_context'||/^ofty_gate3_op:/.test(k)||/^ofty_gate2_m[1-4]$/.test(k))counts.gate23++;
+   else if(/^ofty_m[1-4]_result$/.test(k))counts.native_m1_m4++;else if(k==='ofty_m1_advanced_result')counts.m1_advanced++;else if(/^ofty_m5_assessment_/.test(k))counts.m5_historical++;}
+   if(Object.values(counts).some(Boolean))noteSet('legacy_storage_review_only',counts);
+  }catch{noteSet('snapshot_read_unavailable','enumeration_failed');}
+ }
+ const api={protocol:PROTOCOL,context,register,publish,markDirty,frameError,frameUnloading:(m,t)=>frameError(m,t,'unloaded'),exportOK,integrationAllowed,complete,startSave:requestSave,newAssessment:prepareNew,resume,snapshots,removeSnapshot,relinquish:()=>relinquish('resume_review_required'),reload,clear,signature,
+  get gate(){return clone(lastGate);},evaluateGate:()=>{exportOK();return clone(lastGate);},registry:REGISTRY,allowlist:VERIFIED_ENGINES_v1,
+  get debug(){return clone({build:HOST_BUILD,instance_id,state,active,R,lockHeld,persist:{...persist,bytes:undefined,W1:undefined,W2:undefined,ck:undefined},integration,modules:Object.fromEntries(MODULES.map(m=>[m,{...mods[m],timer:undefined}])),obligations:[...obligations],caps,lastVerifiedAt,notices:[...notices.values()],retention_notice,lastEvent});}};
+ window.Gate2Host=Object.freeze(api);
+ window.Gate2Session=Object.freeze({current:()=>owner()||displayOnly()?clone(active):null,same,load:m=>mods[m]?.state==='PUBLISHED'?clone(mods[m].envelope):null,fingerprint:()=>(owner()||displayOnly())&&fresh()?JSON.stringify([active,R,MODULES.map(m=>[mods[m].state,mods[m].envelope])]):null,newAssessment:prepareNew,resume:()=>{throw Error('review_snapshot_required');},publish:()=>({status:'standalone_nonintegrated',reason:'framed_by_non_host'})});
+ addEventListener('pagehide',()=>relinquish('resume_review_required'));
+ addEventListener('pageshow',e=>{if(e.persisted)relinquish('resume_review_required:bfcache_restore');});
+ addEventListener('DOMContentLoaded',()=>{
+  for(const m of MODULES){const f=frame(m);if(f){f.addEventListener('load',()=>{if(mods[m].state==='LOADING'||mods[m].state==='NOT_READY'){armRegisterTimeout(m);}});armRegisterTimeout(m);}}
+  by('new-assessment').onclick=()=>prepareNew(by('assessment-eye').value).catch(e=>{lastEvent=e.message;banner();});
+  by('retry-save').onclick=()=>requestSave();
+  by('refresh-saved').onclick=async()=>{const sel=by('saved-assessment');try{const ss=await snapshots();noteDel('snapshot_read_unavailable');sel.replaceChildren();for(const x of ss){const o=document.createElement('option');o.value=x.id;
+     o.textContent=x.read_unavailable?'READ UNAVAILABLE (retry) · '+x.id:x.evicted?'EVICTED (retention) · '+x.id:x.invalid?'INTEGRITY FAILED ('+x.error+') · '+x.id:!x.body?'NO RESUMABLE CHECKPOINT · '+x.id:x.body.eye+' · saved '+x.body.saved_at+' · R'+x.body.R+(x.attempt?' · NEWER UNCONFIRMED ATTEMPT (not resumable) saved '+x.attempt.saved_at:'')+' · '+x.id;sel.append(o);}}
+   catch(e){noteSet('snapshot_read_unavailable',e.detail||'enumeration_failed');banner();}};
+  by('resume-assessment').onclick=()=>resume(by('saved-assessment').value,by('resume-review').checked).catch(e=>{lastEvent=e.message;banner();});
+  by('delete-assessment').onclick=()=>{const id=by('saved-assessment').value;if(id)removeSnapshot(id,confirm('Permanently delete saved assessment '+id+'?')).catch(e=>{lastEvent=e.message;banner();});};
+  by('release-assessment').onclick=()=>relinquish('resume_review_required');
+  legacyScan();banner();
+ });
+})();
+
+</script><script src="session.js"></script><script src="semantic.cjs"></script><style id="n03-notice-style">
+#publication-status{margin:12px 0;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow-wrap:anywhere}
+#publication-status[hidden],#publication-alert[hidden],.g2-mod-notice[hidden]{display:none}
+#publication-status h2{font-size:15px;margin:0 0 8px;color:var(--text-1)}
+#publication-status h2 small{font-weight:400;color:var(--text-3)}
+#publication-alert{margin:0 0 10px;padding:10px 12px;background:var(--err-bg);color:var(--err-text);border:2px solid var(--err);border-radius:var(--radius-sm);font-size:14px;line-height:1.45}
+#publication-alert p+p{margin-top:8px}
+#publication-status-list ul{list-style:none;margin:0;padding:0;font-size:13.5px;line-height:1.45;color:var(--text-2)}
+#publication-status-list li{padding:4px 0 4px 10px;border-left:3px solid var(--gray-border);margin:2px 0}
+#publication-status-list li.pub-published{border-left-color:var(--ok)}
+#publication-status-list li.pub-not_published,#publication-status-list li.pub-rejected{border-left-color:var(--err);color:var(--err-text);font-weight:600}
+#publication-status-list li.pub-recovering{border-left-color:var(--warn);color:var(--warn-text)}
+.g2-mod-notice{margin:6px 0 8px;padding:8px 10px;border-radius:var(--radius-sm);font-size:13.5px;line-height:1.45;overflow-wrap:anywhere;background:var(--err-bg);color:var(--err-text);border:2px solid var(--err)}
+.g2-mod-notice[data-kind=recovering]{background:var(--warn-bg);color:var(--warn-text);border-color:var(--warn)}
+</style>
+</head><body>
+<main><header><span class="badge">OFTY · TOOL #5</span><h1>Glaucoma Suite Orchestrator</h1><p>Integrated assessment · isolated Gate 3 UI staging candidate v0.4.8-ui-aprime-staging-A1 (unpublished staging build)</p></header>
+<p class="draft">DRAFT / REQUIRES_AUTHOR_FINAL_COPY_APPROVAL · synthetic staging only. Clinical validation and production deployment are not authorized. English clinical copy is provisional; Spanish and Italian clinical translations are unavailable.</p>
+<section class="card" id="host-controls"><h2>A′ owned assessment · synthetic staging</h2><p id="host-status" role="status"></p><label>Eye <select id="assessment-eye"><option value="">Select eye</option><option>OD</option><option>OS</option></select></label> <button id="new-assessment">New assessment</button> <button id="release-assessment">Release ownership</button> <button id="retry-save">Retry save</button><p><button id="refresh-saved">Review saved snapshots</button> <select id="saved-assessment" aria-label="Saved assessment"></select> <label><input id="resume-review" type="checkbox"> I reviewed the saved context and contributing results</label> <button id="resume-assessment">Resume reference</button> <button id="delete-assessment">Delete saved snapshot</button></p><pre id="saved-reference" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:360px;overflow:auto"></pre></section><nav aria-label="Contributing modules"><a href="../iop-cct/index.html">M1 · IOP context</a><a href="../target-iop/index.html">M2 · Target / measured GAT</a><a href="../vf-progression/index.html">M3 · Functional</a><a href="../rnfl-progression/index.html">M4 · Structural</a></nav>
+<section id="publication-status" aria-labelledby="publication-status-h" hidden><h2 id="publication-status-h">Contributing module status <small>(DRAFT wording)</small></h2><div id="publication-alert" role="alert" aria-atomic="true" hidden></div><div id="publication-status-list" role="status" aria-live="polite"></div></section><div class="actions"><button id="integrate">Integrate current results</button><button id="copy" disabled aria-label="Copy formatted assessment">Copy</button><button id="print" disabled aria-label="Print assessment">Print report</button><button id="json" disabled aria-label="Download assessment JSON">Download JSON</button></div>
+<p id="inventory" class="context-note"></p><p id="print-qualifier">DRAFT · REQUIRES_AUTHOR_FINAL_COPY_APPROVAL · synthetic staging only</p><div id="result" role="region" aria-label="Integrated clinical assessment" aria-live="polite"><p>No assessment produced.</p></div><section class="card producer"><h2>M1 · authentic embedded producer</h2><p class="g2-mod-notice" id="g2-notice-m1" hidden></p><iframe data-gate2-module="m1" title="M1 authentic producer" src="../iop-cct/index.html" style="width:100%;height:900px;border:0" loading="eager"></iframe></section><section class="card producer"><h2>M2 · authentic embedded producer</h2><p class="g2-mod-notice" id="g2-notice-m2" hidden></p><iframe data-gate2-module="m2" title="M2 authentic producer" src="../target-iop/index.html" style="width:100%;height:900px;border:0" loading="eager"></iframe></section><section class="card producer"><h2>M3 · authentic embedded producer</h2><p class="g2-mod-notice" id="g2-notice-m3" hidden></p><iframe data-gate2-module="m3" title="M3 authentic producer" src="../vf-progression/index.html" style="width:100%;height:900px;border:0" loading="eager"></iframe></section><section class="card producer"><h2>M4 · authentic embedded producer</h2><p class="g2-mod-notice" id="g2-notice-m4" hidden></p><iframe data-gate2-module="m4" title="M4 authentic producer" src="../rnfl-progression/index.html" style="width:100%;height:900px;border:0" loading="eager"></iframe></section></main><script>
+'use strict';let last=null,lastInput=null,lastFingerprint=null;
+const POLICY='G1-v0.2+G1-D03a-v0.1+PRECODE-H2-A2-v0.1+B1A-approved-2026-10-10';
+const by=id=>document.getElementById(id),load=k=>Gate2Session.load(k);
+const UI_CANDIDATE='v0.4.8-ui-aprime-staging-A1';
+// M-01 (U4, DRAFT copy — requires author final-copy approval): assessed-scope wording derived only from the engine result.
+const SCOPE_COPY={head:{both:'Assessed scope: global MD (M3) and average RNFL (M4).',md_only:'Assessed scope: global MD (M3) only.',rnfl_only:'Assessed scope: average RNFL (M4) only.',none:'Assessed scope not established: neither global MD (M3) nor average RNFL (M4) was assessed.',neutral:'Assessed scope not established; limitations require review.'},
+ functional:{absent:'Global MD (M3): not assessed — no current functional producer result.',insufficient:'Global MD (M3): not assessable — native functional data are insufficient.',assessed:'Global MD (M3): assessed.',assessed_limited:'Global MD (M3): assessed, with source limitations that require review (see clinical cautions).',unknown:'Global MD (M3): assessment status not established.'},
+ unconfirmed:' The source display signal is unconfirmed and is reported separately from the numeric assessment.',
+ structural:{absent:'Average RNFL (M4): not assessed — no current structural producer result.',insufficient:'Average RNFL (M4): not assessable — structural data are insufficient.',unclassifiable:'Average RNFL (M4): not assessable — structural assessment is unclassifiable.',floor:'Average RNFL (M4): limited by OCT floor effect; not graded.',signal_limited:'Average RNFL (M4): limited by source-reported myopia or ERM; not graded.',assessed:'Average RNFL (M4): assessed.',assessed_limited:'Average RNFL (M4): assessed, with source limitations that require review (see clinical cautions).',unknown:'Average RNFL (M4): assessment status not established.'},
+ integration:{partial_integrated:'Integrated concern scope: partial integration; the integrated concern is not graded.',integrated_with_reasons:'Integrated concern scope: material reasons require review; the integrated concern is not graded.'},
+ disclaimer:'This output does not establish individual disease risk, pressure control or treatment tolerability.',draft:'Scope wording: DRAFT — requires author final-copy approval.'};
+// A1 P5 (W-1, author-approved verbatim): single shared source for card, print, COPY and JSON.
+const FOCAL_SECTORAL_LIMITATION='Where assessed, global visual-field (MD) and average RNFL trends may miss focal or sectoral progression. The absence of a global progression signal does not exclude localized worsening.';
+const FUNCTIONAL_LIMITS=['inconsistent_functional_pattern','low_reliability_fields_present','low_test_reliability','m3_low_reliability_at_floor','non_significant_trend','inference_unavailable_exact_fit','history_vs_current_plateau','unresolved_history_vs_current_interpretation','unconfirmed_functional_signal_review_required','source_display_progressing_native_nonconfirmation','source_branch_provenance_unavailable','unaccounted_material_source_combination'];
+const STRUCTURAL_LIMITS=['vshape_artifact_detected','final_scan_low_reliability_rate_confirmation_required','artifact_suspected_due_to_quality','poor_quality_final_scan_cap','myopia_limits_oct_interpretation','myopia_limited','erm_limits_oct_interpretation','erm_maculopathy','slope_not_statistically_significant','rnfl_floor_effect','floor_effect','structural_state_native_mismatch','unmapped_upstream_caution_m4'];
+function assessedScope(r){
+ const codes=new Set(r.integration?.reason_codes||[]),f=r.functional||{},st=r.structural?.state,cs=r.integration?.concern_scope;
+ const fn=r.provenance?.functional_producer==='absent_no_m3_producer'?'absent':f.primary_assessability==='insufficient'?'insufficient':f.primary_assessability!=='assessable'?'unknown':(f.contextual_signal==='unconfirmed_functional_signal'||!['CLEAN_DOMAIN','PROGRESSION'].includes(f.selected_rule)||FUNCTIONAL_LIMITS.some(c=>codes.has(c)))?'assessed_limited':'assessed';
+ const direct={not_assessed:'absent',insufficient:'insufficient',unclassifiable:'unclassifiable',floor:'floor',signal_limited:'signal_limited'};
+ const sn=Object.prototype.hasOwnProperty.call(direct,st)?direct[st]:['adequate_stable','progressing','suspicious'].includes(st)?(st==='suspicious'||STRUCTURAL_LIMITS.some(c=>codes.has(c))?'assessed_limited':'assessed'):'unknown';
+ const fa=fn==='assessed'||fn==='assessed_limited',sa=sn==='assessed'||sn==='assessed_limited';
+ const claimsBoth=cs==='assessed_domains_global_MD_average_RNFL'||String(cs).startsWith('qualified_integrated_R8_'),known=claimsBoth||cs==='partial_integrated'||cs==='integrated_with_reasons';
+ const head=fn==='unknown'||sn==='unknown'||!known||(claimsBoth&&!(fa&&sa))?'neutral':fa&&sa?'both':fa?'md_only':sa?'rnfl_only':['floor','signal_limited'].includes(sn)?'neutral':'none';
+ return {head,functional:fn,structural:sn,lines:[SCOPE_COPY.head[head],SCOPE_COPY.functional[fn]+(f.contextual_signal==='unconfirmed_functional_signal'?SCOPE_COPY.unconfirmed:''),SCOPE_COPY.structural[sn],Object.prototype.hasOwnProperty.call(SCOPE_COPY.integration,cs)?SCOPE_COPY.integration[cs]:null,SCOPE_COPY.disclaimer,FOCAL_SECTORAL_LIMITATION,SCOPE_COPY.draft].filter(Boolean)};
+}
+// P-01: engine version is read from the bound result; never a literal. The UI candidate label is a separate field.
+const engineVersion=r=>r&&typeof r.semantic_version==='string'&&r.semantic_version?r.semantic_version:'Not available';
+const enabled=on=>['copy','print','json'].forEach(k=>by(k).disabled=!on);
+function invalidate(){last=null;lastInput=null;lastFingerprint=null;enabled(false);by('result').textContent='Context or contributor changed. Reintegrate current results.';inventory();}
+function inventory(){by('inventory').textContent=['m1','m2','m3','m4'].map(k=>k.toUpperCase()+': '+(load(k)?'current producer result':'absent or invalid')).join(' · ');}
+function emptyFunctional(){return {native:{classification:'unclassifiable',data_quality:'insufficient',progression_rate:{slope_md_per_year:null,p_value:null},confidence_level:'low',caution_flags:[],logic_trace:{}},display:{label:'Not assessable',assessability:'not_assessable',confidence:'low',concern:'not_graded'},candidate:{state:'absent'},source_predicates:{},executed_source_statements:[],windows:{},reliability:{},source_observation:{lastMD:null,lastRelLow:false,maxReliableDrop:0}};}
+function integrate(){if(!Gate2Host.integrationAllowed())return null;const active=Gate2Session.current(),env=['m1','m2','m3','m4'].map(load).filter(Boolean),m2=load('m2')?.payload,m3=load('m3')?.payload,m4=load('m4')?.payload,m1=load('m1')?.payload;
+ const state=Gate2Semantic.normalizeStructural(m4||null);
+ const input={context:active,pressure:m2?.pressure_observation||{method:null,role:null,value_mmhg:null,attested:false,selected:false,observation_id:null,target:[null,null]},functional:m3?.functional||emptyFunctional(),structural:{state,native:m4||null},m1_context:m1?{gat:m1.inputs.pio_mmhg,observation_id:m1.observation_id||null}:null,m2:m2?{stage:m2.inputs.stage,mode:m2.inputs.baseline_mmhg===null?'B':'A',progression:m2.inputs.progression,cct:m2.original_cct,covered_thick:m2.effective_target_cct==='average'&&m2.original_cct==='thick'}:null,versions:{evaluated_at:new Date().toISOString(),producers:env.map(e=>({module:e.module,algorithm:e.payload.algorithm_version,revision:e.revision,epoch:e.epoch,generated_at:e.generated_at,observation_id:e.payload.pressure_observation?.observation_id||e.payload.observation_id||null,observed_at:e.payload.pressure_observation?.observed_at||null})),oracle:'oracle-spec-0.4.1',policy_contract:POLICY}};
+ lastInput=input;last=Gate2Semantic.compute(input,active,env);Gate2Host.complete(last);lastFingerprint=Gate2Session.fingerprint();if(!lastFingerprint){last={status:'context_blocked',reason_codes:['missing_active_context'],integration:{concern:'not_graded'}};}render(last);return last;
+}
+
+const labels={no_signal:'No progression signal in assessed domains',not_assessable:'Functional assessment not assessable',history_vs_current_conflict:'History versus current functional interpretation',unconfirmed_functional_signal:'Unconfirmed functional signal',functional_progression:'Functional progression',review_required:'Integrated interpretation requires review'};
+const human=s=>String(s).replace(/_/g,' ');
+const cautionCopy={m3_not_assessable_source:'The visual field result (M3) is not assessable.',m3_not_assessable_floor:'Visual field progression cannot be assessed at end-stage damage (MD \u2264 \u221225 dB; floor effect).',m3_low_reliability_at_floor:'The most recent visual field is at end-stage level (MD \u2264 \u221225 dB) with low reliability; the stable result is not confirmed by a reliable field.',unresolved_history_vs_current_interpretation:'The native functional classification indicates progression whereas the M3 pattern-rule interpretation is stable; the two could not be reconciled.',non_significant_trend:'The functional trend is not statistically significant.',inference_unavailable_exact_fit:'Statistical inference is unavailable for the visual field trend: the MD values fit a straight line exactly (zero residual variance), so the slope is descriptive only.',slope_not_statistically_significant:'The RNFL slope is not statistically significant.',source_branch_provenance_unavailable:'The source pathway that produced the functional result could not be traced; interpret it with caution.',unaccounted_material_source_combination:'The combination of functional source findings is not covered by the interpretation rules; interpret with caution.',myopia_limited:'High myopia limits peripapillary RNFL interpretation.',erm_maculopathy:'Macular pathology limits interpretation of RNFL measurements.',structural_state_native_mismatch:'The structural result is inconsistent with its source classification; verify the M4 result.',unmapped_upstream_caution_m4:'The structural module (M4) reported a caution that M5 cannot interpret; review the M4 result directly.',same_observation_raw_conflict:'M1 and M2 report different pressure values for the same observation; pressure context is withheld.',clinical_override_recommended:'The stage-based target may require clinical override (NTG, baseline IOP unavailable, progression confirmed).',limited_input_scope:'The target IOP range is stage-based (baseline IOP unavailable); it is a starting reference, not an individualized target.',rnfl_near_floor:'Latest RNFL is approaching the physiological measurement floor; OCT trend sensitivity is reduced.',n2_single_interval_limitation:'Only two OCT scans (single interval): the structural trend is not yet confirmed.',current_GAT_not_available:'A selected, attested current on-treatment Goldmann GAT measurement is unavailable.',inconsistent_functional_pattern:'The source reports an inconsistent functional pattern.',low_reliability_fields_present:'The source reports visual fields with low reliability.',low_test_reliability:'The source reports low test reliability.',rnfl_floor_effect:'The RNFL measurement floor limits structural trend sensitivity.',floor_effect:'The structural measurement floor limits interpretation.',source_display_progressing_native_nonconfirmation:'The displayed functional progression label is not confirmed by the native classification.',unconfirmed_functional_signal_review_required:'The functional signal remains unconfirmed and requires interpretation with caution.',vshape_artifact_detected:'The source reports a V-shaped OCT pattern suggesting measurement artefact.',final_scan_low_reliability_rate_confirmation_required:'The most recent OCT scan has low reliability; the structural rate is not confirmed.',artifact_suspected_due_to_quality:'Scan quality may affect the OCT progression signal.',poor_quality_final_scan_cap:'The final OCT scan has reduced reliability and does not confirm fast structural progression.',myopia_limits_oct_interpretation:'High myopia limits peripapillary RNFL interpretation.',erm_limits_oct_interpretation:'Macular pathology limits interpretation of RNFL measurements.',m3_m4_discordant_signals:'Functional and structural signals disagree.',structural_progression_without_functional_confirmation:'The structural progression signal has no functional confirmation.',native_functional_insufficient:'The visual field series is insufficient for progression analysis.',functional_producer_absent:'No current visual field (M3) result is available for this assessment.',history_vs_current_plateau:'Historical progression and the current functional plateau need separate interpretation.',below_target_not_control_or_tolerability_evidence:'A below-range measured GAT value does not establish pressure control or treatment tolerability.'};
+const cautionText=c=>(cautionCopy[c]||human(c))+ ' ['+c+']';
+/* ===== M5 clinical text correction (author-approved scope; presentation layer only) =====
+   No rule, threshold, classification, concern or disposition is derived or changed here: every statement below is read from the engine result.
+   Staging markers (STAGING_COPY_MARKER and the "Staging candidate" wording in closingLine) must not appear in the COPY of a future public release. */
+const STAGING_COPY_MARKER='[DRAFT / REQUIRES_AUTHOR_FINAL_COPY_APPROVAL · synthetic staging only]';
+const nativeM4Flags=r=>Array.isArray(r.structural&&r.structural.native&&r.structural.native.caution_flags)?r.structural.native.caution_flags:[];
+// A more specific caution supersedes equivalent, less specific ones (codes stay in the JSON export).
+const CAUTION_SUPERSEDES={functional_producer_absent:['native_functional_insufficient','m3_not_assessable_source','m3_not_assessable_floor'],m3_not_assessable_floor:['native_functional_insufficient','m3_not_assessable_source'],native_functional_insufficient:['m3_not_assessable_source'],rnfl_floor_effect:['floor_effect','rnfl_near_floor'],floor_effect:['rnfl_near_floor']};
+function visibleCautions(r){
+ const codes=(r.cautions||[]).map(c=>c.code);
+ for(const f of ['rnfl_near_floor','n2_single_interval_limitation'])if(nativeM4Flags(r).includes(f)&&!codes.includes(f))codes.push(f);
+ const drop=new Set();for(const c of codes)for(const d of CAUTION_SUPERSEDES[c]||[])drop.add(d);
+ const seen=new Set(),out=[];
+ for(const c of codes){if(drop.has(c))continue;if(cautionCopy[c]){if(seen.has(cautionCopy[c]))continue;seen.add(cautionCopy[c]);}out.push(c);}
+ return out;
+}
+const cautionClinical=c=>cautionCopy[c]||'An additional material limitation was reported by the source; details are in the JSON export.';
+const frameOf=sc=>{const fa=sc.functional==='assessed'||sc.functional==='assessed_limited',sa=sc.structural==='assessed'||sc.structural==='assessed_limited';return fa&&sa?'both':(fa||sa)?'partial':'none';};
+function titleFor(r){
+ const base=labels[r.hero.signal]||human(r.hero.signal),sc=assessedScope(r),fr=frameOf(sc),codes=new Set((r.integration&&r.integration.reason_codes)||[]);
+ if(r.hero.signal==='no_signal'&&r.integration.disposition==='partial')return fr==='both'?'No progression signal in the assessed domains; assessment incomplete'+(r.pressure&&r.pressure.position==='not_available'?' (current GAT unavailable)':''):fr==='partial'?'Incomplete assessment — no progression signal in the domain assessed':'Assessment not established';
+ if(r.hero.signal==='not_assessable'){if(fr==='none')return 'Assessment not established';return sc.functional==='absent'?'Incomplete assessment — no current functional (M3) result':codes.has('m3_not_assessable_floor')?'Incomplete assessment — functional (M3) not assessable at end-stage damage':'Incomplete assessment — functional (M3) series not assessable';}
+ return base;
+}
+const fmtP=p=>p<0.001?'p < 0.001':'p = '+(p>=0.01?p.toFixed(2):p.toFixed(3));
+const fmtN=v=>Number.isInteger(v)?String(v):v.toFixed(1),r05=v=>Math.round(v*2)/2,cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+function mdInfo(r,sc,codes){
+ const f=r.functional||{},rule=f.selected_rule,n=f.numbers||{},lab=f.display&&f.display.label;
+ const disp=['Stable','No progression','No progression detected'].includes(lab)?'No progression detected':(lab||'Not available');
+ const has=v=>v!==null&&v!==undefined;
+ // G2-E (UI v0.4.8): 'No progression detected' is the M3 pattern-rule label; the M3 card is described only from
+ // functional.display.rendered_label when the producer reports it (no claim otherwise). Text only; rule and codes unchanged.
+ const card=f.display&&f.display.rendered_label,src=!has(card)?'M3 pattern-rule label: No progression detected':card==='No progression detected'?'M3 pattern-rule label and card: No progression detected':'M3 pattern-rule label: No progression detected; M3 card: '+card;
+ const slope=has(n.slope_md_per_year)?' · Slope: '+Number(n.slope_md_per_year).toFixed(2)+' dB/year'+(has(n.p_value)?' ('+fmtP(Number(n.p_value))+')':''):'';
+ const assessed=sc.functional==='assessed'||sc.functional==='assessed_limited';
+ let kind,line,clause;
+ if(sc.functional==='absent'){kind='absent';line='Not assessed (no current M3 result)';clause='no current visual field result (M3) is available';}
+ else if(sc.functional==='insufficient'){if(codes.has('m3_not_assessable_floor')){kind='floor';line='Not assessable (end-stage damage; floor effect)';clause='visual field progression (M3) cannot be assessed at end-stage damage (floor effect)';}else{kind='insufficient';line='Not assessable (visual field series insufficient)';clause='the visual field series was insufficient for progression analysis (M3 not assessable)';}}
+ else if(!assessed){kind='unknown';line='Assessment status not established';clause='the status of global MD (M3) could not be established';}
+ else if(rule==='PROGRESSION'){kind='progression';line='Progressing'+slope;clause='global MD (M3) indicates progression';}
+ else if(rule==='A2'||rule==='B1'||f.contextual_signal==='unconfirmed_functional_signal'){kind='unconfirmed';line='Unconfirmed functional signal (source display: '+disp+')'+slope;clause=disp==='Progressing'?'the source display for global MD (M3) reports progression, which the native classification does not confirm':'global MD (M3) shows a suspicious trend, which is not a confirmed progression';}
+ else if(rule==='A1'){if(codes.has('history_vs_current_plateau')){kind='plateau';line='Historical progression followed by a plateau ('+src+')'+slope;clause='global MD (M3) shows historical progression followed by a plateau on M3 criteria';}else{kind='unresolved';line='Not reconciled ('+src+'; native classification indicates progression)'+slope;clause='the functional result for global MD (M3) is unreconciled between its native classification and its pattern-rule interpretation';}}
+ else if(rule==='SAFE_MATERIAL_FALLBACK'){kind='fallback';line='Not reliably classifiable'+slope;clause='global MD (M3) findings could not be reliably classified';}
+ else{kind='clean';line=disp+slope;clause='global MD (M3) shows no progression'+(codes.has('m3_low_reliability_at_floor')?', although the most recent field has low reliability at end-stage level':'');}
+ return {assessed,kind,line,clause};
+}
+function rnInfo(r,sc,codes,flags){
+ const st=r.structural&&r.structural.state,s=sc.structural,assessed=s==='assessed'||s==='assessed_limited';
+ const finalLow=codes.has('final_scan_low_reliability_rate_confirmation_required'),vshape=codes.has('vshape_artifact_detected'),qualOther=codes.has('artifact_suspected_due_to_quality')||codes.has('poor_quality_final_scan_cap');
+ const near=flags.includes('rnfl_near_floor'),n2=flags.includes('n2_single_interval_limitation');
+ const mye=codes.has('myopia_limits_oct_interpretation')||codes.has('myopia_limited'),erm=codes.has('erm_limits_oct_interpretation')||codes.has('erm_maculopathy');
+ const why=mye&&!erm?'high myopia':erm&&!mye?'macular pathology':'high myopia or macular pathology';
+ let kind,line,clause;
+ if(s==='absent'){kind='absent';line='Not assessed (no current M4 result)';clause='no current OCT RNFL result (M4) is available';}
+ else if(s==='insufficient'){kind='insufficient';line='Not assessable (insufficient OCT data)';clause='OCT RNFL data (M4) were insufficient for trend analysis';}
+ else if(s==='unclassifiable'){kind='unclassifiable';line='Not assessable';clause='average RNFL (M4) could not be classified';}
+ else if(s==='floor'){kind='floor';line='Not assessable (OCT floor effect)';clause='average RNFL (M4) is at the OCT measurement floor and cannot be graded';}
+ else if(s==='signal_limited'){kind='signal_limited';line='Signal limited ('+why+')';clause='average RNFL (M4) cannot be graded because of '+why;}
+ else if(!assessed){kind='unknown';line='Assessment status not established';clause='the status of average RNFL (M4) could not be established';}
+ else{
+  const q=[];
+  if(st==='progressing'||st==='suspicious'){if(finalLow||vshape||qualOther)q.push('unconfirmed: scan quality');}
+  if(n2)q.push('two scans only');if(near)q.push('near measurement floor');
+  const qs=q.length?' ('+q.join('; ')+')':'';
+  if(st==='adequate_stable'){kind='stable';line='Stable'+qs;clause='average RNFL (M4) shows a stable trend'+(near?', with reduced sensitivity near the measurement floor':'');}
+  else if(st==='progressing'){kind='progressing';line='Progressing'+qs;clause='average RNFL (M4) shows a progression signal'+(finalLow?', but the most recent OCT scan has low reliability and the structural rate is not confirmed':vshape?', but the pattern suggests measurement artefact':qualOther?', but scan quality may affect this signal':'');}
+  else if(st==='suspicious'){kind='suspicious';line='Suspicious trend'+qs;clause='average RNFL (M4) shows a suspicious trend'+(n2?' based on only two OCT scans':'')+(finalLow?', and the most recent OCT scan has low reliability':vshape?', and the pattern suggests measurement artefact':qualOther?', and scan quality may affect this signal':'');}
+  else{kind='unknown';line='Assessment status not established';clause='the status of average RNFL (M4) could not be established';}
+ }
+ return {assessed,kind,line,clause};
+}
+function concernLabel(r){const c=cap(human(r.integration.concern)),d=r.integration.disposition;return c+(d==='partial'?' (incomplete assessment)':d==='protective_review_required'?' (clinical review required)':'');}
+function gatLine(r){
+ const pos=r.pressure.position,v=r.pressure.raw_GAT_mmhg,rg=r.pressure.range;
+ if(pos==='withheld')return 'Withheld';
+ if(v===null||v===undefined||pos==='not_available'||!Array.isArray(rg)||!rg.every(Number.isFinite))return v!==null&&v!==undefined?fmtN(v)+' mmHg':'Not available';
+ const t=pos==='within_range'?'Within target':pos==='above_range'?'+'+fmtN(r05(v-rg[1]))+' mmHg above target':'−'+fmtN(r05(rg[0]-v))+' mmHg below target';
+ return fmtN(v)+' mmHg · '+t;
+}
+function narrative(r,sc,codes,md,rn){
+ const fr=frameOf(sc),sig=r.presentation&&r.presentation.independently_scoped_structural_signal,out=[],pos=r.pressure.position;
+ const concordantSig='Functional and structural progression signals are concordant.';
+ if(fr==='none'){out.push('Assessment not established. '+cap(md.clause)+' and '+rn.clause+'.');}
+ else if(fr==='partial'){
+  const a=md.assessed?md:rn,b=md.assessed?rn:md,clean=md.assessed&&md.kind==='clean'||rn.assessed&&rn.kind==='stable';
+  out.push('Incomplete assessment. '+cap(a.clause)+'; '+b.clause+'.'+(clean?' Overall disease stability therefore cannot be inferred.':''));
+  if(sig&&rn.assessed)out.push(sig);
+ }else{
+  if(sig===concordantSig)out.push(sig);
+  else{
+   const dis=codes.has('m3_m4_discordant_signals')?'Functional and structural findings are discordant. ':'';
+   if(md.kind==='clean'&&rn.kind==='stable')out.push('No progression signal was found in either domain assessed: '+md.clause+' and '+rn.clause+'.');
+   else out.push(dis+cap(md.clause)+'; '+rn.clause+'.');
+   if(sig)out.push(sig);
+  }
+ }
+ if(pos==='within_range')out.push('Current on-treatment GAT lies within the target range.');
+ else if(pos==='above_range')out.push('Current on-treatment GAT is above the target range.');
+ else if(pos==='below_range')out.push('Current on-treatment GAT is below the target range.');
+ else if(pos==='not_available')out.push(fr==='both'?'Current on-treatment GAT is unavailable, so the integrated assessment is incomplete.':'Current on-treatment GAT is also unavailable.');
+ else if(pos==='withheld')out.push('The pressure context is withheld.');
+ if(r.integration.concern==='not_graded'&&r.integration.disposition==='protective_review_required')out.push('The integrated concern is not graded and the finding requires clinical review.');
+ return out;
+}
+function closingLine(r){
+ const list=((r.provenance&&r.provenance.versions&&r.provenance.versions.producers)||[]).map(x=>String(x.module).toUpperCase()+' '+x.algorithm).join(', ');
+ return 'Generated with OFTY Tool M5 · Staging candidate '+UI_CANDIDATE+' · Engine '+engineVersion(r)+(list?' · Inputs: '+list:'');
+}
+function copyReport(r,p){
+ const sc=assessedScope(r),codes=new Set((r.integration&&r.integration.reason_codes)||[]),flags=nativeM4Flags(r),md=mdInfo(r,sc,codes),rn=rnInfo(r,sc,codes,flags),rg=r.pressure.range;
+ const L=['OFTY Tool M5 — Integrated Glaucoma Assessment','Eye: '+displayValue(r.context&&r.context.eye),'','Integrated concern: '+concernLabel(r),'Global MD (M3): '+md.line,'Average RNFL (M4): '+rn.line];
+ if(Array.isArray(rg)&&rg.every(Number.isFinite))L.push('Target IOP range: '+fmtN(rg[0])+'-'+fmtN(rg[1])+' mmHg');
+ L.push('On-treatment IOP (GAT): '+gatLine(r),'','Interpretation: '+narrative(r,sc,codes,md,rn).join(' '));
+ const seen=new Set(),cs=[];for(const c of p.cautions){const t=cautionClinical(c);if(!seen.has(t)){seen.add(t);cs.push(t);}}
+ if(cs.length)L.push('','Cautions:',...cs.map(t=>'• '+t));
+ L.push('','Limitation: '+SCOPE_COPY.disclaimer,'Limitation: '+FOCAL_SECTORAL_LIMITATION,'',closingLine(r),STAGING_COPY_MARKER);
+ return L.join('\n');
+}
+/* ===== end M5 clinical text correction ===== */
+
+const displayValue=v=>v===null||v===undefined?'Not available':typeof v==='string'?human(v):String(v);
+function clinicalDetail(r){return [
+ ['Current measured Goldmann GAT (mmHg)',r.pressure.raw_GAT_mmhg],['Source target interval (mmHg)',r.pressure.range.map(displayValue).join(' – ')],['Measured GAT position',r.pressure.position],['Pressure measurement basis',r.pressure.basis],['Selected observation ID',r.pressure.selected_observation_id],
+ ['Functional assessment',r.functional.primary_state],['Functional assessability',r.functional.primary_assessability],['Native functional classification',r.functional.native_classification],['Source pattern-rule label (M3)',r.functional.display.label],['M3 card label',r.functional.display.rendered_label],['Native MD slope (dB/year)',r.functional.numbers.slope_md_per_year],['Native p-value',r.functional.numbers.p_value],['Native functional data quality',r.functional.native_data_quality],['Native functional confidence',r.confidence.native_M3],['Structural assessment',r.structural.state],['Structural source data quality',r.structural.source_data_quality],['Independent structural progression visible',r.structural.independent_progression_visible],['Integrated concern',r.integration.concern],['Assessed domain scope',r.integration.concern_scope],['Integrated confidence',r.confidence.integrated],['Assessment disposition',r.integration.disposition]
+ ].map(([k,v])=>[k,displayValue(v)]);}
+function node(tag,text,cls){const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;}
+function rows(value,prefix=''){
+ const out=[];if(value&&typeof value==='object')for(const [k,v]of Object.entries(value)){const path=prefix?prefix+'.'+k:k;if(v&&typeof v==='object')out.push(...rows(v,path));else out.push([path,v===null?'Not available':String(v)]);}else out.push([prefix,value===null?'Not available':String(value)]);return out;
+}
+function projection(r){
+ return {title:titleFor(r),metric:'Concern: '+human(r.integration.concern)+' · '+human(r.integration.disposition),
+ qualifier:'Current verified producer snapshot only · '+r.provenance.versions.evaluated_at,
+ interpretation:[r.presentation.assessment_qualification,r.presentation.independently_scoped_structural_signal,r.presentation.oct_limitation,'Functional assessment: '+human(r.functional.primary_state),...assessedScope(r).lines].filter(Boolean),
+ engine:'Semantic engine version: '+engineVersion(r),candidate:'UI staging candidate: '+UI_CANDIDATE+' (unpublished staging build; not a software release)',
+ cautions:visibleCautions(r),
+ detail:clinicalDetail(r),
+ transparency:[['Semantic engine version',engineVersion(r)],['UI staging candidate',UI_CANDIDATE+' (unpublished staging build; not a software release)'],...rows({assessment:r.context,versions:r.provenance,policy:r.m2_policy,functional:r.functional,structural:r.structural,integration:r.integration,confidence:r.confidence,presentation:r.presentation,material_surface_sets:r.surface_material_sets})]};
+}
+function definition(list){const dl=node('dl');for(const [k,v]of list)dl.append(node('dt',human(k)),node('dd',v));return dl;}
+function printProvenance(r,p){/* v0.4.5 print-only: curated provenance for the printed report; screen view, Copy text and JSON are unaffected (hidden outside @media print; not part of projection/text/result). */
+ const v=r.provenance.versions,c=r.context||{};
+ const list=[['Semantic engine version',engineVersion(r)],['UI staging candidate',UI_CANDIDATE+' (unpublished staging build; not a software release)'],['Evaluated at',v.evaluated_at],['Assessment eye',c.eye],['Assessment ID',c.assessment_id],['Oracle',v.oracle],['Policy contract',v.policy_contract]];
+ for(const pr of v.producers||[])list.push([String(pr.module).toUpperCase()+' producer snapshot','algorithm '+pr.algorithm+' · revision '+pr.revision+' · generated '+pr.generated_at]);
+ const s=node('section',undefined,'card print-provenance');s.dataset.layer='print-provenance';s.append(node('h2','Provenance, versions and limitations'),definition(list.map(([k,x])=>[k,displayValue(x)])),node('p','Draft synthetic staging output. Raw technical fields are available in the JSON export.','context-note'));return s;}
+function render(r){
+ by('result').replaceChildren();enabled(false);
+ if(r.status==='context_blocked'){const s=node('section',undefined,'card denied');s.append(node('h2','Integration withheld'));for(const reason of r.reason_codes||[])s.append(node('p',reason));by('result').append(s);return;}
+ const p=projection(r),hero=node('section',undefined,'card');hero.dataset.surface='primary';hero.append(node('h2',p.title,'hero-title'),node('p',p.metric,'hero-metric'),node('p',p.qualifier,'context-note'),node('p',p.engine,'context-note'),node('p',p.candidate,'context-note'));for(const t of p.interpretation)hero.append(node('p',t));
+ const caution=node('section',undefined,'material');caution.dataset.surface='hero';caution.append(node('h3','Clinical cautions — all material items'));const ul=node('ul');for(const code of p.cautions)ul.append(node('li',cautionText(code)));if(!p.cautions.length)ul.append(node('li','No material caution codes in this verified snapshot.'));caution.append(ul);hero.append(caution);by('result').append(hero);
+ const detail=node('section',undefined,'card');detail.dataset.layer='detail';detail.append(node('h2','Domain detail'),definition(p.detail));by('result').append(detail);
+ const method=node('details',undefined,'card method');method.dataset.layer='transparency';method.append(node('summary','Method, provenance and limitations'),definition(p.transparency));by('result').append(method);by('result').append(printProvenance(r,p));enabled(Gate2Host.exportOK());
+}
+function ready(){
+ if(!Gate2Host.exportOK())return false;
+ const a=Gate2Session.current();if(!last||last.status==='context_blocked'||!Gate2Session.same(a,lastInput?.context)||lastFingerprint!==Gate2Session.fingerprint()){invalidate();return false;}
+ const e=['m1','m2','m3','m4'].map(load).filter(Boolean);if(Gate2Semantic.compute(lastInput,a,e).status==='context_blocked'||lastFingerprint!==Gate2Session.fingerprint()){invalidate();return false;}return true;
+}
+function text(){if(!ready())return null;const p=projection(last);return copyReport(last,p);}
+async function copy(){const t=text();if(!t)return false;await navigator.clipboard.writeText(t);if(!ready()){await navigator.clipboard.writeText('Assessment withdrawn: context changed during copying.');return false;}return true;}
+function printReport(){if(!ready())return false;window.print();return true;}
+function json(){if(!ready())return false;const a=document.createElement('a'),url=URL.createObjectURL(new Blob([JSON.stringify(Object.assign({},last,{limitations:{focal_sectoral:FOCAL_SECTORAL_LIMITATION}}),null,2)],{type:'application/json'}));a.href=url;a.download='OFTY_GATE3_ASSESSMENT.json';a.click();URL.revokeObjectURL(url);return true;}
+by('integrate').onclick=integrate;by('copy').onclick=copy;by('print').onclick=printReport;by('json').onclick=json;
+document.addEventListener('copy',e=>{if(!Gate2Host.exportOK()){e.preventDefault();e.clipboardData?.setData('text/plain','Assessment withheld: ownership, freshness or verified save required.');}},true);
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&['p','c'].includes(e.key.toLowerCase())&&!Gate2Host.exportOK()){e.preventDefault();}},true);
+let printDisclosure=null;
+addEventListener('beforeprint',()=>{if(!ready())by('result').textContent='Assessment withheld: context or contributors changed.';else{const d=by('result').querySelector('details');if(d){printDisclosure=d.open;d.open=true;}}});
+addEventListener('afterprint',()=>{const d=by('result').querySelector('details');if(d&&printDisclosure!==null)d.open=printDisclosure;printDisclosure=null;});
+addEventListener('gate2contextchange',invalidate);addEventListener('gate2producerchange',invalidate);
+window.Gate2UI={withdraw:invalidate,integrate,render,text,ready,copy,print:printReport,json,projection,get result(){return last;}};inventory();
+</script></body></html>

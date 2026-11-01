@@ -1,0 +1,228 @@
+{
+ "description": "Expected outcome of tests/g2e_reproduction/run_reproduction.sh on the released candidate/ tree. Declared from the archived G2-E evaluation ledgers of 20 October 2026 (v1.0 = frozen oracle; v1.1 = post hoc amendment OA-E01, approved by the author on 20 October 2026 as a correction of version-metadata expectations only). Written into the release before any G3-A test run.",
+ "criteria": {
+  "R1_captures": "Every capture block exits with code 0 and no capture record has a harness_error.",
+  "R2_v1_1": "Under evaluator v1.1 every block passes all its fixtures (75/75 standalone, 70/70 host; 145/145 in total).",
+  "R3_v1_0": "Under the frozen evaluator v1.0 every block has the recorded PASS count (27/75 standalone, 8/70 host; 35/145 in total); the only failing checks are export_as_expected (standalone) or m3_envelope_as_expected (host); and the only expected-vs-observed difference path is functional.native.transport_version.",
+  "R4_integrity": "candidate/SHA256SUMS.txt and tests/g2e_reproduction/KIT_SHA256SUMS.txt verify before the run."
+ },
+ "totals": {
+  "v1.0": {
+   "standalone": [
+    27,
+    75
+   ],
+   "host": [
+    8,
+    70
+   ],
+   "all": [
+    35,
+    145
+   ]
+  },
+  "v1.1": {
+   "standalone": [
+    75,
+    75
+   ],
+   "host": [
+    70,
+    70
+   ],
+   "all": [
+    145,
+    145
+   ]
+  }
+ },
+ "blocks": {
+  "host_a02": {
+   "fixtures": 2,
+   "v1.0_PASS": 0,
+   "v1.0_failed_checks": [
+    "m3_envelope_as_expected"
+   ],
+   "v1.0_diff_paths": [
+    "functional.native.transport_version"
+   ],
+   "v1.1_PASS": 2,
+   "g2e_record_v1.0": "evidence/runs/20261020T103053Z_EVAL_HOST_a02",
+   "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_HOST_a02_OAE01"
+  },
+  "host_a03": {
+   "fixtures": 1,
+   "v1.0_PASS": 0,
+   "v1.0_failed_checks": [
+    "m3_envelope_as_expected"
+   ],
+   "v1.0_diff_paths": [
+    "functional.native.transport_version"
+   ],
+   "v1.1_PASS": 1,
+   "g2e_record_v1.0": "evidence/runs/20261020T103053Z_EVAL_HOST_a03",
+   "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_HOST_a03_OAE01"
+  },
+  "host_g2d": {
+   "fixtures": 12,
+   "v1.0_PASS": 4,
+   "v1.0_failed_checks": [
+    "m3_envelope_as_expected"
+   ],
+   "v1.0_diff_paths": [
+    "functional.native.transport_version"
+   ],
+   "v1.1_PASS": 12,
+   "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_HOST_g2d",
+   "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_HOST_g2d_OAE01"
+  },
+  "host_g2e": {
+   "fixtures": 12,
+   "v1.0_PASS": 4,
+   "v1.0_failed_checks": [
+    "m3_envelope_as_expected"
+   ],
+   "v1.0_diff_paths": [
+    "functional.native.transport_version"
+   ],
+   "v1.1_PASS": 12,
+   "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_HOST_g2e",
+   "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_HOST_g2e_OAE01"
+  },
+  "host_wp1": {
+   "fixtures": 17,
+   "v1.0_PASS": 0,
+   "v1.0_failed_checks": [
+    "m3_envelope_as_expected"
+   ],
+   "v1.0_diff_paths": [
+    "functional.native.transport_version"
+   ],
+   "v1.1_PASS": 17,
+   "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_HOST_wp1",
+   "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_HOST_wp1_OAE01"
+  },
+  "host_wp2": {
+   "fixtures": 12,
+   "v1.0_PASS": 0,
+   "v1.0_failed_checks": [
+    "m3_envelope_as_expected"
+   ],
+   "v1.0_diff_paths": [
+    "functional.native.transport_version"
+   ],
+   "v1.1_PASS": 12,
+   "g2e_record_v1.0": "evidence/runs/20261020T103053Z_EVAL_HOST_wp2",
+   "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_HOST_wp2_OAE01"
+  },
+  "host_wp3": {
+   "fixtures": 14,
+   "v1.0_PASS": 0,
+   "v1.0_failed_checks": [
+    "m3_envelope_as_expected"
+   ],
+   "v1.0_diff_paths": [
+    "functional.native.transport_version"
+   ],
+   "v1.1_PASS": 14,
+   "g2e_record_v1.0": "evidence/runs/20261020T103053Z_EVAL_HOST_wp3",
+   "g2e_record_v1.1": "evidence/runs/20261020T103137Z_EVAL_HOST_wp3_OAE01"
+  },
+  "standalone_a02": {
+   "fixtures": 2,
+   "v1.0_PASS": 0,
+   "v1.0_failed_checks": [
+    "export_as_expected"
+   ],
+   "v1.0_diff_paths": [
+    "functional.native.transport_version"
+   ],
+   "v1.1_PASS": 2,
+   "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_SA_a02",
+   "g2e_record_v1.1": "evidence/runs/20261020T103135Z_EVAL_SA_a02_OAE01"
+  },
+  "standalone_a03": {
+   "fixtures": 1,
+   "v1.0_PASS": 0,
+   "v1.0_failed_checks": [
+    "export_as_expected"
+   ],
+   "v1.0_diff_paths": [
+    "functional.native.transport_version"
+   ],
+   "v1.1_PASS": 1,
+   "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_SA_a03",
+   "g2e_record_v1.1": "evidence/runs/20261020T103135Z_EVAL_SA_a03_OAE01"
+  },
+  "standalone_g2d": {
+   "fixtures": 12,
+   "v1.0_PASS": 4,
+   "v1.0_failed_checks": [
+    "export_as_expected"
+   ],
+   "v1.0_diff_paths": [
+    "functional.native.transport_version"
+   ],
+   "v1.1_PASS": 12,
+   "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_SA_g2d",
+   "g2e_record_v1.1": "evidence/runs/20261020T103135Z_EVAL_SA_g2d_OAE01"
+  },
+  "standalone_g2e": {
+   "fixtures": 12,
+   "v1.0_PASS": 4,
+   "v1.0_failed_checks": [
+    "export_as_expected"
+   ],
+   "v1.0_diff_paths": [
+    "functional.native.transport_version"
+   ],
+   "v1.1_PASS": 12,
+   "g2e_record_v1.0": "evidence/runs/20261020T103051Z_EVAL_SA_g2e",
+   "g2e_record_v1.1": "evidence/runs/20261020T103135Z_EVAL_SA_g2e_OAE01"
+  },
+  "standalone_t2b_m4": {
+   "fixtures": 4,
+   "v1.0_PASS": 4,
+   "v1.0_failed_checks": [],
+   "v1.0_diff_paths": [],
+   "v1.1_PASS": 4,
+   "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_SA_t2b_m4",
+   "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_SA_t2b_m4_OAE01"
+  },
+  "standalone_wp1": {
+   "fixtures": 18,
+   "v1.0_PASS": 1,
+   "v1.0_failed_checks": [
+    "export_as_expected"
+   ],
+   "v1.0_diff_paths": [
+    "functional.native.transport_version"
+   ],
+   "v1.1_PASS": 18,
+   "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_SA_wp1",
+   "g2e_record_v1.1": "evidence/runs/20261020T103135Z_EVAL_SA_wp1_OAE01"
+  },
+  "standalone_wp2": {
+   "fixtures": 12,
+   "v1.0_PASS": 0,
+   "v1.0_failed_checks": [
+    "export_as_expected"
+   ],
+   "v1.0_diff_paths": [
+    "functional.native.transport_version"
+   ],
+   "v1.1_PASS": 12,
+   "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_SA_wp2",
+   "g2e_record_v1.1": "evidence/runs/20261020T103135Z_EVAL_SA_wp2_OAE01"
+  },
+  "standalone_wp3": {
+   "fixtures": 14,
+   "v1.0_PASS": 14,
+   "v1.0_failed_checks": [],
+   "v1.0_diff_paths": [],
+   "v1.1_PASS": 14,
+   "g2e_record_v1.0": "evidence/runs/20261020T103052Z_EVAL_SA_wp3",
+   "g2e_record_v1.1": "evidence/runs/20261020T103136Z_EVAL_SA_wp3_OAE01"
+  }
+ }
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>OFTY revision candidate G2-E — reviewer navigation</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+  h1 { font-size: 1.4rem; margin-bottom: 0.25rem; }
+  .sub { margin-top: 0; opacity: 0.8; }
+  .notice { border: 1px solid currentColor; border-radius: 6px; padding: 0.75rem 1rem; margin: 1.25rem 0; }
+  ul.modules { list-style: none; padding: 0; }
+  ul.modules li { margin: 0.6rem 0; }
+  ul.modules a { font-weight: 600; }
+  small, .meta { opacity: 0.8; }
+  code { font-size: 0.95em; }
+</style>
+</head>
+<body>
+<h1>OFTY Glaucoma Suite — revision candidate G2-E</h1>
+<p class="sub">Local navigation page for reviewers of manuscript 105677 (JMIR Formative Research)</p>
+
+<div class="notice">
+  <p><strong>Research prototype.</strong> Not intended or cleared for clinical use. Clinical validity and regulatory status have not been established by the tests in this repository, which use synthetic data and developer-specified expectations. Do not enter patient data.</p>
+  <p>This candidate is <strong>not</strong> the public OFTY website and is not deployed there. It is also not the software tested for the submitted manuscript (the historical test runner and its embedded M5 engine 1.0.0). The integrated M5 host still carries staging labels such as "DRAFT" and "unpublished staging build", and some exported records carry the marker <code>REQUIRES_AUTHOR_FINAL_COPY_APPROVAL</code>: the user-facing wording has not had final approval.</p>
+</div>
+
+<h2>Modules</h2>
+<ul class="modules">
+  <li><a href="./iop-cct/index.html">M1 — IOP/CCT context</a><br><small>algorithm 1.0.0, UI 1.2.0</small></li>
+  <li><a href="./target-iop/index.html">M2 — Target IOP</a><br><small>algorithm 1.1.0-gate2.1, target policy B-narrow-O1-0.4.1</small></li>
+  <li><a href="./vf-progression/index.html">M3 — Visual field (global MD) progression</a><br><small>algorithm 2.3.1, UI 2.6.2, export contract gate2-m3-0.2.1</small></li>
+  <li><a href="./rnfl-progression/index.html">M4 — RNFL (average thickness) progression</a><br><small>algorithm 1.3.1, UI 1.8.2</small></li>
+  <li><a href="./gate2/index.html">M5 — Integrated assessment host</a><br><small>engine gate2-semantic-0.3.1, host UI v0.4.8-ui-aprime-staging-A1. The path <a href="./orchestrator/index.html">orchestrator/</a> redirects here.</small></li>
+</ul>
+
+<h2>Notes for use</h2>
+<ul>
+  <li>Serve this folder over HTTP on your own computer (for example <code>python3 -m http.server 8000 --bind 127.0.0.1</code>) and open this page from that local address. The pages were tested only when served over HTTP, not when opened directly from disk.</li>
+  <li>The M5 host accepts only an allow-list of browser engines (Microsoft Edge or Chromium 120 or later on Windows). On other browsers or operating systems it shows the integrated result but disables Copy, Print report and Download JSON.</li>
+  <li>The M1–M4 pages load web fonts from Google; this navigation page loads nothing and contains no scripts, tracking or external resources.</li>
+  <li>Versions, the M3→M5 export contract, the changes since submission, known limitations and the reproducible tests are described in the repository's <code>README.md</code> and <code>docs/</code> folder.</li>
+</ul>
+
+<p class="meta">This page is release navigation added in October 2026 for the reviewer release; it is not one of the eight G2-E candidate source files, which are listed with their SHA-256 in <code>candidate/SHA256SUMS.txt</code> together with this page.</p>
+</body>
+</html>

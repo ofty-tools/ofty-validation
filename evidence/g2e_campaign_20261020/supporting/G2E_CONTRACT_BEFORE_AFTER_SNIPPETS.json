@@ -1,0 +1,113 @@
+{
+ "E-O6-sig-fast": {
+  "PRE": {
+   "transport_version": "gate2-m3-0.2.0",
+   "functional.native.transport_version": "gate2-m3-0.2.0",
+   "functional.display": {
+    "label": "Stable",
+    "assessability": "assessable",
+    "reason": null,
+    "confidence": "high",
+    "concern": "high"
+   },
+   "functional.candidate.ui": "2.6.1",
+   "native": {
+    "classification": "fast_progression",
+    "statistical_significance": "significant",
+    "confidence_level": "medium"
+   }
+  },
+  "POST": {
+   "transport_version": "gate2-m3-0.2.1",
+   "functional.native.transport_version": "gate2-m3-0.2.1",
+   "functional.display": {
+    "label": "Stable",
+    "assessability": "assessable",
+    "reason": null,
+    "confidence": "high",
+    "concern": "high",
+    "rendered_label": "Discordant indicators — clinical review needed"
+   },
+   "functional.candidate.ui": "2.6.2",
+   "native": {
+    "classification": "fast_progression",
+    "statistical_significance": "significant",
+    "confidence_level": "medium"
+   }
+  }
+ },
+ "E-A1-nonsig-moderate": {
+  "PRE": {
+   "transport_version": "gate2-m3-0.2.0",
+   "functional.native.transport_version": "gate2-m3-0.2.0",
+   "functional.display": {
+    "label": "Stable",
+    "assessability": "assessable",
+    "reason": null,
+    "confidence": "low",
+    "concern": "relevant"
+   },
+   "functional.candidate.ui": "2.6.1",
+   "native": {
+    "classification": "moderate_progression",
+    "statistical_significance": "non_significant",
+    "confidence_level": "medium"
+   }
+  },
+  "POST": {
+   "transport_version": "gate2-m3-0.2.1",
+   "functional.native.transport_version": "gate2-m3-0.2.1",
+   "functional.display": {
+    "label": "Stable",
+    "assessability": "assessable",
+    "reason": null,
+    "confidence": "low",
+    "concern": "relevant",
+    "rendered_label": "No progression detected"
+   },
+   "functional.candidate.ui": "2.6.2",
+   "native": {
+    "classification": "moderate_progression",
+    "statistical_significance": "non_significant",
+    "confidence_level": "medium"
+   }
+  }
+ },
+ "E-HS2-floor": {
+  "PRE": {
+   "transport_version": "gate2-m3-0.2.0",
+   "functional.native.transport_version": "gate2-m3-0.2.0",
+   "functional.display": {
+    "label": "Not assessable",
+    "assessability": "not_assessable",
+    "reason": "floor",
+    "confidence": "low",
+    "concern": "high"
+   },
+   "functional.candidate.ui": "2.6.1",
+   "native": {
+    "classification": "no_or_slow_progression",
+    "statistical_significance": "non_significant",
+    "confidence_level": "medium"
+   }
+  },
+  "POST": {
+   "transport_version": "gate2-m3-0.2.1",
+   "functional.native.transport_version": "gate2-m3-0.2.1",
+   "functional.display": {
+    "label": "Not assessable",
+    "assessability": "not_assessable",
+    "reason": "floor",
+    "confidence": "low",
+    "concern": "high",
+    "rendered_label": "Not assessable"
+   },
+   "functional.candidate.ui": "2.6.2",
+   "native": {
+    "classification": "no_or_slow_progression",
+    "statistical_significance": "non_significant",
+    "confidence_level": "medium"
+   }
+  }
+ }
+}

@@ -1,0 +1,68 @@
+{
+  "id": "WP3-n2",
+  "object": "PRE",
+  "module": "m4",
+  "started_utc": "2026-10-20T10:20:24.955Z",
+  "rows": [
+    [
+      "2023-01",
+      "90",
+      "good"
+    ],
+    [
+      "2024-01",
+      "87",
+      "good"
+    ]
+  ],
+  "screen": {
+    "label": "Suspicious trend",
+    "hero_slope": "Slope estimate unreliable",
+    "hero_slope_tag": "",
+    "confidence": "Low",
+    "confidence_sub": "Two measurements provide a very limited trend estimate.",
+    "risk": "Low clinical risk",
+    "interpretation": "A slight reduction in RNFL thickness is observed, but the magnitude is within the known range of OCT test-retest variability for a single interval. While the trend is suspicious, the clinical risk is currently low. A third measurement is essential to differentiate physiological noise from true progression.",
+    "card_inner_text": "OCT PROGRESSION ANALYSIS · OD\nSlope estimate unreliable\n50\n90\n87\n2023\n2024\nReliable\nBorderline\nLow reliability\nPROGRESSION\nI\nSuspicious trend\nCONFIDENCE\nLow\nTwo measurements provide a very limited trend estimate.\nLow clinical risk\ni\nINTERPRETATION\nA slight reduction in RNFL thickness is observed, but the magnitude is within the known range of OCT test-retest variability for a single interval. While the trend is suspicious, the clinical risk is currently low. A third measurement is essential to differentiate physiological noise from true progression.\nLimitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.\nCopy",
+    "scope_element_visible": true,
+    "scope_element_text": "Limitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.",
+    "method": {
+      "sufficiency_rule": "limited: n >= 2 AND at most 1 low-reliability scan",
+      "class_rule": "fast_progression: slope=-3 <= SLOPE_FAST_THRESHOLD=-2",
+      "p_value": "Not available",
+      "ci": "Not available"
+    }
+  },
+  "copy": "OFTY - OCT Progression Analysis (M4)\nEye: OD\nRNFL slope: -3.00 µm/year\nClassification: Suspicious trend\nConfidence: Low\nClinical risk: Low clinical risk\nScans: 2 · Follow-up: 12 months\nLatest RNFL: 87 µm (Good)\nInterpretation: A slight reduction in RNFL thickness is observed, but the magnitude is within the known range of OCT test-retest variability for a single interval. While the trend is suspicious, the clinical risk is currently low. A third measurement is essential to differentiate physiological noise from true progression.\nCaution flags: Single interval -- trend not yet confirmed (n=2)\nLimitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.\nGenerated with OFTY Tool M4 v1.1",
+  "payload_text": "{\"module_id\":\"OFTY-Gx-M4\",\"algorithm_version\":\"1.3.1\",\"mode\":\"core\",\"inputs_summary\":{\"eye\":\"OD\",\"n_tests_submitted\":2,\"n_tests_used\":2,\"modifiers\":[]},\"structural_rate\":{\"slope_rnfl_per_year\":-3,\"intercept\":90,\"p_value\":null,\"ci95_lower\":null,\"ci95_upper\":null},\"classification\":\"suspicious_trend\",\"statistical_significance\":\"not_calculable\",\"data_quality\":\"limited\",\"confidence_level\":\"low\",\"clinical_risk\":\"low\",\"interpretation\":\"A slight reduction in RNFL thickness is observed, but the magnitude is within the known range of OCT test-retest variability for a single interval. While the trend is suspicious, the clinical risk is currently low. A third measurement is essential to differentiate physiological noise from true progression.\",\"caution_flags\":[\"n2_single_interval_limitation\"],\"detail_summary\":{\"valid_test_count\":2,\"low_reliability_count\":0,\"borderline_reliability_count\":0,\"followup_years\":1,\"latest_rnfl\":87,\"latest_reliability\":\"good\"},\"logic_trace\":{\"method\":\"linear_regression_rnfl_vs_time\",\"validation\":\"all tests passed\",\"slope_rule_applied\":\"fast_progression: slope=-3 <= SLOPE_FAST_THRESHOLD=-2\",\"floor_rule_applied\":\"not_applied\",\"artifact_rule_applied\":\"not_applied\",\"vshape_rule_applied\":\"not_applied\",\"confidence_adjustments\":[\"none\"],\"sufficiency_rule\":\"limited: n >= 2 AND at most 1 low-reliability scan\",\"notes\":[\"data_quality=limited (n=2, low_rel=0)\",\"OLS: slope=-3 um/yr, p=null\",\"n=2 tiered prudence cap (noise-floor): fast_progression → suspicious_trend/low (absDiff=3 µm < 4 µm noise-floor threshold)\"]},\"model\":{\"type\":\"deterministic_trend_based\",\"intended_use\":\"clinical_decision_support\",\"notes\":\"This module provides a structured interpretation of OCT RNFL structural progression and does not replace clinical judgment.\"},\"_timestamp\":\"2026-10-14T10:00:00.000Z\"}",
+  "payload_sha256": "54f0470d2349b69a6f90abdd852630d64e4bd60bc8767c7461fa8c4da57ae702",
+  "print": {
+    "card_visible_under_print": true,
+    "card_inner_text_print": "OCT PROGRESSION ANALYSIS · OD\nSlope estimate unreliable\n50\n90\n87\n2023\n2024\nReliable\nBorderline\nLow reliability\nPROGRESSION\nI\nSuspicious trend\nCONFIDENCE\nLow\nTwo measurements provide a very limited trend estimate.\nLow clinical risk\ni\nINTERPRETATION\nA slight reduction in RNFL thickness is observed, but the magnitude is within the known range of OCT test-retest variability for a single interval. While the trend is suspicious, the clinical risk is currently low. A third measurement is essential to differentiate physiological noise from true progression.\nLimitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.\nCopied!"
+  },
+  "pdf": {
+    "sha256": "1ddd94980323c97c40a3b05436d89aa0890fedfd4d690ea19806b19f2dc1065b",
+    "text_normalized": "Standalone calculator · no integrated assessment publication. Back to OFTY Glaucoma Suite P A TIE N T P ARA M E TE R S Eye OD Enter measurements in chronological order. Date (YYYY-MM) Global RNFL (µm) 2023-01 Reliability i 90 Good × OCT Progression Analysis 2024-01 87 Good × O F TY T O OL #4 Serial RNFL thickness analysis to help assess glaucoma structural progression. Calculate + Add OCT Reset CLINICAL MODIFIERS High Myopia / Tilted Disc Macular Pathology (e.g., ERM) OC T PR O GR E SS I ON A NA LYSI S · OD Slope estimate unreliable 90 87 2023 2024 50 Reliable PROGRESSION Borderline Low reliability I Suspicious trend CONFIDENCE Low Two measurements provide a very limited trend estimate. Low clinical risk i INTERPRETATION A slight reduction in RNFL thickness is observed, but the magnitude is within the known range of OCT test-retest variability for a single interval. While the trend is suspicious, the clinical risk is currently low. A third measurement is essential to differentiate physiological noise from true progression. Limitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening. Copied! Share feedback or report a case Method & Thresholds Disclaimer Sources (Summary) Version History OFTY · M4 · © 2026 Andrea Ragosta, MD, FEBO"
+  },
+  "events": {
+    "console": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      }
+    ],
+    "page_errors": [],
+    "aborted_external": [
+      "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+    ],
+    "network_failed": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+        "err": "net::ERR_FAILED"
+      }
+    ]
+  },
+  "product_console_errors": [],
+  "finished_utc": "2026-10-20T10:20:26.830Z"
+}

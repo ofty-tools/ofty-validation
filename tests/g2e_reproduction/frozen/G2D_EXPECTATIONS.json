@@ -1,0 +1,437 @@
+{
+ "plan": "G2-D M3 presentation consistency, frozen expectations (see G2D_FROZEN_TEST_PLAN.md)",
+ "objects": {
+  "PRE": "G2C-WV1 (S01 package final_source; M3 ba90faa0...351d)",
+  "POST": "G2D-WV1 (G2C-WV1 + patch/apply_g2d_patches.py)"
+ },
+ "versions": {
+  "PRE": {
+   "m3_algorithm": "2.3.1",
+   "m3_ui": "2.6.0",
+   "m4_algorithm": "1.3.1",
+   "semantic": "gate2-semantic-0.3.1"
+  },
+  "POST": {
+   "m3_algorithm": "2.3.1",
+   "m3_ui": "2.6.1",
+   "m4_algorithm": "1.3.1",
+   "semantic": "gate2-semantic-0.3.1"
+  },
+  "changed_files": [
+   "vf-progression/index.html"
+  ]
+ },
+ "texts": {
+  "discordant_label": "Discordant indicators — clinical review needed",
+  "hero_tag_not_assessable": "(descriptive only — not assessable)",
+  "hero_tag_native_insufficient": "(descriptive only — insufficient data)",
+  "copy_slope_suffix_not_assessable": " (descriptive only; not assessable)",
+  "copy_slope_suffix_native_insufficient": " (descriptive only; insufficient data)",
+  "risk_low": "Low clinical risk",
+  "risk_indeterminate": "Indeterminate clinical risk",
+  "pre_stable_b1_negative_slope": "Serial visual field analysis does not demonstrate evidence of functional progression. The series is stable, with no clinically meaningful decline detected across the follow-up period.",
+  "o6_b1_template": "Discordant indicators — clinical review needed. The linear regression of global MD shows a statistically significant decline ({SLOPE}; {RATE} progression range; native engine confidence: {CONF}), whereas this tool's pattern-based rules (for example, the physiological-fluctuation and plateau checks) classify the series as 'No progression detected'. The tool does not resolve this discrepancy and neither confirms nor excludes progression.",
+  "o6_slope_rule": "{SLOPE} = \"estimated rate of change: \" + (v < 0 ? U+2212 : v > 0 ? \"+\" : \"\") + |v|.toFixed(2) + \" dB/year\", v = parseFloat(native slope_md_per_year.toFixed(2)) (the existing fmtSlope); {RATE} = moderate | fast | very fast from the native classification; {CONF} = native confidence_level",
+  "slope_band_tags": [
+   "(Stable slope)",
+   "(Moderate slope)",
+   "(Fast slope)",
+   "(Very fast slope)"
+  ]
+ },
+ "triggers": {
+  "S1": "PRE capture: n < 2 and card risk = \"Low clinical risk\"",
+  "S2": "PRE capture: card label = \"Not assessable\", hero slope numeric, hero tag not starting with \"(descriptive only\"",
+  "O6": "PRE capture: card label = \"No progression detected\" and PRE export native classification in {moderate_progression, fast_progression, very_fast_progression}, statistical_significance = significant, data_quality != insufficient"
+ },
+ "expected_post_transform": {
+  "S1": "card risk -> Indeterminate clinical risk; COPY \"Clinical risk: \" line likewise; everything else identical",
+  "S2": "hero tag -> (descriptive only — not assessable); COPY Slope line + \" (descriptive only; not assessable)\"; everything else identical",
+  "O6": "card label and COPY Progression line -> discordant label; interpretation = o6 b1 + (PRE interpretation after pre_stable_b1_negative_slope); export functional.source_observation.source_interpretation = new interpretation; everything else identical",
+  "all_with_export": "export identical except functional.candidate.ui 2.6.0 -> 2.6.1, _timestamp, and (O6 only) functional.source_observation.source_interpretation",
+  "untriggered": "card, COPY, Method panel, limitations notes, print text identical; PDF text identical as a character multiset (pdftotext order is not stable across runs, observed at baseline); export identical except candidate.ui and _timestamp",
+  "m4_fixtures": "M4 page unchanged: card, COPY, print text identical, PDF text identical as a character multiset, export identical except _timestamp",
+  "host": "M3 frame as standalone; M5 result and JSON identical after removing volatile keys, except functional.candidate.ui and (O6) any path ending in source_interpretation; M5 COPY and screen text identical after removing ISO timestamps; M5 hero, concern, disposition, reason codes and guards identical; n = 1: M3 not published, no envelope, M5 not ready, as PRE"
+ },
+ "fixtures": [
+  {
+   "id": "G2D-HS1-n1-good",
+   "group": "HS1",
+   "origin": "G2-C WP1-n1 (same data)",
+   "dates": [
+    "2024-01"
+   ],
+   "md": [
+    -3
+   ],
+   "reliability": [
+    "good"
+   ],
+   "expected_trigger": [
+    "S1"
+   ],
+   "pre_reproduces": "Not assessable + Low clinical risk"
+  },
+  {
+   "id": "G2D-HS1-n1-low",
+   "group": "HS1",
+   "origin": "G2-D new (design aid run on PRE)",
+   "dates": [
+    "2024-01"
+   ],
+   "md": [
+    -3
+   ],
+   "reliability": [
+    "low"
+   ],
+   "expected_trigger": [
+    "S1"
+   ]
+  },
+  {
+   "id": "G2D-HS1-n1-adv15",
+   "group": "HS1-control",
+   "origin": "G2-D new",
+   "dates": [
+    "2024-01"
+   ],
+   "md": [
+    -15
+   ],
+   "reliability": [
+    "good"
+   ],
+   "expected_trigger": [],
+   "note": "advanced-disease floor (MD <= -12) keeps Moderate; not low, so unchanged"
+  },
+  {
+   "id": "G2D-HS1-n1-floor26",
+   "group": "HS1-control",
+   "origin": "G2-D new",
+   "dates": [
+    "2024-01"
+   ],
+   "md": [
+    -26
+   ],
+   "reliability": [
+    "good"
+   ],
+   "expected_trigger": [],
+   "note": "floor override keeps High; unchanged"
+  },
+  {
+   "id": "G2D-HS2-floor-stable",
+   "group": "HS2",
+   "origin": "G2-C WP1-n5-24m-floor (same data)",
+   "dates": [
+    "2022-01",
+    "2022-07",
+    "2023-01",
+    "2023-07",
+    "2024-01"
+   ],
+   "md": [
+    -25.6,
+    -25.9,
+    -25.7,
+    -26.1,
+    -25.8
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "expected_trigger": [
+    "S2"
+   ],
+   "pre_reproduces": "Not assessable + -0.12 (Stable slope)"
+  },
+  {
+   "id": "G2D-HS2-floor-moderate",
+   "group": "HS2",
+   "origin": "G2-D new",
+   "dates": [
+    "2022-01",
+    "2022-07",
+    "2023-01",
+    "2023-07",
+    "2024-01"
+   ],
+   "md": [
+    -24,
+    -24.3,
+    -24.7,
+    -25,
+    -25.3
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "expected_trigger": [
+    "S2"
+   ],
+   "note": "floor variant C with a Moderate slope tag on PRE"
+  },
+  {
+   "id": "G2D-HS2-n3-floor-insufficient",
+   "group": "HS2-control",
+   "origin": "G2-C WP1-n3-floor (same data)",
+   "dates": [
+    "2022-01",
+    "2023-01",
+    "2024-01"
+   ],
+   "md": [
+    -26,
+    -26.5,
+    -26.2
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good"
+   ],
+   "expected_trigger": [],
+   "note": "native insufficient: G2-C wording kept"
+  },
+  {
+   "id": "G2D-O6-noisy-n12",
+   "group": "O6",
+   "origin": "G2-C WP2-noisy-n12 (same data)",
+   "dates": [
+    "2019-01",
+    "2019-03",
+    "2019-05",
+    "2019-07",
+    "2019-09",
+    "2019-11",
+    "2020-01",
+    "2020-03",
+    "2020-05",
+    "2020-07",
+    "2020-09",
+    "2020-11"
+   ],
+   "md": [
+    -2,
+    -2.4,
+    -2.1,
+    -2.9,
+    -2.6,
+    -3.3,
+    -3,
+    -3.6,
+    -3.4,
+    -4.1,
+    -3.8,
+    -4.4
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "expected_trigger": [
+    "O6"
+   ],
+   "pre_reproduces": "No progression detected + native fast_progression significant"
+  },
+  {
+   "id": "G2D-O6-moderate-n12",
+   "group": "O6",
+   "origin": "G2-D new",
+   "dates": [
+    "2019-01",
+    "2019-03",
+    "2019-05",
+    "2019-07",
+    "2019-09",
+    "2019-11",
+    "2020-01",
+    "2020-03",
+    "2020-05",
+    "2020-07",
+    "2020-09",
+    "2020-11"
+   ],
+   "md": [
+    -2,
+    -2.3,
+    -2.1,
+    -2.5,
+    -2.3,
+    -2.7,
+    -2.5,
+    -2.9,
+    -2.7,
+    -3.1,
+    -2.9,
+    -3.3
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "expected_trigger": [
+    "O6"
+   ],
+   "note": "physiological-fluctuation Stable; native moderate significant"
+  },
+  {
+   "id": "G2D-O6-plateau-n12",
+   "group": "O6",
+   "origin": "G2-D new",
+   "dates": [
+    "2012-01",
+    "2013-01",
+    "2014-01",
+    "2015-01",
+    "2016-01",
+    "2017-01",
+    "2018-01",
+    "2019-01",
+    "2020-01",
+    "2021-01",
+    "2022-01",
+    "2023-01"
+   ],
+   "md": [
+    -2,
+    -2,
+    -2,
+    -8,
+    -8,
+    -8,
+    -8,
+    -8,
+    -8,
+    -8,
+    -8,
+    -8
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "expected_trigger": [
+    "O6"
+   ],
+   "note": "plateau rule (Fix C) Stable; native moderate significant"
+  },
+  {
+   "id": "G2D-O6-nonsig",
+   "group": "O6-control",
+   "origin": "G2-D new",
+   "dates": [
+    "2023-01",
+    "2023-04",
+    "2023-07",
+    "2023-10",
+    "2024-02"
+   ],
+   "md": [
+    -2,
+    -3.6,
+    -1.9,
+    -3.4,
+    -3
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "expected_trigger": [],
+   "note": "native moderate but non_significant: not a material signal under the frozen rule; unchanged"
+  },
+  {
+   "id": "G2D-O6-slow-sig",
+   "group": "O6-control",
+   "origin": "G2-D new",
+   "dates": [
+    "2019-01",
+    "2019-03",
+    "2019-05",
+    "2019-07",
+    "2019-09",
+    "2019-11",
+    "2020-01",
+    "2020-03",
+    "2020-05",
+    "2020-07",
+    "2020-09",
+    "2020-11"
+   ],
+   "md": [
+    -2,
+    -2.1,
+    -2.1,
+    -2.2,
+    -2.3,
+    -2.3,
+    -2.4,
+    -2.5,
+    -2.5,
+    -2.6,
+    -2.7,
+    -2.7
+   ],
+   "reliability": [
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good",
+    "good"
+   ],
+   "expected_trigger": [],
+   "note": "native no_or_slow significant: consistent with No progression detected (slope > -0.5); unchanged"
+  }
+ ]
+}

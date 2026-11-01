@@ -1,0 +1,22 @@
+full hashes checked 27 abbreviated 39 unmatched 6
+  UNMATCHED ('G2E_FROZEN_TEST_PLAN.md', 'abbrev', 'a031187f…f910')
+  UNMATCHED ('G2E_FROZEN_TEST_PLAN.md', 'abbrev', '039d444c…a3f8')
+  UNMATCHED ('G2E_FROZEN_TEST_PLAN.md', 'abbrev', 'a3b9283b…c192')
+  UNMATCHED ('A_REPO_IDENTITY_AND_VERSION_MAP.md', 'full', 'a8cea8e3518d19c67c03dbb0c25f02303fa52225c452258f3ec8b447f850faf8')
+  UNMATCHED ('A_REPO_IDENTITY_AND_VERSION_MAP.md', 'full', '09e2e07c81e250b0c8c77ec493b3cc97ba5f40d77a56dd6311a5208198ab222e')
+  UNMATCHED ('A_REPO_IDENTITY_AND_VERSION_MAP.md', 'full', '116bc49bc523c3cc1b2918cafb7335b141788f9969ee1e94fd508f1409b38d71')
+version M1 1.0.0 OK
+version M1 UI 1.2.0 OK
+version M2 1.1.0-gate2.1 OK
+version M2 policy OK
+version M3 2.3.1 OK
+version M3 UI 2.6.2 OK
+version M3 contract OK
+version M4 1.3.1 OK
+version M4 UI 1.8.2 OK
+version M5 semantic OK
+version M5 UI OK
+version M5 map OK
+version allowlist OK
+version GA tag OK
+version lineage OK

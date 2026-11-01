@@ -1,0 +1,5 @@
+B0 2026-10-20T11:51:26Z npm ci (NODE_PATH cleared)
+
+added 2 packages in 505ms
+playwright resolved: <tests>/node_modules/playwright/package.json 1.56.0
+PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers (preinstalled; download not performed)

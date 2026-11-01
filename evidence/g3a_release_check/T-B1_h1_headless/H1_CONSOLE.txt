@@ -1,0 +1,310 @@
+
+============================================================
+  OFTY-Gx-M5 · Internal Test Runner · v2.1
+  Engine v1.0.0 · 23 manual scenarios
+============================================================
+
+  [S01] Stable concordant — IOP at target
+    PASS  integrated_classification = stable_controlled
+    PASS  pattern_type = concordant_stable
+    PASS  integrated_risk = low
+    PASS  iop_status = at_target
+    PASS  summary_flags excludes "m3_m4_discordant_signals"
+    PASS  summary_flags excludes "iop_above_target"
+
+  [S02] Stable concordant — IOP above target
+    PASS  integrated_classification = stable_iop_not_controlled
+    PASS  pattern_type = iop_above_target_stable_domains
+    PASS  integrated_risk = relevant
+    PASS  iop_status = above_target
+    PASS  summary_flags includes "iop_above_target"
+    PASS  summary_flags excludes "m3_m4_discordant_signals"
+
+  [S03] Stable concordant — IOP unknown (no current IOP, no M1)
+    PASS  integrated_classification = stable_domains_iop_not_assessed
+    PASS  pattern_type = concordant_stable
+    PASS  integrated_risk = indeterminate
+    PASS  iop_status = unknown
+    PASS  summary_flags includes "iop_gap_not_assessable"
+    PASS  summary_flags excludes "iop_above_target"
+    PASS  final_interpretation contains "could not be assessed"
+
+  [S04] Functional lead — M3 progressing, M4 stable, IOP at target
+    PASS  integrated_classification = functional_signal_unconfirmed_structurally
+    PASS  pattern_type = functional_lead
+    PASS  integrated_risk = relevant
+    PASS  iop_status = at_target
+    PASS  summary_flags includes "m3_m4_discordant_signals"
+    PASS  summary_flags includes "functional_progression_without_structural_confirmation"
+    PASS  summary_flags excludes "structural_trend_supportive_not_confirmed"
+
+  [S05] Structural lead — M4 suspicious, M3 stable, IOP at target
+    PASS  integrated_classification = structural_signal_unconfirmed_functionally
+    PASS  pattern_type = structural_lead
+    PASS  integrated_risk = relevant
+    PASS  iop_status = at_target
+    PASS  summary_flags includes "m3_m4_discordant_signals"
+    PASS  summary_flags includes "structural_progression_without_functional_confirmation"
+    PASS  summary_flags excludes "functional_progression_without_structural_confirmation"
+
+  [S06] Functional progression with structural support — IOP at target
+    PASS  integrated_classification = functional_progression_with_structural_support
+    PASS  pattern_type = functional_progression_structural_support
+    PASS  integrated_risk = relevant
+    PASS  iop_status = at_target
+    PASS  summary_flags includes "structural_trend_supportive_not_confirmed"
+    PASS  summary_flags excludes "m3_m4_discordant_signals"
+
+  [S07] Functional progression with structural support — IOP above target (risk=high)
+    PASS  integrated_classification = progression_with_iop_above_target
+    PASS  pattern_type = functional_progression_structural_support
+    PASS  integrated_risk = high
+    PASS  iop_status = above_target
+    PASS  summary_flags includes "iop_above_target_with_progression"
+    PASS  summary_flags includes "structural_trend_supportive_not_confirmed"
+    PASS  summary_flags excludes "m3_m4_discordant_signals"
+
+  [S08] Concordant progression — M3 moderate + M4 fast, IOP at target
+    PASS  integrated_classification = progression_despite_controlled_iop
+    PASS  pattern_type = concordant_progression
+    PASS  integrated_risk = high
+    PASS  iop_status = at_target
+    PASS  summary_flags includes "progression_despite_iop_control"
+    PASS  summary_flags excludes "m3_m4_discordant_signals"
+
+  [S09] Concordant progression — M3 fast + M4 fast, IOP above target (unconditional high)
+    PASS  integrated_classification = progression_with_iop_above_target
+    PASS  pattern_type = concordant_progression
+    PASS  integrated_risk = high
+    PASS  iop_status = above_target
+    PASS  summary_flags includes "iop_above_target_with_progression"
+
+  [S10] Floor effect — M3 stable, IOP at target (risk=relevant, not high)
+    PASS  integrated_classification = floor_effect_context
+    PASS  pattern_type = floor_effect_context
+    PASS  integrated_risk = relevant
+    PASS  iop_status = at_target
+    PASS  summary_flags includes "floor_effect_structural_tracking_limited"
+
+  [S11] Floor effect — M3 fast progression (risk=high, functional-driven)
+    PASS  integrated_classification = floor_effect_context
+    PASS  pattern_type = floor_effect_context
+    PASS  integrated_risk = high
+    PASS  iop_status = at_target
+    PASS  summary_flags includes "floor_effect_structural_tracking_limited"
+    PASS  final_interpretation contains "primary monitoring channel"
+
+  [S12] Signal-limited structural — M3 stable, IOP at target (risk=low)
+    PASS  integrated_classification = signal_limited_structural
+    PASS  pattern_type = signal_limited
+    PASS  integrated_risk = low
+    PASS  iop_status = at_target
+    PASS  summary_flags includes "structural_signal_limited"
+    PASS  summary_flags excludes "floor_effect_structural_tracking_limited"
+
+  [S13] Signal-limited structural — M3 fast progression (risk=high)
+    PASS  integrated_classification = signal_limited_structural
+    PASS  pattern_type = signal_limited
+    PASS  integrated_risk = high
+    PASS  iop_status = at_target
+    PASS  summary_flags includes "structural_signal_limited"
+
+  [S14] Insufficient data — both domains unclassifiable
+    PASS  integrated_classification = insufficient_data
+    PASS  pattern_type = insufficient_data
+    PASS  integrated_risk = indeterminate
+    PASS  summary_flags excludes "m3_m4_discordant_signals"
+
+  [S15] Invalid input envelope — null input (guard branch)
+    PASS  integrated_classification = indeterminate
+    PASS  pattern_type = indeterminate
+    PASS  integrated_risk = indeterminate
+    PASS  iop_status = unknown
+    PASS  summary_flags includes "invalid_input_envelope"
+    PASS  final_interpretation contains "missing or invalid"
+
+  [S16] Adapter: M2 absent — iop_status unknown, m2_absent flag
+    PASS  integrated_classification = stable_domains_iop_not_assessed
+    PASS  pattern_type = concordant_stable
+    PASS  integrated_risk = indeterminate
+    PASS  iop_status = unknown
+    PASS  summary_flags includes "m2_absent_no_iop_anchor"
+    PASS  summary_flags includes "iop_gap_not_assessable"
+
+  [S17] IOP below target — stable concordant (interp uses "below")
+    PASS  integrated_classification = stable_controlled
+    PASS  pattern_type = concordant_stable
+    PASS  integrated_risk = low
+    PASS  iop_status = below_target
+    PASS  final_interpretation contains "below the individualized target range"
+
+  [S18] Confidence ceiling — M3+M4 both high, no penalties → integrated_confidence=high
+    PASS  integrated_classification = stable_controlled
+    PASS  pattern_type = concordant_stable
+    PASS  integrated_risk = low
+    PASS  summary_flags excludes "integrated_confidence_downgraded_discordance"
+    PASS  integrated_confidence should be "high" when M3+M4 both high, no penalties
+
+  [S19] Confidence penalty — discordance downgrades confidence
+    PASS  integrated_classification = functional_signal_unconfirmed_structurally
+    PASS  pattern_type = functional_lead
+    PASS  integrated_risk = relevant
+    PASS  summary_flags includes "integrated_confidence_downgraded_discordance"
+    PASS  integrated_confidence must be below "high" when discordance penalty applied
+
+  [S20] Adapter transparency — adapter_warnings surfaced in logic_trace
+    PASS  integrated_classification = stable_domains_iop_not_assessed
+    PASS  pattern_type = concordant_stable
+    PASS  integrated_risk = indeterminate
+    PASS  iop_status = unknown
+    PASS  logic_trace.adapter_warnings must be an array
+    PASS  logic_trace.adapter_warnings must be non-empty when M2 absent
+
+  [S21] Disastrous but unreliable — M3 very fast / low confidence, M4 floor effect, IOP unknown
+    PASS  integrated_classification = floor_effect_context
+    PASS  pattern_type = floor_effect_context
+    PASS  integrated_risk = high
+    PASS  iop_status = unknown
+    PASS  summary_flags includes "floor_effect_structural_tracking_limited"
+    PASS  summary_flags includes "iop_gap_not_assessable"
+    PASS  summary_flags excludes "m3_m4_discordant_signals"
+    PASS  final_interpretation contains "primary monitoring channel"
+    PASS  S21: integrated_confidence must not be high (low-quality data)
+    PASS  S21: final_interpretation must be a non-empty, non-prescriptive string
+
+  [S22] Extreme discordance — M3 stable (high), M4 fast (high), IOP below target
+    PASS  integrated_classification = structural_signal_unconfirmed_functionally
+    PASS  pattern_type = structural_lead
+    PASS  integrated_risk = high
+    PASS  iop_status = below_target
+    PASS  summary_flags includes "m3_m4_discordant_signals"
+    PASS  summary_flags includes "structural_progression_without_functional_confirmation"
+    PASS  summary_flags includes "progression_despite_iop_control"
+    PASS  summary_flags excludes "functional_progression_without_structural_confirmation"
+    PASS  summary_flags excludes "iop_above_target"
+    PASS  S22: must not collapse into stable_controlled — structural signal active
+
+  [S23] Only M1 present — M2/M3/M4 all absent (maximally incomplete input)
+    PASS  integrated_classification = partial_assessment
+    PASS  pattern_type = partial_assessment
+    PASS  integrated_risk = indeterminate
+    PASS  iop_status = unknown
+    PASS  summary_flags includes "m2_absent_no_iop_anchor"
+    PASS  summary_flags includes "m3_not_assessed"
+    PASS  summary_flags includes "m4_not_assessed"
+    PASS  summary_flags includes "iop_gap_not_assessable"
+    PASS  S23: integrated_confidence must be indeterminate with no M3/M4
+    PASS  S23: final_interpretation must be a non-empty string even with all modules absent
+
+  Manual: 146 passed | 0 failed
+
+============================================================
+  Combinatorial Stress Test
+  6 M3 × 8 M4 × 4 IOP = 192 combinations · A1–A5 per combo
+============================================================
+  PASS  192/192 combinations — all assertions satisfied
+
+============================================================
+  GRAND TOTAL: ALL PASS
+  Manual: 23 scenarios | 146 assertions
+  Stress: 192 combinations | 5 assertions each
+============================================================
+
+
+============================================================
+  Clinical Red Teaming — Interpretation Review
+  Human review only. Check for overclaiming, awkward
+  phrasing, or legally risky language. No auto-eval.
+============================================================
+
+  [S01] Stable concordant — IOP at target
+  Classification: stable_controlled
+  Interpretation: Concordant stable assessment. IOP is within the individualized target range. Clinical decision remains with the treating physician.
+
+  [S02] Stable concordant — IOP above target
+  Classification: stable_iop_not_controlled
+  Interpretation: Both structural and functional domains are currently stable; IOP is above target range. Clinical decision remains with the treating physician.
+
+  [S03] Stable concordant — IOP unknown (no current IOP, no M1)
+  Classification: stable_domains_iop_not_assessed
+  Interpretation: Structural and functional domains are both stable; IOP status relative to the individualized target could not be assessed. Clinical decision remains with the treating physician.
+
+  [S04] Functional lead — M3 progressing, M4 stable, IOP at target
+  Classification: functional_signal_unconfirmed_structurally
+  Interpretation: Functional progression signal detected without structural confirmation. IOP is within the individualized target range. Structural–functional discordance is noted; independent review of both domain signals is recommended. Clinical decision remains with the treating physician.
+
+  [S05] Structural lead — M4 suspicious, M3 stable, IOP at target
+  Classification: structural_signal_unconfirmed_functionally
+  Interpretation: Structural progression signal detected without functional confirmation. IOP is within the individualized target range. Structural–functional discordance is noted; independent review of both domain signals is recommended. Clinical decision remains with the treating physician.
+
+  [S06] Functional progression with structural support — IOP at target
+  Classification: functional_progression_with_structural_support
+  Interpretation: Functional progression detected with supportive but unconfirmed structural trend. IOP is within the individualized target range. The structural trend is directionally consistent with functional findings but has not crossed the threshold for confirmed structural progression. Clinical decision remains with the treating physician.
+
+  [S07] Functional progression with structural support — IOP above target (risk=high)
+  Classification: progression_with_iop_above_target
+  Interpretation: Progression signal detected with IOP above target range. The structural trend is directionally consistent with functional findings but has not crossed the threshold for confirmed structural progression. Clinical decision remains with the treating physician.
+
+  [S08] Concordant progression — M3 moderate + M4 fast, IOP at target
+  Classification: progression_despite_controlled_iop
+  Interpretation: Progression signal detected despite IOP within or below the target range. Clinical decision remains with the treating physician.
+
+  [S09] Concordant progression — M3 fast + M4 fast, IOP above target (unconditional high)
+  Classification: progression_with_iop_above_target
+  Interpretation: Progression signal detected with IOP above target range. Clinical decision remains with the treating physician.
+
+  [S10] Floor effect — M3 stable, IOP at target (risk=relevant, not high)
+  Classification: floor_effect_context
+  Interpretation: RNFL has reached the structural measurement floor; structural OCT is no longer the primary progression signal. IOP is within the individualized target range. Functional data constitutes the primary monitoring channel in this context. Clinical decision remains with the treating physician.
+
+  [S11] Floor effect — M3 fast progression (risk=high, functional-driven)
+  Classification: floor_effect_context
+  Interpretation: RNFL has reached the structural measurement floor; structural OCT is no longer the primary progression signal. IOP is within the individualized target range. Functional data constitutes the primary monitoring channel in this context. Clinical decision remains with the treating physician.
+
+  [S12] Signal-limited structural — M3 stable, IOP at target (risk=low)
+  Classification: signal_limited_structural
+  Interpretation: Structural assessment is limited; functional domain is the primary monitoring channel. IOP is within the individualized target range. Clinical decision remains with the treating physician.
+
+  [S13] Signal-limited structural — M3 fast progression (risk=high)
+  Classification: signal_limited_structural
+  Interpretation: Structural assessment is limited; functional domain is the primary monitoring channel. IOP is within the individualized target range. Clinical decision remains with the treating physician.
+
+  [S14] Insufficient data — both domains unclassifiable
+  Classification: insufficient_data
+  Interpretation: Integrated assessment is limited by insufficient data quality in one or more domains. IOP is within the individualized target range. Interpretation confidence is limited; additional data may refine this assessment. Clinical decision remains with the treating physician.
+
+  [S15] Invalid input envelope — null input (guard branch)
+  Classification: indeterminate
+  Interpretation: Input envelope is missing or invalid. No integrated assessment was produced. Clinical decision remains with the treating physician.
+
+  [S16] Adapter: M2 absent — iop_status unknown, m2_absent flag
+  Classification: stable_domains_iop_not_assessed
+  Interpretation: Structural and functional domains are both stable; IOP status relative to the individualized target could not be assessed. Clinical decision remains with the treating physician.
+
+  [S17] IOP below target — stable concordant (interp uses "below")
+  Classification: stable_controlled
+  Interpretation: Concordant stable assessment. IOP is below the individualized target range. Clinical decision remains with the treating physician.
+
+  [S18] Confidence ceiling — M3+M4 both high, no penalties → integrated_confidence=high
+  Classification: stable_controlled
+  Interpretation: Concordant stable assessment. IOP is within the individualized target range. Clinical decision remains with the treating physician.
+
+  [S19] Confidence penalty — discordance downgrades confidence
+  Classification: functional_signal_unconfirmed_structurally
+  Interpretation: Functional progression signal detected without structural confirmation. IOP is within the individualized target range. Structural–functional discordance is noted; independent review of both domain signals is recommended. Clinical decision remains with the treating physician.
+
+  [S20] Adapter transparency — adapter_warnings surfaced in logic_trace
+  Classification: stable_domains_iop_not_assessed
+  Interpretation: Structural and functional domains are both stable; IOP status relative to the individualized target could not be assessed. Clinical decision remains with the treating physician.
+
+  [S21] Disastrous but unreliable — M3 very fast / low confidence, M4 floor effect, IOP unknown
+  Classification: floor_effect_context
+  Interpretation: RNFL has reached the structural measurement floor; structural OCT is no longer the primary progression signal. Functional data constitutes the primary monitoring channel in this context. Clinical decision remains with the treating physician.
+
+  [S22] Extreme discordance — M3 stable (high), M4 fast (high), IOP below target
+  Classification: structural_signal_unconfirmed_functionally
+  Interpretation: Structural progression signal detected without functional confirmation. IOP is below the individualized target range. Structural–functional discordance is noted; independent review of both domain signals is recommended. Clinical decision remains with the treating physician.
+
+  [S23] Only M1 present — M2/M3/M4 all absent (maximally incomplete input)
+  Classification: partial_assessment
+  Interpretation: Integrated assessment is incomplete; one or more analytical modules were not available. Clinical decision remains with the treating physician.

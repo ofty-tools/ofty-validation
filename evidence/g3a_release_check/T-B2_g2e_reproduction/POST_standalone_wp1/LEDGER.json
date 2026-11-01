@@ -1,0 +1,188 @@
+{
+  "block": "G2D CAPTURE standalone wp1",
+  "objects": [
+    "POST"
+  ],
+  "started_utc": "2026-10-20T11:52:26.092Z",
+  "node": "v22.22.0",
+  "platform": "linux/x64",
+  "playwright": "1.56.0",
+  "browser_version": "141.0.7390.37",
+  "capture_lib": {
+    "G2C_MODULES.cjs_sha256": "a98e02561bf7ac92aa37f0fa4904391507cd3cdf21ba633e4a62355c67e08984",
+    "G2C_HOST.cjs_sha256": "49f147f6cf2ee41ba6400b86dae51a5d7aa3a24d68dffe839e6776fc2a68cf63",
+    "moduleRun_block_sha256": "20228e8abe74650c30addfc461b394f1bc665bb9e508e683f29098b6979dba97",
+    "hostRun_block_sha256": "446f847ec1e5be62b63c7be9aa346d1f3623c57512e8a28315e3e2dcef507007"
+  },
+  "capture_lib_g2e": {
+    "g2d_capture_lib_sha256": "053c2610a9cf2d5dcda99ca18a2a444fb79122aa62eb2ec7e7a1274c24fff493",
+    "moduleRunMod_block_sha256": "2b201f9eeb02d66be14e2d55c5e3ae529f79f9b99c6ff213ed2afc625a9d4047"
+  },
+  "environment_note": "Linux headless Chromium; fixed clock 2026-10-14T10:00:00.000Z",
+  "fixtures_sha256": "9b7995b4fd0d7464a40610d7986e12f555a5a0ec85e27fc47faa59e492b3a42c",
+  "records": [
+    {
+      "id": "WP1-T4A-n3-24m",
+      "object": "POST",
+      "file": "POST_WP1-T4A-n3-24m.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-T4B-n3-24m",
+      "object": "POST",
+      "file": "POST_WP1-T4B-n3-24m.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n2-24m",
+      "object": "POST",
+      "file": "POST_WP1-n2-24m.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n4-11m",
+      "object": "POST",
+      "file": "POST_WP1-n4-11m.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n4-12m",
+      "object": "POST",
+      "file": "POST_WP1-n4-12m.json",
+      "harness_error": null,
+      "label": "No progression detected",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n5-11m",
+      "object": "POST",
+      "file": "POST_WP1-n5-11m.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n5-12m",
+      "object": "POST",
+      "file": "POST_WP1-n5-12m.json",
+      "harness_error": null,
+      "label": "No progression detected",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n5-23m",
+      "object": "POST",
+      "file": "POST_WP1-n5-23m.json",
+      "harness_error": null,
+      "label": "No progression detected",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n5-24m",
+      "object": "POST",
+      "file": "POST_WP1-n5-24m.json",
+      "harness_error": null,
+      "label": "No progression detected",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n3-borderline-last",
+      "object": "POST",
+      "file": "POST_WP1-n3-borderline-last.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n3-one-low",
+      "object": "POST",
+      "file": "POST_WP1-n3-one-low.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n3-all-low",
+      "object": "POST",
+      "file": "POST_WP1-n3-all-low.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n3-unknown",
+      "object": "POST",
+      "file": "POST_WP1-n3-unknown.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n5-24m-unknown",
+      "object": "POST",
+      "file": "POST_WP1-n5-24m-unknown.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n5-24m-floor",
+      "object": "POST",
+      "file": "POST_WP1-n5-24m-floor.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n3-redband",
+      "object": "POST",
+      "file": "POST_WP1-n3-redband.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n3-floor",
+      "object": "POST",
+      "file": "POST_WP1-n3-floor.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    },
+    {
+      "id": "WP1-n1",
+      "object": "POST",
+      "file": "POST_WP1-n1.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    }
+  ],
+  "tree_POST": {
+    "gate2/index.html": "e258018b8d7999aea23a35ddbaab896a8678518f084883a6efa066746cd79a83",
+    "gate2/semantic.cjs": "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf",
+    "gate2/session.js": "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12",
+    "index.html": "64b3def5554c4188c484246b06899ed18952415747db5ca155951c4a2f8a3526",
+    "iop-cct/index.html": "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a",
+    "m1-advanced/build.manifest.json": "419766a2cbf0da44f5547729d2a8149dae762425f5765172a6af4cdeaaa760d2",
+    "m1-advanced/index.html": "a6cb53b728b707469ae715becfaf295e1b71fdf002221b5a93472d7f694e87fe",
+    "m1-advanced/m1_advanced_bundle.js": "9f9a0fe47c8285804268532634593c27539083a811e31e32bf71b33ad5f78ffd",
+    "m1-advanced/m1_advanced_schema.json": "fbd983b1a443a1700402cf65ed9537c4279394747250547504260690b4a89d06",
+    "orchestrator/index.html": "95bb607c7f4df63ea22e3f3e24e455780c08a7b0e23b41a823c622fad6b7eb77",
+    "README.md": "025454415c475b10045373ac93887c13e8db3618c1c373335ae734d573a46861",
+    "rnfl-progression/index.html": "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847",
+    "SHA256SUMS.txt": "03a3e62b406617ac9e2858b6cf3d0e730f88114fa8e6cf2f4dbdf331ff7c62ee",
+    "target-iop/index.html": "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0",
+    "vf-progression/index.html": "55f258c00fff5f573c2e05b3bf0e18ecfe62df950616d76f2c4764465c7d2cfa"
+  },
+  "served_POST": 36,
+  "finished_utc": "2026-10-20T11:53:00.831Z"
+}
