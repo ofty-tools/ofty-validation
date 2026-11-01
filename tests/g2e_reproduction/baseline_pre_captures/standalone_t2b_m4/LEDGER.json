@@ -1,0 +1,74 @@
+{
+  "block": "G2D CAPTURE standalone t2b_m4",
+  "objects": [
+    "PRE"
+  ],
+  "started_utc": "2026-10-20T10:20:35.214Z",
+  "node": "v22.22.0",
+  "platform": "linux/x64",
+  "playwright": "1.56.0",
+  "browser_version": "141.0.7390.37",
+  "capture_lib": {
+    "G2C_MODULES.cjs_sha256": "a98e02561bf7ac92aa37f0fa4904391507cd3cdf21ba633e4a62355c67e08984",
+    "G2C_HOST.cjs_sha256": "49f147f6cf2ee41ba6400b86dae51a5d7aa3a24d68dffe839e6776fc2a68cf63",
+    "moduleRun_block_sha256": "20228e8abe74650c30addfc461b394f1bc665bb9e508e683f29098b6979dba97",
+    "hostRun_block_sha256": "446f847ec1e5be62b63c7be9aa346d1f3623c57512e8a28315e3e2dcef507007"
+  },
+  "capture_lib_g2e": {
+    "g2d_capture_lib_sha256": "053c2610a9cf2d5dcda99ca18a2a444fb79122aa62eb2ec7e7a1274c24fff493",
+    "moduleRunMod_block_sha256": "2b201f9eeb02d66be14e2d55c5e3ae529f79f9b99c6ff213ed2afc625a9d4047"
+  },
+  "environment_note": "Linux headless Chromium; fixed clock 2026-10-14T10:00:00.000Z",
+  "fixtures_sha256": "828399421a015da8cc6eb70ed0d2aaa18f306d9a8f916a72077e1472e3084111",
+  "records": [
+    {
+      "id": "M4-STABLE",
+      "object": "PRE",
+      "file": "PRE_M4-STABLE.json",
+      "harness_error": null,
+      "label": "Stable",
+      "m5_hero": null
+    },
+    {
+      "id": "M4-SUSPICIOUS",
+      "object": "PRE",
+      "file": "PRE_M4-SUSPICIOUS.json",
+      "harness_error": null,
+      "label": "Suspicious trend",
+      "m5_hero": null
+    },
+    {
+      "id": "M4-PROGRESSING",
+      "object": "PRE",
+      "file": "PRE_M4-PROGRESSING.json",
+      "harness_error": null,
+      "label": "Progressing",
+      "m5_hero": null
+    },
+    {
+      "id": "M4-NOTASSESSABLE",
+      "object": "PRE",
+      "file": "PRE_M4-NOTASSESSABLE.json",
+      "harness_error": null,
+      "label": "Not assessable",
+      "m5_hero": null
+    }
+  ],
+  "tree_PRE": {
+    "gate2/index.html": "088745d52506edc34197c4ec582b1da6cc2e53c93509b3e64b7db957c83d873c",
+    "gate2/semantic.cjs": "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf",
+    "gate2/session.js": "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12",
+    "index.html": "64b3def5554c4188c484246b06899ed18952415747db5ca155951c4a2f8a3526",
+    "iop-cct/index.html": "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a",
+    "m1-advanced/build.manifest.json": "419766a2cbf0da44f5547729d2a8149dae762425f5765172a6af4cdeaaa760d2",
+    "m1-advanced/index.html": "a6cb53b728b707469ae715becfaf295e1b71fdf002221b5a93472d7f694e87fe",
+    "m1-advanced/m1_advanced_bundle.js": "9f9a0fe47c8285804268532634593c27539083a811e31e32bf71b33ad5f78ffd",
+    "m1-advanced/m1_advanced_schema.json": "fbd983b1a443a1700402cf65ed9537c4279394747250547504260690b4a89d06",
+    "orchestrator/index.html": "95bb607c7f4df63ea22e3f3e24e455780c08a7b0e23b41a823c622fad6b7eb77",
+    "rnfl-progression/index.html": "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847",
+    "target-iop/index.html": "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0",
+    "vf-progression/index.html": "0796cc3f1d3463038e0e32afc12c05776bdab9990e0b66622b3479c9427e434f"
+  },
+  "served_PRE": 8,
+  "finished_utc": "2026-10-20T10:20:43.095Z"
+}

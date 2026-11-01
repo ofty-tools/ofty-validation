@@ -1,0 +1,19 @@
+--- G2C_MODULES_v1.2_G2E.cjs
++++ G2C_MODULES_v1.3_G2E_OAE02.cjs
+@@ -1,4 +1,5 @@
+ 'use strict';
++// OA-E02 (post hoc, see harness_amendments/G2E_OAE02_RECORD.json): v1.2_G2E plus the native copy of transport_version.
+ // HADAPT-E01-b (G2-E): copy of G2C_MODULES.cjs; T2b accepts and checks the authorized G2-E export paths/versions only.
+ // G2-C standalone module-page captures (M1-M4 pages served from one object root; fixed clock; clipboard stub).
+ // Usage:
+@@ -121,8 +122,8 @@
+       }
+       const dp = diffPaths(pp, qp); row.payload_diff_paths = dp;
+       if (module === 'm3') {
+-        const allowed = new Set(['algorithm_version', 'functional.native.algorithm_version', 'functional.candidate.algorithm', 'functional.candidate.ui', 'transport_version', 'functional.display.rendered_label']);
+-        ch.m3_payload_diff_only_versions = dp.every(p => allowed.has(p)) && qp.algorithm_version === '2.3.1' && qp.functional.native.algorithm_version === '2.3.1' && qp.functional.candidate.algorithm === '2.3.1' && qp.functional.candidate.ui === '2.6.2' && qp.transport_version === 'gate2-m3-0.2.1' && qp.functional.display.rendered_label === post.screen.label;
++        const allowed = new Set(['algorithm_version', 'functional.native.algorithm_version', 'functional.candidate.algorithm', 'functional.candidate.ui', 'transport_version', 'functional.display.rendered_label', 'functional.native.transport_version']);   // OA-E02
++        ch.m3_payload_diff_only_versions = dp.every(p => allowed.has(p)) && qp.algorithm_version === '2.3.1' && qp.functional.native.algorithm_version === '2.3.1' && qp.functional.candidate.algorithm === '2.3.1' && qp.functional.candidate.ui === '2.6.2' && qp.transport_version === 'gate2-m3-0.2.1' && qp.functional.native.transport_version === 'gate2-m3-0.2.1' && qp.functional.display.rendered_label === post.screen.label;
+         ch.m3_method_p_identical = post.screen.method.p_value === pre.screen.method.p_value;
+       } else {
+         const pr = qp.structural_rate.p_value, okNotes = (() => {

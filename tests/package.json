@@ -1,0 +1,13 @@
+{
+  "name": "ofty-validation-tests",
+  "version": "1.1.0-paper2-r1",
+  "private": true,
+  "description": "Reviewer reproduction scripts for the OFTY Paper 2 repository: historical runner H1 (headless) and the G2-E candidate evaluation.",
+  "license": "MIT",
+  "engines": { "node": ">=22" },
+  "dependencies": { "playwright": "1.56.0" },
+  "scripts": {
+    "h1": "node h1_historical/run_h1_headless.cjs",
+    "g2e": "bash g2e_reproduction/run_reproduction.sh"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "id": "E-HS2-floor",
+  "object": "PRE",
+  "module": "m3",
+  "started_utc": "2026-10-20T10:18:36.420Z",
+  "rows": [
+    [
+      "2022-01",
+      "-25.6",
+      "good"
+    ],
+    [
+      "2022-07",
+      "-25.9",
+      "good"
+    ],
+    [
+      "2023-01",
+      "-25.7",
+      "good"
+    ],
+    [
+      "2023-07",
+      "-26.1",
+      "good"
+    ],
+    [
+      "2024-01",
+      "-25.8",
+      "good"
+    ]
+  ],
+  "screen": {
+    "label": "Not assessable",
+    "hero_slope": "-0.12",
+    "hero_slope_tag": "(descriptive only — not assessable)",
+    "confidence": "Low",
+    "confidence_sub": "5 fields.",
+    "risk": "High clinical risk",
+    "interpretation": "Visual field mean deviation has reached advanced threshold levels at which standard perimetric analysis is no longer a reliable indicator of functional change. Clinical management should prioritize intraocular pressure control and preservation of residual central vision.",
+    "card_inner_text": "VF PROGRESSION ANALYSIS · OD\n-0.12\ndB / year\n(descriptive only — not assessable)\n0\n-25.6\n-25.9\n-25.7\n-26.1\n-25.8\n2022\n2024\nReliable\nBorderline\nLow reliability\nUnknown / not provided\nPROGRESSION\ni\nNot assessable\nCONFIDENCE\nLow\n5 fields.\nHigh clinical risk\ni\nINTERPRETATION\nVisual field mean deviation has reached advanced threshold levels at which standard perimetric analysis is no longer a reliable indicator of functional change. Clinical management should prioritize intraocular pressure control and preservation of residual central vision.\nLimitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.\nCopy",
+    "scope_element_visible": true,
+    "scope_element_text": "Limitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.",
+    "method": {
+      "fields": "5",
+      "followup": "24.0 months",
+      "sufficiency_rule": "adequate: n>=5 AND follow-up>=24 months",
+      "class_rule": "no_or_slow_progression: slope > -0.5 dB/year",
+      "p_value": "0.4012",
+      "ci": "-0.51 to 0.27 dB/year"
+    },
+    "limitations_notes": [],
+    "branch_trace": [
+      "M3.source.L1695",
+      "M3.source.L3321"
+    ],
+    "last_data": {
+      "finalLabel": "Not assessable",
+      "confidence": "low",
+      "risk": "high",
+      "slope": -0.1195,
+      "slopeTag": "Stable slope",
+      "n": 5,
+      "nativeInsufficient": false
+    }
+  },
+  "copy": "Eye: OD\nSlope: -0.12 dB/year (descriptive only; not assessable)\nProgression: Not assessable\nConfidence: Low\nClinical risk: High clinical risk\nFields: 5 · Follow-up: 24.0 months\n\nInterpretation: Visual field mean deviation has reached advanced threshold levels at which standard perimetric analysis is no longer a reliable indicator of functional change. Clinical management should prioritize intraocular pressure control and preservation of residual central vision.\nLimitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.\n\nGenerated with OFTY Tool M3 v1.1",
+  "payload_text": "{\"module_id\":\"OFTY-Gx-M3\",\"algorithm_version\":\"2.3.1\",\"mode\":\"core\",\"inputs_summary\":{\"eye\":\"OD\",\"n_tests_total\":5,\"n_tests_used\":5,\"followup_months\":24,\"first_date\":\"2022-01-01\",\"last_date\":\"2024-01-01\",\"reliability_counts\":{\"good\":5,\"borderline\":0,\"low\":0,\"unknown\":0,\"interpretable\":5}},\"progression_rate\":{\"slope_md_per_year\":-0.1195,\"intercept\":-25.7008,\"p_value\":0.4012,\"ci95_lower\":-0.5092,\"ci95_upper\":0.2702},\"classification\":\"no_or_slow_progression\",\"statistical_significance\":\"non_significant\",\"data_quality\":\"adequate\",\"confidence_level\":\"medium\",\"caution_flags\":[\"non_significant_trend\"],\"logic_trace\":{\"method\":\"linear_regression_md_vs_time\",\"sufficiency_rule_applied\":\"adequate: n>=5 AND follow-up>=24 months\",\"classification_rule_applied\":\"no_or_slow_progression: slope > -0.5 dB/year\",\"notes\":[],\"suite_export_caution_basis\":[]},\"model\":{\"type\":\"deterministic_trend_based\",\"intended_use\":\"clinical_decision_support\",\"notes\":\"This module provides a structured interpretation of functional progression and does not replace clinical judgment.\"},\"transport_version\":\"gate2-m3-0.2.0\",\"final_copy_status\":\"REQUIRES_AUTHOR_FINAL_COPY_APPROVAL\",\"functional\":{\"series\":[{\"date\":\"2022-01-01\",\"md\":-25.6,\"reliability\":\"good\"},{\"date\":\"2022-07-01\",\"md\":-25.9,\"reliability\":\"good\"},{\"date\":\"2023-01-01\",\"md\":-25.7,\"reliability\":\"good\"},{\"date\":\"2023-07-01\",\"md\":-26.1,\"reliability\":\"good\"},{\"date\":\"2024-01-01\",\"md\":-25.8,\"reliability\":\"good\"}],\"eye\":\"OD\",\"central_threat\":false,\"monocular\":false,\"native\":{\"module_id\":\"OFTY-Gx-M3\",\"algorithm_version\":\"2.3.1\",\"mode\":\"core\",\"inputs_summary\":{\"eye\":\"OD\",\"n_tests_total\":5,\"n_tests_used\":5,\"followup_months\":24,\"first_date\":\"2022-01-01\",\"last_date\":\"2024-01-01\",\"reliability_counts\":{\"good\":5,\"borderline\":0,\"low\":0,\"unknown\":0,\"interpretable\":5}},\"progression_rate\":{\"slope_md_per_year\":-0.1195,\"intercept\":-25.7008,\"p_value\":0.4012,\"ci95_lower\":-0.5092,\"ci95_upper\":0.2702},\"classification\":\"no_or_slow_progression\",\"statistical_significance\":\"non_significant\",\"data_quality\":\"adequate\",\"confidence_level\":\"medium\",\"caution_flags\":[\"non_significant_trend\"],\"logic_trace\":{\"method\":\"linear_regression_md_vs_time\",\"sufficiency_rule_applied\":\"adequate: n>=5 AND follow-up>=24 months\",\"classification_rule_applied\":\"no_or_slow_progression: slope > -0.5 dB/year\",\"notes\":[],\"suite_export_caution_basis\":[]},\"model\":{\"type\":\"deterministic_trend_based\",\"intended_use\":\"clinical_decision_support\",\"notes\":\"This module provides a structured interpretation of functional progression and does not replace clinical judgment.\"},\"transport_version\":\"gate2-m3-0.2.0\",\"final_copy_status\":\"REQUIRES_AUTHOR_FINAL_COPY_APPROVAL\"},\"display\":{\"label\":\"Not assessable\",\"assessability\":\"not_assessable\",\"reason\":\"floor\",\"confidence\":\"low\",\"concern\":\"high\"},\"source_predicates\":{\"B1_red\":false,\"C_yellow\":false,\"monotonic_worsening\":false},\"executed_source_statements\":[\"M3.source.L1695\",\"M3.source.L3321\"],\"candidate\":{\"state\":\"absent\",\"authoritative\":false,\"branch_ids\":[\"M3.source.L1695\",\"M3.source.L3321\"],\"assessment_scope\":\"source_display_candidate\",\"source_sha256\":null,\"source_lineage_sha256\":\"ba41b5dfef02c930cffcff8bbc42c010e55e458ba5d260ddec81d489e806a550\",\"source_identity\":\"freeze_manifest\",\"algorithm\":\"2.3.1\",\"ui\":\"2.6.1\",\"assessed_window\":{\"dates\":[\"2022-01-01\",\"2022-07-01\",\"2023-01-01\",\"2023-07-01\",\"2024-01-01\"],\"regression_computed\":false,\"basis\":\"unchanged M3 source interprets submitted history; no invented recent slope\"},\"reliability\":{\"latest\":\"good\",\"native_counts\":{\"good\":5,\"borderline\":0,\"low\":0,\"unknown\":0,\"interpretable\":5}},\"caution_flags\":[\"non_significant_trend\"],\"confidence_scope\":\"source_display_only\"},\"reliability\":{\"latest\":\"good\",\"native_counts\":{\"good\":5,\"borderline\":0,\"low\":0,\"unknown\":0,\"interpretable\":5}},\"windows\":{\"whole_history\":{\"dates\":[\"2022-01-01\",\"2022-07-01\",\"2023-01-01\",\"2023-07-01\",\"2024-01-01\"],\"regression_computed\":true,\"basis\":\"unchanged native M3 OLS\"},\"display\":{\"dates\":[\"2022-01-01\",\"2022-07-01\",\"2023-01-01\",\"2023-07-01\",\"2024-01-01\"],\"regression_computed\":false,\"basis\":\"unchanged M3 source interprets submitted history; no invented recent slope\"},\"current_plateau\":{\"dates\":null,\"basis\":\"narrower window unresolved; full history and source display retained\"}},\"source_observation\":{\"n\":5,\"lastMD\":-25.8,\"firstMD\":-25.6,\"lastRelLow\":false,\"maxReliableDrop\":0.40000000000000213,\"source_interpretation\":\"Visual field mean deviation has reached advanced threshold levels at which standard perimetric analysis is no longer a reliable indicator of functional change. Clinical management should prioritize intraocular pressure control and preservation of residual central vision.\",\"limitations\":[]}},\"_timestamp\":\"2026-10-14T10:00:00.000Z\"}",
+  "payload_sha256": "517787f051b517e0c93013a2ef7672357904e5c5f5e0806b42f266cff79ac80b",
+  "print": {
+    "card_visible_under_print": true,
+    "card_inner_text_print": "VF PROGRESSION ANALYSIS · OD\n-0.12\ndB / year\n(descriptive only — not assessable)\n0\n-25.6\n-25.9\n-25.7\n-26.1\n-25.8\n2022\n2024\nReliable\nBorderline\nLow reliability\nUnknown / not provided\nPROGRESSION\ni\nNot assessable\nCONFIDENCE\nLow\n5 fields.\nHigh clinical risk\ni\nINTERPRETATION\nVisual field mean deviation has reached advanced threshold levels at which standard perimetric analysis is no longer a reliable indicator of functional change. Clinical management should prioritize intraocular pressure control and preservation of residual central vision.\nLimitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.\nCopied!"
+  },
+  "pdf": {
+    "sha256": "53d1ee4e197b5d95ffb28e1456d07c6e2fe72a4aa805c73ba79c6d9ad8245de3",
+    "text_normalized": "Standalone calculator · no integrated assessment publication. Back to OFTY Glaucoma Suite P A TIE N T P ARA M E TE R S Eye OD Enter visual fields in chronological order. Date (YYYY-MM) MD (dB) Reliability 2022-01 -25.6 Good × 2022-07 -25.9 Good × 2023-01 -25.7 Good × 2023-07 -26.1 Good × 2024-01 VF Progression Analysis -25.8 Good × i O F TY T O OL #3 Serial visual field MD analysis to help assess glaucoma functional progression. Calculate + Add field Reset CLINICAL MODIFIERS Central threat to fixation Functionally monocular patient VF PRO G RE S SI O N A N AL YSIS · OD -0.12 dB / year (descriptive only — not assessable) -25.9 -25.7 0 -25.6 2022 -26.1 -25.8 2024 Reliable PROGRESSION Borderline Low reliability Unknown / not provided i Not assessable CONFIDENCE Low 5 fields. High clinical risk i INTERPRETATION Visual field mean deviation has reached advanced threshold levels at which standard perimetric analysis is no longer a reliable indicator of functional change. Clinical management should prioritize intraocular pressure control and preservation of residual central vision. Limitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening. Copied! Share feedback or report a case Method & Thresholds Disclaimer Sources (Summary) Version History OFTY · M3 · © 2026 Andrea Ragosta, MD, FEBO"
+  },
+  "events": {
+    "console": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      }
+    ],
+    "page_errors": [],
+    "aborted_external": [
+      "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+    ],
+    "network_failed": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+        "err": "net::ERR_FAILED"
+      }
+    ]
+  },
+  "product_console_errors": [],
+  "finished_utc": "2026-10-20T10:18:38.253Z"
+}

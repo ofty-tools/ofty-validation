@@ -1,0 +1,88 @@
+{
+  "id": "WP3-p0970",
+  "object": "PRE",
+  "module": "m4",
+  "started_utc": "2026-10-20T10:20:15.364Z",
+  "rows": [
+    [
+      "2020-01",
+      "85.47109776734467",
+      "good"
+    ],
+    [
+      "2021-01",
+      "84.24747295016503",
+      "good"
+    ],
+    [
+      "2022-01",
+      "83.92445912975363",
+      "good"
+    ],
+    [
+      "2023-01",
+      "84.50144530934224",
+      "good"
+    ],
+    [
+      "2024-01",
+      "84.37843148893084",
+      "good"
+    ],
+    [
+      "2025-01",
+      "83.35480667175119",
+      "good"
+    ]
+  ],
+  "screen": {
+    "label": "Stable",
+    "hero_slope": "-0.27",
+    "hero_slope_tag": "(Stable slope)",
+    "confidence": "High",
+    "confidence_sub": "6 measurements.",
+    "risk": "Low clinical risk",
+    "interpretation": "No clear evidence of pathologic structural progression in the available OCT series. The RNFL thinning rate is compatible with age-related or non-pathologic structural change.",
+    "card_inner_text": "OCT PROGRESSION ANALYSIS · OD\n-0.27\nµm / year\n(Stable slope)\n50\n85\n84\n84\n85\n84\n83\n2020\n2025\nReliable\nBorderline\nLow reliability\nPROGRESSION\nI\nStable\nCONFIDENCE\nHigh\n6 measurements.\nLow clinical risk\ni\nINTERPRETATION\nNo clear evidence of pathologic structural progression in the available OCT series. The RNFL thinning rate is compatible with age-related or non-pathologic structural change.\nLimitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.\nCopy",
+    "scope_element_visible": true,
+    "scope_element_text": "Limitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.",
+    "method": {
+      "sufficiency_rule": "adequate: n >= 4 AND no low-reliability scans",
+      "class_rule": "stable_trend: slope=-0.27 > SLOPE_STABLE_THRESHOLD=-1",
+      "p_value": "0.0970",
+      "ci": "-0.63 to 0.08 µm/year"
+    }
+  },
+  "copy": "OFTY - OCT Progression Analysis (M4)\nEye: OD\nRNFL slope: -0.27 µm/year\nClassification: Stable\nConfidence: High\nClinical risk: Low clinical risk\nScans: 6 · Follow-up: 60 months\nLatest RNFL: 83.35480667175119 µm (Good)\nInterpretation: No clear evidence of pathologic structural progression in the available OCT series. The RNFL thinning rate is compatible with age-related or non-pathologic structural change.\nLimitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.\nGenerated with OFTY Tool M4 v1.1",
+  "payload_text": "{\"module_id\":\"OFTY-Gx-M4\",\"algorithm_version\":\"1.3.1\",\"mode\":\"core\",\"inputs_summary\":{\"eye\":\"OD\",\"n_tests_submitted\":6,\"n_tests_used\":6,\"modifiers\":[]},\"structural_rate\":{\"slope_rnfl_per_year\":-0.27,\"intercept\":85,\"p_value\":0.09699999960806747,\"ci95_lower\":-0.63,\"ci95_upper\":0.08},\"classification\":\"stable_trend\",\"statistical_significance\":\"trend\",\"data_quality\":\"adequate\",\"confidence_level\":\"high\",\"clinical_risk\":\"low\",\"interpretation\":\"No clear evidence of pathologic structural progression in the available OCT series. The RNFL thinning rate is compatible with age-related or non-pathologic structural change.\",\"caution_flags\":[],\"detail_summary\":{\"valid_test_count\":6,\"low_reliability_count\":0,\"borderline_reliability_count\":0,\"followup_years\":5,\"latest_rnfl\":83.35480667175119,\"latest_reliability\":\"good\"},\"logic_trace\":{\"method\":\"linear_regression_rnfl_vs_time\",\"validation\":\"all tests passed\",\"slope_rule_applied\":\"stable_trend: slope=-0.27 > SLOPE_STABLE_THRESHOLD=-1\",\"floor_rule_applied\":\"not_applied\",\"artifact_rule_applied\":\"not_applied\",\"vshape_rule_applied\":\"not_applied\",\"confidence_adjustments\":[\"none\"],\"sufficiency_rule\":\"adequate: n >= 4 AND no low-reliability scans\",\"notes\":[\"data_quality=adequate (n=6, low_rel=0)\",\"OLS: slope=-0.27 um/yr, p=0.0970\"]},\"model\":{\"type\":\"deterministic_trend_based\",\"intended_use\":\"clinical_decision_support\",\"notes\":\"This module provides a structured interpretation of OCT RNFL structural progression and does not replace clinical judgment.\"},\"_timestamp\":\"2026-10-14T10:00:00.000Z\"}",
+  "payload_sha256": "0e413d5675a6e8b2a611453344c57e798aa589a7ba888507a6de2fd2b80c4bd1",
+  "print": {
+    "card_visible_under_print": true,
+    "card_inner_text_print": "OCT PROGRESSION ANALYSIS · OD\n-0.27\nµm / year\n(Stable slope)\n50\n85\n84\n84\n85\n84\n83\n2020\n2025\nReliable\nBorderline\nLow reliability\nPROGRESSION\nI\nStable\nCONFIDENCE\nHigh\n6 measurements.\nLow clinical risk\ni\nINTERPRETATION\nNo clear evidence of pathologic structural progression in the available OCT series. The RNFL thinning rate is compatible with age-related or non-pathologic structural change.\nLimitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.\nCopied!"
+  },
+  "pdf": {
+    "sha256": "a584fc76cb57b8c022b7ed22136954a9e6e6cc4f5ef673001d00a524f9734514",
+    "text_normalized": "Standalone calculator · no integrated assessment publication. Back to OFTY Glaucoma Suite P A TIE N T P ARA M E TE R S Eye OD Enter measurements in chronological order. Date (YYYY-MM) Global RNFL (µm) Reliability 2020-01 85.471097767 Good × 2021-01 84.247472950 Good × 2022-01 83.924459129 Good × 2023-01 84.501445309 Good × O F TY 2024-01 T O OL #4 84.378431488 Good × i OCT Progression Analysis Serial 2025-01 RNFL thickness analysis to help assess Good glaucoma structural 83.354806671 progression. × Calculate + Add OCT CLINICAL MODIFIERS High Myopia / Tilted Disc Macular Pathology (e.g., ERM) OC T PR O GR E SS I ON A NA LYSI S · OD -0.27 µm / year (Stable slope) Reset 85 84 85 84 84 83 50 2020 Reliable PROGRESSION 2025 Borderline Low reliability I Stable CONFIDENCE High 6 measurements. Low clinical risk i INTERPRETATION No clear evidence of pathologic structural progression in the available OCT series. The RNFL thinning rate is compatible with age-related or non-pathologic structural change. Limitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening. Copied! Share feedback or report a case Method & Thresholds Disclaimer Sources (Summary) Version History OFTY · M4 · © 2026 Andrea Ragosta, MD, FEBO"
+  },
+  "events": {
+    "console": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      }
+    ],
+    "page_errors": [],
+    "aborted_external": [
+      "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+    ],
+    "network_failed": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+        "err": "net::ERR_FAILED"
+      }
+    ]
+  },
+  "product_console_errors": [],
+  "finished_utc": "2026-10-20T10:20:17.237Z"
+}

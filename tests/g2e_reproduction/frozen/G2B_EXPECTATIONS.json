@@ -1,0 +1,742 @@
+{
+ "schema": "G2B_EXPECTATIONS_v1.1 (AMENDMENT_01 applied; v1.0 preserved as G2B_EXPECTATIONS_v1.0_ORIGINAL.json sha256 270368788ccf954e7eec6672f440a1bec9446878d7613952e3c1a71483e99312)",
+ "project": "OFTY Paper 2 / JMIR Formative Research #105677",
+ "authority": "Author GO to G2-B; handoff OFTY_PAPER2_G2B_IMPLEMENTATION_VERIFICATION_CLAUDE_HANDOFF_20261019.zip sha256 a77497a25edb24b0e8867fcdee82ce9b092846233dee41d6b68b03012904399b",
+ "frozen_before": "any source patch to G2B-WV1 and any execution of OFTY code in G2-B",
+ "evidence_class": "Synthetic only (Class S API/component and synthetic real-host browser runs). No patient data.",
+ "baseline": {
+  "C1_SOURCE_zip_sha256": "b9115293d3b242581aad13e4444d360fc99c88c5066dfdc60bd5b6242ff22f4e",
+  "M5TC_zip_sha256": "89003d7593fd9ebfad0bbee1aac222adacda2ec946f38cfcb44586fe1dbdb8d2",
+  "working_variant": "G2B-WV1 = byte copy of C1 candidate_a1_source (13 files) before patch; manifest wv/G2B_WV1/BEFORE_CHANGE_MANIFEST.sha256"
+ },
+ "approved_texts_file": "frozen/g2b/APPROVED_WARNING_TEXTS.json",
+ "approved_texts": {
+  "M3": "This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.",
+  "M4": "This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.",
+  "M5_W1_unchanged": "Where assessed, global visual-field (MD) and average RNFL trends may miss focal or sectoral progression. The absence of a global progression signal does not exclude localized worsening."
+ },
+ "patch_spec": {
+  "allowed_files": [
+   "iop-cct/index.html",
+   "target-iop/index.html",
+   "vf-progression/index.html",
+   "rnfl-progression/index.html"
+  ],
+  "must_remain_byte_identical": [
+   "gate2/index.html",
+   "gate2/semantic.cjs",
+   "gate2/session.js",
+   "index.html",
+   "orchestrator/index.html",
+   "m1-advanced/*"
+  ],
+  "M1": {
+   "hero_eyebrow": "Measured GAT IOP",
+   "hero_number": "measured GAT IOP as entered, 1 decimal",
+   "hero_subtitle": "Reference value, as entered",
+   "contextual_row_label": "CCT-based contextual estimate",
+   "contextual_row_value": "model estimate, 1 decimal + ' mmHg'",
+   "contextual_row_note": "Ancillary contextual estimate only — not used for target comparison and not an endorsed universal correction.",
+   "copy_line_measured": "Measured GAT IOP: {pio:.1f} mmHg (reference value, as entered)",
+   "copy_line_contextual": "CCT-based contextual estimate: {adj:.1f} mmHg (ancillary; not used for target comparison; not an endorsed universal correction)",
+   "copy_forbidden_prefix": "IOP estimate: ",
+   "M1_VERSION": "1.0.0 (unchanged)",
+   "M1_UI_VERSION": "1.1.0 -> 1.2.0",
+   "engine_function_computeM1_IOP_CCT": "byte-identical"
+  },
+  "M2": {
+   "instruction_element_id": "currentIOP-instruction",
+   "instruction_text": "Enter the measured Goldmann (GAT) IOP as recorded — not the M1 CCT-based estimate or any other derived value.",
+   "visible_without_interaction": true,
+   "algorithm_version": "1.1.0-gate2.1 (unchanged)",
+   "target_policy_version": "B-narrow-O1-0.4.1 (unchanged)"
+  },
+  "M3": {
+   "card_element_id": "scopeLimitation",
+   "card_text": "Limitation: {approved_texts.M3}",
+   "copy_line": "Limitation: {approved_texts.M3}",
+   "UI_version_label": "2.5.0 -> 2.5.1 (source header comments + version-history note)",
+   "suite_export_payload": "byte-identical; functional.candidate.ui field stays '2.5.0' (payload mutation not authorized in G2-B; provenance alignment deferred to G3)",
+   "algorithm_version": "2.3.0 (unchanged)"
+  },
+  "M4": {
+   "card_element_id": "scopeLimitation",
+   "card_text": "Limitation: {approved_texts.M4}",
+   "copy_line": "Limitation: {approved_texts.M4}",
+   "UI_version_label": "1.8.0 -> 1.8.1 (source header comments + version-history note)",
+   "suite_export_payload": "byte-identical",
+   "algorithm_version": "1.3.0 (unchanged)"
+  }
+ },
+ "T1": {
+  "fixture_file": "frozen/A2/A2_PRESSURE_S_FIXTURES_v1.3.json",
+  "fixture_sha256": "f5dac090f80b6ff11a24781bad32ea383c4f179572d726f244aa0908820a62d6",
+  "cases": 50,
+  "assertion_module_sha256": "992b42abc0fa02e84a7bbe2fc50f15af0bea1cc188ffdb1c6ce9c1554827171e",
+  "oracle": "expected_N inside each fixture (frozen 2026-10-16, before G2-B); original assertion module unchanged",
+  "O_side": "M5TC gate2 (html e64182f4..., semantic 8e1ec62d...)",
+  "N_side": "G2B-WV1 gate2 after patch (must be byte-identical to C1: html 088745d5..., semantic 1cf43a9f...)",
+  "stop_rule": "first FAIL stops T1; remaining NOT_EVALUATED; no retry"
+ },
+ "T1b": {
+  "template_fixture": "A2-S-PRESSURE/Codex:P06-true",
+  "construction": "clone template; set M2 pressure_observation {method GAT, role current_on_treatment, attested true, selected true, value=measured, observation_id 'G2B-T1B-M2-<pair>', target [13,15]}; replace M1 envelope payload by the C1 M1 emission shape (inputs.pio_mmhg=measured, inputs.cct_um, outputs.adjusted_iop_mmhg=adjusted, no observation_id); input.m1_context = host mapping {gat: measured, observation_id: null}",
+  "pairs": [
+   {
+    "id": "T1b-1",
+    "measured": 17,
+    "cct_um": 615,
+    "adjusted": 14,
+    "expected_position": "above_range",
+    "expected_raw_GAT_mmhg": 17,
+    "if_adjusted_were_used": "within_range",
+    "expected_copy_lines": [
+     "Target IOP range: 13-15 mmHg",
+     "On-treatment IOP (GAT): 17 mmHg · +2 mmHg above target"
+    ],
+    "expected_copy_sentence": "Current on-treatment GAT is above the target range."
+   },
+   {
+    "id": "T1b-2",
+    "measured": 14,
+    "cct_um": 465,
+    "adjusted": 17,
+    "expected_position": "within_range",
+    "expected_raw_GAT_mmhg": 14,
+    "if_adjusted_were_used": "above_range",
+    "expected_copy_lines": [
+     "Target IOP range: 13-15 mmHg",
+     "On-treatment IOP (GAT): 14 mmHg · Within target"
+    ],
+    "expected_copy_sentence": "Current on-treatment GAT lies within the target range."
+   }
+  ],
+  "common_expectations": {
+   "pressure.range": [
+    13,
+    15
+   ],
+   "pressure.basis": "selected_attested_current_GAT",
+   "pressure.contextual_estimate_operative": false,
+   "pressure.selected_observation_id": "G2B-T1B-M2-<pair>",
+   "reason_codes_exclude": [
+    "same_observation_raw_conflict",
+    "current_GAT_not_available"
+   ],
+   "no_M1_control": "deleting M1 envelope/context leaves pressure, confidence and integration deep-equal",
+   "substitution_control": "replacing the M2 value with the M1 adjusted value yields if_adjusted_were_used (proves the test discriminates)",
+   "component": "N-side consumer capture (G2B-WV1 gate2): JSON pressure equals API; COPY contains expected lines and sentence; screen and print-media detail row 'Current measured Goldmann GAT (mmHg)' equals measured; W-1 present exactly once in COPY"
+  }
+ },
+ "T1c": {
+  "mode": "real gate2 host served from G2B-WV1 over http://127.0.0.1, Chromium headless (Playwright), producers M1-M4 in their iframes",
+  "common": {
+   "eye": "OD",
+   "m3_series": [
+    [
+     "2021-01",
+     -3.0
+    ],
+    [
+     "2022-01",
+     -3.2
+    ],
+    [
+     "2023-01",
+     -2.9
+    ],
+    [
+     "2024-01",
+     -3.1
+    ],
+    [
+     "2025-01",
+     -3.0
+    ]
+   ],
+   "m4_series": [
+    [
+     "2021-01",
+     85.0
+    ],
+    [
+     "2022-01",
+     85.2
+    ],
+    [
+     "2023-01",
+     84.9
+    ],
+    [
+     "2024-01",
+     85.1
+    ],
+    [
+     "2025-01",
+     85.0
+    ]
+   ],
+   "reliability": "good"
+  },
+  "runs": [
+   {
+    "id": "T1c-H1",
+    "m1": {
+     "pio": "18",
+     "cct": "615"
+    },
+    "m1_expected": {
+     "measured_display": "18.0",
+     "contextual_display": "15.0 mmHg"
+    },
+    "m2": {
+     "stage": "Mild",
+     "baseline": "",
+     "cct": "thick",
+     "progression": "none",
+     "currentIOP": "18",
+     "attest": true,
+     "observation_id": "G2B-T1C-H1-GAT"
+    },
+    "m2_expected_target": [
+     15,
+     17
+    ],
+    "m2_expected_effective_cct": "average",
+    "derivation": "computeModeB: thick->average for Mild (B-narrow-O1); POAG_B.Mild.none.average=[15,17]; enforceSpan span 2 >= MIN_SPAN 1 -> unchanged",
+    "m5_expected": {
+     "position": "above_range",
+     "raw_GAT_mmhg": 18,
+     "range": [
+      15,
+      17
+     ],
+     "basis": "selected_attested_current_GAT",
+     "selected_observation_id": "G2B-T1C-H1-GAT",
+     "contextual_estimate_operative": false,
+     "m2_policy": {
+      "original_cct": "thick",
+      "effective_cct": "average"
+     },
+     "copy_lines": [
+      "Target IOP range: 15-17 mmHg",
+      "On-treatment IOP (GAT): 18 mmHg · +1 mmHg above target"
+     ],
+     "copy_sentence": "Current on-treatment GAT is above the target range.",
+     "detail_rows": {
+      "Current measured Goldmann GAT (mmHg)": "18",
+      "Source target interval (mmHg)": "15 – 17",
+      "Measured GAT position": "above range"
+     }
+    },
+    "if_adjusted_were_used": "within_range (15.0 in [15,17])"
+   },
+   {
+    "id": "T1c-H2",
+    "m1": {
+     "pio": "12",
+     "cct": "465"
+    },
+    "m1_expected": {
+     "measured_display": "12.0",
+     "contextual_display": "15.0 mmHg"
+    },
+    "m2": {
+     "stage": "Moderate",
+     "baseline": "",
+     "cct": "thin",
+     "progression": "none",
+     "currentIOP": "12",
+     "attest": true,
+     "observation_id": "G2B-T1C-H2-GAT"
+    },
+    "m2_expected_target": [
+     11,
+     13
+    ],
+    "m2_expected_effective_cct": "thin",
+    "derivation": "computeModeB: POAG_B.Moderate.none.thin=[11,13]; enforceSpan unchanged",
+    "m5_expected": {
+     "position": "within_range",
+     "raw_GAT_mmhg": 12,
+     "range": [
+      11,
+      13
+     ],
+     "basis": "selected_attested_current_GAT",
+     "selected_observation_id": "G2B-T1C-H2-GAT",
+     "contextual_estimate_operative": false,
+     "m2_policy": {
+      "original_cct": "thin",
+      "effective_cct": "thin"
+     },
+     "copy_lines": [
+      "Target IOP range: 11-13 mmHg",
+      "On-treatment IOP (GAT): 12 mmHg · Within target"
+     ],
+     "copy_sentence": "Current on-treatment GAT lies within the target range.",
+     "detail_rows": {
+      "Current measured Goldmann GAT (mmHg)": "12",
+      "Source target interval (mmHg)": "11 – 13",
+      "Measured GAT position": "within range"
+     }
+    },
+    "if_adjusted_were_used": "above_range (15.0 > 13)"
+   },
+   {
+    "id": "T1c-H3",
+    "m1": {
+     "pio": "18",
+     "cct": "615"
+    },
+    "m1_expected": {
+     "measured_display": "18.0",
+     "contextual_display": "15.0 mmHg"
+    },
+    "m2": {
+     "stage": "Mild",
+     "baseline": "",
+     "cct": "thick",
+     "progression": "none",
+     "currentIOP": "18",
+     "attest": false,
+     "observation_id": "G2B-T1C-H3-GAT"
+    },
+    "m2_expected_target": [
+     15,
+     17
+    ],
+    "m2_expected_effective_cct": "average",
+    "derivation": "as H1; attestation box left unchecked",
+    "m5_expected": {
+     "position": "not_available",
+     "raw_GAT_mmhg": null,
+     "range": [
+      15,
+      17
+     ],
+     "basis": "not_available",
+     "selected_observation_id": null,
+     "contextual_estimate_operative": false,
+     "reason_codes_include": [
+      "current_GAT_not_available"
+     ],
+     "copy_lines": [
+      "Target IOP range: 15-17 mmHg",
+      "On-treatment IOP (GAT): Not available"
+     ],
+     "detail_rows": {
+      "Current measured Goldmann GAT (mmHg)": "Not available",
+      "Measured GAT position": "not available"
+     }
+    },
+    "note": "no fallback to M1 measured (18) or M1 estimate (15)"
+   }
+  ],
+  "surfaces": "M5 card (screen DOM), COPY (Gate2UI.text), JSON (Gate2UI.json Blob), print (DOM under print media) and Chromium print-to-PDF (page.pdf, text by pdftotext); full-page and result screenshots. The embedded M1 frame shows its own contextual estimate and is checked against the M1 patch spec, not against the M5 oracle.",
+  "pdf_oracle_supplementary": "normalized PDF text contains 'Current measured Goldmann GAT (mmHg)', 'Measured GAT position', the expected position words and the W-1 sentence",
+  "external_requests": "requests to origins other than 127.0.0.1 (Google Fonts) are aborted by the harness and logged; console errors caused only by those aborted requests are not product failures",
+  "limitation_to_record": "the M1 payload carries no observation_id, so the semantic same-observation conflict guard cannot fire in the host (not claimed as protection)"
+ },
+ "T1d": {
+  "scope": "M1 and M2 presentation on G2B-WV1 standalone pages, plus C1 contrast",
+  "M1_inputs": {
+   "pio": "17",
+   "cct": "615"
+  },
+  "M1_expected_WV": {
+   "hero_eyebrow": "Measured GAT IOP",
+   "hero_number": "17.0",
+   "hero_subtitle": "Reference value, as entered",
+   "contextual_value": "14.0 mmHg",
+   "copy_contains": [
+    "Measured GAT IOP: 17.0 mmHg (reference value, as entered)",
+    "CCT-based contextual estimate: 14.0 mmHg (ancillary; not used for target comparison; not an endorsed universal correction)",
+    "UI v1.2.0",
+    "Algorithm v1.0.0"
+   ],
+   "copy_not_contains": [
+    "IOP estimate: "
+   ],
+   "localStorage_payload_equal_to_C1": true
+  },
+  "M1_expected_C1_contrast": {
+   "hero_eyebrow": "IOP Estimate",
+   "hero_number": "14.0"
+  },
+  "M2_expected_WV": {
+   "instruction_visible": true,
+   "instruction_text_exact": true
+  },
+  "M2_expected_C1_contrast": {
+   "instruction_present": false
+  }
+ },
+ "T2": {
+  "contract_file": "frozen/A2/A2_SIDE_AWARE_28_CONTRACT_v1.3_candidate.json",
+  "contract_sha256": "b45e809683547a66511aee3ce376e1ace01673bbac4d10fd83b85faf8aab60b3",
+  "scenarios_sha256": "41067bd26110d81134ed74f46d3da27d6649e2b284ea1a2aa200a236093bf30e",
+  "comparator_sha256": "decc8bdfc96fe36b3f06eb0bc33af05f26494bec1397a595fbefbbde8fe3f007",
+  "runner_sha256": "26b89b9cc605bdf5cb9a77c3fb0afebe579f1237035e4e6e32ead781ab525d0b",
+  "cases": 28,
+  "oracle": "frozen contract + comparator: W-1 exactly once on primary, COPY ('Limitation: '+W1), print and JSON limitations.focal_sectoral; all other semantic content identical O vs N",
+  "stop_rule": "first FAIL stops T2; remaining NOT_EVALUATED"
+ },
+ "T2b": {
+  "mode": "standalone module pages (no host) served over http://127.0.0.1; fixed clock 2026-10-14T10:00:00.000Z; clipboard captured by a harness stub",
+  "objects": "each state run on C1 (pre-patch baseline) and on G2B-WV1 (final)",
+  "M3_states": [
+   {
+    "id": "M3-STABLE",
+    "intended_label": "No progression detected",
+    "series": [
+     [
+      "2020-01",
+      -3.0
+     ],
+     [
+      "2021-01",
+      -3.2
+     ],
+     [
+      "2022-01",
+      -2.9
+     ],
+     [
+      "2023-01",
+      -3.1
+     ],
+     [
+      "2024-01",
+      -3.0
+     ],
+     [
+      "2025-01",
+      -3.1
+     ]
+    ],
+    "reliability": "good"
+   },
+   {
+    "id": "M3-SUSPICIOUS",
+    "intended_label": "Suspicious trend",
+    "series": [
+     [
+      "2020-01",
+      -3.0
+     ],
+     [
+      "2021-01",
+      -3.3
+     ],
+     [
+      "2022-01",
+      -3.6
+     ],
+     [
+      "2023-01",
+      -3.9
+     ],
+     [
+      "2024-01",
+      -4.2
+     ],
+     [
+      "2025-01",
+      -4.6
+     ]
+    ],
+    "reliability": "good",
+    "amended_by": "AMENDMENT_01"
+   },
+   {
+    "id": "M3-PROGRESSING",
+    "intended_label": "Progressing",
+    "series": [
+     [
+      "2020-01",
+      -2.0
+     ],
+     [
+      "2021-01",
+      -3.5
+     ],
+     [
+      "2022-01",
+      -5.0
+     ],
+     [
+      "2023-01",
+      -6.5
+     ],
+     [
+      "2024-01",
+      -8.0
+     ],
+     [
+      "2025-01",
+      -9.5
+     ]
+    ],
+    "reliability": "good"
+   },
+   {
+    "id": "M3-NOTASSESSABLE",
+    "intended_label": "Not assessable",
+    "series": [
+     [
+      "2022-01",
+      -3.0
+     ],
+     [
+      "2023-01",
+      -3.5
+     ],
+     [
+      "2024-01",
+      -3.2
+     ]
+    ],
+    "reliability": "low"
+   }
+  ],
+  "M4_states": [
+   {
+    "id": "M4-STABLE",
+    "intended_label": "Stable",
+    "series": [
+     [
+      "2020-01",
+      85.0
+     ],
+     [
+      "2021-01",
+      85.2
+     ],
+     [
+      "2022-01",
+      84.9
+     ],
+     [
+      "2023-01",
+      85.1
+     ],
+     [
+      "2024-01",
+      85.0
+     ],
+     [
+      "2025-01",
+      84.8
+     ]
+    ],
+    "reliability": "good"
+   },
+   {
+    "id": "M4-SUSPICIOUS",
+    "intended_label": "Suspicious trend",
+    "series": [
+     [
+      "2020-01",
+      90.0
+     ],
+     [
+      "2021-01",
+      88.5
+     ],
+     [
+      "2022-01",
+      87.0
+     ],
+     [
+      "2023-01",
+      85.5
+     ],
+     [
+      "2024-01",
+      84.0
+     ],
+     [
+      "2025-01",
+      82.5
+     ]
+    ],
+    "reliability": "good"
+   },
+   {
+    "id": "M4-PROGRESSING",
+    "intended_label": "Progressing",
+    "series": [
+     [
+      "2020-01",
+      90.0
+     ],
+     [
+      "2021-01",
+      87.0
+     ],
+     [
+      "2022-01",
+      84.0
+     ],
+     [
+      "2023-01",
+      81.0
+     ],
+     [
+      "2024-01",
+      78.0
+     ],
+     [
+      "2025-01",
+      75.0
+     ]
+    ],
+    "reliability": "good"
+   },
+   {
+    "id": "M4-NOTASSESSABLE",
+    "intended_label": "Not assessable",
+    "series": [
+     [
+      "2020-01",
+      62.0
+     ],
+     [
+      "2021-01",
+      60.0
+     ],
+     [
+      "2022-01",
+      58.0
+     ],
+     [
+      "2023-01",
+      56.0
+     ],
+     [
+      "2024-01",
+      53.0
+     ],
+     [
+      "2025-01",
+      50.0
+     ]
+    ],
+    "reliability": "good"
+   }
+  ],
+  "oracle_WV": "approved sentence occurs exactly once in the visible result card text and exactly once in COPY (line 'Limitation: '+sentence); also present in the result card under print media; Chromium print-to-PDF text contains it (supplementary)",
+  "oracle_C1": "approved sentence occurs 0 times in card and COPY (baseline contrast)",
+  "regression_oracle": "localStorage suite-export payload string byte-identical C1 vs WV for the same inputs and clock; displayed progression label, confidence and risk identical C1 vs WV; COPY identical except the inserted 'Limitation:' line",
+  "coverage_rule": "the four states per module must show the four intended labels on the C1 baseline. If an input does not reach its intended label on C1, the input may be replaced once by a logged protocol amendment BEFORE any patch is applied; the oracle is not changed."
+ },
+ "T2c": {
+  "M5_part": "covered inside T2 by S28 cases A1, A2, A3 (domain absent), A4, A4b (M3 not assessable), D1 (GAT absent), D2 and D4 (GAT below target): W-1 must be present exactly once on each surface",
+  "M3_M4_part": "covered by T2b NOTASSESSABLE states: sentence still present exactly once",
+  "fixed_string_rules": {
+   "must_contain": [
+    "may miss",
+    "does not exclude localized worsening"
+   ],
+   "must_not_contain_case_insensitive": [
+    "focal progression detected",
+    "no focal progression",
+    "sectoral progression detected",
+    "excludes focal",
+    "rules out",
+    "focal analysis performed",
+    "pointwise analysis performed"
+   ]
+  }
+ },
+ "T3": {
+  "reference_file": "frozen/g2b/T3_SCIPY_REFERENCE.json",
+  "reference_generator": "ref/make_t3_reference.py (SciPy 1.18.1, NumPy 2.5.3, Python 3.13)",
+  "execution": "functions executed inside the actual G2B-WV1 module pages in Chromium (no extraction): M4 _pval, _tcrit, _ols, computeM4_StructuralTrend, addRow cap; M3 twoTailedPValue, tCritical95, simpleLinearRegression, computeM3_ProgressionContext",
+  "tolerances": {
+   "p_exact_branch": "|p_ofty - p_ref| <= max(1e-6, 1e-5 * p_ref)",
+   "p_M4_df_ge_30": "compared with the normal reference 2*norm.sf(|t|): |delta| <= 1e-6; deviation from exact Student-t recorded as KNOWN N-1 (not a pass/fail criterion)",
+   "p_M3_rounded_4dp": "|p_ofty - p_ref| <= 5e-5 + 1e-6",
+   "tcrit_tabulated": "|delta| <= 6e-4",
+   "tcrit_interpolated": "|delta| <= 3e-3",
+   "tcrit_beyond_table": "recorded (M4 df>30 -> 1.960; M3 df>120 -> 1.960); known approximation",
+   "slope_M4": "raw _ols slope: |delta| <= 1e-8; exported structural_rate.slope_rnfl_per_year (rounded to 2 dp by _r2): |delta| <= 0.005",
+   "slope_M3_rounded_4dp": "|delta| <= 5e-5 + 1e-9",
+   "symmetry": "_pval(t,df) == _pval(-t,df) exactly; twoTailedPValue(t,df) == twoTailedPValue(-t,df) exactly",
+   "sanity": "every returned p is finite and within [0,1]; t=0 -> p=1",
+   "p_M4_export_rounded_2dp": "exported structural_rate.p_value is rounded to 2 dp by _r2: |p_export - p_ref| <= 0.005; raw _ols p uses p_exact_branch tolerance"
+  },
+  "decision_endpoints": "for every decision_endpoints row: (p_ofty < alpha) == (p_ref < alpha)",
+  "series_rules": {
+   "M4-SLOPE*": "classification equals documented band applied to the reference slope (> -1.0 stable_trend; (-2.0,-1.0] suspicious_trend; <= -2.0 fast_progression); raw/exported slope and p within tolerance",
+   "M4-N4-FAST-PSIG": "classification fast_progression (n<5 p-guard not triggered because p_ref < 0.05)",
+   "M4-N4-FAST-PNS": "classification suspicious_trend (n<5 p-guard triggered because p_ref >= 0.05)",
+   "M4-N2": "structural_rate.p_value === null; statistical_significance 'not_calculable'",
+   "M4-CONST5, M4-CONST6-MONTHLY": "p_value null or >= 0.05; statistical_significance != 'significant'; classification stable_trend",
+   "M4-NEAREXACT, M4-N12-NOISY": "raw _ols p within p_exact_branch tolerance; exported p within 2-dp tolerance; raw and exported slope within tolerance",
+   "M4-N32-T2-APIONLY": "record OFTY p and statistical_significance; expected by known N-1: p ~= p_norm (0.0455) and 'significant' whereas exact p = 0.0546 ('trend' under the documented 0.05/0.10 bands); reachability: engine API accepts n=32; UI addRow refuses the 13th row",
+   "M3-CONST5": "progression_rate.p_value === null; caution_flags include 'inference_unavailable_exact_fit'",
+   "M3-N12-NOISY, M3-N3-24M": "p within p_M3_rounded_4dp tolerance; slope within slope_M3_rounded_4dp",
+   "M4-PEDGE-0.047": "raw p within tolerance of 0.047; statistical_significance 'significant'; FAIL (STOP-3 finding, no change) if the exported/displayed p reads >= 0.05 for this significant result"
+  },
+  "stop_rule": "a reachable (UI/host) deviation beyond tolerance, a wrong decision at an endpoint, or a constant-series 'significant' result is a STOP-3 finding: no engine change, author decision requested. Known N-1 (df>=30) is recorded with its reachability qualification."
+ },
+ "T4": {
+  "mandatory": true,
+  "mode": "real gate2 host from G2B-WV1 (primary verdict) and from C1 (attribution only); M1/M2 as T1c-H1; M4 as T1c common",
+  "inputs": [
+   {
+    "id": "T4-A (mandated)",
+    "m3_series": [
+     [
+      "2022-01",
+      -3.0
+     ],
+     [
+      "2023-01",
+      -3.2
+     ],
+     [
+      "2024-01",
+      -3.1
+     ]
+    ],
+    "reliability": "good",
+    "span_months": 24
+   },
+   {
+    "id": "T4-B (discriminating)",
+    "m3_series": [
+     [
+      "2022-01",
+      -2.0
+     ],
+     [
+      "2023-01",
+      -3.5
+     ],
+     [
+      "2024-01",
+      -5.0
+     ]
+    ],
+    "reliability": "good",
+    "span_months": 24
+   }
+  ],
+  "captured": [
+   "M3 frame card: progression label, hero slope text, confidence, risk, interpretation",
+   "M3 COPY text",
+   "M3 export: localStorage ofty_m3_result and the published Gate2 envelope payload (classification, data_quality, confidence_level, functional.display.label/assessability, functional.candidate.state)",
+   "M5 result/COPY/JSON functional fields (primary_assessability, primary_state, native_classification, display.label) and M5 'Global MD (M3)' COPY line",
+   "screenshots"
+  ],
+  "decision_rule": {
+   "STOP": "the M3 card or COPY shows a categorical progression label other than 'Not assessable' (i.e. 'No progression detected' [internal Stable], 'Suspicious trend' or 'Progressing') while the exported native classification is 'unclassifiable' or the exported data_quality is 'insufficient'; or card label != COPY 'Progression:' label; or card label inconsistent with export functional.display.label under the documented display mapping (Stable -> 'No progression detected')",
+   "PASS": "card and COPY show 'Not assessable' (or an equivalent non-categorical state) whenever the export is unclassifiable/insufficient, or the export is classified and all surfaces agree",
+   "on_STOP": "no patch; report the observed mismatch, a minimal patch proposal and a test plan for author approval"
+  }
+ },
+ "stop_semantics": "A STOP halts the affected block (remaining cases NOT_EVALUATED), forbids any fix or retry without logged author approval, and makes the package a STOP/PARTIAL package. Independent, already-frozen, non-mutating blocks may still be executed so that the author receives complete evidence; a STOP of type 5 (protected data/secret/external account) or 6 (harness failure) halts all execution."
+}

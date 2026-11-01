@@ -1,0 +1,88 @@
+{
+  "id": "M4-NOTASSESSABLE",
+  "object": "PRE",
+  "module": "m4",
+  "started_utc": "2026-10-20T10:20:41.154Z",
+  "rows": [
+    [
+      "2020-01",
+      "62",
+      "good"
+    ],
+    [
+      "2021-01",
+      "60",
+      "good"
+    ],
+    [
+      "2022-01",
+      "58",
+      "good"
+    ],
+    [
+      "2023-01",
+      "56",
+      "good"
+    ],
+    [
+      "2024-01",
+      "53",
+      "good"
+    ],
+    [
+      "2025-01",
+      "50",
+      "good"
+    ]
+  ],
+  "screen": {
+    "label": "Not assessable",
+    "hero_slope": "-2.37",
+    "hero_slope_tag": "(Floor effect)",
+    "confidence": "High",
+    "confidence_sub": "6 measurements.",
+    "risk": "High clinical risk",
+    "interpretation": "RNFL thickness has reached the physiological measurement floor (approximately 50 µm). Structural progression becomes difficult to assess at this level, and clinical interpretation should rely more heavily on functional data and direct examination findings.",
+    "card_inner_text": "OCT PROGRESSION ANALYSIS · OD\n-2.37\nµm / year\n(Floor effect)\n50\n62\n60\n58\n56\n53\n50\n2020\n2025\nReliable\nBorderline\nLow reliability\nPROGRESSION\nI\nNot assessable\nCONFIDENCE\nHigh\n6 measurements.\nHigh clinical risk\ni\nINTERPRETATION\nRNFL thickness has reached the physiological measurement floor (approximately 50 µm). Structural progression becomes difficult to assess at this level, and clinical interpretation should rely more heavily on functional data and direct examination findings.\nLimitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.\nCopy",
+    "scope_element_visible": true,
+    "scope_element_text": "Limitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.",
+    "method": {
+      "sufficiency_rule": "adequate: n >= 4 AND no low-reliability scans",
+      "class_rule": "not_applied",
+      "p_value": "< 0.0001",
+      "ci": "-2.72 to -2.03 µm/year"
+    }
+  },
+  "copy": "OFTY - OCT Progression Analysis (M4)\nEye: OD\nRNFL slope: -2.37 µm/year\nClassification: Not assessable\nConfidence: High\nClinical risk: High clinical risk\nScans: 6 · Follow-up: 60 months\nLatest RNFL: 50 µm (Good)\nInterpretation: RNFL thickness has reached the physiological measurement floor (approximately 50 µm). Structural progression becomes difficult to assess at this level, and clinical interpretation should rely more heavily on functional data and direct examination findings.\nCaution flags: RNFL floor effect\nLimitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.\nGenerated with OFTY Tool M4 v1.1",
+  "payload_text": "{\"module_id\":\"OFTY-Gx-M4\",\"algorithm_version\":\"1.3.1\",\"mode\":\"core\",\"inputs_summary\":{\"eye\":\"OD\",\"n_tests_submitted\":6,\"n_tests_used\":6,\"modifiers\":[]},\"structural_rate\":{\"slope_rnfl_per_year\":-2.37,\"intercept\":62.43,\"p_value\":0.000044661585047631155,\"ci95_lower\":-2.72,\"ci95_upper\":-2.03},\"classification\":\"floor_effect\",\"statistical_significance\":\"significant\",\"data_quality\":\"adequate\",\"confidence_level\":\"high\",\"clinical_risk\":\"high\",\"interpretation\":\"RNFL thickness has reached the physiological measurement floor (approximately 50 µm). Structural progression becomes difficult to assess at this level, and clinical interpretation should rely more heavily on functional data and direct examination findings.\",\"caution_flags\":[\"rnfl_floor_effect\"],\"detail_summary\":{\"valid_test_count\":6,\"low_reliability_count\":0,\"borderline_reliability_count\":0,\"followup_years\":5,\"latest_rnfl\":50,\"latest_reliability\":\"good\"},\"logic_trace\":{\"method\":\"linear_regression_rnfl_vs_time\",\"validation\":\"all tests passed\",\"slope_rule_applied\":\"not_applied\",\"floor_rule_applied\":\"applied: latest_rnfl=50 <= RNFL_FLOOR=50\",\"artifact_rule_applied\":\"not_applied\",\"vshape_rule_applied\":\"not_applied\",\"confidence_adjustments\":[\"none\"],\"sufficiency_rule\":\"adequate: n >= 4 AND no low-reliability scans\",\"notes\":[\"data_quality=adequate (n=6, low_rel=0)\",\"OLS: slope=-2.37 um/yr, p<0.0001\",\"floor_effect override applied (latest RNFL=50 um)\"]},\"model\":{\"type\":\"deterministic_trend_based\",\"intended_use\":\"clinical_decision_support\",\"notes\":\"This module provides a structured interpretation of OCT RNFL structural progression and does not replace clinical judgment.\"},\"_timestamp\":\"2026-10-14T10:00:00.000Z\"}",
+  "payload_sha256": "e6ec4092b815d819e926b5bf27b796b8de21aa7051ca5db5fba407bf12f410f8",
+  "print": {
+    "card_visible_under_print": true,
+    "card_inner_text_print": "OCT PROGRESSION ANALYSIS · OD\n-2.37\nµm / year\n(Floor effect)\n50\n62\n60\n58\n56\n53\n50\n2020\n2025\nReliable\nBorderline\nLow reliability\nPROGRESSION\nI\nNot assessable\nCONFIDENCE\nHigh\n6 measurements.\nHigh clinical risk\ni\nINTERPRETATION\nRNFL thickness has reached the physiological measurement floor (approximately 50 µm). Structural progression becomes difficult to assess at this level, and clinical interpretation should rely more heavily on functional data and direct examination findings.\nLimitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening.\nCopied!"
+  },
+  "pdf": {
+    "sha256": "c325298637f1541347a42bd15c7dc71d849e78d4a4650ba6aed9ab6101feaa98",
+    "text_normalized": "Standalone calculator · no integrated assessment publication. Back to OFTY Glaucoma Suite P A TIE N T P ARA M E TE R S Eye OD Enter measurements in chronological order. Date (YYYY-MM) Global RNFL (µm) Reliability i 2020-01 62 Good × 2021-01 60 Good × 2022-01 58 Good × 2023-01 56 Good × 2024-01 53 Good × OCT Progression Analysis 2025-01 50 Good × O F TY T O OL #4 Serial RNFL thickness analysis to help assess glaucoma structural progression. Calculate + Add OCT CLINICAL MODIFIERS High Myopia / Tilted Disc Macular Pathology (e.g., ERM) OC T PR O GR E SS I ON A NA LYSI S · OD -2.37 µm / year (Floor effect) Reset 62 60 58 56 53 50 50 2020 Reliable PROGRESSION 2025 Borderline Low reliability I Not assessable CONFIDENCE High 6 measurements. High clinical risk i INTERPRETATION RNFL thickness has reached the physiological measurement floor (approximately 50 µm). Structural progression becomes difficult to assess at this level, and clinical interpretation should rely more heavily on functional data and direct examination findings. Limitation: This analysis uses average RNFL thickness only and may miss sectoral or focal structural progression. The absence of a global progression signal does not exclude localized worsening. Copied! Share feedback or report a case Method & Thresholds Disclaimer Sources (Summary) Version History OFTY · M4 · © 2026 Andrea Ragosta, MD, FEBO"
+  },
+  "events": {
+    "console": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      }
+    ],
+    "page_errors": [],
+    "aborted_external": [
+      "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+    ],
+    "network_failed": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+        "err": "net::ERR_FAILED"
+      }
+    ]
+  },
+  "product_console_errors": [],
+  "finished_utc": "2026-10-20T10:20:43.041Z"
+}
