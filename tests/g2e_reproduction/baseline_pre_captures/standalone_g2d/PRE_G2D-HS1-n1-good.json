@@ -1,0 +1,78 @@
+{
+  "id": "G2D-HS1-n1-good",
+  "object": "PRE",
+  "module": "m3",
+  "started_utc": "2026-10-20T10:18:40.730Z",
+  "rows": [
+    [
+      "2024-01",
+      "-3",
+      "good"
+    ]
+  ],
+  "screen": {
+    "label": "Not assessable",
+    "hero_slope": "Slope estimate unreliable",
+    "hero_slope_tag": "",
+    "confidence": "Low",
+    "confidence_sub": "A single visual field does not allow trend estimation.",
+    "risk": "Indeterminate clinical risk",
+    "interpretation": "Progression analysis could not be performed: a minimum of two reliable visual fields with adequate follow-up is required to support trend estimation. Schedule additional visual field examinations to build an adequate longitudinal dataset.",
+    "card_inner_text": "VF PROGRESSION ANALYSIS · OD\nSlope estimate unreliable\nPROGRESSION\ni\nNot assessable\nCONFIDENCE\nLow\nA single visual field does not allow trend estimation.\nIndeterminate clinical risk\ni\nINTERPRETATION\nProgression analysis could not be performed: a minimum of two reliable visual fields with adequate follow-up is required to support trend estimation. Schedule additional visual field examinations to build an adequate longitudinal dataset.\nLimitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.\nCopy",
+    "scope_element_visible": true,
+    "scope_element_text": "Limitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.",
+    "method": {
+      "fields": "1",
+      "followup": "N/A",
+      "sufficiency_rule": "—",
+      "class_rule": "—",
+      "p_value": "Not available",
+      "ci": "Not available"
+    },
+    "limitations_notes": [],
+    "branch_trace": [
+      "M3.source.L1602"
+    ],
+    "last_data": {
+      "finalLabel": "Not assessable",
+      "confidence": "low",
+      "risk": "indeterminate",
+      "slope": null,
+      "slopeTag": "",
+      "n": 1,
+      "nativeInsufficient": false
+    }
+  },
+  "copy": "Eye: OD\nSlope: Not available (insufficient data)\nProgression: Not assessable\nConfidence: Low\nClinical risk: Indeterminate clinical risk\nFields: 1 · Follow-up: N/A\n\nInterpretation: Progression analysis could not be performed: a minimum of two reliable visual fields with adequate follow-up is required to support trend estimation. Schedule additional visual field examinations to build an adequate longitudinal dataset.\nLimitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.\n\nGenerated with OFTY Tool M3 v1.1",
+  "payload_text": null,
+  "payload_sha256": null,
+  "print": {
+    "card_visible_under_print": true,
+    "card_inner_text_print": "VF PROGRESSION ANALYSIS · OD\nSlope estimate unreliable\nPROGRESSION\ni\nNot assessable\nCONFIDENCE\nLow\nA single visual field does not allow trend estimation.\nIndeterminate clinical risk\ni\nINTERPRETATION\nProgression analysis could not be performed: a minimum of two reliable visual fields with adequate follow-up is required to support trend estimation. Schedule additional visual field examinations to build an adequate longitudinal dataset.\nLimitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening.\nCopied!"
+  },
+  "pdf": {
+    "sha256": "d8c31f5e96537045530ef4e87ab1a4ea0fadd25f23cfd5aac659c8382fc5b9f1",
+    "text_normalized": "Standalone calculator · no integrated assessment publication. Back to OFTY Glaucoma Suite O F TY T O OL #3 VF Progression Analysis Serial visual field MD analysis to help assess glaucoma functional progression. P A TIE N T P ARA M E TE R S Eye OD Enter visual fields in chronological order. Date (YYYY-MM) MD (dB) Reliability -3 Good 2024-01 Calculate + Add field i × Reset CLINICAL MODIFIERS Central threat to fixation Functionally monocular patient VF PRO G RE S SI O N A N AL YSIS · OD Slope estimate unreliable PROGRESSION i Not assessable CONFIDENCE Low A single visual field does not allow trend estimation. Indeterminate clinical risk i INTERPRETATION Progression analysis could not be performed: a minimum of two reliable visual fields with adequate follow-up is required to support trend estimation. Schedule additional visual field examinations to build an adequate longitudinal dataset. Limitation: This analysis uses global mean deviation (MD) only and may miss focal or localized visual-field progression. The absence of a global progression signal does not exclude localized worsening. Copied! Share feedback or report a case Method & Thresholds Disclaimer Sources (Summary) Version History OFTY · M3 · © 2026 Andrea Ragosta, MD, FEBO"
+  },
+  "events": {
+    "console": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: net::ERR_FAILED",
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      }
+    ],
+    "page_errors": [],
+    "aborted_external": [
+      "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+    ],
+    "network_failed": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+        "err": "net::ERR_FAILED"
+      }
+    ]
+  },
+  "product_console_errors": [],
+  "finished_utc": "2026-10-20T10:18:42.588Z"
+}
