@@ -1,0 +1,684 @@
+{
+  "block": "WP3 evaluation (M4 p-value export/display)",
+  "evaluated_utc": "2026-10-20T11:59:02.380Z",
+  "inputs": {
+    "PRE": "<WORKSPACE>/g2d_in/g2c_pkg/G2C_TARGETED_CORRECTIONS_AND_VERIFICATION_CANDIDATE_20261020/evidence/runs/20261019T223614Z_PRE_M4_WP3",
+    "POST": "<INTERNAL_RUNS>/20261020T115834Z_RR_POST_M4_WP3"
+  },
+  "rows": [
+    {
+      "id": "WP3-p0470",
+      "n": 6,
+      "p_scipy": 0.04700000000000018,
+      "expected_significance": "significant",
+      "expected_display": "0.0470",
+      "checks": {
+        "no_harness_errors": true,
+        "POST_p_null_iff_reference_null": true,
+        "POST_p_within_tol": true,
+        "POST_p_unrounded": true,
+        "POST_significance_expected": true,
+        "POST_significance_consistent_with_export": true,
+        "POST_method_display": true,
+        "POST_method_display_consistent": true,
+        "classification_and_significance_unchanged": true,
+        "PRE_export_was_round2": true,
+        "POST_notes_OLS_rule": true,
+        "n2_guard": true,
+        "payload_diff_only_version_p_text": true,
+        "copy_identical_except_p_text": true,
+        "screen_identical_except_interpretation": true,
+        "no_page_errors": true
+      },
+      "PRE": {
+        "p_export": 0.05,
+        "sig": "significant",
+        "class": "stable_trend",
+        "method_p": "0.0500",
+        "contradiction_export": true,
+        "contradiction_display": true
+      },
+      "POST": {
+        "p_export": 0.046999999752108376,
+        "sig": "significant",
+        "class": "stable_trend",
+        "method_p": "0.0470",
+        "contradiction_export": false
+      },
+      "diff_paths": [
+        "algorithm_version",
+        "structural_rate.p_value",
+        "logic_trace.notes.1"
+      ],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-p0530",
+      "n": 6,
+      "p_scipy": 0.05299999999999977,
+      "expected_significance": "trend",
+      "expected_display": "0.0530",
+      "checks": {
+        "no_harness_errors": true,
+        "POST_p_null_iff_reference_null": true,
+        "POST_p_within_tol": true,
+        "POST_p_unrounded": true,
+        "POST_significance_expected": true,
+        "POST_significance_consistent_with_export": true,
+        "POST_method_display": true,
+        "POST_method_display_consistent": true,
+        "classification_and_significance_unchanged": true,
+        "PRE_export_was_round2": true,
+        "POST_notes_OLS_rule": true,
+        "n2_guard": true,
+        "payload_diff_only_version_p_text": true,
+        "copy_identical_except_p_text": true,
+        "screen_identical_except_interpretation": true,
+        "no_page_errors": true
+      },
+      "PRE": {
+        "p_export": 0.05,
+        "sig": "trend",
+        "class": "stable_trend",
+        "method_p": "0.0500",
+        "contradiction_export": false,
+        "contradiction_display": false
+      },
+      "POST": {
+        "p_export": 0.05299999950880209,
+        "sig": "trend",
+        "class": "stable_trend",
+        "method_p": "0.0530",
+        "contradiction_export": false
+      },
+      "diff_paths": [
+        "algorithm_version",
+        "structural_rate.p_value",
+        "logic_trace.notes.1"
+      ],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-p0500",
+      "n": 6,
+      "p_scipy": 0.050000000000000086,
+      "expected_significance": "trend",
+      "expected_display": "0.0500",
+      "checks": {
+        "no_harness_errors": true,
+        "POST_p_null_iff_reference_null": true,
+        "POST_p_within_tol": true,
+        "POST_p_unrounded": true,
+        "POST_significance_expected": true,
+        "POST_significance_consistent_with_export": true,
+        "POST_method_display": true,
+        "POST_method_display_consistent": true,
+        "classification_and_significance_unchanged": true,
+        "PRE_export_was_round2": true,
+        "POST_notes_OLS_rule": true,
+        "n2_guard": true,
+        "payload_diff_only_version_p_text": true,
+        "copy_identical_except_p_text": true,
+        "screen_identical_except_interpretation": true,
+        "no_page_errors": true
+      },
+      "PRE": {
+        "p_export": 0.05,
+        "sig": "significant",
+        "class": "stable_trend",
+        "method_p": "0.0500",
+        "contradiction_export": true,
+        "contradiction_display": true
+      },
+      "POST": {
+        "p_export": 0.049999999647706926,
+        "sig": "significant",
+        "class": "stable_trend",
+        "method_p": "0.0499",
+        "contradiction_export": false
+      },
+      "diff_paths": [
+        "algorithm_version",
+        "structural_rate.p_value",
+        "logic_trace.notes.1"
+      ],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-p04996",
+      "n": 6,
+      "p_scipy": 0.04995999999999887,
+      "expected_significance": "significant",
+      "expected_display": "0.0499",
+      "checks": {
+        "no_harness_errors": true,
+        "POST_p_null_iff_reference_null": true,
+        "POST_p_within_tol": true,
+        "POST_p_unrounded": true,
+        "POST_significance_expected": true,
+        "POST_significance_consistent_with_export": true,
+        "POST_method_display": true,
+        "POST_method_display_consistent": true,
+        "classification_and_significance_unchanged": true,
+        "PRE_export_was_round2": true,
+        "POST_notes_OLS_rule": true,
+        "n2_guard": true,
+        "payload_diff_only_version_p_text": true,
+        "copy_identical_except_p_text": true,
+        "screen_identical_except_interpretation": true,
+        "no_page_errors": true
+      },
+      "PRE": {
+        "p_export": 0.05,
+        "sig": "significant",
+        "class": "stable_trend",
+        "method_p": "0.0500",
+        "contradiction_export": true,
+        "contradiction_display": true
+      },
+      "POST": {
+        "p_export": 0.049959999649308875,
+        "sig": "significant",
+        "class": "stable_trend",
+        "method_p": "0.0499",
+        "contradiction_export": false
+      },
+      "diff_paths": [
+        "algorithm_version",
+        "structural_rate.p_value",
+        "logic_trace.notes.1"
+      ],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-p0970",
+      "n": 6,
+      "p_scipy": 0.09700000000000009,
+      "expected_significance": "trend",
+      "expected_display": "0.0970",
+      "checks": {
+        "no_harness_errors": true,
+        "POST_p_null_iff_reference_null": true,
+        "POST_p_within_tol": true,
+        "POST_p_unrounded": true,
+        "POST_significance_expected": true,
+        "POST_significance_consistent_with_export": true,
+        "POST_method_display": true,
+        "POST_method_display_consistent": true,
+        "classification_and_significance_unchanged": true,
+        "PRE_export_was_round2": true,
+        "POST_notes_OLS_rule": true,
+        "n2_guard": true,
+        "payload_diff_only_version_p_text": true,
+        "copy_identical_except_p_text": true,
+        "screen_identical_except_interpretation": true,
+        "no_page_errors": true
+      },
+      "PRE": {
+        "p_export": 0.1,
+        "sig": "trend",
+        "class": "stable_trend",
+        "method_p": "0.1000",
+        "contradiction_export": true,
+        "contradiction_display": true
+      },
+      "POST": {
+        "p_export": 0.09699999960806747,
+        "sig": "trend",
+        "class": "stable_trend",
+        "method_p": "0.0970",
+        "contradiction_export": false
+      },
+      "diff_paths": [
+        "algorithm_version",
+        "structural_rate.p_value",
+        "logic_trace.notes.1"
+      ],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-p1030",
+      "n": 6,
+      "p_scipy": 0.10299999999999723,
+      "expected_significance": "not_significant",
+      "expected_display": "0.1030",
+      "checks": {
+        "no_harness_errors": true,
+        "POST_p_null_iff_reference_null": true,
+        "POST_p_within_tol": true,
+        "POST_p_unrounded": true,
+        "POST_significance_expected": true,
+        "POST_significance_consistent_with_export": true,
+        "POST_method_display": true,
+        "POST_method_display_consistent": true,
+        "classification_and_significance_unchanged": true,
+        "PRE_export_was_round2": true,
+        "POST_notes_OLS_rule": true,
+        "n2_guard": true,
+        "payload_diff_only_version_p_text": true,
+        "copy_identical_except_p_text": true,
+        "screen_identical_except_interpretation": true,
+        "no_page_errors": true
+      },
+      "PRE": {
+        "p_export": 0.1,
+        "sig": "not_significant",
+        "class": "stable_trend",
+        "method_p": "0.1000",
+        "contradiction_export": false,
+        "contradiction_display": false
+      },
+      "POST": {
+        "p_export": 0.10299999939339241,
+        "sig": "not_significant",
+        "class": "stable_trend",
+        "method_p": "0.1030",
+        "contradiction_export": false
+      },
+      "diff_paths": [
+        "algorithm_version",
+        "structural_rate.p_value",
+        "logic_trace.notes.1"
+      ],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-p09996",
+      "n": 6,
+      "p_scipy": 0.0999599999999972,
+      "expected_significance": "trend",
+      "expected_display": "0.0999",
+      "checks": {
+        "no_harness_errors": true,
+        "POST_p_null_iff_reference_null": true,
+        "POST_p_within_tol": true,
+        "POST_p_unrounded": true,
+        "POST_significance_expected": true,
+        "POST_significance_consistent_with_export": true,
+        "POST_method_display": true,
+        "POST_method_display_consistent": true,
+        "classification_and_significance_unchanged": true,
+        "PRE_export_was_round2": true,
+        "POST_notes_OLS_rule": true,
+        "n2_guard": true,
+        "payload_diff_only_version_p_text": true,
+        "copy_identical_except_p_text": true,
+        "screen_identical_except_interpretation": true,
+        "no_page_errors": true
+      },
+      "PRE": {
+        "p_export": 0.1,
+        "sig": "trend",
+        "class": "stable_trend",
+        "method_p": "0.1000",
+        "contradiction_export": true,
+        "contradiction_display": true
+      },
+      "POST": {
+        "p_export": 0.09995999951240733,
+        "sig": "trend",
+        "class": "stable_trend",
+        "method_p": "0.0999",
+        "contradiction_export": false
+      },
+      "diff_paths": [
+        "algorithm_version",
+        "structural_rate.p_value",
+        "logic_trace.notes.1"
+      ],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-tiny",
+      "n": 6,
+      "p_scipy": 1.0478981237450202e-8,
+      "expected_significance": "significant",
+      "expected_display": "< 0.0001",
+      "checks": {
+        "no_harness_errors": true,
+        "POST_p_null_iff_reference_null": true,
+        "POST_p_within_tol": true,
+        "POST_p_unrounded": true,
+        "POST_significance_expected": true,
+        "POST_significance_consistent_with_export": true,
+        "POST_method_display": true,
+        "POST_method_display_consistent": true,
+        "classification_and_significance_unchanged": true,
+        "PRE_export_was_round2": true,
+        "POST_notes_OLS_rule": true,
+        "n2_guard": true,
+        "payload_diff_only_version_p_text": true,
+        "copy_identical_except_p_text": true,
+        "screen_identical_except_interpretation": true,
+        "no_page_errors": true
+      },
+      "PRE": {
+        "p_export": 0,
+        "sig": "significant",
+        "class": "fast_progression",
+        "method_p": "0.0000",
+        "contradiction_export": false,
+        "contradiction_display": false
+      },
+      "POST": {
+        "p_export": 1.0478981237446636e-8,
+        "sig": "significant",
+        "class": "fast_progression",
+        "method_p": "< 0.0001",
+        "contradiction_export": false
+      },
+      "diff_paths": [
+        "algorithm_version",
+        "structural_rate.p_value",
+        "logic_trace.notes.1"
+      ],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-const",
+      "n": 5,
+      "p_scipy": null,
+      "expected_significance": "not_calculable",
+      "expected_display": null,
+      "checks": {
+        "no_harness_errors": true,
+        "POST_p_null_iff_reference_null": true,
+        "POST_significance_expected": true,
+        "POST_significance_consistent_with_export": true,
+        "POST_method_display": true,
+        "POST_method_display_consistent": true,
+        "classification_and_significance_unchanged": true,
+        "PRE_export_was_round2": true,
+        "POST_notes_OLS_rule": true,
+        "n2_guard": true,
+        "payload_diff_only_version_p_text": true,
+        "copy_identical_except_p_text": true,
+        "screen_identical_except_interpretation": true,
+        "no_page_errors": true
+      },
+      "PRE": {
+        "p_export": null,
+        "sig": "not_calculable",
+        "class": "stable_trend",
+        "method_p": "Not available",
+        "contradiction_export": false,
+        "contradiction_display": false
+      },
+      "POST": {
+        "p_export": null,
+        "sig": "not_calculable",
+        "class": "stable_trend",
+        "method_p": "Not available",
+        "contradiction_export": false
+      },
+      "diff_paths": [
+        "algorithm_version"
+      ],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-n2",
+      "n": 2,
+      "p_scipy": null,
+      "expected_significance": "not_calculable",
+      "expected_display": null,
+      "checks": {
+        "no_harness_errors": true,
+        "POST_p_null_iff_reference_null": true,
+        "POST_significance_expected": true,
+        "POST_significance_consistent_with_export": true,
+        "POST_method_display": true,
+        "POST_method_display_consistent": true,
+        "classification_and_significance_unchanged": true,
+        "PRE_export_was_round2": true,
+        "POST_notes_OLS_rule": true,
+        "n2_guard": true,
+        "payload_diff_only_version_p_text": true,
+        "copy_identical_except_p_text": true,
+        "screen_identical_except_interpretation": true,
+        "no_page_errors": true
+      },
+      "PRE": {
+        "p_export": null,
+        "sig": "not_calculable",
+        "class": "suspicious_trend",
+        "method_p": "Not available",
+        "contradiction_export": false,
+        "contradiction_display": false
+      },
+      "POST": {
+        "p_export": null,
+        "sig": "not_calculable",
+        "class": "suspicious_trend",
+        "method_p": "Not available",
+        "contradiction_export": false
+      },
+      "diff_paths": [
+        "algorithm_version"
+      ],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-n3",
+      "n": 3,
+      "p_scipy": 0.12945446293344853,
+      "expected_significance": "not_significant",
+      "expected_display": "0.1295",
+      "checks": {
+        "no_harness_errors": true,
+        "POST_p_null_iff_reference_null": true,
+        "POST_p_within_tol": true,
+        "POST_p_unrounded": true,
+        "POST_significance_expected": true,
+        "POST_significance_consistent_with_export": true,
+        "POST_method_display": true,
+        "POST_method_display_consistent": true,
+        "classification_and_significance_unchanged": true,
+        "PRE_export_was_round2": true,
+        "POST_notes_OLS_rule": true,
+        "n2_guard": true,
+        "payload_diff_only_version_p_text": true,
+        "copy_identical_except_p_text": true,
+        "screen_identical_except_interpretation": true,
+        "no_page_errors": true
+      },
+      "PRE": {
+        "p_export": 0.13,
+        "sig": "not_significant",
+        "class": "suspicious_trend",
+        "method_p": "0.1300",
+        "contradiction_export": false,
+        "contradiction_display": false
+      },
+      "POST": {
+        "p_export": 0.12945446293319596,
+        "sig": "not_significant",
+        "class": "suspicious_trend",
+        "method_p": "0.1295",
+        "contradiction_export": false
+      },
+      "diff_paths": [
+        "algorithm_version",
+        "structural_rate.p_value",
+        "logic_trace.notes.1"
+      ],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-n4-pguard",
+      "n": 4,
+      "p_scipy": 0.15633851226789278,
+      "expected_significance": "not_significant",
+      "expected_display": "0.1563",
+      "checks": {
+        "no_harness_errors": true,
+        "POST_p_null_iff_reference_null": true,
+        "POST_p_within_tol": true,
+        "POST_p_unrounded": true,
+        "POST_significance_expected": true,
+        "POST_significance_consistent_with_export": true,
+        "POST_method_display": true,
+        "POST_method_display_consistent": true,
+        "classification_and_significance_unchanged": true,
+        "PRE_export_was_round2": true,
+        "POST_notes_OLS_rule": true,
+        "POST_pguard_interpretation_rule": true,
+        "POST_copy_interpretation_rule": true,
+        "n2_guard": true,
+        "payload_diff_only_version_p_text": true,
+        "copy_identical_except_p_text": true,
+        "screen_identical_except_interpretation": true,
+        "no_page_errors": true
+      },
+      "PRE": {
+        "p_export": 0.16,
+        "sig": "not_significant",
+        "class": "suspicious_trend",
+        "method_p": "0.1600",
+        "contradiction_export": false,
+        "contradiction_display": false
+      },
+      "POST": {
+        "p_export": 0.15633851181448205,
+        "sig": "not_significant",
+        "class": "suspicious_trend",
+        "method_p": "0.1563",
+        "contradiction_export": false
+      },
+      "diff_paths": [
+        "algorithm_version",
+        "structural_rate.p_value",
+        "interpretation",
+        "logic_trace.notes.1",
+        "logic_trace.notes.2"
+      ],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-n12",
+      "n": 12,
+      "p_scipy": 0.000004934819641834938,
+      "expected_significance": "significant",
+      "expected_display": "< 0.0001",
+      "checks": {
+        "no_harness_errors": true,
+        "POST_p_null_iff_reference_null": true,
+        "POST_p_within_tol": true,
+        "POST_p_unrounded": true,
+        "POST_significance_expected": true,
+        "POST_significance_consistent_with_export": true,
+        "POST_method_display": true,
+        "POST_method_display_consistent": true,
+        "classification_and_significance_unchanged": true,
+        "PRE_export_was_round2": true,
+        "POST_notes_OLS_rule": true,
+        "n2_guard": true,
+        "payload_diff_only_version_p_text": true,
+        "copy_identical_except_p_text": true,
+        "screen_identical_except_interpretation": true,
+        "no_page_errors": true
+      },
+      "PRE": {
+        "p_export": 0,
+        "sig": "significant",
+        "class": "fast_progression",
+        "method_p": "0.0000",
+        "contradiction_export": false,
+        "contradiction_display": false
+      },
+      "POST": {
+        "p_export": 0.000004934819641612682,
+        "sig": "significant",
+        "class": "fast_progression",
+        "method_p": "< 0.0001",
+        "contradiction_export": false
+      },
+      "diff_paths": [
+        "algorithm_version",
+        "structural_rate.p_value",
+        "logic_trace.notes.1"
+      ],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "WP3-n8-moderate",
+      "n": 8,
+      "p_scipy": 0.050214556985914774,
+      "expected_significance": "trend",
+      "expected_display": "0.0502",
+      "checks": {
+        "no_harness_errors": true,
+        "POST_p_null_iff_reference_null": true,
+        "POST_p_within_tol": true,
+        "POST_p_unrounded": true,
+        "POST_significance_expected": true,
+        "POST_significance_consistent_with_export": true,
+        "POST_method_display": true,
+        "POST_method_display_consistent": true,
+        "classification_and_significance_unchanged": true,
+        "PRE_export_was_round2": true,
+        "POST_notes_OLS_rule": true,
+        "n2_guard": true,
+        "payload_diff_only_version_p_text": true,
+        "copy_identical_except_p_text": true,
+        "screen_identical_except_interpretation": true,
+        "no_page_errors": true
+      },
+      "PRE": {
+        "p_export": 0.05,
+        "sig": "trend",
+        "class": "stable_trend",
+        "method_p": "0.0500",
+        "contradiction_export": false,
+        "contradiction_display": false
+      },
+      "POST": {
+        "p_export": 0.050214556662349676,
+        "sig": "trend",
+        "class": "stable_trend",
+        "method_p": "0.0502",
+        "contradiction_export": false
+      },
+      "diff_paths": [
+        "algorithm_version",
+        "structural_rate.p_value",
+        "logic_trace.notes.1"
+      ],
+      "status": "PASS",
+      "failed": []
+    }
+  ],
+  "summary": {
+    "series": 14,
+    "PASS": 14,
+    "FAIL_OR_STOP": [],
+    "PRE_export_contradictions": [
+      "WP3-p0470 (p_export 0.05, significant)",
+      "WP3-p0500 (p_export 0.05, significant)",
+      "WP3-p04996 (p_export 0.05, significant)",
+      "WP3-p0970 (p_export 0.1, trend)",
+      "WP3-p09996 (p_export 0.1, trend)"
+    ],
+    "PRE_display_contradictions": [
+      "WP3-p0470 (0.0500, significant)",
+      "WP3-p0500 (0.0500, significant)",
+      "WP3-p04996 (0.0500, significant)",
+      "WP3-p0970 (0.1000, trend)",
+      "WP3-p09996 (0.1000, trend)"
+    ],
+    "POST_contradictions": []
+  }
+}

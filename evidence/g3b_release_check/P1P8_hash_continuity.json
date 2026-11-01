@@ -1,0 +1,108 @@
+{
+ "retained": [
+  {
+   "file": "candidate/gate2/index.html",
+   "sha256_baseline": "e258018b8d7999aea23a35ddbaab896a8678518f084883a6efa066746cd79a83",
+   "sha256_g3b": "e258018b8d7999aea23a35ddbaab896a8678518f084883a6efa066746cd79a83",
+   "identical": true
+  },
+  {
+   "file": "candidate/gate2/semantic.cjs",
+   "sha256_baseline": "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf",
+   "sha256_g3b": "9eaddd8d8be5d92602da6c04cfea9aaafb2fde95af295fc673d21f1db50b2eaf",
+   "identical": true
+  },
+  {
+   "file": "candidate/gate2/session.js",
+   "sha256_baseline": "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12",
+   "sha256_g3b": "090cd280316af00ff8c9c49030d49362f9044dbd03f999b891b5980cbbc37f12",
+   "identical": true
+  },
+  {
+   "file": "candidate/iop-cct/index.html",
+   "sha256_baseline": "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a",
+   "sha256_g3b": "eb551690b32127edd85a1c1aca9dfadaaa41fe5b2d7b9caeaeec46b1f47d1f6a",
+   "identical": true
+  },
+  {
+   "file": "candidate/orchestrator/index.html",
+   "sha256_baseline": "95bb607c7f4df63ea22e3f3e24e455780c08a7b0e23b41a823c622fad6b7eb77",
+   "sha256_g3b": "95bb607c7f4df63ea22e3f3e24e455780c08a7b0e23b41a823c622fad6b7eb77",
+   "identical": true
+  },
+  {
+   "file": "candidate/rnfl-progression/index.html",
+   "sha256_baseline": "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847",
+   "sha256_g3b": "3c671cf29097eca404e47e5e6ff35615a6e3986822436ce86d4c3b8eb1d1e847",
+   "identical": true
+  },
+  {
+   "file": "candidate/target-iop/index.html",
+   "sha256_baseline": "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0",
+   "sha256_g3b": "83a7cb9d1387235042c21e2253aa2237d962ae8f1219e70334d63c2f64d43db0",
+   "identical": true
+  },
+  {
+   "file": "candidate/vf-progression/index.html",
+   "sha256_baseline": "55f258c00fff5f573c2e05b3bf0e18ecfe62df950616d76f2c4764465c7d2cfa",
+   "sha256_g3b": "55f258c00fff5f573c2e05b3bf0e18ecfe62df950616d76f2c4764465c7d2cfa",
+   "identical": true
+  }
+ ],
+ "checks": {
+  "P1_eight_retained_identical": true,
+  "P1_index_new_hash": true,
+  "P1_m1_advanced_zero_files": true,
+  "P1_candidate_file_set_exact": true,
+  "P8_root_list_verifies": true,
+  "P8_root_list_covers_all_but_itself": true,
+  "P8_candidate_list_verifies": true,
+  "P8_candidate_list_is_nine_sources": true,
+  "P8_no_self_reference": true,
+  "historical_files_identical_to_S00": true,
+  "tests_tree_identical_to_S00_except_declared": true
+ },
+ "index_old": "64b3def5554c4188c484246b06899ed18952415747db5ca155951c4a2f8a3526",
+ "index_new": "69877c7c7381509e17420b2a9f46ccdd0f6595d0b1abae6e3eb87b8a22d481b8",
+ "m1_advanced_present": [],
+ "candidate_files": [
+  "README.md",
+  "SHA256SUMS.txt",
+  "gate2/index.html",
+  "gate2/semantic.cjs",
+  "gate2/session.js",
+  "index.html",
+  "iop-cct/index.html",
+  "orchestrator/index.html",
+  "rnfl-progression/index.html",
+  "target-iop/index.html",
+  "vf-progression/index.html"
+ ],
+ "root_list_entries": 357,
+ "root_list_bad": [],
+ "candidate_list_entries": [
+  "gate2/index.html",
+  "gate2/semantic.cjs",
+  "gate2/session.js",
+  "index.html",
+  "iop-cct/index.html",
+  "orchestrator/index.html",
+  "rnfl-progression/index.html",
+  "target-iop/index.html",
+  "vf-progression/index.html"
+ ],
+ "candidate_list_bad": [],
+ "changed_outside_candidate": [
+  "CHANGELOG.md",
+  "CITATION.cff",
+  "README.md",
+  "SHA256SUMS.txt",
+  "docs/KNOWN_LIMITATIONS.md",
+  "docs/OBJECTS_AND_VERSIONS.md",
+  "evidence/README.md"
+ ],
+ "added_outside_candidate": [],
+ "removed_outside_candidate": [],
+ "tests_changed": [],
+ "status": "PASS"
+}

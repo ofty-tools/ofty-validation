@@ -1,0 +1,24 @@
+{
+ "status": "FAIL",
+ "checks": {
+  "P4_static_no_tracking_or_external": false,
+  "P2_required_links_present": false,
+  "P2_no_absolute_or_site_links": false,
+  "P2_index_http_200": true,
+  "P4_index_only_local_requests": false,
+  "P4_no_cookies": true
+ },
+ "index_requests": [
+  "<local>/index.html",
+  "https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap",
+  "https://www.googletagmanager.com/gtag/js?id=G-GWJJZYJB06"
+ ],
+ "links": [],
+ "external_hosts_by_page": {
+  "/index.html": [
+   "fonts.googleapis.com",
+   "www.googletagmanager.com"
+  ]
+ },
+ "harness_error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('a[href=\"./iop-cct/index.html\"]').first()\u001b[22m\n\n    at <G3B_TOOLS>/nav_test.cjs:69:95"
+}

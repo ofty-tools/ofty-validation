@@ -1,0 +1,27 @@
+{
+ "status": "PASS",
+ "checks": {
+  "P1_eight_retained_identical": true,
+  "P1_index_new_hash": true,
+  "P1_m1_advanced_zero_files": true,
+  "P1_candidate_file_set_exact": true,
+  "P8_root_list_verifies": true,
+  "P8_root_list_covers_all_but_itself": true,
+  "P8_candidate_list_verifies": true,
+  "P8_candidate_list_is_nine_sources": true,
+  "P8_no_self_reference": true,
+  "historical_files_identical_to_S00": true,
+  "tests_tree_identical_to_S00_except_declared": true
+ },
+ "changed_outside_candidate": [
+  "CHANGELOG.md",
+  "CITATION.cff",
+  "README.md",
+  "SHA256SUMS.txt",
+  "docs/KNOWN_LIMITATIONS.md",
+  "docs/OBJECTS_AND_VERSIONS.md",
+  "evidence/README.md"
+ ],
+ "added": [],
+ "removed": []
+}

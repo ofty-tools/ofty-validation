@@ -1,0 +1,327 @@
+{
+  "block": "G2E EVAL standalone wp2",
+  "evaluated_utc": "2026-10-20T14:28:15.963Z",
+  "expectations_sha256": "e241c51ccb7c72993d2e16376bb0763bd99f25e6aa52f9a1399ebd9a1b7ec4c8",
+  "pre_dir": "<RELEASE_TREE>/tests/g2e_reproduction/baseline_pre_captures/standalone_wp2",
+  "post_dir": "<RUN_OUTPUT>/POST_standalone_wp2",
+  "rows": [
+    {
+      "id": "WP2-flat-const",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP2-nearflat-sym",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP2-exactfit-linear",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP2-noisy-n12",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP2-crossing-n7",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP2-crossing-n5",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP2-T4A",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP2-T1c-M3",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP2-T2b-M3-STABLE",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP2-T2b-M3-SUSPICIOUS",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP2-T2b-M3-PROGRESSING",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP2-T2b-M3-NOTASSESSABLE",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    }
+  ],
+  "summary": {
+    "fixtures": 12,
+    "PASS": 0,
+    "FAIL": [
+      "WP2-flat-const: export_as_expected",
+      "WP2-nearflat-sym: export_as_expected",
+      "WP2-exactfit-linear: export_as_expected",
+      "WP2-noisy-n12: export_as_expected",
+      "WP2-crossing-n7: export_as_expected",
+      "WP2-crossing-n5: export_as_expected",
+      "WP2-T4A: export_as_expected",
+      "WP2-T1c-M3: export_as_expected",
+      "WP2-T2b-M3-STABLE: export_as_expected",
+      "WP2-T2b-M3-SUSPICIOUS: export_as_expected",
+      "WP2-T2b-M3-PROGRESSING: export_as_expected",
+      "WP2-T2b-M3-NOTASSESSABLE: export_as_expected"
+    ]
+  }
+}

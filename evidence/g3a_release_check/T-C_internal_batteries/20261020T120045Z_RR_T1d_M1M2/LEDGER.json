@@ -1,0 +1,149 @@
+{
+  "block": "T1d M1/M2 presentation (G2-B oracle) on POST",
+  "started_utc": "2026-10-20T12:00:45.876Z",
+  "browser_version": "141.0.7390.37",
+  "rows": [
+    {
+      "id": "T1d-M1",
+      "object": "C1",
+      "card": {
+        "hero_eyebrow": "IOP Estimate",
+        "hero_number": "14.0",
+        "hero_subtitle": "Model output",
+        "card_inner_text": "IOP ESTIMATE\n14.0\nmmHg\nModel output\nMeasured GAT IOP\n17.0 mmHg\nCCT\n615 µm — thick cornea\nModel-derived offset\n-3.0 mmHg\nImpact\nHigh\nCAUTION\n• Large offset — model output differs markedly from measured GAT IOP.\nMODEL LIMITATION\nCorneal biomechanics not assessed\nCopy",
+        "contextual_value": null
+      },
+      "copy": "OFTY Tool M1 — IOP/CCT Assessment\n\nIOP estimate: 14.0 mmHg (model output)\n\nMeasured GAT IOP: 17.0 mmHg\nCCT: 615 µm — thick cornea\nModel-derived offset: -3.0 mmHg\nImpact: High\n\nCautions:\n• Large offset — model output differs markedly from measured GAT IOP.\n\nModel limitation: Corneal biomechanics not assessed.\n\nGenerated with OFTY Tool M1 — Algorithm v1.0.0 · UI v1.1.0",
+      "payload": "{\"module_id\":\"OFTY-Gx-M1\",\"algorithm_version\":\"1.0.0\",\"inputs\":{\"pio_mmhg\":17,\"cct_um\":615},\"outputs\":{\"adjusted_iop_mmhg\":14,\"adjustment_mmhg\":-3,\"cct_label\":\"thick\",\"impact_class\":\"high\",\"confidence_level\":\"moderate\",\"caution_flags\":[\"biomechanics_not_assessed\",\"large_adjustment\"]},\"model\":{\"type\":\"linear\",\"reference_cct_um\":540,\"factor_um_per_mmhg\":25},\"_timestamp\":\"2026-10-14T10:00:00.000Z\"}",
+      "events": {
+        "console": [
+          {
+            "type": "error",
+            "text": "Failed to load resource: net::ERR_FAILED",
+            "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+          }
+        ],
+        "page_errors": [],
+        "aborted_external": [
+          "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+        ],
+        "network_failed": [
+          {
+            "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+            "err": "net::ERR_FAILED"
+          }
+        ]
+      },
+      "product_console_errors": []
+    },
+    {
+      "id": "T1d-M2",
+      "object": "C1",
+      "instruction": {
+        "present": false,
+        "visible": false,
+        "text": null
+      },
+      "events": {
+        "console": [
+          {
+            "type": "error",
+            "text": "Failed to load resource: net::ERR_FAILED",
+            "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+          }
+        ],
+        "page_errors": [],
+        "aborted_external": [
+          "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+        ],
+        "network_failed": [
+          {
+            "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap",
+            "err": "net::ERR_FAILED"
+          }
+        ]
+      },
+      "product_console_errors": []
+    },
+    {
+      "id": "T1d-M1",
+      "object": "POST",
+      "card": {
+        "hero_eyebrow": "Measured GAT IOP",
+        "hero_number": "17.0",
+        "hero_subtitle": "Reference value, as entered",
+        "card_inner_text": "MEASURED GAT IOP\n17.0\nmmHg\nReference value, as entered\nCCT-based contextual estimate\nAncillary contextual estimate only — not used for target comparison and not an endorsed universal correction.\n14.0 mmHg\nCCT\n615 µm — thick cornea\nModel-derived offset\n-3.0 mmHg\nImpact\nHigh\nCAUTION\n• Large offset — model output differs markedly from measured GAT IOP.\nMODEL LIMITATION\nCorneal biomechanics not assessed\nCopy",
+        "contextual_value": "14.0 mmHg"
+      },
+      "copy": "OFTY Tool M1 — IOP/CCT Assessment\n\nMeasured GAT IOP: 17.0 mmHg (reference value, as entered)\n\nCCT: 615 µm — thick cornea\nCCT-based contextual estimate: 14.0 mmHg (ancillary; not used for target comparison; not an endorsed universal correction)\nModel-derived offset: -3.0 mmHg\nImpact: High\n\nCautions:\n• Large offset — model output differs markedly from measured GAT IOP.\n\nModel limitation: Corneal biomechanics not assessed.\n\nGenerated with OFTY Tool M1 — Algorithm v1.0.0 · UI v1.2.0",
+      "payload": "{\"module_id\":\"OFTY-Gx-M1\",\"algorithm_version\":\"1.0.0\",\"inputs\":{\"pio_mmhg\":17,\"cct_um\":615},\"outputs\":{\"adjusted_iop_mmhg\":14,\"adjustment_mmhg\":-3,\"cct_label\":\"thick\",\"impact_class\":\"high\",\"confidence_level\":\"moderate\",\"caution_flags\":[\"biomechanics_not_assessed\",\"large_adjustment\"]},\"model\":{\"type\":\"linear\",\"reference_cct_um\":540,\"factor_um_per_mmhg\":25},\"_timestamp\":\"2026-10-14T10:00:00.000Z\"}",
+      "events": {
+        "console": [
+          {
+            "type": "error",
+            "text": "Failed to load resource: net::ERR_FAILED",
+            "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+          }
+        ],
+        "page_errors": [],
+        "aborted_external": [
+          "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap"
+        ],
+        "network_failed": [
+          {
+            "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap",
+            "err": "net::ERR_FAILED"
+          }
+        ]
+      },
+      "product_console_errors": []
+    },
+    {
+      "id": "T1d-M2",
+      "object": "POST",
+      "instruction": {
+        "present": true,
+        "visible": true,
+        "text": "Enter the measured Goldmann (GAT) IOP as recorded — not the M1 CCT-based estimate or any other derived value."
+      },
+      "events": {
+        "console": [
+          {
+            "type": "error",
+            "text": "Failed to load resource: net::ERR_FAILED",
+            "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+          }
+        ],
+        "page_errors": [],
+        "aborted_external": [
+          "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+        ],
+        "network_failed": [
+          {
+            "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap",
+            "err": "net::ERR_FAILED"
+          }
+        ]
+      },
+      "product_console_errors": []
+    }
+  ],
+  "checks": {
+    "M1_M2_sources_byte_identical_PRE_POST": true,
+    "M1_hero_eyebrow": true,
+    "M1_hero_number_is_measured": true,
+    "M1_hero_subtitle": true,
+    "M1_contextual_value": true,
+    "M1_contextual_label_and_note_visible": true,
+    "M1_copy_contains": true,
+    "M1_copy_not_contains": true,
+    "M1_payload_identical_to_C1": true,
+    "M1_C1_contrast": true,
+    "M2_instruction_visible_exact": true,
+    "M2_C1_contrast_absent": true,
+    "no_page_errors": true,
+    "no_product_console_errors": true
+  },
+  "status": "PASS",
+  "finished_utc": "2026-10-20T12:00:47.670Z"
+}

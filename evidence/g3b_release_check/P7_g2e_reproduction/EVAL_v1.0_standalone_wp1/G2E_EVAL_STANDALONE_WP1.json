@@ -1,0 +1,475 @@
+{
+  "block": "G2E EVAL standalone wp1",
+  "evaluated_utc": "2026-10-20T14:28:15.785Z",
+  "expectations_sha256": "e241c51ccb7c72993d2e16376bb0763bd99f25e6aa52f9a1399ebd9a1b7ec4c8",
+  "pre_dir": "<RELEASE_TREE>/tests/g2e_reproduction/baseline_pre_captures/standalone_wp1",
+  "post_dir": "<RUN_OUTPUT>/POST_standalone_wp1",
+  "rows": [
+    {
+      "id": "WP1-T4A-n3-24m",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-T4B-n3-24m",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n2-24m",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n4-11m",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n4-12m",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n5-11m",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n5-12m",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n5-23m",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n5-24m",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n3-borderline-last",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n3-one-low",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n3-all-low",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n3-unknown",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n5-24m-unknown",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n5-24m-floor",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n3-redband",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n3-floor",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": false,
+        "rendered_label_equals_card_and_copy": true,
+        "display_label_key_and_value_unchanged": true,
+        "post_versions": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [
+        "functional.native.transport_version"
+      ],
+      "status": "FAIL",
+      "failed": [
+        "export_as_expected"
+      ]
+    },
+    {
+      "id": "WP1-n1",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_unchanged": true,
+        "copy_unchanged": true,
+        "print_unchanged": true,
+        "pdf_text_multiset_unchanged": true,
+        "export_presence_unchanged": true,
+        "export_as_expected": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "view_diff": [],
+      "export_diff_vs_expected": [],
+      "status": "PASS",
+      "failed": []
+    }
+  ],
+  "summary": {
+    "fixtures": 18,
+    "PASS": 1,
+    "FAIL": [
+      "WP1-T4A-n3-24m: export_as_expected",
+      "WP1-T4B-n3-24m: export_as_expected",
+      "WP1-n2-24m: export_as_expected",
+      "WP1-n4-11m: export_as_expected",
+      "WP1-n4-12m: export_as_expected",
+      "WP1-n5-11m: export_as_expected",
+      "WP1-n5-12m: export_as_expected",
+      "WP1-n5-23m: export_as_expected",
+      "WP1-n5-24m: export_as_expected",
+      "WP1-n3-borderline-last: export_as_expected",
+      "WP1-n3-one-low: export_as_expected",
+      "WP1-n3-all-low: export_as_expected",
+      "WP1-n3-unknown: export_as_expected",
+      "WP1-n5-24m-unknown: export_as_expected",
+      "WP1-n5-24m-floor: export_as_expected",
+      "WP1-n3-redband: export_as_expected",
+      "WP1-n3-floor: export_as_expected"
+    ]
+  }
+}

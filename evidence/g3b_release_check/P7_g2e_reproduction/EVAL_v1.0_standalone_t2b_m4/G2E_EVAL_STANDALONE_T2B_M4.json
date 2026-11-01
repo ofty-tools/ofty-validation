@@ -1,0 +1,74 @@
+{
+  "block": "G2E EVAL standalone t2b_m4",
+  "evaluated_utc": "2026-10-20T14:28:16.551Z",
+  "expectations_sha256": "e241c51ccb7c72993d2e16376bb0763bd99f25e6aa52f9a1399ebd9a1b7ec4c8",
+  "pre_dir": "<RELEASE_TREE>/tests/g2e_reproduction/baseline_pre_captures/standalone_t2b_m4",
+  "post_dir": "<RUN_OUTPUT>/POST_standalone_t2b_m4",
+  "rows": [
+    {
+      "id": "M4-STABLE",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "M4-SUSPICIOUS",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "M4-PROGRESSING",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    },
+    {
+      "id": "M4-NOTASSESSABLE",
+      "checks": {
+        "no_harness_errors": true,
+        "card_view_identical": true,
+        "copy_identical": true,
+        "export_identical": true,
+        "print_identical": true,
+        "pdf_text_multiset_unchanged": true,
+        "no_page_errors": true
+      },
+      "notes": [],
+      "status": "PASS",
+      "failed": []
+    }
+  ],
+  "summary": {
+    "fixtures": 4,
+    "PASS": 4,
+    "FAIL": []
+  }
+}
